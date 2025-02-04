@@ -55,6 +55,8 @@
   }
   body {
     @apply bg-background text-foreground;
+    @apply antialiased;
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
   }
 }
 
@@ -79,4 +81,17 @@ a {
 body {
   background-color: white;
   color: #333;
+}
+
+@layer components {
+  .featured-brand {
+    @apply relative border border-black/10 aspect-square flex items-center 
+           justify-center hover:scale-[1.02] transition-transform cursor-pointer;
+  }
+  
+  .popular-brand {
+    @apply relative overflow-hidden rounded-lg bg-black/40 backdrop-blur-sm
+           aspect-video flex flex-col items-start p-6 hover:border-cyan-400
+           border border-transparent transition-colors;
+  }
 }
