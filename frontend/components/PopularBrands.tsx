@@ -4,7 +4,7 @@ import Image from 'next/image'
 const PopularBrands = () => {
   return (
     <section className="relative py-20">
-      <div className="absolute inset-0 bg-black/40 backdrop-blur-sm">
+      <div className="absolute inset-0 backdrop-blur-sm">
         <Image
           src="/popular-bg.jpg"
           alt="Popular Background"

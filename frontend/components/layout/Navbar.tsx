@@ -5,9 +5,10 @@ import { Search, User, ShoppingBag } from 'lucide-react'
 const Navigation = () => {
   return (
     <header className="fixed top-0 left-0 right-0 bg-white z-50">
-      <div className="max-w-[2000px] mx-auto">
-        <nav className="px-8 py-4 border-b border-black/5">
-          <div className="flex items-center justify-between mb-4 relative">
+      <div className="max-w-[2000px] mx-auto px-8">
+        <nav className="py-6">
+          {/* Top section */}
+          <div className="flex items-center justify-between mb-6">
             <div className="flex space-x-12">
               {['WOMEN', 'MEN', 'GIFTS', 'EXPLORE'].map((item) => (
                 <a
@@ -20,7 +21,8 @@ const Navigation = () => {
               ))}
             </div>
             
-            <h1 className="absolute left-1/2 -translate-x-1/2 text-lg tracking-[0.25em] font-light">
+            {/* Logo: Bold with tighter kerning */}
+            <h1 className="absolute left-1/2 -translate-x-1/2 text-lg tracking-tight font-bold">
               DISCOVERY STUDIOS
             </h1>
             
@@ -34,20 +36,23 @@ const Navigation = () => {
             </div>
           </div>
 
-          <div className="divider"></div>
-          
-          <div className="relative">
-            <input
-              type="text"
-              placeholder="WHAT DO YOU DESIRE?"
-              className="w-full py-2 pl-7 text-sm tracking-[0.25em] placeholder:text-black/60 focus:outline-none"
-            />
-            <Search className="absolute left-0 top-1/2 -translate-y-1/2 w-4 h-4 text-black/60" />
-          </div>
+          {/* Full-width divider outside max-width container */}
+          <div className="fixed left-0 right-0 border-t border-black" />
 
-          <div className="divider"></div>
+          {/* Search section */}
+          <div className="relative pt-6">
+            <div className="flex items-center">
+              <Search className="w-4 h-4 text-black/60" />
+              <input
+                type="text"
+                placeholder="WHAT DO YOU DESIRE?"
+                className="w-full pl-3 text-sm tracking-[0.25em] placeholder:text-black/60 focus:outline-none"
+              />
+            </div>
+          </div>
         </nav>
       </div>
+      <div className="divider"></div>
     </header>
   )
 }
