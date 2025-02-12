@@ -57,11 +57,11 @@
     @apply relative aspect-square flex items-center justify-center transition-all duration-300 cursor-pointer;
   }
   
-  .popular-brand {
+  /* .popular-brand {
     @apply relative overflow-hidden bg-black/40 backdrop-blur-sm
            aspect-[4/3] flex flex-col items-start justify-between p-8 
            border border-transparent transition-all duration-300;
-  }
+  } */
 }
 
 /* Custom Classes */
@@ -74,9 +74,9 @@
   opacity: 1;
 }
 
-.popular-brand:hover {
+/* .popular-brand:hover {
   border-color: rgba(79, 255, 244, 0.5);
-}
+} */
 
 .divider {
   border-top: 1px solid black;
