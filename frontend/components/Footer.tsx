@@ -1,14 +1,35 @@
 const Footer = () => {
+  const footerLinks = [
+    { label: 'LOGIN', href: '#' },
+    { label: 'ABOUT', href: '#' },
+    { label: 'CONTACT', href: '#' },
+    { label: 'FAQ', href: '#' },
+    { label: 'PRIVACY', href: '#' }
+  ]
+
   return (
-    <footer className="py-12 bg-white text-center">
-      <div className="grid grid-cols-3 gap-6 max-w-5xl mx-auto">
-        <a href="#" className="text-gray-500 hover:text-black transition">Login</a>
-        <a href="#" className="text-gray-500 hover:text-black transition">About</a>
-        <a href="#" className="text-gray-500 hover:text-black transition">Contact</a>
-        <a href="#" className="text-gray-500 hover:text-black transition">FAQ</a>
-        <a href="#" className="text-gray-500 hover:text-black transition">Privacy</a>
+    <footer className="w-full">
+      {/* Grid layout for footer links */}
+      <div className="grid grid-cols-5 border-t border-black">
+        {footerLinks.map((link, index) => (
+          <a
+            key={index}
+            href={link.href}
+            className="relative h-[200px] border-r border-black last:border-r-0 border-b border-black group"
+          >
+            <span className="absolute top-8 left-8 text-sm tracking-[0.25em] text-black/60 group-hover:text-black transition-colors">
+              {link.label}
+            </span>
+          </a>
+        ))}
       </div>
-      <p className="mt-8 text-gray-400 text-sm">© 2024 Discovery Studios</p>
+
+      {/* Copyright section */}
+      <div className="border-b border-black">
+        <div className="p-8 text-sm text-black/60 text-center">
+          © 2024 Discovery Studios
+        </div>
+      </div>
     </footer>
   )
 }
