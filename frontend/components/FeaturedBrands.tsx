@@ -3,7 +3,7 @@ import Image from 'next/image'
 
 const FeaturedBrands = () => {
   return (
-    <section className="py-20 w-full">
+    <section className="pt-20 w-full">
       <div className="max-w-[2000px] mx-auto">
         <h2 className="px-8 text-black text-2xl tracking-[0.05em] font-bold mb-12">
           FEATURED
