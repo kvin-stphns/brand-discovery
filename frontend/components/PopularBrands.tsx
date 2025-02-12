@@ -8,8 +8,11 @@ const PopularBrands = () => {
         <Image
           src="/popular-bg.jpg"
           alt="Popular Background"
-          layout="fill"
-          objectFit="cover"
+          fill
+          quality={100}
+          sizes="100vw"
+          className="object-cover object-center"
+          priority
         />
       </div>
 
@@ -23,8 +26,8 @@ const PopularBrands = () => {
         <div className="w-full h-[1px] bg-[#4FFFF4] opacity-50 mb-12" />
 
         <div className="px-8">
-          <div className="grid grid-cols-2 gap-12">
-            {Array.from({ length: 4 }).map((_, i) => (
+          <div className="grid grid-cols-2 gap-24">
+            {Array.from({ length: 6 }).map((_, i) => (
               <div
                 key={i}
                 className="popular-brand rounded-xl bg-white/10 hover:bg-white/10 
