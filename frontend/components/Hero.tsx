@@ -1,33 +1,35 @@
 'use client'
-
-import { motion } from 'framer-motion'
+import Image from 'next/image'
 
 const Hero = () => {
-  const scrollToFeatured = () => {
-    document.getElementById('featured')?.scrollIntoView({ behavior: 'smooth' })
-  }
-
   return (
-    <div className="relative h-screen">
-      {/* Hero Image */}
-      <div className="absolute inset-0 bg-[url('/hero-image.jpg')] bg-cover bg-center" />
-      
-      {/* Overlay */}
-      <div className="absolute inset-0 bg-black/10" />
-      
-      {/* Content */}
-      <div className="relative h-full flex items-center justify-center">
-        <motion.button
-          whileHover={{ scale: 1.05 }}
-          onClick={scrollToFeatured}
-          className="px-8 py-3 border border-black hover:border-cyan-400 
-                     transition-colors bg-white/90 tracking-wider"
-        >
-          DISCOVER
-        </motion.button>
+    <section className="relative w-full h-screen flex flex-col items-center justify-center bg-white">
+      {/* Background Image */}
+      <div className="absolute inset-0 z-0">
+        <Image
+          src="/hero-image.jpg"
+          alt="Symmetrical Crowd"
+          layout="fill"
+          objectFit="cover"
+          priority
+          className="brightness-95"
+        />
       </div>
-    </div>
+
+      {/* Overlay for better text visibility */}
+      <div className="absolute inset-0 bg-white/10 backdrop-blur-[2px]"></div>
+
+      {/* Content */}
+      <div className="relative z-10 flex flex-col items-center space-y-8">
+        <h1 className="text-black text-4xl font-light tracking-[0.25em]">
+          DISCOVER
+        </h1>
+        <button className="px-16 py-4 border border-black bg-transparent text-black text-sm tracking-[0.25em] hover:bg-black hover:text-white transition-all duration-300">
+          DISCOVER
+        </button>
+      </div>
+    </section>
   )
 }
 
-export default Hero 
+export default Hero

@@ -1,24 +1,31 @@
 'use client'
-
-import { motion } from 'framer-motion'
+import Image from 'next/image'
 
 const FeaturedBrands = () => {
-  const brands = Array(8).fill('FEATURED BRAND')
-
   return (
-    <section id="featured" className="py-20">
-      <div className="max-w-screen-2xl mx-auto px-4">
-        <h2 className="text-2xl font-bold mb-12 tracking-wider text-center">FEATURED</h2>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-px bg-black/10">
-          {brands.map((brand, index) => (
-            <motion.div
-              key={index}
-              className="featured-brand bg-white"
-              whileHover={{ scale: 1.02 }}
-              transition={{ duration: 0.2 }}
+    <section className="py-20 w-full">
+      <div className="max-w-[2000px] mx-auto">
+        <h2 className="px-8 text-black text-2xl tracking-[0.25em] mb-12">
+          FEATURED
+        </h2>
+        
+        <div className="grid grid-cols-4 border-t border-l border-black">
+          {Array.from({ length: 8 }).map((_, i) => (
+            <div 
+              key={i} 
+              className="group relative aspect-square flex items-center justify-center border-r border-b border-black"
             >
-              <span className="text-sm tracking-wider">{brand}</span>
-            </motion.div>
+              <Image
+                src={`/brand-${i + 1}.jpg`}
+                alt={`Featured Brand ${i + 1}`}
+                width={400}
+                height={400}
+                className="w-full h-full object-cover opacity-90 hover:opacity-100 transition-opacity"
+              />
+              <span className="absolute bottom-6 text-xs tracking-[0.25em] opacity-0 group-hover:opacity-100 transition-opacity">
+                FEATURED BRAND
+              </span>
+            </div>
           ))}
         </div>
       </div>
@@ -26,4 +33,4 @@ const FeaturedBrands = () => {
   )
 }
 
-export default FeaturedBrands 
+export default FeaturedBrands

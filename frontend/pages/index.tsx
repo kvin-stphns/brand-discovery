@@ -14,13 +14,19 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
+
       <div className="min-h-screen flex flex-col">
         <Navbar />
         <Hero />
-        <FeaturedBrands />
+        <div className="divider"></div> 
+        <div className="w-full">
+  <FeaturedBrands />
+</div>
+        <div className="divider"></div>
         <PopularBrands />
+        <div className="divider"></div>
         <Footer />
       </div>
     </>
   )
-} 
+}
