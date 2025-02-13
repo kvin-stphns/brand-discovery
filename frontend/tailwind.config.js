@@ -12,6 +12,11 @@ module.exports = {
         foreground: "#1F2937",
         border: "#E5E7EB",
       },
+      screens: {
+        'mobile': '428px',
+        'tablet': '649px',
+        'desktop': '1149px',
+      },
     },
   },
   plugins: [],

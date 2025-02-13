@@ -1,16 +1,23 @@
 'use client'
 
-import { Search, User, ShoppingBag } from 'lucide-react'
+import { useState } from 'react'
+import { Search, User, ShoppingBag, Menu } from 'lucide-react'
+import ScrollableNav from './ScrollableNav'
 
 const Navigation = () => {
+  const [isMenuOpen, setIsMenuOpen] = useState(false)
+  
+  const menuItems = ['WOMEN', 'MEN', 'GIFTS', 'EXPLORE']
+
   return (
     <header className="fixed top-0 left-0 right-0 bg-white z-50">
       <div className="max-w-[2000px] mx-auto px-8">
         <nav className="py-6">
           {/* Top section */}
-          <div className="flex items-center justify-between mb-6">
-            <div className="flex space-x-12">
-              {['WOMEN', 'MEN', 'GIFTS', 'EXPLORE'].map((item) => (
+          <div className="relative flex items-center justify-between mb-6">
+            {/* Desktop Navigation */}
+            <div className="hidden desktop:flex space-x-12">
+              {menuItems.map((item) => (
                 <a
                   key={item}
                   href="#"
@@ -20,12 +27,27 @@ const Navigation = () => {
                 </a>
               ))}
             </div>
+
+            {/* Tablet Navigation */}
+            <div className="hidden tablet:block desktop:hidden">
+              <ScrollableNav items={menuItems} />
+            </div>
+
+            {/* Mobile Menu Button */}
+            <button 
+              className="tablet:hidden hover:opacity-70 transition-opacity"
+              onClick={() => setIsMenuOpen(!isMenuOpen)}
+            >
+              <Menu className="w-[18px] h-[18px]" />
+            </button>
             
-            {/* Logo: Bold with tighter kerning */}
-            <h1 className="absolute left-1/2 -translate-x-1/2 text-lg tracking-tight font-bold">
-              DISCOVERY STUDIOS
+            {/* Logo */}
+            <h1 className="absolute left-1/2 -translate-x-1/2 text-lg tracking-tight font-bold z-10">
+              <span className="mobile:inline block">DISCOVERY</span>
+              <span className="mobile:inline block mobile:ml-1">STUDIOS</span>
             </h1>
             
+            {/* User Actions */}
             <div className="flex items-center space-x-8">
               <button className="hover:opacity-70 transition-opacity">
                 <User className="w-[18px] h-[18px]" />
@@ -36,7 +58,7 @@ const Navigation = () => {
             </div>
           </div>
 
-          {/* Full-width divider outside max-width container */}
+          {/* Divider */}
           <div className="fixed left-0 right-0 border-t border-black" />
 
           {/* Search section */}
@@ -52,7 +74,7 @@ const Navigation = () => {
           </div>
         </nav>
       </div>
-      <div className="divider"></div>
+      <div className="fixed left-0 right-0 border-t border-black" />
     </header>
   )
 }
