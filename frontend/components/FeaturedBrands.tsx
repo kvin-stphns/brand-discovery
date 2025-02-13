@@ -11,10 +11,11 @@ const FeaturedBrands = () => {
         
         {/* Grid structure with full-width dividers, no far-left/right borders */}
         <div className="grid grid-cols-2 mobile:grid-cols-2 tablet:grid-cols-3 desktop:grid-cols-4 border-t border-black">
-          {Array.from({ length: 6 }).map((_, i) => (
+          {Array.from({ length: 8 }).map((_, i) => (
             <div 
               key={i} 
-              className="group relative h-[500px] flex items-center justify-center border-r border-b border-black last:border-r-0 tablet:last:border-r"
+              className={`group relative h-[500px] flex items-center justify-center border-r border-b border-black last:border-r-0 tablet:last:border-r
+                ${i >= 6 ? 'hidden desktop:flex' : ''}`}
             >
               <Image
                 src={`/brand-${i + 1}.jpg`}
