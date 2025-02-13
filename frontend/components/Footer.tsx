@@ -23,7 +23,7 @@ const Footer = () => {
           </a>
         ))}
         {/* Ghost grid item to maintain layout */}
-        <div className="tablet:hidden desktop:hidden h-[200px] border-b border-black"></div>
+        <div className="desktop:hidden h-[200px] border-b border-black"></div>
       </div>
 
       {/* Copyright section */}

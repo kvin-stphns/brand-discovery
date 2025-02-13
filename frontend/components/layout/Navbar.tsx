@@ -54,7 +54,7 @@ const Navigation = () => {
               </button>
               
               {/* Logo */}
-              <h1 className="absolute left-1/2 -translate-x-1/2 text-lg tracking-tight font-bold z-10">
+              <h1 className="absolute left-1/2 -translate-x-1/2 text-lg tracking-tight font-bold z-10 text-center">
                 <span className="mobile:inline block">DISCOVERY</span>
                 <span className="mobile:inline block mobile:ml-1">STUDIOS</span>
               </h1>
