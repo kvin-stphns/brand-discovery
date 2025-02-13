@@ -21,10 +21,10 @@ const Hero = () => {
 
       {/* Content */}
       <div className="relative z-10 flex flex-col items-center space-y-8">
-        <h1 className="text-black text-4xl font-light tracking-[0.25em]">
+        {/* <h1 className="text-black text-4xl font-light tracking-[0.25em]">
           DISCOVER
-        </h1>
-        <button className="px-16 py-4 border border-black bg-transparent text-black text-sm tracking-[0.25em] hover:bg-black hover:text-white transition-all duration-300">
+        </h1> */}
+        <button className="px-16 py-4 border border-black hover:bg-black/40 hover:backdrop-blur-sm hover:text-[#4FFFF4] hover:border-[#4FFFF4] text-sm tracking-[0.25em] bg-black/80 text-white transition-all duration-300">
           DISCOVER
         </button>
       </div>
