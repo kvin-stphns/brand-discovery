@@ -1,7 +1,7 @@
 'use client'
 
 import { useState } from 'react'
-import { Search, User, ShoppingBag, Menu } from 'lucide-react'
+import { Search, User, ShoppingBag, Menu, X } from 'lucide-react'
 import ScrollableNav from './ScrollableNav'
 import MobileMenu from './MobileMenu'
 
@@ -46,7 +46,11 @@ const Navigation = () => {
                 className="tablet:hidden hover:opacity-70 transition-opacity"
                 onClick={() => setIsMenuOpen(!isMenuOpen)}
               >
-                <Menu className="w-[18px] h-[18px]" />
+                {isMenuOpen ? (
+                  <X className="w-[18px] h-[18px]" />
+                ) : (
+                  <Menu className="w-[18px] h-[18px]" />
+                )}
               </button>
               
               {/* Logo */}
