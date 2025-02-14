@@ -1,4 +1,7 @@
+'use client'
+import { useState } from 'react'
 import { ChevronRight } from 'lucide-react'
+import MegaMenu from './MegaMenu'
 
 interface ScrollableNavProps {
   items: string[]
@@ -11,15 +14,10 @@ const ScrollableNav = ({ items }: ScrollableNavProps) => {
       <div className="overflow-x-auto scrollbar-hide w-full">
         <div className="flex space-x-12">
           {items.map((item, index) => (
-            <a
-              key={item}
-              href="#"
-              className={`text-sm tracking-[0.25em] whitespace-nowrap hover:text-gray-500 transition-colors py-1 ${
-                index === items.length - 1 ? 'pr-24' : ''
-              }`}
-            >
-              {item}
-            </a>
+            <MegaMenu 
+              key={item} 
+              category={item}
+            />
           ))}
         </div>
       </div>
