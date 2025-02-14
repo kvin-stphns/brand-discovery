@@ -36,15 +36,15 @@ const MegaMenu = ({ category }: MegaMenuProps) => {
         leaveFrom="transform translate-x-0"
         leaveTo="transform translate-x-[-100%]"
       >
-        <Menu.Items className="fixed left-0 top-[140px] h-[calc(100vh-156px)] w-[400px] bg-white z-[48]">
+        <Menu.Items className="fixed left-0 top-[140px] bottom-0 w-[400px] bg-white z-[48] overflow-y-auto">
           {/* White overlay to hide the border lines */}
           <div className="absolute -top-[1px] left-0 right-0 h-[2px] bg-white z-[1004]" />
           
           <div className="relative h-full border-r border-black">
             {/* Content wrapper */}
-            <div className="h-full flex flex-col">
+            <div className="min-h-full flex flex-col justify-between">
               {/* Top Links */}
-              <div className="flex-1 py-12">
+              <div className="py-12">
                 {topLinks.map((link) => (
                   <Menu.Item key={link}>
                     {({ active }) => (
@@ -74,7 +74,7 @@ const MegaMenu = ({ category }: MegaMenuProps) => {
               </div>
 
               {/* Bottom Links */}
-              <div className="py-8 mb-24">
+              <div className="py-8">
                 {bottomLinks.map((link) => (
                   <Menu.Item key={link}>
                     {({ active }) => (
@@ -105,7 +105,7 @@ const MegaMenu = ({ category }: MegaMenuProps) => {
         leaveTo="transform translate-x-[-100%]"
       >
         <div 
-          className="fixed left-[400px] top-[140px] h-[calc(100vh-156px)] w-[400px] bg-white z-[47] border-r border-black"
+          className="fixed left-[400px] top-[140px] bottom-0 w-[400px] bg-white z-[47] border-r border-black overflow-y-auto"
           onMouseEnter={() => setShowDiscoverMenu(true)}
           onMouseLeave={() => setShowDiscoverMenu(false)}
         >
@@ -135,7 +135,7 @@ const MegaMenu = ({ category }: MegaMenuProps) => {
         leaveTo="transform translate-x-[-100%]"
       >
         <div 
-          className="fixed left-[400px] top-[140px] h-[calc(100vh-156px)] w-[400px] bg-white z-[47] border-r border-black"
+          className="fixed left-[400px] top-[140px] bottom-0 w-[400px] bg-white z-[47] border-r border-black overflow-y-auto"
           onMouseEnter={() => setShowBrandsMenu(true)}
           onMouseLeave={() => setShowBrandsMenu(false)}
         >
@@ -165,7 +165,7 @@ const MegaMenu = ({ category }: MegaMenuProps) => {
         leaveTo="transform translate-x-[-100%]"
       >
         <div 
-          className="fixed left-[400px] top-[140px] h-[calc(100vh-156px)] w-[400px] bg-white z-[47] border-r border-black"
+          className="fixed left-[400px] top-[140px] bottom-0 w-[400px] bg-white z-[47] border-r border-black overflow-y-auto"
           onMouseEnter={() => setShowCategoriesMenu(true)}
           onMouseLeave={() => setShowCategoriesMenu(false)}
         >
@@ -195,7 +195,7 @@ const MegaMenu = ({ category }: MegaMenuProps) => {
         leaveTo="transform translate-x-[-100%]"
       >
         <div 
-          className="fixed left-[400px] top-[140px] h-[calc(100vh-156px)] w-[400px] bg-white z-[47] border-r border-black"
+          className="fixed left-[400px] top-[140px] bottom-0 w-[400px] bg-white z-[47] border-r border-black overflow-y-auto"
           onMouseEnter={() => setShowDesignersMenu(true)}
           onMouseLeave={() => setShowDesignersMenu(false)}
         >
@@ -225,7 +225,7 @@ const MegaMenu = ({ category }: MegaMenuProps) => {
         leaveTo="transform translate-x-[-100%]"
       >
         <div 
-          className="fixed left-[400px] top-[140px] h-[calc(100vh-156px)] w-[400px] bg-white z-[47] border-r border-black"
+          className="fixed left-[400px] top-[140px] bottom-0 w-[400px] bg-white z-[47] border-r border-black overflow-y-auto"
           onMouseEnter={() => setShowRankingsMenu(true)}
           onMouseLeave={() => setShowRankingsMenu(false)}
         >
