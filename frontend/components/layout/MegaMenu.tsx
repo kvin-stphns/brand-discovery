@@ -1,6 +1,7 @@
 'use client'
 import { Fragment, useState, useEffect } from 'react'
 import { Menu, Transition } from '@headlessui/react'
+import Link from 'next/link'
 
 interface MegaMenuProps {
   category: string
@@ -12,7 +13,7 @@ const discoverLinks = ['View All', 'Spotlight', 'Trending', 'Lookbooks', 'Locati
 const brandLinks = ['View All', 'Alphabetical', 'Newest', 'Featured', 'Popular', 'Random']
 const categoryLinks = ['View All', 'Tops', 'Bottoms', 'Outerwear', 'Accessories', 'Footwear']
 const designerLinks = ['View All', 'Trending', 'Spotlight', 'Lookbooks', 'Locations', 'Random']
-const rankingLinks = ['Top Rated', 'Recently Liked', 'Most Liked', 'Leaderboard', 'Locations']
+const rankingLinks = ['View All', 'Top Rated', 'Recently Liked', 'Most Liked', 'Leaderboard', 'Locations']
 
 const MegaMenu = ({ category }: MegaMenuProps) => {
   const [showDiscoverMenu, setShowDiscoverMenu] = useState(false)
@@ -23,11 +24,36 @@ const MegaMenu = ({ category }: MegaMenuProps) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
 
   const handleLinkClick = (link: string) => {
-    if (link === 'Discover') setShowDiscoverMenu(!showDiscoverMenu)
-    if (link === 'Brands') setShowBrandsMenu(!showBrandsMenu)
-    if (link === 'Categories') setShowCategoriesMenu(!showCategoriesMenu)
-    if (link === 'Designers') setShowDesignersMenu(!showDesignersMenu)
-    if (link === 'Rankings') setShowRankingsMenu(!showRankingsMenu)
+    // Close all other menus first
+    const closeAllExcept = (menuName: string) => {
+      if (menuName !== 'Discover') setShowDiscoverMenu(false)
+      if (menuName !== 'Brands') setShowBrandsMenu(false)
+      if (menuName !== 'Categories') setShowCategoriesMenu(false)
+      if (menuName !== 'Designers') setShowDesignersMenu(false)
+      if (menuName !== 'Rankings') setShowRankingsMenu(false)
+    }
+
+    // Toggle the clicked menu and close others
+    if (link === 'Discover') {
+      closeAllExcept('Discover')
+      setShowDiscoverMenu(!showDiscoverMenu)
+    }
+    if (link === 'Brands') {
+      closeAllExcept('Brands')
+      setShowBrandsMenu(!showBrandsMenu)
+    }
+    if (link === 'Categories') {
+      closeAllExcept('Categories')
+      setShowCategoriesMenu(!showCategoriesMenu)
+    }
+    if (link === 'Designers') {
+      closeAllExcept('Designers')
+      setShowDesignersMenu(!showDesignersMenu)
+    }
+    if (link === 'Rankings') {
+      closeAllExcept('Rankings')
+      setShowRankingsMenu(!showRankingsMenu)
+    }
   }
 
   useEffect(() => {
@@ -129,13 +155,13 @@ const MegaMenu = ({ category }: MegaMenuProps) => {
                 <div className="fixed left-[400px] top-[140px] bottom-0 w-[400px] bg-white z-[47] border-r border-black overflow-y-auto">
                   <div className="py-12">
                     {discoverLinks.map((link) => (
-                      <a
+                      <Link
                         key={link}
-                        href="#"
+                        href={`/discover/${link.toLowerCase().replace(' ', '-')}`}
                         className="block px-12 py-4 text-sm tracking-[0.25em] hover:text-gray-500 transition-colors"
                       >
                         {link}
-                      </a>
+                      </Link>
                     ))}
                   </div>
                 </div>
