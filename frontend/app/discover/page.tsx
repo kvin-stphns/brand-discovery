@@ -1,30 +1,25 @@
 'use client'
-import GridLayout from '@/components/templates/GridLayout'
-import Image from 'next/image'
+import CategoryGrid from '@/components/templates/CategoryGrid'
+import Navbar from '@/components/layout/Navbar'
+import Footer from '@/components/Footer'
 
-// Placeholder data
-const items = Array(12).fill(null).map((_, i) => ({
-  id: `item-${i}`,
-  title: 'Discovery Item',
-  image: `/placeholders/discover-${(i % 4) + 1}.jpg`
-}))
+const exploreCategories = {
+  discover: ['View All', 'Spotlight', 'Trending', 'Lookbooks', 'Location', 'Random'],
+  brands: ['View All', 'Alphabetical', 'Newest', 'Featured', 'Popular', 'Random'],
+  categories: ['View All', 'Tops', 'Bottoms', 'Outerwear', 'Accessories', 'Footwear'],
+  designers: ['View All', 'Trending', 'Spotlight', 'Lookbooks', 'Locations', 'Random'],
+  rankings: ['View All', 'Top Rated', 'Recently Liked', 'Most Liked', 'Leaderboard', 'Locations']
+}
 
 export default function DiscoverPage() {
   return (
-    <GridLayout title="DISCOVER">
-      {items.map((item) => (
-        <div key={item.id} className="group cursor-pointer">
-          <div className="aspect-[3/4] relative mb-4 bg-gray-100">
-            <Image
-              src={item.image}
-              alt={item.title}
-              fill
-              className="object-cover transition-opacity group-hover:opacity-90"
-            />
-          </div>
-          <p className="text-sm tracking-[0.25em]">{item.title}</p>
-        </div>
-      ))}
-    </GridLayout>
+    <div className="min-h-screen flex flex-col">
+      <Navbar />
+      <CategoryGrid 
+        items={[]}
+        title="DISCOVER"
+      />
+      <Footer />
+    </div>
   )
 } 

@@ -1,6 +1,8 @@
 'use client'
 import { useState, useEffect } from 'react'
 import { X, ArrowLeft } from 'lucide-react'
+import { useRouter } from 'next/navigation'
+import Link from 'next/link'
 
 interface MobileMenuProps {
   isOpen: boolean
@@ -16,11 +18,11 @@ const categoryLinks = ['View All', 'Tops', 'Bottoms', 'Outerwear', 'Accessories'
 const designerLinks = ['View All', 'Trending', 'Spotlight', 'Lookbooks', 'Locations', 'Random']
 const rankingLinks = ['Top Rated', 'Recently Liked', 'Most Liked', 'Leaderboard', 'Locations']
 
-const MobileMenu = ({ isOpen, onClose, items }: MobileMenuProps) => {
+export default function MobileMenu({ isOpen, onClose, items }: MobileMenuProps) {
   const [activeLayer0, setActiveLayer0] = useState<string | null>(null)
   const [activeLayer1, setActiveLayer1] = useState<string | null>(null)
+  const router = useRouter()
 
-  // Reset states when menu closes
   useEffect(() => {
     if (!isOpen) {
       setActiveLayer0(null)
@@ -53,6 +55,15 @@ const MobileMenu = ({ isOpen, onClose, items }: MobileMenuProps) => {
     } else {
       onClose()
     }
+  }
+
+  const handleLayer2Click = (link: string) => {
+    if (!activeLayer0 || !activeLayer1) return
+    
+    const formattedLink = link.toLowerCase().replace(' ', '-')
+    const path = `/${activeLayer0.toLowerCase()}/${activeLayer1.toLowerCase()}/${formattedLink}`
+    router.push(path)
+    onClose()
   }
 
   return (
@@ -151,5 +162,3 @@ const MobileMenu = ({ isOpen, onClose, items }: MobileMenuProps) => {
     </div>
   )
 }
-
-export default MobileMenu

@@ -157,7 +157,7 @@ const MegaMenu = ({ category }: MegaMenuProps) => {
                     {discoverLinks.map((link) => (
                       <Link
                         key={link}
-                        href={`/discover/${link.toLowerCase().replace(' ', '-')}`}
+                        href={`/${category.toLowerCase()}/discover/${link.toLowerCase().replace(' ', '-')}`}
                         className="block px-12 py-4 text-sm tracking-[0.25em] hover:text-gray-500 transition-colors"
                       >
                         {link}
@@ -181,13 +181,13 @@ const MegaMenu = ({ category }: MegaMenuProps) => {
                 <div className="fixed left-[400px] top-[140px] bottom-0 w-[400px] bg-white z-[47] border-r border-black overflow-y-auto">
                   <div className="py-12">
                     {brandLinks.map((link) => (
-                      <a
+                      <Link
                         key={link}
-                        href="#"
+                        href={`/${category.toLowerCase()}/brands/${link.toLowerCase().replace(' ', '-')}`}
                         className="block px-12 py-4 text-sm tracking-[0.25em] hover:text-gray-500 transition-colors"
                       >
                         {link}
-                      </a>
+                      </Link>
                     ))}
                   </div>
                 </div>
@@ -207,13 +207,13 @@ const MegaMenu = ({ category }: MegaMenuProps) => {
                 <div className="fixed left-[400px] top-[140px] bottom-0 w-[400px] bg-white z-[47] border-r border-black overflow-y-auto">
                   <div className="py-12">
                     {categoryLinks.map((link) => (
-                      <a
+                      <Link
                         key={link}
-                        href="#"
+                        href={`/${category.toLowerCase()}/categories/${link.toLowerCase().replace(' ', '-')}`}
                         className="block px-12 py-4 text-sm tracking-[0.25em] hover:text-gray-500 transition-colors"
                       >
                         {link}
-                      </a>
+                      </Link>
                     ))}
                   </div>
                 </div>
@@ -233,13 +233,13 @@ const MegaMenu = ({ category }: MegaMenuProps) => {
                 <div className="fixed left-[400px] top-[140px] bottom-0 w-[400px] bg-white z-[47] border-r border-black overflow-y-auto">
                   <div className="py-12">
                     {designerLinks.map((link) => (
-                      <a
+                      <Link
                         key={link}
-                        href="#"
+                        href={`/${category.toLowerCase()}/designers/${link.toLowerCase().replace(' ', '-')}`}
                         className="block px-12 py-4 text-sm tracking-[0.25em] hover:text-gray-500 transition-colors"
                       >
                         {link}
-                      </a>
+                      </Link>
                     ))}
                   </div>
                 </div>
@@ -259,13 +259,13 @@ const MegaMenu = ({ category }: MegaMenuProps) => {
                 <div className="fixed left-[400px] top-[140px] bottom-0 w-[400px] bg-white z-[47] border-r border-black overflow-y-auto">
                   <div className="py-12">
                     {rankingLinks.map((link) => (
-                      <a
+                      <Link
                         key={link}
-                        href="#"
+                        href={`/${category.toLowerCase()}/rankings/${link.toLowerCase().replace(' ', '-')}`}
                         className="block px-12 py-4 text-sm tracking-[0.25em] hover:text-gray-500 transition-colors"
                       >
                         {link}
-                      </a>
+                      </Link>
                     ))}
                   </div>
                 </div>

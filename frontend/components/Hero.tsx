@@ -1,5 +1,6 @@
 'use client'
 import Image from 'next/image'
+import Link from 'next/link'
 
 const Hero = () => {
   return (
@@ -24,9 +25,11 @@ const Hero = () => {
         {/* <h1 className="text-black text-4xl font-light tracking-[0.25em]">
           DISCOVER
         </h1> */}
-        <button className="px-16 py-4 border border-black hover:bg-black/40 hover:backdrop-blur-sm hover:text-[#4FFFF4] hover:border-[#4FFFF4] text-sm tracking-[0.25em] bg-black/80 text-white transition-all duration-300">
-          DISCOVER
-        </button>
+        <Link href="/discover">
+          <button className="px-16 py-4 border border-black hover:bg-black/40 hover:backdrop-blur-sm hover:text-[#4FFFF4] hover:border-[#4FFFF4] text-sm tracking-[0.25em] bg-black/80 text-white transition-all duration-300">
+            DISCOVER
+          </button>
+        </Link>
       </div>
     </section>
   )
