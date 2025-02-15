@@ -1,5 +1,5 @@
 'use client'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { X, ArrowLeft } from 'lucide-react'
 
 interface MobileMenuProps {
@@ -19,6 +19,14 @@ const rankingLinks = ['Top Rated', 'Recently Liked', 'Most Liked', 'Leaderboard'
 const MobileMenu = ({ isOpen, onClose, items }: MobileMenuProps) => {
   const [activeLayer0, setActiveLayer0] = useState<string | null>(null)
   const [activeLayer1, setActiveLayer1] = useState<string | null>(null)
+
+  // Reset states when menu closes
+  useEffect(() => {
+    if (!isOpen) {
+      setActiveLayer0(null)
+      setActiveLayer1(null)
+    }
+  }, [isOpen])
 
   const getLayer2Links = (category: string) => {
     switch (category) {
@@ -49,7 +57,7 @@ const MobileMenu = ({ isOpen, onClose, items }: MobileMenuProps) => {
 
   return (
     <div 
-      className={`fixed inset-0 bg-white z-[1003] transform transition-transform duration-300 ${
+      className={`fixed inset-0 bg-white z-[9999] transform transition-transform duration-300 overflow-hidden ${
         isOpen ? 'translate-y-0' : '-translate-y-full'
       }`}
     >
