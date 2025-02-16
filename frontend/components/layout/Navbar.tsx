@@ -5,6 +5,7 @@ import { Search, User, ShoppingBag, Menu, X } from 'lucide-react'
 import ScrollableNav from './ScrollableNav'
 import MobileMenu from './MobileMenu'
 import MegaMenu from './MegaMenu'
+import Link from 'next/link'
 
 const menuItems = ['WOMEN', 'MEN', 'GIFTS', 'EXPLORE']
 
@@ -49,10 +50,10 @@ const Navigation = () => {
               </button>
               
               {/* Logo */}
-              <h1 className="absolute left-1/2 -translate-x-1/2 text-lg tracking-tight font-bold z-[1002] text-center">
+              <Link href="/" className="absolute left-1/2 -translate-x-1/2 text-lg tracking-tight font-bold z-[1002] text-center">
                 <span className="mobile:inline block">DISCOVERY</span>
                 <span className="mobile:inline block mobile:ml-1">STUDIOS</span>
-              </h1>
+              </Link>
               
               {/* User Actions */}
               <div className="flex items-center space-x-8">
