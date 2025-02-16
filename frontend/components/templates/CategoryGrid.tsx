@@ -1,9 +1,9 @@
 'use client'
 import Image from 'next/image'
 import Link from 'next/link'
+import { useState, useEffect } from 'react'
 
-// Combine layer 2 items from different categories
-const exploreLinks = [
+const allExploreLinks = [
   { name: 'Spotlight', category: 'discover' },
   { name: 'Featured', category: 'brands' },
   { name: 'Trending', category: 'designers' },
@@ -13,6 +13,15 @@ const exploreLinks = [
   { name: 'Random', category: 'brands' },
   { name: 'Location', category: 'discover' }
 ]
+
+const shuffleArray = (array: any[]) => {
+  const newArray = [...array]
+  for (let i = newArray.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [newArray[i], newArray[j]] = [newArray[j], newArray[i]]
+  }
+  return newArray
+}
 
 interface CategoryGridProps {
   items: Array<{
@@ -24,6 +33,12 @@ interface CategoryGridProps {
 }
 
 export default function CategoryGrid({ items, title }: CategoryGridProps) {
+  const [exploreLinks, setExploreLinks] = useState(allExploreLinks)
+
+  useEffect(() => {
+    setExploreLinks(shuffleArray(allExploreLinks))
+  }, [])
+
   return (
     <section className="w-full">
       <div className="mt-[180px] max-w-[2000px] mx-auto">
