@@ -5,11 +5,12 @@ import ListLayout from '@/components/templates/ListLayout'
 interface PageProps {
   params: {
     category: string
+    section: string
   }
 }
 
-export default function CategoryDiscoverPage({ params }: PageProps) {
-  const { category } = params
+export default function CategoryViewAllPage({ params }: PageProps) {
+  const { category, section } = params
 
   useEffect(() => {
     document.body.style.overscrollBehavior = 'none'
@@ -23,19 +24,19 @@ export default function CategoryDiscoverPage({ params }: PageProps) {
     .fill(null)
     .map((_, i) => ({
       id: `item-${i}`,
-      name: `Discover Item ${i + 1}`,
+      name: `${section.charAt(0).toUpperCase() + section.slice(1)} Item ${i + 1}`,
       category: 'Category Name',
       image: `/placeholders/product-${(i % 4) + 1}.jpg`,
-      href: `/discover/item-${i + 1}`
+      href: `/${category}/${section}/item-${i + 1}`
     }))
 
   return (
     <ListLayout 
       items={items} 
-      title="DISCOVER"
+      title={section.toUpperCase()}
       category={category}
-      section="discover"
+      section={section}
       subsection="view-all"
     />
   )
-}
+} 
