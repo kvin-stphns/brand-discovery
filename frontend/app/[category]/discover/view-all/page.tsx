@@ -1,4 +1,5 @@
 'use client'
+import { useEffect } from 'react'
 import ListLayout from '@/components/templates/ListLayout'
 
 interface PageProps {
@@ -9,15 +10,24 @@ interface PageProps {
 
 export default function CategoryDiscoverPage({ params }: PageProps) {
   const { category } = params
-  
+
+  useEffect(() => {
+    document.body.style.overscrollBehavior = 'none'
+    return () => {
+      document.body.style.overscrollBehavior = ''
+    }
+  }, [])
+
   // Placeholder data
-  const items = Array(20).fill(null).map((_, i) => ({
-    id: `item-${i}`,
-    name: `Discover Item ${i + 1}`,
-    category: 'Category Name',
-    image: `/placeholders/product-${(i % 4) + 1}.jpg`,
-    href: `/discover/item-${i + 1}`
-  }))
+  const items = Array(20)
+    .fill(null)
+    .map((_, i) => ({
+      id: `item-${i}`,
+      name: `Discover Item ${i + 1}`,
+      category: 'Category Name',
+      image: `/placeholders/product-${(i % 4) + 1}.jpg`,
+      href: `/discover/item-${i + 1}`
+    }))
 
   return (
     <ListLayout 
@@ -28,4 +38,4 @@ export default function CategoryDiscoverPage({ params }: PageProps) {
       subsection="view-all"
     />
   )
-} 
+}
