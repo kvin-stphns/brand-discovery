@@ -55,7 +55,7 @@ const ListLayout = ({ title, items, category, section, subsection }: ListLayoutP
         <div className="w-[35%]">
           <div 
             ref={listContainerRef}
-            className="pt-[300px] overflow-y-auto"
+            className="pt-[280px] overflow-y-auto"
             style={{ height: 'calc(100vh)' }}
           >
             <div className="divide-y divide-black">
