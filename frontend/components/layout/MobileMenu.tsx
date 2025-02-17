@@ -63,6 +63,8 @@ export default function MobileMenu({ isOpen, onClose, items }: MobileMenuProps) 
     const formattedLink = link.toLowerCase().replace(' ', '-')
     const path = `/${activeLayer0.toLowerCase()}/${activeLayer1.toLowerCase()}/${formattedLink}`
     router.push(path)
+    setActiveLayer0(null)
+    setActiveLayer1(null)
     onClose()
   }
 

@@ -159,7 +159,10 @@ const MegaMenu = ({ category }: MegaMenuProps) => {
                         key={link}
                         href={`/explore/discover/${link.toLowerCase().replace(' ', '-')}`}
                         className="block px-12 py-4 text-sm tracking-[0.25em] hover:text-gray-500 transition-colors"
-                        onClick={() => setShowDiscoverMenu(false)}
+                        onClick={() => {
+                          setShowDiscoverMenu(false)
+                          setIsMenuOpen(false)
+                        }}
                       >
                         {link}
                       </Link>
@@ -186,6 +189,10 @@ const MegaMenu = ({ category }: MegaMenuProps) => {
                         key={link}
                         href={`/${category.toLowerCase()}/brands/${link.toLowerCase().replace(' ', '-')}`}
                         className="block px-12 py-4 text-sm tracking-[0.25em] hover:text-gray-500 transition-colors"
+                        onClick={() => {
+                          setShowBrandsMenu(false)
+                          setIsMenuOpen(false)
+                        }}
                       >
                         {link}
                       </Link>
@@ -212,6 +219,10 @@ const MegaMenu = ({ category }: MegaMenuProps) => {
                         key={link}
                         href={`/${category.toLowerCase()}/categories/${link.toLowerCase().replace(' ', '-')}`}
                         className="block px-12 py-4 text-sm tracking-[0.25em] hover:text-gray-500 transition-colors"
+                        onClick={() => {
+                          setShowCategoriesMenu(false)
+                          setIsMenuOpen(false)
+                        }}
                       >
                         {link}
                       </Link>
@@ -238,6 +249,10 @@ const MegaMenu = ({ category }: MegaMenuProps) => {
                         key={link}
                         href={`/${category.toLowerCase()}/designers/${link.toLowerCase().replace(' ', '-')}`}
                         className="block px-12 py-4 text-sm tracking-[0.25em] hover:text-gray-500 transition-colors"
+                        onClick={() => {
+                          setShowDesignersMenu(false)
+                          setIsMenuOpen(false)
+                        }}
                       >
                         {link}
                       </Link>
@@ -264,6 +279,10 @@ const MegaMenu = ({ category }: MegaMenuProps) => {
                         key={link}
                         href={`/${category.toLowerCase()}/rankings/${link.toLowerCase().replace(' ', '-')}`}
                         className="block px-12 py-4 text-sm tracking-[0.25em] hover:text-gray-500 transition-colors"
+                        onClick={() => {
+                          setShowRankingsMenu(false)
+                          setIsMenuOpen(false)
+                        }}
                       >
                         {link}
                       </Link>
