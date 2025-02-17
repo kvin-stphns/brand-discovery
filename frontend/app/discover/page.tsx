@@ -12,6 +12,7 @@ export default function DiscoverPage() {
     <CategoryGrid 
       items={items}
       title="DISCOVER"
+      isDiscoverPage={true}
     />
   )
 } 
