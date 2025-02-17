@@ -1,5 +1,5 @@
 'use client'
-import CollectionGrid from '@/components/templates/CollectionGrid'
+import ListLayout from '@/components/templates/ListLayout'
 
 interface PageProps {
   params: {
@@ -11,17 +11,21 @@ export default function CategoryDiscoverPage({ params }: PageProps) {
   const { category } = params
   
   // Placeholder data
-  const collections = Array(20).fill(null).map((_, i) => ({
-    id: `collection-${i}`,
-    brand: 'Brand Name',
-    designer: 'Designer Name',
-    image: `/placeholders/product-${(i % 4) + 1}.jpg`
+  const items = Array(20).fill(null).map((_, i) => ({
+    id: `item-${i}`,
+    name: `Discover Item ${i + 1}`,
+    category: 'Category Name',
+    image: `/placeholders/product-${(i % 4) + 1}.jpg`,
+    href: `/discover/item-${i + 1}`
   }))
 
   return (
-    <CollectionGrid 
-      items={collections} 
-      title={`${category.toUpperCase()} / DISCOVER / VIEW ALL`}
+    <ListLayout 
+      items={items} 
+      title="DISCOVER"
+      category={category}
+      section="discover"
+      subsection="view-all"
     />
   )
 } 
