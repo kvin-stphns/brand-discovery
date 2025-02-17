@@ -157,8 +157,9 @@ const MegaMenu = ({ category }: MegaMenuProps) => {
                     {discoverLinks.map((link) => (
                       <Link
                         key={link}
-                        href={`/${category.toLowerCase()}/discover/${link.toLowerCase().replace(' ', '-')}`}
+                        href={`/explore/discover/${link.toLowerCase().replace(' ', '-')}`}
                         className="block px-12 py-4 text-sm tracking-[0.25em] hover:text-gray-500 transition-colors"
+                        onClick={() => setShowDiscoverMenu(false)}
                       >
                         {link}
                       </Link>

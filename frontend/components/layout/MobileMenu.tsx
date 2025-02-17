@@ -151,6 +151,7 @@ export default function MobileMenu({ isOpen, onClose, items }: MobileMenuProps) 
             {getLayer2Links(activeLayer1).map((link) => (
               <button
                 key={link}
+                onClick={() => handleLayer2Click(link)}
                 className="w-full px-12 py-4 text-left text-sm tracking-[0.25em] hover:text-gray-500 transition-colors"
               >
                 {link}
