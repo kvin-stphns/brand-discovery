@@ -2,7 +2,6 @@
 import { ReactNode, useState, useRef, useEffect } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
-import Footer from '@/components/Footer'
 
 interface ListItemProps {
   id: string
@@ -24,7 +23,6 @@ const ListLayout = ({ title, items, category, section, subsection }: ListLayoutP
   const [activeItem, setActiveItem] = useState(items[0])
   const [selectedItem, setSelectedItem] = useState<string | null>(null)
   const listContainerRef = useRef<HTMLDivElement>(null)
-  const footerRef = useRef<HTMLDivElement>(null)
 
   const handleItemClick = (item: ListItemProps) => {
     if (selectedItem === item.id) {
@@ -34,26 +32,6 @@ const ListLayout = ({ title, items, category, section, subsection }: ListLayoutP
       setSelectedItem(item.id)
     }
   }
-
-  useEffect(() => {
-    const handleScroll = () => {
-      if (!listContainerRef.current || !footerRef.current) return
-
-      const footerRect = footerRef.current.getBoundingClientRect()
-      const listContainer = listContainerRef.current
-      
-      if (footerRect.top <= window.innerHeight) {
-        listContainer.style.height = `${footerRect.top - 300}px`
-      } else {
-        listContainer.style.height = 'calc(100vh - 300px)'
-      }
-    }
-
-    window.addEventListener('scroll', handleScroll)
-    handleScroll() // Initial calculation
-
-    return () => window.removeEventListener('scroll', handleScroll)
-  }, [])
 
   return (
     <div className="min-h-screen flex flex-col">
@@ -69,14 +47,16 @@ const ListLayout = ({ title, items, category, section, subsection }: ListLayoutP
         </div>
       </div>
 
-      {/* Main Content Container */}
-      <div className="flex flex-1 pt-[300px]">
+      {/* Main Content Container with Full-Height Border */}
+      <div className="flex flex-1 relative">
+        <div className="absolute top-0 left-[35%] w-px h-full bg-black" />
+        
         {/* List Section */}
-        <div className="w-[35%] border-r border-black relative">
+        <div className="w-[35%]">
           <div 
             ref={listContainerRef}
-            className="overflow-y-auto"
-            style={{ height: 'calc(100vh - 300px)' }}
+            className="pt-[300px] overflow-y-auto"
+            style={{ height: 'calc(100vh)' }}
           >
             <div className="divide-y divide-black">
               {items.map((item) => (
@@ -99,8 +79,8 @@ const ListLayout = ({ title, items, category, section, subsection }: ListLayoutP
         </div>
 
         {/* Preview Section */}
-        <div className="w-[65%] relative">
-          <div className="h-[calc(100vh-300px)] sticky top-[300px]">
+        <div className="w-[65%] pt-[300px]">
+          <div className="h-[calc(100vh-300px)] relative">
             <Image 
               src={activeItem.image}
               alt={activeItem.name}
@@ -115,11 +95,6 @@ const ListLayout = ({ title, items, category, section, subsection }: ListLayoutP
             </Link>
           </div>
         </div>
-      </div>
-
-      {/* Footer */}
-      <div ref={footerRef}>
-        <Footer />
       </div>
     </div>
   )
