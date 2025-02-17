@@ -40,34 +40,43 @@ export default function CategoryGrid({ items, title }: CategoryGridProps) {
   }, [])
 
   return (
-    <section className="w-full">
-      <div className="mt-[180px] max-w-[2000px] mx-auto">
-        <h2 className="px-8 text-black text-2xl tracking-[0.05em] font-bold mb-12">
-          {title}
-        </h2>
-        
-        <div className="grid grid-cols-2 mobile:grid-cols-2 tablet:grid-cols-3 desktop:grid-cols-4 border-t border-black">
-          {exploreLinks.map((link, i) => (
-            <Link 
-              key={i}
-              href={`/${link.category}/${link.name.toLowerCase().replace(' ', '-')}`}
-              className={`group relative h-[500px] flex items-center justify-center border-r border-b border-black last:border-r-0 tablet:last:border-r
-                ${i >= 6 ? 'tablet:hidden desktop:flex' : ''}`}
-            >
-              <Image
-                src={`/brand-${i + 1}.jpg`}
-                alt={link.name}
-                width={400}
-                height={500}
-                className="w-full h-full object-cover opacity-90 hover:opacity-100 transition-opacity"
-              />
-              <span className="absolute bottom-6 text-xs font-semibold tracking-[0.15em] opacity-0 group-hover:opacity-100 transition-opacity">
-                {link.name.toUpperCase()}
-              </span>
-            </Link>
-          ))}
+    <section className="w-full min-h-screen">
+      {/* Fixed Title Section */}
+      <div className="fixed top-0 left-0 right-0 bg-white z-30">
+        <div className="mt-[180px] max-w-[2000px] mx-auto">
+          <h2 className="px-8 text-black text-2xl tracking-[0.05em] font-bold mb-12">
+            {title}
+          </h2>
+        </div>
+        <div className="max-w-[2000px] mx-auto border-t border-black" />
+      </div>
+
+      {/* Main content wrapper */}
+      <div className="mt-[260px]">
+        <div className="max-w-[2000px] mx-auto">
+          <div className="grid grid-cols-2 mobile:grid-cols-2 tablet:grid-cols-3 desktop:grid-cols-4">
+            {exploreLinks.map((link, i) => (
+              <Link 
+                key={i}
+                href={`/${link.category}/${link.name.toLowerCase().replace(' ', '-')}`}
+                className={`group relative h-[500px] flex items-center justify-center border-r border-b border-black last:border-r-0 tablet:last:border-r
+                  ${i >= 6 ? 'tablet:hidden desktop:flex' : ''}`}
+              >
+                <Image
+                  src={`/brand-${i + 1}.jpg`}
+                  alt={link.name}
+                  width={400}
+                  height={500}
+                  className="w-full h-full object-cover opacity-90 hover:opacity-100 transition-opacity"
+                />
+                <span className="absolute bottom-6 text-xs font-semibold tracking-[0.15em] opacity-0 group-hover:opacity-100 transition-opacity">
+                  {link.name.toUpperCase()}
+                </span>
+              </Link>
+            ))}
+          </div>
         </div>
       </div>
     </section>
   )
-} 
+}
