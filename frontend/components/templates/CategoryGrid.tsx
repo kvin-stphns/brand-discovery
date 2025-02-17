@@ -17,8 +17,8 @@ const allExploreLinks = [
 const shuffleArray = (array: any[]) => {
   const newArray = [...array]
   for (let i = newArray.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1));
-    [newArray[i], newArray[j]] = [newArray[j], newArray[i]]
+    const j = Math.floor(Math.random() * (i + 1))
+    ;[newArray[i], newArray[j]] = [newArray[j], newArray[i]]
   }
   return newArray
 }
@@ -36,7 +36,12 @@ export default function CategoryGrid({ items, title }: CategoryGridProps) {
   const [exploreLinks, setExploreLinks] = useState(allExploreLinks)
 
   useEffect(() => {
+    // Disable overscroll bounce on the entire page while this component is mounted.
+    document.body.style.overscrollBehavior = 'none'
     setExploreLinks(shuffleArray(allExploreLinks))
+    return () => {
+      document.body.style.overscrollBehavior = ''
+    }
   }, [])
 
   return (
@@ -51,16 +56,17 @@ export default function CategoryGrid({ items, title }: CategoryGridProps) {
         <div className="max-w-[2000px] mx-auto border-t border-black" />
       </div>
 
-      {/* Main content wrapper */}
+      {/* Main Content */}
       <div className="mt-[260px]">
         <div className="max-w-[2000px] mx-auto">
           <div className="grid grid-cols-2 mobile:grid-cols-2 tablet:grid-cols-3 desktop:grid-cols-4">
             {exploreLinks.map((link, i) => (
-              <Link 
+              <Link
                 key={i}
                 href={`/${link.category}/${link.name.toLowerCase().replace(' ', '-')}`}
-                className={`group relative h-[500px] flex items-center justify-center border-r border-b border-black last:border-r-0 tablet:last:border-r
-                  ${i >= 6 ? 'tablet:hidden desktop:flex' : ''}`}
+                className={`group relative h-[500px] flex items-center justify-center border-r border-b border-black last:border-r-0 tablet:last:border-r ${
+                  i >= 6 ? 'tablet:hidden desktop:flex' : ''
+                }`}
               >
                 <Image
                   src={`/brand-${i + 1}.jpg`}
