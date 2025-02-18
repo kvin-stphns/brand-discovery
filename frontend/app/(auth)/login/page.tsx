@@ -6,7 +6,7 @@ export default function LoginPage() {
   const [password, setPassword] = useState('')
 
   return (
-    <div className="max-w-[2000px] mx-auto px-8 mt-[140px]">
+    <div className="max-w-[2000px] mx-auto px-8 mt-[190px] mb-32">
       <h1 className="text-2xl tracking-[0.05em] font-bold mb-8">LOGIN</h1>
       <div className="max-w-md">
         {/* Login form will go here - keeping it minimal for now */}
