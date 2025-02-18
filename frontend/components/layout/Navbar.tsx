@@ -22,9 +22,9 @@ const Navigation = () => {
       
       <header className="fixed top-0 left-0 right-0 bg-white z-[1001]">
         <div className="max-w-[2000px] mx-auto px-8">
-          <nav className="py-6">
+          <nav className="py-5 pb-1.5">
             {/* Top section */}
-            <div className="relative flex items-center justify-between mb-6">
+            <div className="relative flex items-center justify-between mb-4">
               {/* Desktop Navigation */}
               <div className="hidden desktop:flex space-x-12 z-[500]">
                 {menuItems.map((item) => (
@@ -70,13 +70,13 @@ const Navigation = () => {
             <div className="fixed left-0 right-0 border-t border-black z-[1003]" />
 
             {/* Search section */}
-            <div className="relative pt-6 z-[1003]">
-              <div className="flex items-center">
-                <Search className="w-4 h-4 text-black/60" />
+            <div className="relative pt-2.5 pb-1 z-[1003]">
+              <div className="flex items-center h-6">
+                <Search className="w-3.5 h-3.5 text-black/60" />
                 <input
                   type="text"
                   placeholder="WHAT DO YOU DESIRE?"
-                  className="w-full pl-3 text-sm tracking-[0.25em] placeholder:text-black/60 focus:outline-none"
+                  className="w-full pl-3 text-xs tracking-[0.25em] placeholder:text-black/60 focus:outline-none flex-1 leading-6"
                 />
               </div>
             </div>
