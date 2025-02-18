@@ -57,9 +57,9 @@ const Navigation = () => {
               
               {/* User Actions */}
               <div className="flex items-center space-x-8">
-                <button className="hover:opacity-70 transition-opacity">
+                <Link href="/login" className="hover:opacity-70 transition-opacity">
                   <User className="w-[18px] h-[18px]" />
-                </button>
+                </Link>
                 <button className="hover:opacity-70 transition-opacity">
                   <ShoppingBag className="w-[18px] h-[18px]" />
                 </button>
