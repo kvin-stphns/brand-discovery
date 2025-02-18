@@ -136,12 +136,13 @@ const MegaMenu = ({ category }: MegaMenuProps) => {
                         {bottomLinks.map((link) => (
                           <Menu.Item key={link}>
                             {({ active }) => (
-                              <a
-                                href="#"
+                              <Link
+                                href={`/${link.toLowerCase().replace(' ', '-')}`}
                                 className="block px-12 py-2 text-sm tracking-[0.25em] hover:text-gray-500 transition-colors"
+                                onClick={() => setIsMenuOpen(false)}
                               >
                                 {link}
-                              </a>
+                              </Link>
                             )}
                           </Menu.Item>
                         ))}
