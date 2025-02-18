@@ -73,6 +73,16 @@ const MegaMenu = ({ category }: MegaMenuProps) => {
     return () => document.removeEventListener('mousedown', handleClickOutside)
   }, [])
 
+  useEffect(() => {
+    if (!isMenuOpen) {
+      setShowDiscoverMenu(false)
+      setShowBrandsMenu(false)
+      setShowCategoriesMenu(false)
+      setShowDesignersMenu(false)
+      setShowRankingsMenu(false)
+    }
+  }, [isMenuOpen])
+
   return (
     <Menu as="div" className="relative">
       {({ open }) => {
@@ -102,7 +112,7 @@ const MegaMenu = ({ category }: MegaMenuProps) => {
                     {/* Content wrapper */}
                     <div className="min-h-full flex flex-col justify-between">
                       {/* Top Links */}
-                      <div className="py-12">
+                      <div className="py-6">
                         {topLinks.map((link) => (
                           <Menu.Item key={link}>
                             {({ active }) => (
@@ -153,7 +163,7 @@ const MegaMenu = ({ category }: MegaMenuProps) => {
                 leaveTo="transform translate-x-[-100%]"
               >
                 <div className="fixed left-[400px] top-[104px] bottom-0 w-[400px] bg-white z-[47] border-r border-black overflow-y-auto">
-                  <div className="py-12">
+                  <div className="py-6">
                     {discoverLinks.map((link) => (
                       <Link
                         key={link}
@@ -182,8 +192,8 @@ const MegaMenu = ({ category }: MegaMenuProps) => {
                 leaveFrom="transform translate-x-0"
                 leaveTo="transform translate-x-[-100%]"
               >
-                <div className="fixed left-[400px] top-[140px] bottom-0 w-[400px] bg-white z-[47] border-r border-black overflow-y-auto">
-                  <div className="py-12">
+                <div className="fixed left-[400px] top-[104px] bottom-0 w-[400px] bg-white z-[47] border-r border-black overflow-y-auto">
+                  <div className="py-6">
                     {brandLinks.map((link) => (
                       <Link
                         key={link}
@@ -212,8 +222,8 @@ const MegaMenu = ({ category }: MegaMenuProps) => {
                 leaveFrom="transform translate-x-0"
                 leaveTo="transform translate-x-[-100%]"
               >
-                <div className="fixed left-[400px] top-[140px] bottom-0 w-[400px] bg-white z-[47] border-r border-black overflow-y-auto">
-                  <div className="py-12">
+                <div className="fixed left-[400px] top-[104px] bottom-0 w-[400px] bg-white z-[47] border-r border-black overflow-y-auto">
+                  <div className="py-6">
                     {categoryLinks.map((link) => (
                       <Link
                         key={link}
@@ -242,8 +252,8 @@ const MegaMenu = ({ category }: MegaMenuProps) => {
                 leaveFrom="transform translate-x-0"
                 leaveTo="transform translate-x-[-100%]"
               >
-                <div className="fixed left-[400px] top-[140px] bottom-0 w-[400px] bg-white z-[47] border-r border-black overflow-y-auto">
-                  <div className="py-12">
+                <div className="fixed left-[400px] top-[104px] bottom-0 w-[400px] bg-white z-[47] border-r border-black overflow-y-auto">
+                  <div className="py-6">
                     {designerLinks.map((link) => (
                       <Link
                         key={link}
@@ -272,8 +282,8 @@ const MegaMenu = ({ category }: MegaMenuProps) => {
                 leaveFrom="transform translate-x-0"
                 leaveTo="transform translate-x-[-100%]"
               >
-                <div className="fixed left-[400px] top-[140px] bottom-0 w-[400px] bg-white z-[47] border-r border-black overflow-y-auto">
-                  <div className="py-12">
+                <div className="fixed left-[400px] top-[104px] bottom-0 w-[400px] bg-white z-[47] border-r border-black overflow-y-auto">
+                  <div className="py-6">
                     {rankingLinks.map((link) => (
                       <Link
                         key={link}
