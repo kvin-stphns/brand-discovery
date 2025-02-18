@@ -1,6 +1,8 @@
 'use client'
 import { useState } from 'react'
 import Link from 'next/link'
+import { Github, Twitter, Mail, Facebook } from 'lucide-react'
+import Image from 'next/image'
 
 export default function LoginPage() {
   const [email, setEmail] = useState('')
@@ -32,6 +34,25 @@ export default function LoginPage() {
             LOGIN
           </button>
         </form>
+        
+        {/* Social Login */}
+        <div className="mt-6 flex justify-center space-x-6">
+          <button className="p-2 hover:opacity-60 transition-opacity">
+            <Image src="/google.svg" alt="Google" width={20} height={20} />
+          </button>
+          <button className="p-2 hover:opacity-60 transition-opacity">
+            <Twitter className="w-5 h-5" />
+          </button>
+          <button className="p-2 hover:opacity-60 transition-opacity">
+            <Facebook className="w-5 h-5" />
+          </button>
+          <button className="p-2 hover:opacity-60 transition-opacity">
+            <Github className="w-5 h-5" />
+          </button>
+          <button className="p-2 hover:opacity-60 transition-opacity">
+            <Image src="/apple.svg" alt="Apple" width={20} height={20} />
+          </button>
+        </div>
         
         <div className="mt-6 text-center">
           <Link 

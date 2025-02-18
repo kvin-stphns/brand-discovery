@@ -1,6 +1,8 @@
 'use client'
 import { useState } from 'react'
 import Link from 'next/link'
+import { Github, Twitter, Mail, Facebook } from 'lucide-react'
+import Image from 'next/image'
 
 export default function SignUpPage() {
   const [email, setEmail] = useState('')
@@ -39,6 +41,25 @@ export default function SignUpPage() {
             SIGN UP
           </button>
         </form>
+
+        {/* Social Login */}
+        <div className="mt-6 flex justify-center space-x-6">
+          <button className="p-2 hover:opacity-60 transition-opacity">
+            <Image src="/google.svg" alt="Google" width={20} height={20} />
+          </button>
+          <button className="p-2 hover:opacity-60 transition-opacity">
+            <Twitter className="w-5 h-5" />
+          </button>
+          <button className="p-2 hover:opacity-60 transition-opacity">
+            <Facebook className="w-5 h-5" />
+          </button>
+          <button className="p-2 hover:opacity-60 transition-opacity">
+            <Github className="w-5 h-5" />
+          </button>
+          <button className="p-2 hover:opacity-60 transition-opacity">
+            <Image src="/apple.svg" alt="Apple" width={20} height={20} />
+          </button>
+        </div>
         
         <div className="mt-6 text-center">
           <Link 
@@ -55,7 +76,6 @@ export default function SignUpPage() {
             className="w-full p-3 border border-black text-sm tracking-[0.15em] hover:bg-black/5 transition-colors"
             onClick={(e) => {
               e.preventDefault()
-              // Wallet connect logic will go here
             }}
           >
             CONNECT WALLET
