@@ -31,6 +31,19 @@ export default function LoginPage() {
             LOGIN
           </button>
         </form>
+        
+        {/* Wallet Connect Placeholder */}
+        <div className="mt-8 pt-8 border-t border-black/10">
+          <button 
+            className="w-full p-3 border border-black text-sm tracking-[0.15em] hover:bg-black/5 transition-colors"
+            onClick={(e) => {
+              e.preventDefault()
+              // Wallet connect logic will go here
+            }}
+          >
+            CONNECT WALLET
+          </button>
+        </div>
       </div>
     </div>
   )

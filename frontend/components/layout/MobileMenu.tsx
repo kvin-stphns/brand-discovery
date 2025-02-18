@@ -68,6 +68,12 @@ export default function MobileMenu({ isOpen, onClose, items }: MobileMenuProps) 
     onClose()
   }
 
+  const handleBottomLinkClick = (link: string) => {
+    const path = `/${link.toLowerCase().replace(' ', '-')}`
+    router.push(path)
+    onClose()
+  }
+
   return (
     <div 
       className={`fixed inset-0 bg-white z-[9999] transform transition-transform duration-300 overflow-hidden ${
@@ -134,6 +140,7 @@ export default function MobileMenu({ isOpen, onClose, items }: MobileMenuProps) 
               {bottomLinks.map((link) => (
                 <button
                   key={link}
+                  onClick={() => handleBottomLinkClick(link)}
                   className="w-full px-12 py-2 text-left text-sm tracking-[0.25em] hover:text-gray-500 transition-colors"
                 >
                   {link}
