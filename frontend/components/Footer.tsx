@@ -2,30 +2,42 @@ import Link from 'next/link'
 
 const Footer = () => {
   const footerLinks = [
-    { label: 'LOGIN / SIGN UP', href: '/login' },
+    { label: 'SUBMISSIONS', href: '/submissions' },
     { label: 'ABOUT', href: '/about' },
     { label: 'CONTACT', href: '/contact' },
     { label: 'FAQ', href: '/faq' },
-    { label: 'PRIVACY', href: '/privacy' }
+    { label: 'PRIVACY', href: '/privacy' },
+    { 
+      label: <>LOGIN /<br />SIGN UP</>, 
+      href: '/login',
+      className: 'hidden tablet:block' 
+    }
   ]
 
   return (
     <footer className="w-full">
       {/* Grid layout for footer links */}
-      <div className="grid grid-cols-2 tablet:grid-cols-3 desktop:grid-cols-5 border-t border-black">
+      <div className="grid grid-cols-2 tablet:grid-cols-3 desktop:grid-cols-6 border-t border-black">
         {footerLinks.map((link, index) => (
           <Link
             key={index}
             href={link.href}
-            className="relative h-[200px] border-r border-black border-b border-black group last:border-r-0 tablet:last:border-r tablet:[&:nth-child(3)]:border-r-0 desktop:last:border-r-0 desktop:[&:nth-child(3)]:border-r"
+            className={`relative h-[200px] border-r border-black border-b border-black group last:border-r-0 tablet:last:border-r tablet:[&:nth-child(3)]:border-r-0 desktop:last:border-r-0 desktop:[&:nth-child(3)]:border-r ${link.className || ''}`}
           >
             <span className="absolute top-8 left-8 text-sm tracking-[0.25em] text-black/60 group-hover:text-black transition-colors">
               {link.label}
             </span>
           </Link>
         ))}
-        {/* Ghost grid item to maintain layout */}
-        <div className="desktop:hidden h-[200px] border-b border-black"></div>
+        {/* Mobile/Tablet Login Link */}
+        <Link
+          href="/login"
+          className="relative h-[200px] border-r border-black border-b border-black group tablet:hidden"
+        >
+          <span className="absolute top-8 left-8 text-sm tracking-[0.25em] text-black/60 group-hover:text-black transition-colors">
+            LOGIN<br />SIGN UP
+          </span>
+        </Link>
       </div>
 
       {/* Copyright section */}
