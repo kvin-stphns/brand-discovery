@@ -6,19 +6,38 @@ import { useEffect, useRef, useState } from 'react'
 const Hero = () => {
   const [isFixed, setIsFixed] = useState(true)
   const [opacity, setOpacity] = useState(1)
+  const [isVisible, setIsVisible] = useState(true)
   const buttonRef = useRef<HTMLDivElement>(null)
+  const backgroundRef = useRef<HTMLDivElement>(null)
+
+  useEffect(() => {
+    const handleScroll = () => {
+      const position = window.scrollY
+      
+      if (backgroundRef.current) {
+        backgroundRef.current.style.transform = `translateY(${position * 0.5}px)`
+      }
+    }
+
+    window.addEventListener('scroll', handleScroll, { passive: true })
+    return () => window.removeEventListener('scroll', handleScroll)
+  }, [])
 
   useEffect(() => {
     const observer = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting) {
-          // First fade out, then unfix
           setOpacity(0)
-          setTimeout(() => setIsFixed(false), 300) // Match duration-300
+          setTimeout(() => {
+            setIsFixed(false)
+            setIsVisible(false)
+          }, 300)
         } else {
-          // First fix position, then fade in
-          setIsFixed(true)
-          setTimeout(() => setOpacity(1), 50)
+          if (window.scrollY < entry.boundingClientRect.top) {
+            setIsVisible(true)
+            setIsFixed(true)
+            setTimeout(() => setOpacity(1), 50)
+          }
         }
       },
       { threshold: 0.1 }
@@ -32,10 +51,12 @@ const Hero = () => {
     return () => observer.disconnect()
   }, [])
 
+  if (!isVisible) return null
+
   return (
-    <section className="relative w-full h-screen bg-white mt-[100px]">
-      {/* Background Image */}
-      <div className="absolute inset-0 z-0">
+    <section className="relative w-full h-screen bg-white mt-[100px] overflow-hidden">
+      {/* Background Image with Parallax */}
+      <div ref={backgroundRef} className="absolute inset-0 z-0 will-change-transform">
         <Image
           src="/hero-image.jpg"
           alt="Symmetrical Crowd"
