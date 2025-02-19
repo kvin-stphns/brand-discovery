@@ -19,9 +19,9 @@ export default function Home() {
         <Navbar />
         <Hero />
         <div className="divider"></div> 
-        <div className="w-full">
-  <FeaturedBrands />
-</div>
+        <div className="w-full" id="featured-section">
+          <FeaturedBrands />
+        </div>
         <div className="divider"></div>
         <PopularBrands />
         <div className="divider"></div>

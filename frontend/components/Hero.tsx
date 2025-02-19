@@ -1,10 +1,39 @@
 'use client'
 import Image from 'next/image'
 import Link from 'next/link'
+import { useEffect, useRef, useState } from 'react'
 
 const Hero = () => {
+  const [isFixed, setIsFixed] = useState(true)
+  const [opacity, setOpacity] = useState(1)
+  const buttonRef = useRef<HTMLDivElement>(null)
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          // First fade out, then unfix
+          setOpacity(0)
+          setTimeout(() => setIsFixed(false), 300) // Match duration-300
+        } else {
+          // First fix position, then fade in
+          setIsFixed(true)
+          setTimeout(() => setOpacity(1), 50)
+        }
+      },
+      { threshold: 0.1 }
+    )
+
+    const featured = document.querySelector('#featured-section')
+    if (featured) {
+      observer.observe(featured)
+    }
+
+    return () => observer.disconnect()
+  }, [])
+
   return (
-    <section className="relative w-full h-screen flex flex-col items-center justify-center bg-white mt-[100px]">
+    <section className="relative w-full h-screen bg-white mt-[100px]">
       {/* Background Image */}
       <div className="absolute inset-0 z-0">
         <Image
@@ -17,11 +46,18 @@ const Hero = () => {
         />
       </div>
 
-      {/* Overlay for better text visibility */}
+      {/* Overlay */}
       <div className="absolute inset-0 bg-white/10 backdrop-blur-[2px]"></div>
 
       {/* Content */}
-      <div className="relative z-10 flex flex-col items-center space-y-8">
+      <div 
+        ref={buttonRef}
+        className={`
+          ${isFixed ? 'fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2' : 'absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2'} 
+          z-10 flex flex-col items-center space-y-8 transition-all duration-300
+        `}
+        style={{ opacity }}
+      >
         {/* <h1 className="text-black text-4xl font-light tracking-[0.25em]">
           DISCOVER
         </h1> */}
