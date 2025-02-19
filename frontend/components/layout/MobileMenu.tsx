@@ -125,7 +125,7 @@ export default function MobileMenu({ isOpen, onClose, items }: MobileMenuProps) 
       }`}>
         {activeLayer0 && (
           <div className="flex flex-col h-[calc(100vh-88px)]">
-            <div className="flex-1 py-12">
+            <div className="flex-1 py-6">
               {topLinks.map((link) => (
                 <button
                   key={link}
@@ -156,7 +156,7 @@ export default function MobileMenu({ isOpen, onClose, items }: MobileMenuProps) 
         activeLayer1 ? 'translate-x-0' : 'translate-x-full'
       }`}>
         {activeLayer1 && (
-          <div className="h-[calc(100vh-88px)] py-12">
+          <div className="h-[calc(100vh-88px)] py-6">
             {getLayer2Links(activeLayer1).map((link) => (
               <button
                 key={link}
