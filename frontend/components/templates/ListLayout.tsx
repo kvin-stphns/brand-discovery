@@ -79,8 +79,8 @@ const ListLayout = ({ title, items, category, section, subsection }: ListLayoutP
         </div>
 
         {/* Preview Section */}
-        <div className="w-[65%] pt-[300px]">
-          <div className="h-[calc(100vh-300px)] relative">
+        <div className="w-[65%] pt-[260px]">
+          <div className="h-[calc(100vh-260px)] relative">
             <Image 
               src={activeItem.image}
               alt={activeItem.name}
