@@ -6,14 +6,12 @@ import { useEffect, useRef, useState } from 'react'
 const Hero = () => {
   const [isFixed, setIsFixed] = useState(true)
   const [opacity, setOpacity] = useState(1)
-  const [isVisible, setIsVisible] = useState(true)
   const buttonRef = useRef<HTMLDivElement>(null)
   const backgroundRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
     const handleScroll = () => {
       const position = window.scrollY
-      
       if (backgroundRef.current) {
         backgroundRef.current.style.transform = `translateY(${position * 0.5}px)`
       }
@@ -28,16 +26,11 @@ const Hero = () => {
       ([entry]) => {
         if (entry.isIntersecting) {
           setOpacity(0)
-          setTimeout(() => {
-            setIsFixed(false)
-            setIsVisible(false)
-          }, 300)
-        } else {
-          if (window.scrollY < entry.boundingClientRect.top) {
-            setIsVisible(true)
-            setIsFixed(true)
-            setTimeout(() => setOpacity(1), 50)
-          }
+          setTimeout(() => setIsFixed(false), 300)
+        } else if (window.scrollY < window.innerHeight) {
+          // Only show button when scrolling up and within hero section
+          setIsFixed(true)
+          setTimeout(() => setOpacity(1), 50)
         }
       },
       { threshold: 0.1 }
@@ -50,8 +43,6 @@ const Hero = () => {
 
     return () => observer.disconnect()
   }, [])
-
-  if (!isVisible) return null
 
   return (
     <section className="relative w-full h-screen bg-white mt-[100px] overflow-hidden">
@@ -79,9 +70,6 @@ const Hero = () => {
         `}
         style={{ opacity }}
       >
-        {/* <h1 className="text-black text-4xl font-light tracking-[0.25em]">
-          DISCOVER
-        </h1> */}
         <Link href="/discover">
           <button className="px-16 py-4 border border-black hover:bg-black/40 hover:backdrop-blur-sm hover:text-[#4FFFF4] hover:border-[#4FFFF4] text-sm tracking-[0.25em] bg-black/80 text-white transition-all duration-300">
             DISCOVER
