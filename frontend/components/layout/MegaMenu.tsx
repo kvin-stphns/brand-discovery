@@ -8,7 +8,7 @@ interface MegaMenuProps {
 }
 
 const topLinks = ['Discover', 'Brands', 'Categories', 'Designers', 'Rankings']
-const bottomLinks = ['Login', 'Liked Items', 'Saved Items', 'Submissions', 'About']
+const bottomLinks = ['Login', 'Liked', 'Saved', 'Submissions', 'About']
 const discoverLinks = ['View All', 'Spotlight', 'Trending', 'Lookbooks', 'Location', 'Random']
 const brandLinks = ['View All', 'Alphabetical', 'Newest', 'Featured', 'Popular', 'Random']
 const categoryLinks = ['View All', 'Tops', 'Bottoms', 'Outerwear', 'Accessories', 'Footwear']
