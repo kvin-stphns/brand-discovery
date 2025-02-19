@@ -19,7 +19,7 @@ export default function ContentPage({ title, children }: ContentPageProps) {
         <div className="max-w-[2000px] mx-auto border-t border-black mt-12" />
       </div>
 
-      <div className="mt-[276px] max-w-[1200px] mx-auto px-8">
+      <div className="mt-[285px] max-w-[1200px] mx-auto px-8">
         {children}
       </div>
     </section>
