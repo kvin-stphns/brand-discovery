@@ -39,8 +39,8 @@ const PopularBrands = () => {
           transform: 'translate3d(0, 0, 0)',
           backfaceVisibility: 'hidden',
           WebkitBackfaceVisibility: 'hidden',
-          top: '-50%', // Moved up by 50%
-          height: '150%' // Increased height to compensate for higher positioning
+          top: '-70%', // Moved up by 100% instead of 50%
+          height: '150%' // Increased height to 200% to compensate for higher positioning
         }}
       >
         <Image
@@ -49,7 +49,7 @@ const PopularBrands = () => {
           fill
           quality={100}
           sizes="100vw"
-          className="object-cover object-center scale-110" // Slight scale up to prevent edge visibility
+          className="object-cover object-center scale-80"
           priority
         />
       </div>
