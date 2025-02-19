@@ -26,7 +26,7 @@ const PopularBrands = () => {
         <div className="w-full h-[1px] bg-[#4FFFF4] opacity-50 mb-12" />
 
         <div className="px-8">
-          <div className="grid grid-cols-2 gap-24">
+          <div className="grid grid-cols-2 gap-8">
             {Array.from({ length: 6 }).map((_, i) => (
               <div
                 key={i}
