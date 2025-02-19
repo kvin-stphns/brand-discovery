@@ -6,11 +6,19 @@ const FeaturedBrands = () => {
   return (
     <section className="pt-20 w-full">
       <div className="max-w-[2000px] mx-auto">
-        <Link href="/featured">
-          <h2 className="px-8 text-black text-2xl tracking-[0.05em] font-bold mb-12 hover:text-black/60 transition-colors">
-            FEATURED
-          </h2>
-        </Link>
+        <div className="px-8">
+          <Link href="/featured">
+            <h2 className="text-black text-2xl tracking-[0.05em] font-bold mb-4 hover:text-black/60 transition-colors">
+              FEATURED
+            </h2>
+          </Link>
+          <p className="text-xs tracking-[0.15em] text-gray-500 mb-2">
+            BRANDS & DESIGNERS
+          </p>
+          <p className="text-xs tracking-[0.05em] text-gray-500 mb-12">
+            Curated selection of emerging talent and established innovators
+          </p>
+        </div>
         
         {/* Grid structure with full-width dividers, no far-left/right borders */}
         <div className="grid grid-cols-2 mobile:grid-cols-2 tablet:grid-cols-3 desktop:grid-cols-4 border-t border-black">

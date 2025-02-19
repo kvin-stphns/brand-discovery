@@ -15,7 +15,7 @@ export default function FeaturedPage() {
     <CategoryGrid 
       items={items}
       title="FEATURED"
-      category="BRANDS & DESIGNERS"
+      subtitle="BRANDS & DESIGNERS"
     />
   )
 } 

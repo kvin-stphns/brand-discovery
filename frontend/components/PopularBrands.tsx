@@ -19,10 +19,16 @@ const PopularBrands = () => {
 
       <div className="relative max-w-[2000px] mx-auto">
         <Link href="/popular">
-          <h2 className="px-8 text-[#4FFFF4] text-2xl tracking-[0.25em] font-bold mb-12 hover:text-[#4FFFF4]/60 transition-colors">
+          <h2 className="px-8 text-[#4FFFF4] text-2xl tracking-[0.25em] font-bold mb-4 hover:text-[#4FFFF4]/60 transition-colors">
             POPULAR
           </h2>
         </Link>
+        <p className="px-8 text-xs tracking-[0.15em] text-[#4FFFF4] mb-2">
+          BRANDS & DESIGNERS
+        </p>
+        <p className="px-8 text-xs tracking-[0.05em] text-[#4FFFF4] mb-12">
+          Trending and most viewed across the platform
+        </p>
         {/* Full-width divider */}
         <div className="w-full h-[1px] bg-[#4FFFF4] opacity-50 mb-12" />
 
