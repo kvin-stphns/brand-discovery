@@ -1,5 +1,6 @@
 'use client'
 import Image from 'next/image'
+import Link from 'next/link'
 
 interface CollectionItem {
   id: string
@@ -24,7 +25,11 @@ export default function CollectionGrid({ items, title }: CollectionGridProps) {
         )}
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-8">
           {items.map((item) => (
-            <div key={item.id} className="group cursor-pointer">
+            <Link 
+              key={item.id} 
+              href={`/product/${item.id}`} 
+              className="group cursor-pointer"
+            >
               <div className="aspect-[3/4] relative mb-4 bg-gray-100">
                 <Image
                   src={item.image}
@@ -39,7 +44,7 @@ export default function CollectionGrid({ items, title }: CollectionGridProps) {
                 </p>
                 <p className="text-sm text-gray-500">{item.designer}</p>
               </div>
-            </div>
+            </Link>
           ))}
         </div>
       </div>
