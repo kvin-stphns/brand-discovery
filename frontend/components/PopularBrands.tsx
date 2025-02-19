@@ -1,5 +1,6 @@
 'use client'
 import Image from 'next/image'
+import Link from 'next/link'
 
 const PopularBrands = () => {
   return (
@@ -17,11 +18,11 @@ const PopularBrands = () => {
       </div>
 
       <div className="relative max-w-[2000px] mx-auto">
-        <div className="px-8 mb-12">
-          <h2 className="text-[#4FFFF4] text-2xl tracking-[0.25em] font-bold">
+        <Link href="/popular">
+          <h2 className="px-8 text-[#4FFFF4] text-2xl tracking-[0.25em] font-bold mb-12 hover:text-[#4FFFF4]/60 transition-colors">
             POPULAR
           </h2>
-        </div>
+        </Link>
         {/* Full-width divider */}
         <div className="w-full h-[1px] bg-[#4FFFF4] opacity-50 mb-12" />
 
@@ -39,7 +40,7 @@ const PopularBrands = () => {
                   {String(i + 1).padStart(2, '0')}
                 </span>
                 <span className="text-[#4FFFF4] text-[10px] tablet:text-sm tracking-[0.25em] font-medium tablet:font-bold">
-                  POPULAR BRAND
+                  POPULAR
                 </span>
               </div>
             ))}

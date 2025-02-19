@@ -29,6 +29,7 @@ interface CategoryGridProps {
   category?: string
   section?: string
   subsection?: string
+  subtitle?: string
   isDiscoverPage?: boolean
 }
 
@@ -38,6 +39,7 @@ export default function CategoryGrid({
   category, 
   section, 
   subsection,
+  subtitle,
   isDiscoverPage = false 
 }: CategoryGridProps) {
   const [exploreLinks, setExploreLinks] = useState(allExploreLinks)
@@ -62,10 +64,16 @@ export default function CategoryGrid({
             <h2 className="text-black text-2xl tracking-[0.05em] font-bold">
               {title}
             </h2>
-            {category && section && subsection && (
+            {subtitle ? (
               <p className="mt-2 text-xs tracking-[0.15em] text-gray-500">
-                {category.toUpperCase()} / {section.toUpperCase()} / {subsection.toUpperCase().replace('-', ' ')}
+                {subtitle}
               </p>
+            ) : (
+              category && section && subsection && (
+                <p className="mt-2 text-xs tracking-[0.15em] text-gray-500">
+                  {category.toUpperCase()} / {section.toUpperCase()} / {subsection.toUpperCase().replace('-', ' ')}
+                </p>
+              )
             )}
           </div>
         </div>
