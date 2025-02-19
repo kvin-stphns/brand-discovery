@@ -7,11 +7,9 @@ type FilterType = 'all' | 'brands' | 'designers' | 'products'
 
 export default function LikedPage() {
   const [filter, setFilter] = useState<FilterType>('all')
-  // Generate 32 items (8 original grid spaces × 4 mini items each)
   const [likedItems] = useState(Array(32).fill(null))
 
   useEffect(() => {
-    // Disable overscroll bounce
     document.body.style.overscrollBehavior = 'none'
     return () => {
       document.body.style.overscrollBehavior = ''
@@ -22,7 +20,7 @@ export default function LikedPage() {
     <section className="w-full min-h-screen">
       {/* Fixed Title Section */}
       <div className="fixed top-0 left-0 right-0 bg-white z-30">
-        <div className="mt-[165px] max-w-[2000px] mx-auto">
+        <div className="mt-[155px] max-w-[2000px] mx-auto">
           <div className="px-8">
             <h2 className="text-black text-2xl tracking-[0.05em] font-bold">
               LIKED
@@ -46,7 +44,7 @@ export default function LikedPage() {
       </div>
 
       {/* Main Content - Grid Layout */}
-      <div className="mt-[280px]"> {/* Adjusted from 260px to 280px to align with border */}
+      <div className="mt-[271px]">
         <div className="max-w-[2000px] mx-auto">
           <div className="grid grid-cols-4 mobile:grid-cols-4 tablet:grid-cols-6 desktop:grid-cols-8 border-t border-black">
             {likedItems.map((_, i) => (

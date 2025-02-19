@@ -36,7 +36,7 @@ const ListLayout = ({ title, items, category, section, subsection }: ListLayoutP
   return (
     <div className="min-h-screen flex flex-col">
       {/* Fixed Navigation Header */}
-      <div className="fixed top-0 left-0 right-0 pt-[180px] px-8 border-b border-black bg-white z-20">
+      <div className="fixed top-0 left-0 right-0 pt-[155px] px-8 border-b border-black bg-white z-20">
         <div className="max-w-[2000px] mx-auto pb-12">
           <h2 className="text-black text-2xl tracking-[0.05em] font-bold">
             {title}
@@ -55,7 +55,7 @@ const ListLayout = ({ title, items, category, section, subsection }: ListLayoutP
         <div className="w-[35%]">
           <div 
             ref={listContainerRef}
-            className="pt-[280px] overflow-y-auto"
+            className="pt-[260px] overflow-y-auto"
             style={{ height: 'calc(100vh)' }}
           >
             <div className="divide-y divide-black">
