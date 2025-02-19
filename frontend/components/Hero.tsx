@@ -18,9 +18,9 @@ const Hero = () => {
       if (!ticking.current) {
         window.requestAnimationFrame(() => {
           if (backgroundRef.current) {
-            // Smoother transform with CSS transform3d and reduced movement on mobile
+            // Increased parallax effect on mobile, kept desktop the same
             const isMobile = window.innerWidth <= 768
-            const parallaxFactor = isMobile ? 0.15 : 0.5
+            const parallaxFactor = isMobile ? 0.35 : 0.5 // Increased from 0.15 to 0.35 for mobile
             backgroundRef.current.style.transform = `translate3d(0, ${lastScrollY.current * parallaxFactor}px, 0)`
           }
           ticking.current = false
