@@ -21,7 +21,7 @@ export default function SavedPage() {
     <section className="w-full min-h-screen">
       {/* Fixed Title Section */}
       <div className="fixed top-0 left-0 right-0 bg-white z-30">
-        <div className="mt-[165px] max-w-[2000px] mx-auto">
+        <div className="mt-[155px] max-w-[2000px] mx-auto">
           <div className="px-8">
             <h2 className="text-black text-2xl tracking-[0.05em] font-bold">
               SAVED
@@ -45,7 +45,7 @@ export default function SavedPage() {
       </div>
 
       {/* Main Content - Grid Layout */}
-      <div className="mt-[280px]">
+      <div className="mt-[271px]">
         <div className="max-w-[2000px] mx-auto">
           <div className="grid grid-cols-4 mobile:grid-cols-4 tablet:grid-cols-6 desktop:grid-cols-8 border-t border-black">
             {savedItems.map((_, i) => (
@@ -60,9 +60,11 @@ export default function SavedPage() {
                   fill
                   className="object-cover opacity-90 hover:opacity-100 transition-opacity"
                 />
-                <span className="absolute bottom-3 left-3 text-[10px] font-semibold tracking-[0.15em] opacity-0 group-hover:opacity-100 transition-opacity">
-                  ITEM {i + 1}
-                </span>
+                <div className="absolute inset-0 flex items-center justify-center">
+                  <span className="text-[10px] font-semibold tracking-[0.15em] opacity-0 group-hover:opacity-100 transition-opacity">
+                    ITEM {i + 1}
+                  </span>
+                </div>
               </Link>
             ))}
           </div>

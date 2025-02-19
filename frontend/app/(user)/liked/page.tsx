@@ -59,9 +59,11 @@ export default function LikedPage() {
                   fill
                   className="object-cover opacity-90 hover:opacity-100 transition-opacity"
                 />
-                <span className="absolute bottom-3 left-3 text-[10px] font-semibold tracking-[0.15em] opacity-0 group-hover:opacity-100 transition-opacity">
-                  ITEM {i + 1}
-                </span>
+                <div className="absolute inset-0 flex items-center justify-center">
+                  <span className="text-[10px] font-semibold tracking-[0.15em] opacity-0 group-hover:opacity-100 transition-opacity">
+                    ITEM {i + 1}
+                  </span>
+                </div>
               </Link>
             ))}
           </div>
