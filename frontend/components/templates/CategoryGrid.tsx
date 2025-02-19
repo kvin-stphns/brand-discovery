@@ -57,7 +57,7 @@ export default function CategoryGrid({
     <section className="w-full min-h-screen">
       {/* Fixed Title Section */}
       <div className="fixed top-0 left-0 right-0 bg-white z-30">
-        <div className="mt-[180px] max-w-[2000px] mx-auto">
+        <div className="mt-[165px] max-w-[2000px] mx-auto">
           <div className="px-8">
             <h2 className="text-black text-2xl tracking-[0.05em] font-bold">
               {title}
@@ -73,7 +73,7 @@ export default function CategoryGrid({
       </div>
 
       {/* Main Content */}
-      <div className="mt-[260px]">
+      <div className="mt-[246px]">
         <div className="max-w-[2000px] mx-auto">
           <div className="grid grid-cols-2 mobile:grid-cols-2 tablet:grid-cols-3 desktop:grid-cols-4">
             {isDiscoverPage ? (
