@@ -1,5 +1,5 @@
 'use client'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
 
@@ -9,11 +9,19 @@ export default function SavedPage() {
   const [filter, setFilter] = useState<FilterType>('all')
   const [savedItems] = useState(Array(32).fill(null))
 
+  useEffect(() => {
+    // Disable overscroll bounce
+    document.body.style.overscrollBehavior = 'none'
+    return () => {
+      document.body.style.overscrollBehavior = ''
+    }
+  }, [])
+
   return (
     <section className="w-full min-h-screen">
       {/* Fixed Title Section */}
       <div className="fixed top-0 left-0 right-0 bg-white z-30">
-        <div className="mt-[180px] max-w-[2000px] mx-auto">
+        <div className="mt-[165px] max-w-[2000px] mx-auto">
           <div className="px-8">
             <h2 className="text-black text-2xl tracking-[0.05em] font-bold">
               SAVED
@@ -37,9 +45,9 @@ export default function SavedPage() {
       </div>
 
       {/* Main Content - Grid Layout */}
-      <div className="mt-[260px]">
+      <div className="mt-[280px]">
         <div className="max-w-[2000px] mx-auto">
-          <div className="grid grid-cols-4 mobile:grid-cols-4 tablet:grid-cols-6 desktop:grid-cols-8">
+          <div className="grid grid-cols-4 mobile:grid-cols-4 tablet:grid-cols-6 desktop:grid-cols-8 border-t border-black">
             {savedItems.map((_, i) => (
               <Link
                 key={i}
