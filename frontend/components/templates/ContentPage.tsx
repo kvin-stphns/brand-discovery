@@ -1,0 +1,27 @@
+'use client'
+
+interface ContentPageProps {
+  title: string
+  children: React.ReactNode
+}
+
+export default function ContentPage({ title, children }: ContentPageProps) {
+  return (
+    <section className="w-full min-h-screen">
+      <div className="fixed top-0 left-0 right-0 bg-white z-30">
+        <div className="mt-[155px] max-w-[2000px] mx-auto">
+          <div className="px-8">
+            <h2 className="text-black text-2xl tracking-[0.05em] font-bold">
+              {title}
+            </h2>
+          </div>
+        </div>
+        <div className="max-w-[2000px] mx-auto border-t border-black mt-12" />
+      </div>
+
+      <div className="mt-[276px] max-w-[1200px] mx-auto px-8">
+        {children}
+      </div>
+    </section>
+  )
+} 
