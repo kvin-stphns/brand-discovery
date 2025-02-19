@@ -138,7 +138,7 @@ const MegaMenu = ({ category }: MegaMenuProps) => {
                             {({ active }) => (
                               <Link
                                 href={`/${link.toLowerCase().replace(' ', '-')}`}
-                                className="block px-12 py-2 text-sm tracking-[0.25em] hover:text-gray-500 transition-colors"
+                                className="block px-12 py-2 text-xs font-light tracking-[0.25em] hover:text-gray-500 transition-colors"
                                 onClick={() => setIsMenuOpen(false)}
                               >
                                 {link}
