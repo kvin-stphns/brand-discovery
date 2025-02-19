@@ -2,7 +2,7 @@
 
 interface ContentPageProps {
   title: string
-  subtitle?: string
+  subtitle?: string | React.ReactNode
   children: React.ReactNode
 }
 
