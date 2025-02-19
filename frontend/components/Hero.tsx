@@ -8,12 +8,24 @@ const Hero = () => {
   const [opacity, setOpacity] = useState(1)
   const buttonRef = useRef<HTMLDivElement>(null)
   const backgroundRef = useRef<HTMLDivElement>(null)
+  const lastScrollY = useRef(0)
+  const ticking = useRef(false)
 
   useEffect(() => {
     const handleScroll = () => {
-      const position = window.scrollY
-      if (backgroundRef.current) {
-        backgroundRef.current.style.transform = `translateY(${position * 0.5}px)`
+      lastScrollY.current = window.scrollY
+
+      if (!ticking.current) {
+        window.requestAnimationFrame(() => {
+          if (backgroundRef.current) {
+            // Smoother transform with CSS transform3d and reduced movement on mobile
+            const isMobile = window.innerWidth <= 768
+            const parallaxFactor = isMobile ? 0.15 : 0.5
+            backgroundRef.current.style.transform = `translate3d(0, ${lastScrollY.current * parallaxFactor}px, 0)`
+          }
+          ticking.current = false
+        })
+        ticking.current = true
       }
     }
 
@@ -47,7 +59,15 @@ const Hero = () => {
   return (
     <section className="relative w-full h-screen bg-white mt-[100px] overflow-hidden">
       {/* Background Image with Parallax */}
-      <div ref={backgroundRef} className="absolute inset-0 z-0 will-change-transform">
+      <div 
+        ref={backgroundRef} 
+        className="absolute inset-0 z-0 will-change-transform"
+        style={{ 
+          transform: 'translate3d(0, 0, 0)',
+          backfaceVisibility: 'hidden',
+          WebkitBackfaceVisibility: 'hidden'
+        }}
+      >
         <Image
           src="/hero-image.jpg"
           alt="Symmetrical Crowd"
