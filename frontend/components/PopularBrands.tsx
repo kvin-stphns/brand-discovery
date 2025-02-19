@@ -1,18 +1,55 @@
 'use client'
 import Image from 'next/image'
 import Link from 'next/link'
+import { useEffect, useRef } from 'react'
 
 const PopularBrands = () => {
+  const backgroundRef = useRef<HTMLDivElement>(null)
+  const lastScrollY = useRef(0)
+  const ticking = useRef(false)
+
+  useEffect(() => {
+    const handleScroll = () => {
+      lastScrollY.current = window.scrollY
+
+      if (!ticking.current) {
+        window.requestAnimationFrame(() => {
+          if (backgroundRef.current) {
+            const isMobile = window.innerWidth <= 768
+            const parallaxFactor = isMobile ? 0.15 : 0.25 // Gentler parallax effect
+            const yOffset = lastScrollY.current * parallaxFactor
+            backgroundRef.current.style.transform = `translate3d(0, ${yOffset}px, 0)`
+          }
+          ticking.current = false
+        })
+        ticking.current = true
+      }
+    }
+
+    window.addEventListener('scroll', handleScroll, { passive: true })
+    return () => window.removeEventListener('scroll', handleScroll)
+  }, [])
+
   return (
-    <section className="relative py-20">
-      <div className="absolute inset-0">
+    <section className="relative py-20 overflow-hidden">
+      <div 
+        ref={backgroundRef}
+        className="absolute inset-0 will-change-transform"
+        style={{ 
+          transform: 'translate3d(0, 0, 0)',
+          backfaceVisibility: 'hidden',
+          WebkitBackfaceVisibility: 'hidden',
+          top: '-50%', // Moved up by 50%
+          height: '150%' // Increased height to compensate for higher positioning
+        }}
+      >
         <Image
-          src="/popular-bg.jpg"
+          src="/popular-bg-5.jpg"
           alt="Popular Background"
           fill
           quality={100}
           sizes="100vw"
-          className="object-cover object-center"
+          className="object-cover object-center scale-110" // Slight scale up to prevent edge visibility
           priority
         />
       </div>
