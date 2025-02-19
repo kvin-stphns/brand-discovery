@@ -201,7 +201,7 @@ export default function SubmissionsPage() {
         </>
       }
     >
-      <div className="max-w-3xl mx-auto py-8">
+      <div className="max-w-3xl mx-auto py-8 md:py-8 py-16">
         <div className="mb-8 p-4 bg-gray-50 border border-black/10">
           <div className="flex items-start gap-3">
             <AlertCircle className="w-5 h-5 text-gray-500 mt-0.5" />
@@ -350,7 +350,11 @@ export default function SubmissionsPage() {
             type="submit"
             className="w-full p-3 border border-black hover:bg-black/80 hover:backdrop-blur-sm hover:text-[#4FFFF4] hover:border-[#4FFFF4] text-sm tracking-[0.25em] bg-black/100 text-white transition-all duration-300"
           >
-            {currentStep === steps.length - 1 ? 'SUBMIT FOR REVIEW' : 'NEXT'}
+            {currentStep === steps.length - 1 
+              ? submissionType === 'paid' 
+                ? 'PROCEED TO PAYMENT' 
+                : 'SUBMIT FOR REVIEW' 
+              : 'NEXT'}
           </button>
         </form>
       </div>
