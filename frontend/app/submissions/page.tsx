@@ -64,11 +64,46 @@ export default function SubmissionsPage() {
           helperText: 'Official brand name'
         },
         {
+          name: 'brandWebsite',
+          label: 'BRAND WEBSITE URL',
+          type: 'url',
+          required: true,
+          helperText: 'Main website with collection and product information'
+        },
+        {
+          name: 'brandInstagram',
+          label: 'BRAND INSTAGRAM URL',
+          type: 'url',
+          required: true,
+          helperText: 'Official brand Instagram profile'
+        },
+        {
           name: 'designerName',
           label: 'DESIGNER NAME',
           type: 'text',
           required: true,
           helperText: 'Designer\'s full name'
+        },
+        {
+          name: 'designerWebsite',
+          label: 'DESIGNER WEBSITE URL',
+          type: 'url',
+          required: false,
+          helperText: 'Designer\'s personal or portfolio website (optional)'
+        },
+        {
+          name: 'designerInstagram',
+          label: 'DESIGNER INSTAGRAM URL',
+          type: 'url',
+          required: false,
+          helperText: 'Designer\'s personal Instagram profile (optional)'
+        },
+        {
+          name: 'designerEmail',
+          label: 'DESIGNER EMAIL',
+          type: 'email',
+          required: false,
+          helperText: 'Designer\'s contact email (optional)'
         }
       ] : [
         {
@@ -79,6 +114,24 @@ export default function SubmissionsPage() {
           helperText: formData.type === 'Brand' ? 'Official brand name' : 'Designer\'s full name'
         }
       ]
+    }
+
+    const categoryField = {
+      name: 'category',
+      label: 'PRIMARY CATEGORY',
+      type: 'select',
+      options: ['High Fashion', 'Streetwear', 'High Fashion Streetwear Hybrid', 'Avant-Garde', 'Other'],
+      required: true,
+      helperText: 'Main category that best describes the brand/designer'
+    }
+
+    const otherCategoryField = {
+      name: 'otherCategory',
+      label: 'SPECIFY CATEGORY',
+      type: 'text',
+      required: formData.category === 'Other',
+      helperText: 'Please specify the category that best describes your brand/designer',
+      placeholder: 'e.g., Sustainable Luxury, Contemporary Minimalist, etc.'
     }
 
     return [...baseSteps, step2, {
@@ -98,14 +151,8 @@ export default function SubmissionsPage() {
           required: true,
           helperText: 'Official Instagram profile'
         },
-        {
-          name: 'category',
-          label: 'PRIMARY CATEGORY',
-          type: 'select',
-          options: ['High Fashion', 'Streetwear', 'Avant-Garde'],
-          required: true,
-          helperText: 'Main category that best describes the brand/designer'
-        },
+        categoryField,
+        ...(formData.category === 'Other' ? [otherCategoryField] : []),
         {
           name: 'email',
           label: 'YOUR EMAIL',
