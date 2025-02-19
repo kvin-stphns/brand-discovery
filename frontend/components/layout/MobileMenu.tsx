@@ -141,7 +141,7 @@ export default function MobileMenu({ isOpen, onClose, items }: MobileMenuProps) 
                 <button
                   key={link}
                   onClick={() => handleBottomLinkClick(link)}
-                  className="w-full px-12 py-2 text-left text-sm tracking-[0.25em] hover:text-gray-500 transition-colors"
+                  className="w-full px-12 py-2 text-left text-xs font-light tracking-[0.25em] hover:text-gray-500 transition-colors"
                 >
                   {link}
                 </button>
