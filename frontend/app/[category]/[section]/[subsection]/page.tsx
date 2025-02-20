@@ -56,6 +56,7 @@ export default function CategoryPage({ params }: PageProps) {
       const type = types[i % 3]
       const brandType = brandTypes[i % brandTypes.length]
       const productType = productCategories[i % productCategories.length]
+      const brandName = `Brand${i + 1}`
       
       const getName = () => {
         switch (type) {
@@ -75,7 +76,7 @@ export default function CategoryPage({ params }: PageProps) {
           case 'brand':
             return `Trending: ${brandType} Brand`
           case 'product':
-            return `Trending: ${toSingular(productType)}`
+            return `Trending: ${brandName} ${toSingular(productType)}`
         }
       }
 
