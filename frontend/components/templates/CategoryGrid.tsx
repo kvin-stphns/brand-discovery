@@ -23,24 +23,67 @@ const shuffleArray = (array: any[]) => {
   return newArray
 }
 
+interface GridItem {
+  id: string
+  name: string
+  image: string
+  type: 'product' | 'brand' | 'designer' | 'mixed'
+  brand?: string
+  designer?: string
+  category?: string
+  price?: number
+  label?: string
+}
+
 interface CategoryGridProps {
-  items: any[]
+  items: GridItem[]
   title: string
   category?: string
   section?: string
   subsection?: string
   subtitle?: string
   isDiscoverPage?: boolean
+  gridType?: 'mixed' | 'brand' | 'designer' | 'product'
 }
 
-export default function CategoryGrid({ 
-  items, 
-  title, 
-  category, 
-  section, 
+const getItemHref = (item: GridItem, category: string) => {
+  switch (item.type) {
+    case 'product':
+      return `/product/${item.id}`
+    case 'brand':
+      return `/${category}/brands/${item.name.toLowerCase().replace(' ', '-')}`
+    case 'designer':
+      return `/${category}/designers/${item.name.toLowerCase().replace(' ', '-')}`
+    default:
+      return '#'
+  }
+}
+
+const getGridItemType = (section: string, subsection?: string) => {
+  switch (section.toLowerCase()) {
+    case 'categories':
+      return 'product'
+    case 'brands':
+      return 'brand'
+    case 'designers':
+      return 'designer'
+    case 'discover':
+    case 'rankings':
+      return 'mixed'
+    default:
+      return 'product'
+  }
+}
+
+export default function CategoryGrid({
+  items,
+  title,
+  category,
+  section,
   subsection,
   subtitle,
-  isDiscoverPage = false 
+  isDiscoverPage = false,
+  gridType
 }: CategoryGridProps) {
   const [exploreLinks, setExploreLinks] = useState(allExploreLinks)
 
@@ -109,7 +152,7 @@ export default function CategoryGrid({
               items.map((item, i) => (
                 <Link
                   key={item.id}
-                  href={item.href}
+                  href={getItemHref(item, category || '')}
                   className={`group relative h-[500px] flex items-center justify-center border-r border-b border-black last:border-r-0 tablet:last:border-r ${
                     i >= 6 ? 'tablet:hidden desktop:flex' : ''
                   }`}
@@ -125,9 +168,9 @@ export default function CategoryGrid({
                     <p className="text-xs font-semibold tracking-[0.15em]">
                       {item.name.toUpperCase()}
                     </p>
-                    {item.brand && (
+                    {item.label && (
                       <p className="text-xs tracking-[0.15em] text-gray-700">
-                        {item.brand}
+                        {item.label}
                       </p>
                     )}
                   </div>

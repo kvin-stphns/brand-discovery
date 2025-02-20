@@ -120,7 +120,7 @@ export default function SubmissionsPage() {
       name: 'category',
       label: 'PRIMARY CATEGORY',
       type: 'select',
-      options: ['High Fashion', 'Streetwear', 'High Fashion Streetwear Hybrid', 'Avant-Garde', 'Other'],
+      options: ['High Fashion', 'Streetwear', 'Hybrid', 'Techwear', 'Workwear', 'Avant-Garde', 'Other'],
       required: true,
       helperText: 'Main category that best describes the brand/designer'
     }
