@@ -35,7 +35,7 @@ export default function ProductPage() {
   return (
     <>
       {/* Breadcrumb - Attached to Nav */}
-      <div className="fixed top-[100px] left-0 right-0 bg-white z-[1000] h-[40px] border-y border-black">
+      <div className="fixed top-[98px] lg:top-[103px] md:top-[103px] left-0 right-0 bg-white z-[1000] h-[40px] border-y border-black pt-[2px] md:pt-0">
         <div className="max-w-[2000px] mx-auto h-full flex items-center px-8">
           <Link href="/" className="text-xs tracking-[0.15em] text-gray-500 hover:text-black transition-colors">
             HOME
@@ -49,7 +49,7 @@ export default function ProductPage() {
         </div>
       </div>
 
-      <main className="min-h-screen bg-white pt-[140px]">
+      <main className={`min-h-screen bg-white ${isMobile ? 'pt-[137px]' : 'pt-[140px]'}`}>
         <div className="max-w-[2000px] mx-auto flex flex-col md:flex-row">
           {/* Left side - Images */}
           <div className={`${isMobile ? 'w-full' : 'w-[40%]'} relative`}>
