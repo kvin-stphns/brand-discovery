@@ -72,7 +72,7 @@ export const getFormattedLabel = (type: string, section: string, brandType?: Bra
   if (section.toLowerCase() === 'lookbooks') {
     switch (type) {
       case 'designer':
-        return 'Designer Collection'
+        return `${brandType} Designer Collection`
       case 'brand':
         return `${brandType} Collection`
       case 'product':
@@ -83,7 +83,7 @@ export const getFormattedLabel = (type: string, section: string, brandType?: Bra
   // Regular section labeling
   switch (type) {
     case 'designer':
-      return `${sectionLabel}: Designer`
+      return `${sectionLabel}: ${brandType} Designer`
     case 'brand':
       return `${sectionLabel}: ${brandType} Brand`
     case 'product':
