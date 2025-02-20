@@ -61,7 +61,7 @@ const MegaMenu = ({ category }: MegaMenuProps) => {
     if (formattedLink === 'view-all') {
       return `/${category.toLowerCase()}/brands/view-all`
     }
-    return `/${category.toLowerCase()}/brands/collections/${formattedLink}`
+    return `/${category.toLowerCase()}/brands/${formattedLink}`
   }
 
   const getDiscoverHref = (link: string) => {
@@ -70,6 +70,30 @@ const MegaMenu = ({ category }: MegaMenuProps) => {
       return `/${category.toLowerCase()}/discover/view-all`
     }
     return `/${category.toLowerCase()}/discover/${formattedLink}`
+  }
+
+  const getCategoriesHref = (link: string) => {
+    const formattedLink = link.toLowerCase().replace(' ', '-')
+    if (formattedLink === 'view-all') {
+      return `/${category.toLowerCase()}/categories/view-all`
+    }
+    return `/${category.toLowerCase()}/categories/${formattedLink}`
+  }
+
+  const getDesignersHref = (link: string) => {
+    const formattedLink = link.toLowerCase().replace(' ', '-')
+    if (formattedLink === 'view-all') {
+      return `/${category.toLowerCase()}/designers/view-all`
+    }
+    return `/${category.toLowerCase()}/designers/${formattedLink}`
+  }
+
+  const getRankingsHref = (link: string) => {
+    const formattedLink = link.toLowerCase().replace(' ', '-')
+    if (formattedLink === 'view-all') {
+      return `/${category.toLowerCase()}/rankings/view-all`
+    }
+    return `/${category.toLowerCase()}/rankings/${formattedLink}`
   }
 
   useEffect(() => {
@@ -244,7 +268,7 @@ const MegaMenu = ({ category }: MegaMenuProps) => {
                     {categoryLinks.map((link) => (
                       <Link
                         key={link}
-                        href={`/${category.toLowerCase()}/categories/${link.toLowerCase().replace(' ', '-')}`}
+                        href={getCategoriesHref(link)}
                         className="block px-12 py-4 text-sm tracking-[0.25em] hover:text-gray-500 transition-colors"
                         onClick={() => {
                           setShowCategoriesMenu(false)
@@ -274,7 +298,7 @@ const MegaMenu = ({ category }: MegaMenuProps) => {
                     {designerLinks.map((link) => (
                       <Link
                         key={link}
-                        href={`/${category.toLowerCase()}/designers/${link.toLowerCase().replace(' ', '-')}`}
+                        href={getDesignersHref(link)}
                         className="block px-12 py-4 text-sm tracking-[0.25em] hover:text-gray-500 transition-colors"
                         onClick={() => {
                           setShowDesignersMenu(false)
@@ -304,7 +328,7 @@ const MegaMenu = ({ category }: MegaMenuProps) => {
                     {rankingLinks.map((link) => (
                       <Link
                         key={link}
-                        href={`/${category.toLowerCase()}/rankings/${link.toLowerCase().replace(' ', '-')}`}
+                        href={getRankingsHref(link)}
                         className="block px-12 py-4 text-sm tracking-[0.25em] hover:text-gray-500 transition-colors"
                         onClick={() => {
                           setShowRankingsMenu(false)
