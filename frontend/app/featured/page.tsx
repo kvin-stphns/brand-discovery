@@ -13,6 +13,16 @@ const brandTypes = [
 
 const productCategories = ['Tops', 'Bottoms', 'Outerwear', 'Accessories'] as const
 
+const toSingular = (word: string) => {
+  switch (word.toLowerCase()) {
+    case 'accessories': return 'Accessory'
+    case 'tops': return 'Top'
+    case 'bottoms': return 'Bottom'
+    case 'outerwear': return 'Outerwear'
+    default: return word
+  }
+}
+
 export default function FeaturedPage() {
   const items = Array.from({ length: 8 }).map((_, i) => {
     const types = ['product', 'brand', 'designer'] as const
@@ -33,7 +43,7 @@ export default function FeaturedPage() {
         ? `Featured: ${brandType} Designer`
         : type === 'brand'
         ? `Featured: ${brandType} Brand`
-        : `Featured: ${brandName} ${productType}`
+        : `Featured: ${brandName} ${toSingular(productType)}`
     }
   })
 
