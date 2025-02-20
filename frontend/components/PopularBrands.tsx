@@ -39,7 +39,7 @@ const PopularBrands = () => {
     const designerName = `Designer ${i + 1}`
 
     return {
-      id: `item-${i}`,
+      id: `item-${i + 1}`,
       type,
       name: `${type} ${i + 1}`,
       label: type === 'designer' 
