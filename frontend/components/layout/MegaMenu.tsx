@@ -56,6 +56,22 @@ const MegaMenu = ({ category }: MegaMenuProps) => {
     }
   }
 
+  const getBrandsHref = (link: string) => {
+    const formattedLink = link.toLowerCase().replace(' ', '-')
+    if (formattedLink === 'view-all') {
+      return `/${category.toLowerCase()}/brands/view-all`
+    }
+    return `/${category.toLowerCase()}/brands/collections/${formattedLink}`
+  }
+
+  const getDiscoverHref = (link: string) => {
+    const formattedLink = link.toLowerCase().replace(' ', '-')
+    if (formattedLink === 'view-all') {
+      return `/${category.toLowerCase()}/discover/view-all`
+    }
+    return `/${category.toLowerCase()}/discover/${formattedLink}`
+  }
+
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       const target = event.target as HTMLElement
@@ -168,7 +184,7 @@ const MegaMenu = ({ category }: MegaMenuProps) => {
                     {discoverLinks.map((link) => (
                       <Link
                         key={link}
-                        href={`/explore/discover/${link.toLowerCase().replace(' ', '-')}`}
+                        href={getDiscoverHref(link)}
                         className="block px-12 py-4 text-sm tracking-[0.25em] hover:text-gray-500 transition-colors"
                         onClick={() => {
                           setShowDiscoverMenu(false)
@@ -198,7 +214,7 @@ const MegaMenu = ({ category }: MegaMenuProps) => {
                     {brandLinks.map((link) => (
                       <Link
                         key={link}
-                        href={`/${category.toLowerCase()}/brands/${link.toLowerCase().replace(' ', '-')}`}
+                        href={getBrandsHref(link)}
                         className="block px-12 py-4 text-sm tracking-[0.25em] hover:text-gray-500 transition-colors"
                         onClick={() => {
                           setShowBrandsMenu(false)
