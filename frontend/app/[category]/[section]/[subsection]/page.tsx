@@ -3,6 +3,7 @@
 import { useEffect } from 'react'
 import CategoryGrid from '@/components/templates/CategoryGrid'
 import ListLayout from '@/components/templates/ListLayout'
+import { getFormattedName, getFormattedLabel } from '@/types/gridItems'
 
 interface PageProps {
   params: {
@@ -58,37 +59,30 @@ export default function CategoryPage({ params }: PageProps) {
       const productType = productCategories[i % productCategories.length]
       const brandName = `Brand${i + 1}`
       
-      const getName = () => {
-        switch (type) {
-          case 'designer':
-            return `${toSingular(category)} Designer ${i + 1}`
-          case 'brand':
-            return `${toSingular(category)} Brand ${i + 1}`
-          case 'product':
-            return `${toSingular(category)} ${toSingular(productType)} ${i + 1}`
+      // Special handling for lookbooks section
+      if (subsection.toLowerCase() === 'lookbooks') {
+        return {
+          id: `item-${i}`,
+          type,
+          name: getFormattedName(type, category, subsection, i),
+          image: `/placeholders/product-${(i % 4) + 1}.jpg`,
+          category: type === 'product' ? 'Collection' : undefined,
+          brand: type === 'product' ? brandName : undefined,
+          designer: type === 'product' ? `Designer ${i + 1}` : undefined,
+          label: getFormattedLabel(type, subsection, brandType, productType, brandName)
         }
       }
 
-      const getLabel = () => {
-        switch (type) {
-          case 'designer':
-            return `Trending: Designer`
-          case 'brand':
-            return `Trending: ${brandType} Brand`
-          case 'product':
-            return `Trending: ${brandName} ${toSingular(productType)}`
-        }
-      }
-
+      // Regular section handling
       return {
         id: `item-${i}`,
         type,
-        name: getName(),
+        name: getFormattedName(type, category, subsection, i),
         image: `/placeholders/product-${(i % 4) + 1}.jpg`,
         category: type === 'product' ? toSingular(productType) : `${toSingular(category)} / ${subsection}`,
-        brand: type === 'product' ? `${toSingular(category)} Brand` : undefined,
-        designer: type === 'product' ? `${toSingular(category)} Designer` : undefined,
-        label: getLabel()
+        brand: type === 'product' ? brandName : undefined,
+        designer: type === 'product' ? `Designer ${i + 1}` : undefined,
+        label: getFormattedLabel(type, subsection, brandType, productType, brandName)
       }
     })
   }
