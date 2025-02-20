@@ -1,3 +1,5 @@
+import { Location } from './locations'
+
 type BrandType = 'Streetwear' | 'High Fashion' | 'Avant Garde' | 'Hybrid' | 'Techwear' | 'Workwear' | 'Other'
 type ProductCategory = 'Tops' | 'Bottoms' | 'Outerwear' | 'Accessories' | 'Footwear'
 
@@ -13,7 +15,13 @@ const toSingular = (word: string) => {
   }
 }
 
-export const getFormattedName = (type: string, category: string, section: string, index: number) => {
+export const getFormattedName = (
+  type: string, 
+  category: string, 
+  section: string, 
+  index: number,
+  location?: Location
+) => {
   const baseCategory = toSingular(category)
   
   // Handle discover sections
@@ -30,7 +38,7 @@ export const getFormattedName = (type: string, category: string, section: string
 
   // Handle location-based sections
   if (section.toLowerCase() === 'location' || section.toLowerCase() === 'locations') {
-    return `${type.charAt(0).toUpperCase() + type.slice(1)} ${index + 1} from Location`
+    return `${type.charAt(0).toUpperCase() + type.slice(1)} ${index + 1} from ${location?.name || 'Location'}`
   }
 
   // Handle lookbooks
@@ -65,9 +73,28 @@ export const getFormattedName = (type: string, category: string, section: string
   }
 }
 
-export const getFormattedLabel = (type: string, section: string, brandType?: BrandType, productType?: ProductCategory, brandName?: string) => {
+export const getFormattedLabel = (
+  type: string, 
+  section: string, 
+  brandType?: BrandType, 
+  productType?: ProductCategory, 
+  brandName?: string,
+  location?: Location
+) => {
   const sectionLabel = section.charAt(0).toUpperCase() + section.slice(1)
   
+  // Handle location-based sections
+  if (section.toLowerCase() === 'location' || section.toLowerCase() === 'locations') {
+    switch (type) {
+      case 'designer':
+        return `${location?.name}: ${brandType} Designer`
+      case 'brand':
+        return `${location?.name}: ${brandType} Brand`
+      case 'product':
+        return `${location?.name}: ${brandName} ${toSingular(productType || '')}`
+    }
+  }
+
   // Special case for lookbooks section
   if (section.toLowerCase() === 'lookbooks') {
     switch (type) {

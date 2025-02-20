@@ -4,6 +4,7 @@ import { useEffect } from 'react'
 import CategoryGrid from '@/components/templates/CategoryGrid'
 import ListLayout from '@/components/templates/ListLayout'
 import { getFormattedName, getFormattedLabel } from '@/types/gridItems'
+import { locations, type Location } from '@/types/locations'
 
 interface PageProps {
   params: {
@@ -51,6 +52,15 @@ export default function CategoryPage({ params }: PageProps) {
     'Other'
   ] as const
 
+  // Add location handling for specific sections
+  const getLocationForItem = (index: number) => {
+    if (!['discover', 'designers', 'rankings'].includes(section.toLowerCase()) || 
+        subsection.toLowerCase() !== 'location') {
+      return undefined
+    }
+    return locations[index % locations.length]
+  }
+
   const getMixedItems = () => {
     return Array(20).fill(null).map((_, i) => {
       const types = ['product', 'brand', 'designer'] as const
@@ -58,31 +68,17 @@ export default function CategoryPage({ params }: PageProps) {
       const brandType = brandTypes[i % brandTypes.length]
       const productType = productCategories[i % productCategories.length]
       const brandName = `Brand${i + 1}`
+      const location = getLocationForItem(i)
       
-      // Special handling for lookbooks section
-      if (subsection.toLowerCase() === 'lookbooks') {
-        return {
-          id: `item-${i}`,
-          type,
-          name: getFormattedName(type, category, subsection, i),
-          image: `/placeholders/product-${(i % 4) + 1}.jpg`,
-          category: type === 'product' ? 'Collection' : undefined,
-          brand: type === 'product' ? brandName : undefined,
-          designer: type === 'product' ? `Designer ${i + 1}` : undefined,
-          label: getFormattedLabel(type, subsection, brandType, productType, brandName)
-        }
-      }
-
-      // Regular section handling
       return {
         id: `item-${i}`,
         type,
-        name: getFormattedName(type, category, subsection, i),
+        name: getFormattedName(type, category, subsection, i, location),
         image: `/placeholders/product-${(i % 4) + 1}.jpg`,
         category: type === 'product' ? toSingular(productType) : `${toSingular(category)} / ${subsection}`,
         brand: type === 'product' ? brandName : undefined,
         designer: type === 'product' ? `Designer ${i + 1}` : undefined,
-        label: getFormattedLabel(type, subsection, brandType, productType, brandName)
+        label: getFormattedLabel(type, subsection, brandType, productType, brandName, location)
       }
     })
   }
