@@ -88,17 +88,48 @@ export default function CategoryPage({ params }: PageProps) {
   }
 
   const getRegularItems = () => {
-    return Array(20).fill(null).map((_, i) => ({
-      id: `item-${i}`,
-      name: section === 'categories' 
-        ? `${subsection} ${i + 1}` 
-        : `${section.slice(0, -1)} ${i + 1}`,
-      type: getItemType(),
-      category: subsection,
-      image: `/placeholders/product-${(i % 4) + 1}.jpg`,
-      brand: section === 'categories' ? subsection : undefined,
-      designer: section === 'categories' ? `Designer ${i + 1}` : undefined
-    }))
+    const type = getItemType()
+    
+    return Array(20).fill(null).map((_, i) => {
+      const brandType = brandTypes[i % brandTypes.length]
+      const brandName = `Brand${i + 1}`
+
+      // Handle brand sections
+      if (type === 'brand') {
+        return {
+          id: `item-${i}`,
+          type,
+          name: getFormattedName(type, category, subsection, i),
+          image: `/placeholders/product-${(i % 4) + 1}.jpg`,
+          category: `${toSingular(category)} / ${subsection}`,
+          label: `${subsection}: ${brandType} Brand`
+        }
+      }
+
+      // Handle designer sections
+      if (type === 'designer') {
+        return {
+          id: `item-${i}`,
+          type,
+          name: getFormattedName(type, category, subsection, i),
+          image: `/placeholders/product-${(i % 4) + 1}.jpg`,
+          category: `${toSingular(category)} / ${subsection}`,
+          label: `${subsection}: Designer`
+        }
+      }
+
+      // Handle product sections
+      return {
+        id: `item-${i}`,
+        name: `${toSingular(category)} ${subsection} ${i + 1}`,
+        type,
+        category: subsection,
+        image: `/placeholders/product-${(i % 4) + 1}.jpg`,
+        brand: brandName,
+        designer: `Designer ${i + 1}`,
+        label: `${subsection}: ${brandName} ${toSingular(subsection)}`
+      }
+    })
   }
 
   const items = ['discover', 'rankings'].includes(section.toLowerCase())
