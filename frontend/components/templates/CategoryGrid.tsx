@@ -85,11 +85,10 @@ export default function CategoryGrid({
         <div className="max-w-[2000px] mx-auto">
           <div className="grid grid-cols-2 mobile:grid-cols-2 tablet:grid-cols-3 desktop:grid-cols-4">
             {isDiscoverPage ? (
-              // Discover page layout
               exploreLinks.map((link, i) => (
                 <Link
                   key={i}
-                  href={`/${link.category}/${link.name.toLowerCase().replace(' ', '-')}`}
+                  href={`/explore/discover/${link.name.toLowerCase().replace(' ', '-')}`}
                   className={`group relative h-[500px] flex items-center justify-center border-r border-b border-black last:border-r-0 tablet:last:border-r ${
                     i >= 6 ? 'tablet:hidden desktop:flex' : ''
                   }`}
@@ -107,7 +106,6 @@ export default function CategoryGrid({
                 </Link>
               ))
             ) : (
-              // Category-specific layout
               items.map((item, i) => (
                 <Link
                   key={item.id}
