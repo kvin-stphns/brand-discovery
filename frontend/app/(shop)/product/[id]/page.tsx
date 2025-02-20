@@ -7,10 +7,19 @@ import { Heart, Bookmark, ChevronRight } from 'lucide-react'
 export default function ProductPage() {
   const [selectedImage, setSelectedImage] = useState(0)
   const [selectedSize, setSelectedSize] = useState('')
+  const [isMobile, setIsMobile] = useState(false)
   
   useEffect(() => {
+    // Handle mobile detection and viewport adjustments
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth <= 768)
+    }
+    checkMobile()
+    window.addEventListener('resize', checkMobile)
     document.body.style.overscrollBehavior = 'none'
+    
     return () => {
+      window.removeEventListener('resize', checkMobile)
       document.body.style.overscrollBehavior = ''
     }
   }, [])
@@ -25,52 +34,44 @@ export default function ProductPage() {
 
   return (
     <>
-      {/* Breadcrumb */}
-      <div className="fixed top-[100px] left-0 right-0 bg-white z-40">
-        <div className="h-[40px] border-y border-black">
-          <div className="max-w-[2000px] mx-auto h-full flex items-center px-8">
-            <Link href="/" className="text-xs tracking-[0.15em] text-gray-500 hover:text-black transition-colors">
-              HOME
-            </Link>
-            <ChevronRight className="w-3 h-3 mx-2 text-gray-400" />
-            <Link href="/discover" className="text-xs tracking-[0.15em] text-gray-500 hover:text-black transition-colors">
-              DISCOVER
-            </Link>
-            <ChevronRight className="w-3 h-3 mx-2 text-gray-400" />
-            <span className="text-xs tracking-[0.15em]">PRODUCT NAME</span>
-          </div>
+      {/* Breadcrumb - Attached to Nav */}
+      <div className="fixed top-[100px] left-0 right-0 bg-white z-[1000] h-[40px] border-y border-black">
+        <div className="max-w-[2000px] mx-auto h-full flex items-center px-8">
+          <Link href="/" className="text-xs tracking-[0.15em] text-gray-500 hover:text-black transition-colors">
+            HOME
+          </Link>
+          <ChevronRight className="w-3 h-3 mx-2 text-gray-400" />
+          <Link href="/discover" className="text-xs tracking-[0.15em] text-gray-500 hover:text-black transition-colors">
+            DISCOVER
+          </Link>
+          <ChevronRight className="w-3 h-3 mx-2 text-gray-400" />
+          <span className="text-xs tracking-[0.15em]">PRODUCT NAME</span>
         </div>
       </div>
 
-      <div className="min-h-screen bg-white pt-[140px]">
-        <div className="max-w-[2000px] mx-auto flex border-t border-black">
-          {/* Left side - Images (40%) */}
-          <div className="w-[40%] pr-8 sticky top-[140px] h-[calc(100vh-140px)] flex flex-col">
-            <div className="relative flex-1 border-b border-black">
-              <Image
-                src={images[selectedImage]}
-                alt="Product Image"
-                fill
-                className="object-contain"
-                priority
-              />
-            </div>
-            
-            <div className="flex h-20 relative">
-              {/* Background grid lines that span full width */}
-              <div className="absolute inset-0 flex">
-                {Array(images.length).fill(null).map((_, i) => (
-                  <div key={i} className="flex-1 border-r border-black last:border-r-0" />
-                ))}
+      <main className="min-h-screen bg-white pt-[140px]">
+        <div className="max-w-[2000px] mx-auto flex flex-col md:flex-row">
+          {/* Left side - Images */}
+          <div className={`${isMobile ? 'w-full' : 'w-[40%]'} relative`}>
+            <div className={`${isMobile ? '' : 'sticky top-[140px]'} h-[calc(100vh-140px)] flex flex-col justify-between pr-8`}>
+              {/* Preview Image */}
+              <div className="relative flex-1">
+                <Image
+                  src={images[selectedImage]}
+                  alt="Product Image"
+                  fill
+                  className="object-contain"
+                  priority
+                />
               </div>
               
               {/* Thumbnails */}
-              <div className="flex w-full relative">
+              <div className="h-20 grid grid-cols-4 border-t border-black mt-4 -mr-8">
                 {images.map((img, index) => (
                   <button
                     key={index}
                     onClick={() => setSelectedImage(index)}
-                    className={`relative flex-1 aspect-[3/4] 
+                    className={`relative border-r last:border-r-0 border-black
                       ${selectedImage === index ? 'ring-1 ring-black' : 'opacity-50 hover:opacity-100'}`}
                   >
                     <Image
@@ -86,10 +87,10 @@ export default function ProductPage() {
           </div>
 
           {/* Vertical Divider */}
-          <div className="w-px bg-black h-auto" />
+          <div className="hidden md:block w-px bg-black" />
 
-          {/* Right side - Product Info (60%) */}
-          <div className="w-[60%] pl-8">
+          {/* Product Info Section */}
+          <div className={`${isMobile ? 'w-full px-4 pb-32 border-t border-black' : 'w-[60%] pl-8'}`}>
             <div className="max-w-2xl pt-6">
               {/* Header with actions */}
               <div className="flex justify-between items-start mb-6">
@@ -122,11 +123,6 @@ export default function ProductPage() {
                 ))}
               </select>
 
-              {/* Add to Cart Button */}
-              <button className="w-full py-2.5 bg-black text-white hover:bg-black/80 transition-colors tracking-[0.15em] text-sm mb-8">
-                ADD TO CART
-              </button>
-
               {/* Product Details */}
               <div className="space-y-6 pb-20">
                 <div>
@@ -154,8 +150,17 @@ export default function ProductPage() {
               </div>
             </div>
           </div>
+
+          {/* Mobile Buy Button Overlay */}
+          {isMobile && (
+            <div className="fixed bottom-0 left-0 right-0 bg-white border-t border-black p-4 z-50">
+              <button className="w-full bg-black text-white py-4 text-sm tracking-[0.15em]">
+                ADD TO CART
+              </button>
+            </div>
+          )}
         </div>
-      </div>
+      </main>
     </>
   )
 } 
