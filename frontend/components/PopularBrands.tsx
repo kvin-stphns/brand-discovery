@@ -8,6 +8,48 @@ const PopularBrands = () => {
   const lastScrollY = useRef(0)
   const ticking = useRef(false)
 
+  const brandTypes = [
+    'Streetwear',
+    'High Fashion',
+    'Avant Garde',
+    'Hybrid',
+    'Techwear',
+    'Workwear',
+    'Other'
+  ] as const
+
+  const productCategories = ['Tops', 'Bottoms', 'Outerwear', 'Accessories'] as const
+
+  const toSingular = (word: string) => {
+    switch (word.toLowerCase()) {
+      case 'accessories': return 'Accessory'
+      case 'tops': return 'Top'
+      case 'bottoms': return 'Bottom'
+      case 'outerwear': return 'Outerwear'
+      default: return word
+    }
+  }
+
+  const items = Array.from({ length: 6 }).map((_, i) => {
+    const types = ['product', 'brand', 'designer'] as const
+    const type = types[i % 3]
+    const brandType = brandTypes[i % brandTypes.length]
+    const productType = productCategories[i % productCategories.length]
+    const brandName = `Brand${i + 1}`
+    const designerName = `Designer ${i + 1}`
+
+    return {
+      id: `item-${i}`,
+      type,
+      name: `${type} ${i + 1}`,
+      label: type === 'designer' 
+        ? `${designerName}: ${brandType} Designer`
+        : type === 'brand'
+        ? `${brandName}: ${brandType} Brand`
+        : `${brandName}: ${toSingular(productType)}`
+    }
+  })
+
   useEffect(() => {
     const handleScroll = () => {
       lastScrollY.current = window.scrollY
@@ -71,19 +113,19 @@ const PopularBrands = () => {
 
         <div className="px-8 tablet:px-16 desktop:px-24">
           <div className="grid grid-cols-2 gap-4 tablet:gap-8">
-            {Array.from({ length: 6 }).map((_, i) => (
+            {items.map((item) => (
               <div
-                key={i}
+                key={item.id}
                 className="popular-brand rounded-xl bg-white/10 hover:bg-white/10 
                          backdrop-blur-sm hover:backdrop-blur-md transition-all duration-300 
                          aspect-[2/1] flex flex-col items-start justify-between p-4 tablet:p-8 
                          border border-transparent hover:border-[#4FFFF4]/50"
               >
                 <span className="text-[#4FFFF4] text-sm tracking-[0.25em] font-bold">
-                  {String(i + 1).padStart(2, '0')}
+                  {String(item.id.split('-')[1]).padStart(2, '0')}
                 </span>
                 <span className="text-[#4FFFF4] text-[10px] tablet:text-sm tracking-[0.25em] font-medium tablet:font-bold">
-                  POPULAR
+                  {item.label}
                 </span>
               </div>
             ))}
