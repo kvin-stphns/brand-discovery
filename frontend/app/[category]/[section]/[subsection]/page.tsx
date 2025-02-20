@@ -127,7 +127,7 @@ export default function CategoryPage({ params }: PageProps) {
         image: `/placeholders/product-${(i % 4) + 1}.jpg`,
         brand: brandName,
         designer: `Designer ${i + 1}`,
-        label: `${subsection}: ${brandName} ${toSingular(subsection)}`
+        label: `${brandName} ${toSingular(subsection)}`
       }
     })
   }
