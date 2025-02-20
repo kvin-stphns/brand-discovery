@@ -61,7 +61,7 @@ const PopularBrands = () => {
           </h2>
         </Link>
         <p className="px-8 text-xs tracking-[0.15em] text-[#4FFFF4] mb-2">
-          BRANDS & DESIGNERS
+          BRANDS, DESIGNERS, & PIECES
         </p>
         <p className="px-8 text-xs tracking-[0.05em] text-[#4FFFF4] mb-12">
           Trending and most viewed across the platform

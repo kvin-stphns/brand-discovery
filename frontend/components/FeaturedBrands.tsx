@@ -13,7 +13,7 @@ const FeaturedBrands = () => {
             </h2>
           </Link>
           <p className="text-xs tracking-[0.15em] text-gray-500 mb-2">
-            BRANDS & DESIGNERS
+            BRANDS, DESIGNERS, & PIECES
           </p>
           <p className="text-xs tracking-[0.05em] text-gray-500 mb-12">
             Curated selection of emerging talent and established innovators
