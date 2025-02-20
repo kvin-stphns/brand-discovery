@@ -90,8 +90,8 @@ export default function ProductPage() {
           <div className="hidden md:block w-px bg-black" />
 
           {/* Product Info Section */}
-          <div className={`${isMobile ? 'w-full px-4 pb-32 border-t border-black' : 'w-[60%] pl-8'}`}>
-            <div className="max-w-2xl pt-6">
+          <div className={`${isMobile ? 'w-full pb-32 border-t border-black' : 'w-[60%]'}`}>
+            <div className="max-w-2xl pt-6 px-8">
               {/* Header with actions */}
               <div className="flex justify-between items-start mb-6">
                 <div>
