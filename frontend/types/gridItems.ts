@@ -16,7 +16,24 @@ const toSingular = (word: string) => {
 export const getFormattedName = (type: string, category: string, section: string, index: number) => {
   const baseCategory = toSingular(category)
   
-  // Special case for lookbooks section
+  // Handle discover sections
+  if (section.toLowerCase() === 'discover') {
+    switch (type) {
+      case 'designer':
+        return `${baseCategory} Designer ${index + 1}`
+      case 'brand':
+        return `${baseCategory} Brand ${index + 1}`
+      case 'product':
+        return `${baseCategory} Product ${index + 1}`
+    }
+  }
+
+  // Handle location-based sections
+  if (section.toLowerCase() === 'location' || section.toLowerCase() === 'locations') {
+    return `${type.charAt(0).toUpperCase() + type.slice(1)} ${index + 1} from Location`
+  }
+
+  // Handle lookbooks
   if (section.toLowerCase() === 'lookbooks') {
     switch (type) {
       case 'designer':
@@ -28,16 +45,21 @@ export const getFormattedName = (type: string, category: string, section: string
     }
   }
 
-  // Regular section naming
+  // Handle rankings
+  if (['top-rated', 'recently-liked', 'most-liked', 'leaderboard'].includes(section.toLowerCase())) {
+    return `${baseCategory} ${section.split('-').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ')} ${type} ${index + 1}`
+  }
+
+  // Handle brand sections
+  if (['alphabetical', 'newest', 'featured', 'popular'].includes(section.toLowerCase())) {
+    return `${baseCategory} ${section.charAt(0).toUpperCase() + section.slice(1)} ${type} ${index + 1}`
+  }
+
+  // Regular section naming (including trending, spotlight)
   switch (section.toLowerCase()) {
     case 'spotlight':
-    case 'featured':
     case 'trending':
       return `${baseCategory} ${section} ${type} ${index + 1}`
-    case 'top-rated':
-    case 'recently-liked':
-    case 'most-liked':
-      return `${baseCategory} ${section.replace('-', ' ')} ${type} ${index + 1}`
     default:
       return `${baseCategory} ${type} ${index + 1}`
   }
