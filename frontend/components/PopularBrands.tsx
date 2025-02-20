@@ -37,6 +37,7 @@ const PopularBrands = () => {
     const productType = productCategories[i % productCategories.length]
     const brandName = `Brand${i + 1}`
     const designerName = `Designer ${i + 1}`
+    const productTitle = `Product ${i + 1}`
 
     return {
       id: `item-${i + 1}`,
@@ -46,7 +47,7 @@ const PopularBrands = () => {
         ? `${designerName}: ${brandType} Designer`
         : type === 'brand'
         ? `${brandName}: ${brandType} Brand`
-        : `${brandName}: ${toSingular(productType)}`
+        : `${productTitle}: ${brandName} ${toSingular(productType)}`
     }
   })
 
