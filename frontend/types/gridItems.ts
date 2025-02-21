@@ -118,4 +118,16 @@ export const getFormattedLabel = (
     default:
       return sectionLabel
   }
-} 
+}
+
+export const brandTypes = [
+  'Streetwear',
+  'High Fashion',
+  'Avant Garde',
+  'Hybrid',
+  'Techwear',
+  'Workwear',
+  'Other'
+] as const
+
+export type BrandType = typeof brandTypes[number] 
