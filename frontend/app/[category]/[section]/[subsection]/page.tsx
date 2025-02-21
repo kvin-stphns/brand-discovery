@@ -89,6 +89,7 @@ export default function CategoryPage({ params }: PageProps) {
     return Array(20).fill(null).map((_, i) => {
       const brandType = brandTypes[i % brandTypes.length]
       const brandName = `Brand${i + 1}`
+      const subsectionLabel = subsection.charAt(0).toUpperCase() + subsection.slice(1).toLowerCase()
 
       // Handle brand sections
       if (type === 'brand') {
@@ -98,7 +99,7 @@ export default function CategoryPage({ params }: PageProps) {
           name: getFormattedName(type, category, subsection, i),
           image: `/placeholders/product-${(i % 4) + 1}.jpg`,
           category: `${toSingular(category)} / ${subsection}`,
-          label: `${subsection}: ${brandType} Brand`
+          label: `${subsectionLabel}: ${brandType} Brand`
         }
       }
 
@@ -110,7 +111,7 @@ export default function CategoryPage({ params }: PageProps) {
           name: getFormattedName(type, category, subsection, i),
           image: `/placeholders/product-${(i % 4) + 1}.jpg`,
           category: `${toSingular(category)} / ${subsection}`,
-          label: `${subsection}: ${brandType} Designer`
+          label: `${subsectionLabel}: ${brandType} Designer`
         }
       }
 

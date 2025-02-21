@@ -81,7 +81,8 @@ export const getFormattedLabel = (
   brandName?: string,
   location?: Location
 ) => {
-  const sectionLabel = section.charAt(0).toUpperCase() + section.slice(1)
+  // Capitalize first letter of section
+  const sectionLabel = section.charAt(0).toUpperCase() + section.slice(1).toLowerCase()
   
   // Handle location-based sections
   if (section.toLowerCase() === 'location' || section.toLowerCase() === 'locations') {
