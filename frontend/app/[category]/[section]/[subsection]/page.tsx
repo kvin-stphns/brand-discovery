@@ -5,6 +5,7 @@ import CategoryGrid from '@/components/templates/CategoryGrid'
 import ListLayout from '@/components/templates/ListLayout'
 import { getFormattedName, getFormattedLabel } from '@/types/gridItems'
 import { locations, type Location } from '@/types/locations'
+import { getPlaceholderImage } from '@/types/placeholders'
 
 interface PageProps {
   params: {
@@ -74,7 +75,7 @@ export default function CategoryPage({ params }: PageProps) {
         id: `item-${i}`,
         type,
         name: getFormattedName(type, category, subsection, i, location),
-        image: `/placeholders/product-${(i % 4) + 1}.jpg`,
+        image: getPlaceholderImage(type, i % 4),
         category: type === 'product' ? toSingular(productType) : `${toSingular(category)} / ${subsection}`,
         brand: type === 'product' ? brandName : undefined,
         designer: type === 'product' ? `Designer ${i + 1}` : undefined,
@@ -97,7 +98,7 @@ export default function CategoryPage({ params }: PageProps) {
           id: `item-${i}`,
           type,
           name: getFormattedName(type, category, subsection, i),
-          image: `/placeholders/product-${(i % 4) + 1}.jpg`,
+          image: getPlaceholderImage('brand', i % 4),
           category: `${toSingular(category)} / ${subsection}`,
           label: `${subsectionLabel}: ${brandType} Brand`
         }
@@ -109,7 +110,7 @@ export default function CategoryPage({ params }: PageProps) {
           id: `item-${i}`,
           type,
           name: getFormattedName(type, category, subsection, i),
-          image: `/placeholders/product-${(i % 4) + 1}.jpg`,
+          image: getPlaceholderImage('designer', i % 4),
           category: `${toSingular(category)} / ${subsection}`,
           label: `${subsectionLabel}: ${brandType} Designer`
         }
@@ -121,7 +122,7 @@ export default function CategoryPage({ params }: PageProps) {
         name: `${toSingular(category)} ${subsection} ${i + 1}`,
         type,
         category: subsection,
-        image: `/placeholders/product-${(i % 4) + 1}.jpg`,
+        image: getPlaceholderImage('product', i % 4),
         brand: brandName,
         designer: `Designer ${i + 1}`,
         label: `${brandName} ${toSingular(subsection)}`

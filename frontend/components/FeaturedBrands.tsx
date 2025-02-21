@@ -2,6 +2,7 @@
 import Image from 'next/image'
 import Link from 'next/link'
 import { getFormattedLabel } from '@/types/gridItems'
+import { getPlaceholderImage } from '@/types/placeholders'
 
 const FeaturedBrands = () => {
   const brandTypes = [
@@ -37,7 +38,7 @@ const FeaturedBrands = () => {
       id: `item-${i}`,
       type,
       name: `Featured ${type} ${i + 1}`,
-      image: `/brand-${i + 1}.jpg`,
+      image: getPlaceholderImage(type, i % 4),
       category: type === 'product' ? productType : undefined,
       brand: type === 'product' ? brandName : undefined,
       designer: type === 'product' ? `Designer ${i + 1}` : undefined,

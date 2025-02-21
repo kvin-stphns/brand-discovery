@@ -28,10 +28,10 @@ export default function BrandPage({ params }: PageProps) {
 
   // Placeholder images array - will be dynamic later
   const images = [
-    '/placeholders/product-1.jpg',
-    '/placeholders/product-2.jpg',
-    '/placeholders/product-3.jpg',
-    '/placeholders/product-4.jpg',
+    '/placeholders/brand-1.jpg',
+    '/placeholders/brand-2.jpg',
+    '/placeholders/brand-3.jpg',
+    '/placeholders/brand-4.jpg',
   ]
 
   return (

@@ -28,10 +28,10 @@ export default function DesignerPage({ params }: PageProps) {
 
   // Placeholder images array - will be dynamic later
   const images = [
-    '/placeholders/product-1.jpg',
-    '/placeholders/product-2.jpg',
-    '/placeholders/product-3.jpg',
-    '/placeholders/product-4.jpg',
+    '/placeholders/designer-1.jpg',
+    '/placeholders/designer-2.jpg',
+    '/placeholders/designer-3.jpg',
+    '/placeholders/designer-4.jpg',
   ]
 
   return (

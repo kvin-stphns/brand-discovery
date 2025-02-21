@@ -1,5 +1,6 @@
 'use client'
 import CategoryGrid from '@/components/templates/CategoryGrid'
+import { getPlaceholderImage } from '@/types/placeholders'
 
 const brandTypes = [
   'Streetwear',
@@ -35,7 +36,7 @@ export default function FeaturedPage() {
       id: `item-${i}`,
       type,
       name: `Featured ${type} ${i + 1}`,
-      image: `/placeholders/product-${(i % 4) + 1}.jpg`,
+      image: getPlaceholderImage(type, i % 4),
       category: type === 'product' ? productType : undefined,
       brand: type === 'product' ? brandName : undefined,
       designer: type === 'product' ? `Designer ${i + 1}` : undefined,
