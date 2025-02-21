@@ -90,12 +90,12 @@ export default function ProductPage() {
           <div className="hidden md:block w-px bg-black" />
 
           {/* Product Info Section */}
-          <div className={`${isMobile ? 'w-full pb-32 border-t border-black' : 'w-[60%]'}`}>
+          <div className={`${isMobile ? 'w-full pb-32 border-t border-black' : 'w-[60%] relative'}`}>
             <div className="max-w-2xl pt-6 px-8">
               {/* Header with actions */}
               <div className="flex justify-between items-start mb-6">
                 <div>
-                  <h1 className="text-lg tracking-[0.15em] mb-1">PRODUCT NAME</h1>
+                  <h1 className="text-lg tracking-[0.15em] mb-1 font-bold">PRODUCT NAME</h1>
                   <p className="text-sm tracking-[0.1em] text-gray-500">BRAND NAME</p>
                 </div>
                 <div className="flex space-x-4">
@@ -124,7 +124,7 @@ export default function ProductPage() {
               </select>
 
               {/* Product Details */}
-              <div className="space-y-6 pb-20">
+              <div className="space-y-6">
                 <div>
                   <h2 className="text-sm tracking-[0.15em] mb-2">DESCRIPTION</h2>
                   <p className="text-sm leading-relaxed text-gray-600">
@@ -148,6 +148,15 @@ export default function ProductPage() {
                   </p>
                 </div>
               </div>
+
+              {/* Add desktop add to cart button */}
+              {!isMobile && (
+                <div className="absolute bottom-0 left-8 right-8 pb-8">
+                  <button className="w-full bg-black text-white py-4 text-sm tracking-[0.15em]">
+                    ADD TO CART
+                  </button>
+                </div>
+              )}
             </div>
           </div>
 

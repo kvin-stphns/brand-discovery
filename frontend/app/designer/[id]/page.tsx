@@ -90,8 +90,9 @@ export default function DesignerPage({ params }: PageProps) {
             <div className="max-w-2xl pt-6 px-8">
               <div className="flex justify-between items-start mb-6">
                 <div>
-                  <h1 className="text-lg tracking-[0.15em] mb-1">DESIGNER {id}</h1>
+                  <h1 className="text-lg tracking-[0.15em] mb-1 font-bold">DESIGNER {id}</h1>
                   <p className="text-sm tracking-[0.1em] text-gray-500">{brandType} Designer</p>
+                  <p className="text-sm tracking-[0.1em] text-gray-500 mt-2">Location: Paris, France</p>
                 </div>
                 <div className="flex space-x-4">
                   <button className="hover:text-[#4FFFF4] transition-colors">
