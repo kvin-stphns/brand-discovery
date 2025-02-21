@@ -110,7 +110,7 @@ export default function CategoryPage({ params }: PageProps) {
           name: getFormattedName(type, category, subsection, i),
           image: `/placeholders/product-${(i % 4) + 1}.jpg`,
           category: `${toSingular(category)} / ${subsection}`,
-          label: `${subsection}: Designer`
+          label: `${subsection}: ${brandType} Designer`
         }
       }
 

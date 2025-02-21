@@ -51,9 +51,9 @@ const getItemHref = (item: GridItem, category: string) => {
     case 'product':
       return `/product/${item.id}`
     case 'brand':
-      return `/${category}/brands/${item.name.toLowerCase().replace(' ', '-')}`
+      return `/brand/${item.id}`
     case 'designer':
-      return `/${category}/designers/${item.name.toLowerCase().replace(' ', '-')}`
+      return `/designer/${item.id}`
     default:
       return '#'
   }
