@@ -52,3 +52,6 @@ ehthumbs.db
 Thumbs.db
 
 specstory/
+.specstory/
+specstory/history/
+.specstory/history/
