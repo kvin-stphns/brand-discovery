@@ -55,3 +55,6 @@ specstory/
 .specstory/
 specstory/history/
 .specstory/history/
+/.specstory/*
+/.specstory/history/*
+/.specstory

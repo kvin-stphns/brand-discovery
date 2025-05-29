@@ -11,3 +11,9 @@ node_modules/
 Thumbs.db
 .clinesecrets
 specstory/
+.specstory/
+.specstory/history
+.specstory/*
+/.specstory
+/.specstory
+/.specstory/history
