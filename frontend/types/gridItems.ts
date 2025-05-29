@@ -1,6 +1,5 @@
 import { Location } from './locations'
 
-type BrandType = 'Streetwear' | 'High Fashion' | 'Avant Garde' | 'Hybrid' | 'Techwear' | 'Workwear' | 'Other'
 type ProductCategory = 'Tops' | 'Bottoms' | 'Outerwear' | 'Accessories' | 'Footwear'
 
 const toSingular = (word: string) => {
@@ -73,6 +72,18 @@ export const getFormattedName = (
   }
 }
 
+export const brandTypes = [
+  'Streetwear',
+  'High Fashion',
+  'Avant Garde',
+  'Hybrid',
+  'Techwear',
+  'Workwear',
+  'Other'
+] as const
+
+export type BrandType = typeof brandTypes[number]
+
 export const getFormattedLabel = (
   type: string, 
   section: string, 
@@ -119,16 +130,4 @@ export const getFormattedLabel = (
     default:
       return sectionLabel
   }
-}
-
-export const brandTypes = [
-  'Streetwear',
-  'High Fashion',
-  'Avant Garde',
-  'Hybrid',
-  'Techwear',
-  'Workwear',
-  'Other'
-] as const
-
-export type BrandType = typeof brandTypes[number] 
+} 

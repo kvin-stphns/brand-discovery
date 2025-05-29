@@ -1,7 +1,7 @@
 'use client'
 import { useState } from 'react'
 import Link from 'next/link'
-import { Github, Twitter, Mail, Facebook } from 'lucide-react'
+import { Github, Twitter, Facebook } from 'lucide-react'
 import Image from 'next/image'
 
 export default function LoginPage() {
@@ -59,7 +59,7 @@ export default function LoginPage() {
             href="/signup" 
             className="text-sm tracking-[0.15em] text-black/60 hover:text-black transition-colors"
           >
-            DON'T HAVE AN ACCOUNT? SIGN UP
+            DON&apos;T HAVE AN ACCOUNT? SIGN UP
           </Link>
         </div>
 

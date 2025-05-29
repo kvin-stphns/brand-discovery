@@ -3,7 +3,8 @@ import CategoryGrid from '@/components/templates/CategoryGrid'
 
 export default function DiscoverPage() {
   const items = Array.from({ length: 8 }).map((_, i) => ({
-    type: 'discover',
+    id: `discover-${i}`,
+    type: 'mixed' as const,
     name: `Discover ${i + 1}`,
     image: `/brand-${i + 1}.jpg`
   }))

@@ -1,7 +1,7 @@
 'use client'
 import { useState } from 'react'
 import Link from 'next/link'
-import { Github, Twitter, Mail, Facebook } from 'lucide-react'
+import { Github, Twitter, Facebook } from 'lucide-react'
 import Image from 'next/image'
 
 export default function SignUpPage() {

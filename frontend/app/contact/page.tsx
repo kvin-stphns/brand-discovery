@@ -30,7 +30,7 @@ export default function ContactPage() {
         <>
           Have a question or want to get in touch?
           <br />
-          Fill out the form below and we'll get back to you as soon as possible.
+          Fill out the form below and we&apos;ll get back to you as soon as possible.
         </>
       }
     >

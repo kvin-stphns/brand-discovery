@@ -1,10 +1,8 @@
 'use client'
 
-import { useEffect } from 'react'
 import CategoryGrid from '@/components/templates/CategoryGrid'
-import ListLayout from '@/components/templates/ListLayout'
 import { getFormattedName, getFormattedLabel } from '@/types/gridItems'
-import { locations, type Location } from '@/types/locations'
+import { locations } from '@/types/locations'
 import { getPlaceholderImage } from '@/types/placeholders'
 
 interface PageProps {
@@ -73,7 +71,7 @@ export default function CategoryPage({ params }: PageProps) {
       
       return {
         id: `item-${i}`,
-        type,
+        type: type as 'product' | 'brand' | 'designer',
         name: getFormattedName(type, category, subsection, i, location),
         image: getPlaceholderImage(type, i % 4),
         category: type === 'product' ? toSingular(productType) : `${toSingular(category)} / ${subsection}`,
@@ -96,7 +94,7 @@ export default function CategoryPage({ params }: PageProps) {
       if (type === 'brand') {
         return {
           id: `item-${i}`,
-          type,
+          type: type as 'brand',
           name: getFormattedName(type, category, subsection, i),
           image: getPlaceholderImage('brand', i % 4),
           category: `${toSingular(category)} / ${subsection}`,
@@ -108,7 +106,7 @@ export default function CategoryPage({ params }: PageProps) {
       if (type === 'designer') {
         return {
           id: `item-${i}`,
-          type,
+          type: type as 'designer',
           name: getFormattedName(type, category, subsection, i),
           image: getPlaceholderImage('designer', i % 4),
           category: `${toSingular(category)} / ${subsection}`,
@@ -119,8 +117,8 @@ export default function CategoryPage({ params }: PageProps) {
       // Handle product sections
       return {
         id: `item-${i}`,
+        type: type as 'product',
         name: `${toSingular(category)} ${subsection} ${i + 1}`,
-        type,
         category: subsection,
         image: getPlaceholderImage('product', i % 4),
         brand: brandName,

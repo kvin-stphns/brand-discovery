@@ -22,7 +22,7 @@ export default function AboutPage() {
         <section>
           <h3 className="text-lg font-medium tracking-[0.15em] mb-4">Our Community</h3>
           <p className="text-gray-600 tracking-[0.05em] leading-relaxed">
-            Join a growing community of fashion forward individuals, designers, and brands. Together, we're creating a space that celebrates creativity and supports the future of fashion.
+            Join a growing community of fashion forward individuals, designers, and brands. Together, we&apos;re creating a space that celebrates creativity and supports the future of fashion.
           </p>
         </section>
       </div>
