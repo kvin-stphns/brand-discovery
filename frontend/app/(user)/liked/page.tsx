@@ -55,7 +55,11 @@ export default function LikedPage() {
               >
                 <Image
 <<<<<<< Current (Your changes)
+<<<<<<< Current (Your changes)
                   src={`/brand-${(i % 8) + 1}.jpg`}
+=======
+                  src={`/placeholders/brand-${(i % 4) + 1}.jpg`}
+>>>>>>> Incoming (Background Agent changes)
 =======
                   src={`/placeholders/brand-${(i % 4) + 1}.jpg`}
 >>>>>>> Incoming (Background Agent changes)

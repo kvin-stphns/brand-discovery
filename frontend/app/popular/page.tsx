@@ -2,15 +2,6 @@
 import CategoryGrid from '@/components/templates/CategoryGrid'
 import { getPopular } from '@/lib/api/mock'
 import { useEffect, useState } from 'react'
-<<<<<<< Current (Your changes)
-
-export default function PopularPage() {
-  const [items, setItems] = useState<any[]>([])
-
-  useEffect(() => {
-    getPopular(8).then(setItems)
-  }, [])
-=======
 import type { GridItem } from '@/lib/api/mock'
 import { Analytics } from '@/lib/analytics'
 import { GridCardSkeleton } from '@/components/common/Skeleton'
@@ -36,7 +27,6 @@ export default function PopularPage() {
       </div>
     )
   }
->>>>>>> Incoming (Background Agent changes)
 
   return (
     <CategoryGrid 

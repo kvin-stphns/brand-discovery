@@ -1,4 +1,5 @@
 require('dotenv').config();
+<<<<<<< Current (Your changes)
 const express = require('express');
 const cors = require('cors');
 const helmet = require('helmet');
@@ -27,6 +28,13 @@ v1.get('/brands', (_req, res) => {
 });
 
 app.use('/v1', v1);
+=======
+const { createApp } = require('./src/app');
+
+const PORT = process.env.PORT || 3001;
+
+const app = createApp();
+>>>>>>> Incoming (Background Agent changes)
 
 app.listen(PORT, () => {
   console.log(`API listening on :${PORT}`);
