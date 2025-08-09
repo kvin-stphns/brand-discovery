@@ -3,6 +3,7 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { useEffect, useRef, useState } from 'react'
 import { createPortal } from 'react-dom'
+import { hrefFor } from '@/lib/nav'
 
 const Hero = () => {
   const [isFixed, setIsFixed] = useState(true)
@@ -76,7 +77,7 @@ const Hero = () => {
       className={`${isFixed ? 'fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2' : 'absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2'} z-10 flex flex-col items-center space-y-8 transition-opacity duration-300`}
       style={{ opacity }}
     >
-      <Link href="/discover">
+      <Link href={hrefFor('discover', 'women', 'view all')}>
         <button className="px-16 py-4 border border-black hover:bg-black/40 hover:backdrop-blur-sm hover:text-[#4FFFF4] hover:border-[#4FFFF4] text-sm tracking-[0.25em] bg-black/80 text-white transition-all duration-300">
           DISCOVER
         </button>

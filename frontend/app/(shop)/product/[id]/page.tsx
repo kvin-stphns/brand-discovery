@@ -4,6 +4,7 @@ import Link from 'next/link'
 import { useState, useEffect } from 'react'
 import { Heart, Bookmark, ChevronRight } from 'lucide-react'
 import { useCart } from '@/lib/store/cart'
+import { hrefFor } from '@/lib/nav'
 
 export default function ProductPage() {
   const [selectedImage, setSelectedImage] = useState(0)
@@ -47,7 +48,7 @@ export default function ProductPage() {
             HOME
           </Link>
           <ChevronRight className="w-3 h-3 mx-2 text-gray-400" />
-          <Link href="/discover" className="text-xs tracking-[0.15em] text-gray-500 hover:text-black transition-colors">
+          <Link href={hrefFor('discover', 'women', 'view all')} className="text-xs tracking-[0.15em] text-gray-500 hover:text-black transition-colors">
             DISCOVER
           </Link>
           <ChevronRight className="w-3 h-3 mx-2 text-gray-400" />
