@@ -325,6 +325,7 @@ The human will reply:
 
 ## Gate 1 Status (Agent note – 2025-08-09)
 - Per tidy patch: fixed Web3 wallet doc filename, tightened Next image config (local only), improved Hero (reduced-motion guard + skip link), corrected product placeholder paths, added not-found page, and fixed discover/category link targets.
+- Progress: Added API data shims (client + mocks), centralized nav link building, implemented GeoMap stub, refactored `/featured` and `/popular` to use mocks, documented route map.
 - Frontend builds successfully; lint warnings remain acceptable for now and will be addressed during the remaining UI cohesion tasks.
 
 ---

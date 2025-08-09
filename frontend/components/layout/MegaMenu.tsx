@@ -2,6 +2,7 @@
 import { Fragment, useState, useEffect } from 'react'
 import { Menu, Transition } from '@headlessui/react'
 import Link from 'next/link'
+import { hrefFor } from '@/lib/nav'
 
 interface MegaMenuProps {
   category: string
@@ -56,55 +57,11 @@ const MegaMenu = ({ category }: MegaMenuProps) => {
     }
   }
 
-  const getBrandsHref = (link: string) => {
-  const formattedLink = link.toLowerCase().replace(' ', '-')
-  const cat = category.toLowerCase()
-  if (cat === 'explore') return '/discover'
-  if (formattedLink === 'view-all') {
-    return `/${cat}/brands/view-all`
-  }
-  return `/${cat}/brands/${formattedLink}`
-}
+  const to = (section: 'discover'|'brands'|'categories'|'designers'|'rankings', link: string) => hrefFor(section, category, link)
 
-  const getDiscoverHref = (link: string) => {
-  const formattedLink = link.toLowerCase().replace(' ', '-')
-  const cat = category.toLowerCase()
-  if (cat === 'explore') return '/discover'
-  if (formattedLink === 'view-all') {
-    return `/${cat}/discover/view-all`
-  }
-  return `/${cat}/discover/${formattedLink}`
-}
 
-  const getCategoriesHref = (link: string) => {
-  const formattedLink = link.toLowerCase().replace(' ', '-')
-  const cat = category.toLowerCase()
-  if (cat === 'explore') return '/discover'
-  if (formattedLink === 'view-all') {
-    return `/${cat}/categories/view-all`
-  }
-  return `/${cat}/categories/${formattedLink}`
-}
 
-  const getDesignersHref = (link: string) => {
-  const formattedLink = link.toLowerCase().replace(' ', '-')
-  const cat = category.toLowerCase()
-  if (cat === 'explore') return '/discover'
-  if (formattedLink === 'view-all') {
-    return `/${cat}/designers/view-all`
-  }
-  return `/${cat}/designers/${formattedLink}`
-}
 
-  const getRankingsHref = (link: string) => {
-  const formattedLink = link.toLowerCase().replace(' ', '-')
-  const cat = category.toLowerCase()
-  if (cat === 'explore') return '/discover'
-  if (formattedLink === 'view-all') {
-    return `/${cat}/rankings/view-all`
-  }
-  return `/${cat}/rankings/${formattedLink}`
-}
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -215,10 +172,10 @@ const MegaMenu = ({ category }: MegaMenuProps) => {
               >
                 <div className="fixed left-[400px] top-[104px] bottom-0 w-[400px] bg-white z-[47] border-r border-black overflow-y-auto">
                   <div className="py-6">
-                    {discoverLinks.map((link) => (
-                      <Link
-                        key={link}
-                        href={getDiscoverHref(link)}
+                                            {discoverLinks.map((link) => (
+                          <Link
+                            key={link}
+                            href={to('discover', link)}
                         className="block px-12 py-4 text-sm tracking-[0.25em] hover:text-gray-500 transition-colors"
                         onClick={() => {
                           setShowDiscoverMenu(false)
@@ -245,10 +202,10 @@ const MegaMenu = ({ category }: MegaMenuProps) => {
               >
                 <div className="fixed left-[400px] top-[104px] bottom-0 w-[400px] bg-white z-[47] border-r border-black overflow-y-auto">
                   <div className="py-6">
-                    {brandLinks.map((link) => (
-                      <Link
-                        key={link}
-                        href={getBrandsHref(link)}
+                                            {brandLinks.map((link) => (
+                          <Link
+                            key={link}
+                            href={to('brands', link)}
                         className="block px-12 py-4 text-sm tracking-[0.25em] hover:text-gray-500 transition-colors"
                         onClick={() => {
                           setShowBrandsMenu(false)
@@ -275,10 +232,10 @@ const MegaMenu = ({ category }: MegaMenuProps) => {
               >
                 <div className="fixed left-[400px] top-[104px] bottom-0 w-[400px] bg-white z-[47] border-r border-black overflow-y-auto">
                   <div className="py-6">
-                    {categoryLinks.map((link) => (
-                      <Link
-                        key={link}
-                        href={getCategoriesHref(link)}
+                                            {categoryLinks.map((link) => (
+                          <Link
+                            key={link}
+                            href={to('categories', link)}
                         className="block px-12 py-4 text-sm tracking-[0.25em] hover:text-gray-500 transition-colors"
                         onClick={() => {
                           setShowCategoriesMenu(false)
@@ -305,10 +262,10 @@ const MegaMenu = ({ category }: MegaMenuProps) => {
               >
                 <div className="fixed left-[400px] top-[104px] bottom-0 w-[400px] bg-white z-[47] border-r border-black overflow-y-auto">
                   <div className="py-6">
-                    {designerLinks.map((link) => (
-                      <Link
-                        key={link}
-                        href={getDesignersHref(link)}
+                                            {designerLinks.map((link) => (
+                          <Link
+                            key={link}
+                            href={to('designers', link)}
                         className="block px-12 py-4 text-sm tracking-[0.25em] hover:text-gray-500 transition-colors"
                         onClick={() => {
                           setShowDesignersMenu(false)
@@ -335,10 +292,10 @@ const MegaMenu = ({ category }: MegaMenuProps) => {
               >
                 <div className="fixed left-[400px] top-[104px] bottom-0 w-[400px] bg-white z-[47] border-r border-black overflow-y-auto">
                   <div className="py-6">
-                    {rankingLinks.map((link) => (
-                      <Link
-                        key={link}
-                        href={getRankingsHref(link)}
+                                            {rankingLinks.map((link) => (
+                          <Link
+                            key={link}
+                            href={to('rankings', link)}
                         className="block px-12 py-4 text-sm tracking-[0.25em] hover:text-gray-500 transition-colors"
                         onClick={() => {
                           setShowRankingsMenu(false)
