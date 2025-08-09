@@ -6,6 +6,13 @@
 
 ---
 
+## [2025-08-09] – Gate-1 UI hotfix: hero overlay via portal + sentinel; Popular z-index/parallax; build green
+- Hero: added sentinel and portal for fixed DISCOVER button; guarded parallax with prefers-reduced-motion and rAF.
+- Popular: background moved to -z-10, content uses relative z-10; removed extreme offsets; gentler translateY parallax; ensured overflow-hidden on cards.
+- Verified no conflict markers; frontend lint/build green.
+
+---
+
 ## [2025-08-09] – Gate 1 complete: routing report, types tightened, tokens sweep, toast util
 - Added token utilities in `globals.css` (trk-tight/mid, accent) and applied to `CategoryGrid`.
 - Tightened mock types (removed `any`, disallowed `mixed` in GridItem); fixed `/discover` page typing.
