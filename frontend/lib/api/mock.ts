@@ -14,6 +14,8 @@ const brandTypes = [
 
 const productCategories = ['Tops', 'Bottoms', 'Outerwear', 'Accessories'] as const
 
+type PlaceholderType = 'product' | 'brand' | 'designer'
+
 function toSingular(word: string) {
   switch (word.toLowerCase()) {
     case 'accessories':
@@ -40,8 +42,10 @@ export type GridItem = {
 }
 
 export async function mockList(kind: EntityKind, n = 12): Promise<GridItem[]> {
+  const kinds: readonly PlaceholderType[] =
+    kind === 'mixed' ? (['product', 'brand', 'designer'] as const) : ([kind] as readonly PlaceholderType[])
+
   const items = Array.from({ length: n }).map((_, i) => {
-    const kinds = kind === 'mixed' ? (['product', 'brand', 'designer'] as const) : ([kind] as const)
     const type = kinds[i % kinds.length]
     const brandType = brandTypes[i % brandTypes.length]
     const productType = productCategories[i % productCategories.length]
@@ -57,7 +61,7 @@ export async function mockList(kind: EntityKind, n = 12): Promise<GridItem[]> {
       id: `${type}-${i + 1}`,
       type,
       name: `${type[0].toUpperCase() + type.slice(1)} ${i + 1}`,
-      image: getPlaceholderImage(type as any, i % 4),
+      image: getPlaceholderImage(type, i % 4),
       category: type === 'product' ? productType : undefined,
       brand: type === 'product' ? brandName : undefined,
       designer: type === 'product' ? `Designer ${i + 1}` : undefined,

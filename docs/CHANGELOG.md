@@ -40,3 +40,17 @@
 - **Modified:** `/src/pages/Brands.tsx` to integrate InteractiveMap component.
 - **Removed:** Deprecated static brand list.
 **Rationale:** Implement premium discovery experience via interactive map UI.
+
+---
+
+## [2025-08-09] – Gate 1 UI polish (a11y, skeletons, analytics, lint clean)
+- Featured/Popular pages: added typed state, analytics view events, and grid skeleton fallbacks.
+- CategoryGrid: removed `any`, tightened generics, removed unused params, and refined href builder.
+- MegaMenu: removed unused render-prop variables to satisfy lint; preserved functionality.
+- NotFound: fixed unescaped apostrophe for a11y/lint.
+- Liked/Saved: corrected placeholder image paths to `/public/placeholders/*`.
+- Layout: added skip-to-content link and `main` landmark for a11y.
+- Frontend lint/build: now clean (no warnings) and green build.
+**Rationale:** Complete remaining Gate 1 cohesion items: a11y landmarks, loading states, analytics hooks, and type cleanup.
+
+---

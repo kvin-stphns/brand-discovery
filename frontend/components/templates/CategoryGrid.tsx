@@ -14,7 +14,7 @@ const allExploreLinks = [
   { name: 'Location', category: 'discover' }
 ]
 
-const shuffleArray = (array: any[]) => {
+const shuffleArray = <T,>(array: T[]): T[] => {
   const newArray = [...array]
   for (let i = newArray.length - 1; i > 0; i--) {
     const j = Math.floor(Math.random() * (i + 1))
@@ -46,7 +46,7 @@ interface CategoryGridProps {
   gridType?: 'mixed' | 'product' | 'brand' | 'designer'
 }
 
-const getItemHref = (item: GridItem, category: string) => {
+const getItemHref = (item: GridItem) => {
   switch (item.type) {
     case 'product':
       return `/product/${item.id}`
@@ -142,7 +142,7 @@ export default function CategoryGrid({
               items.map((item, i) => (
                 <Link
                   key={item.id}
-                  href={getItemHref(item, category || '')}
+                  href={getItemHref(item)}
                   className={`group relative h-[500px] flex items-center justify-center border-r border-b border-black last:border-r-0 tablet:last:border-r ${
                     i >= 6 ? 'tablet:hidden desktop:flex' : ''
                   }`}

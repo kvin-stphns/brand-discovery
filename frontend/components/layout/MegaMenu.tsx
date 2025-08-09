@@ -59,10 +59,6 @@ const MegaMenu = ({ category }: MegaMenuProps) => {
 
   const to = (section: 'discover'|'brands'|'categories'|'designers'|'rankings', link: string) => hrefFor(section, category, link)
 
-
-
-
-
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       const target = event.target as HTMLElement
@@ -122,18 +118,16 @@ const MegaMenu = ({ category }: MegaMenuProps) => {
                       <div className="py-6">
                         {topLinks.map((link) => (
                           <Menu.Item key={link}>
-                            {({ active }) => (
-                              <a
-                                href="#"
-                                className="block px-12 py-4 text-sm tracking-[0.25em] hover:text-gray-500 transition-colors"
-                                onClick={(e) => {
-                                  e.preventDefault()
-                                  handleLinkClick(link)
-                                }}
-                              >
-                                {link}
-                              </a>
-                            )}
+                            <a
+                              href="#"
+                              className="block px-12 py-4 text-sm tracking-[0.25em] hover:text-gray-500 transition-colors"
+                              onClick={(e) => {
+                                e.preventDefault()
+                                handleLinkClick(link)
+                              }}
+                            >
+                              {link}
+                            </a>
                           </Menu.Item>
                         ))}
                       </div>
@@ -142,15 +136,13 @@ const MegaMenu = ({ category }: MegaMenuProps) => {
                       <div className="py-8">
                         {bottomLinks.map((link) => (
                           <Menu.Item key={link}>
-                            {({ active }) => (
-                              <Link
-                                href={`/${link.toLowerCase().replace(' ', '-')}`}
-                                className="block px-12 py-2 text-xs font-light tracking-[0.25em] hover:text-gray-500 transition-colors"
-                                onClick={() => setIsMenuOpen(false)}
-                              >
-                                {link}
-                              </Link>
-                            )}
+                            <Link
+                              href={`/${link.toLowerCase().replace(' ', '-')}`}
+                              className="block px-12 py-2 text-xs font-light tracking-[0.25em] hover:text-gray-500 transition-colors"
+                              onClick={() => setIsMenuOpen(false)}
+                            >
+                              {link}
+                            </Link>
                           </Menu.Item>
                         ))}
                       </div>
@@ -172,10 +164,10 @@ const MegaMenu = ({ category }: MegaMenuProps) => {
               >
                 <div className="fixed left-[400px] top-[104px] bottom-0 w-[400px] bg-white z-[47] border-r border-black overflow-y-auto">
                   <div className="py-6">
-                                            {discoverLinks.map((link) => (
-                          <Link
-                            key={link}
-                            href={to('discover', link)}
+                    {discoverLinks.map((link) => (
+                      <Link
+                        key={link}
+                        href={to('discover', link)}
                         className="block px-12 py-4 text-sm tracking-[0.25em] hover:text-gray-500 transition-colors"
                         onClick={() => {
                           setShowDiscoverMenu(false)
@@ -202,10 +194,10 @@ const MegaMenu = ({ category }: MegaMenuProps) => {
               >
                 <div className="fixed left-[400px] top-[104px] bottom-0 w-[400px] bg-white z-[47] border-r border-black overflow-y-auto">
                   <div className="py-6">
-                                            {brandLinks.map((link) => (
-                          <Link
-                            key={link}
-                            href={to('brands', link)}
+                    {brandLinks.map((link) => (
+                      <Link
+                        key={link}
+                        href={to('brands', link)}
                         className="block px-12 py-4 text-sm tracking-[0.25em] hover:text-gray-500 transition-colors"
                         onClick={() => {
                           setShowBrandsMenu(false)
@@ -232,10 +224,10 @@ const MegaMenu = ({ category }: MegaMenuProps) => {
               >
                 <div className="fixed left-[400px] top-[104px] bottom-0 w-[400px] bg-white z-[47] border-r border-black overflow-y-auto">
                   <div className="py-6">
-                                            {categoryLinks.map((link) => (
-                          <Link
-                            key={link}
-                            href={to('categories', link)}
+                    {categoryLinks.map((link) => (
+                      <Link
+                        key={link}
+                        href={to('categories', link)}
                         className="block px-12 py-4 text-sm tracking-[0.25em] hover:text-gray-500 transition-colors"
                         onClick={() => {
                           setShowCategoriesMenu(false)
@@ -262,10 +254,10 @@ const MegaMenu = ({ category }: MegaMenuProps) => {
               >
                 <div className="fixed left-[400px] top-[104px] bottom-0 w-[400px] bg-white z-[47] border-r border-black overflow-y-auto">
                   <div className="py-6">
-                                            {designerLinks.map((link) => (
-                          <Link
-                            key={link}
-                            href={to('designers', link)}
+                    {designerLinks.map((link) => (
+                      <Link
+                        key={link}
+                        href={to('designers', link)}
                         className="block px-12 py-4 text-sm tracking-[0.25em] hover:text-gray-500 transition-colors"
                         onClick={() => {
                           setShowDesignersMenu(false)
@@ -292,10 +284,10 @@ const MegaMenu = ({ category }: MegaMenuProps) => {
               >
                 <div className="fixed left-[400px] top-[104px] bottom-0 w-[400px] bg-white z-[47] border-r border-black overflow-y-auto">
                   <div className="py-6">
-                                            {rankingLinks.map((link) => (
-                          <Link
-                            key={link}
-                            href={to('rankings', link)}
+                    {rankingLinks.map((link) => (
+                      <Link
+                        key={link}
+                        href={to('rankings', link)}
                         className="block px-12 py-4 text-sm tracking-[0.25em] hover:text-gray-500 transition-colors"
                         onClick={() => {
                           setShowRankingsMenu(false)
