@@ -1,7 +1,6 @@
 import '@/styles/globals.css'
 import Navbar from '@/components/layout/Navbar'
 import Footer from '@/components/Footer'
-import StagewiseClient from '@/components/StagewiseClient'
 
 export const metadata = {
   title: 'Discovery Studios',
@@ -21,7 +20,6 @@ export default function RootLayout({
           {children}
           <Footer />
         </div>
-        <StagewiseClient />
       </body>
     </html>
   )

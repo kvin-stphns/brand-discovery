@@ -1,0 +1,186 @@
+---
+alwaysApply: true
+---
+# =========================
+# Discovery Studios – Cursor Agent Mode Rules
+# =========================
+# OWNER SKILL LEVEL: Novice. Agent must self-direct, self-correct, and minimize human effort.
+# COMMUNICATION STYLE: Summaries in plain English. Avoid deep jargon in PR comments.
+# PRIMARY GOAL: Revenue-ready MVP asap (UI → Affiliate Checkout → Backend → Scraper → Web3 → Deploy).
+# =========================
+
+## [goals]
+- Finish UI first, wire checkout buttons, then build backend and affiliate redirect.
+- Implement scraper MVP for 1–2 aggregators.
+- Add Web3 Phase 1 (wallet connect + on-chain voting).
+- Keep documentation updated; pause at approval gates with clear summaries.
+
+## [priorities]
+- Profit path > stability > feature breadth.
+- Small, testable PRs. Prefer refactors alongside features when it reduces complexity.
+
+## [read_first]
+- docs/INDEX.md
+- docs/SCOPE_AND_PHASES.md
+- docs/PROJECT_OVERVIEW.md
+
+## [continuous_inventory]
+- Before each phase and after significant changes, scan the repository tree.
+- When adding, removing, or relocating files:
+  - Append an entry to docs/CHANGELOG.md (date, summary of changes, rationale).
+  - If a major decision changed, create docs/DECISIONS/ADR-YYYYMMDD-<slug>.md.
+
+## [branching]
+- Create a feature branch per phase:
+  - feat/ui-finalize
+  - feat/backend-core
+  - feat/scraper-mvp
+  - feat/web3-phase1
+  - feat/web3-phase2
+  - feat/deploy
+- Open PRs into main with checklists from the corresponding docs.
+
+## [quality_gates]
+- Frontend: `npm run lint` / `yarn lint`, `npm run build` / `yarn build`
+- Backend: `npm test` / `yarn test`
+- Contracts: `npx hardhat compile` (if present)
+- Types: `tsc -noEmit` when TypeScript is present
+- Format: run Prettier if configured
+
+---
+
+## [phase_sequence]
+0=baseline  
+1=ui  
+2=backend  
+3=scraper  
+4=web3_phase1  
+5=web3_phase2  
+6=deploy  
+
+### [phase.baseline.tasks]
+- Create/update docs/INDEX.md, PROJECT_OVERVIEW.md, SCOPE_AND_PHASES.md.
+- Ensure repository analysis works.
+- Optional: add GitHub Actions CI.
+
+### [phase.baseline.exit]
+- Summarize in docs/SCOPE_AND_PHASES.md.
+- Update docs/CHANGELOG.md.
+- WAIT_FOR_APPROVAL=Gate 0.
+
+### [phase.ui.tasks]
+- Implement missing pages and polish existing ones per docs/FRONTEND/UI_TASKS.md.
+- Ensure Product page “Checkout” button works (temporary redirect or backend call).
+- Add lightweight UI smoke tests; fix all routing errors.
+
+### [phase.ui.exit]
+- Provide screenshots or DOM snapshots.
+- Update docs/CHANGELOG.md and SCOPE_AND_PHASES.md.
+- WAIT_FOR_APPROVAL=Gate 1.
+
+### [phase.backend.tasks]
+- Implement Express + Mongo (Mongoose) server.
+- Routes: /auth, /brands, /designers, /products, /user, /checkout.
+- JWT auth + RBAC; rate limits; validation.
+- Affiliate redirect endpoint: log click + redirect with tracking.
+- Document in docs/BACKEND/API_SPEC.md with examples.
+- Add integration tests.
+
+### [phase.backend.exit]
+- All tests pass.
+- Update docs/CHANGELOG.md and SCOPE_AND_PHASES.md.
+- WAIT_FOR_APPROVAL=Gate 2.
+
+### [phase.scraper.tasks]
+- Implement Playwright + Cheerio scraper for 1–2 aggregators.
+- Normalize & dedupe; schedule cron/nightly job.
+- Document mapping tables in docs/BACKEND/SCRAPING.md.
+- Populate DB with at least 100 items.
+
+### [phase.scraper.exit]
+- Update docs/CHANGELOG.md and SCOPE_AND_PHASES.md.
+- WAIT_FOR_APPROVAL=Gate 3.
+
+### [phase.web3_phase1.tasks]
+- Wallet connect (Metamask/WalletConnect).
+- Deploy Neon EVM voting contract to testnet.
+- Build FE → BE → Web3 flow.
+- Store tx refs in Mongo.
+
+### [phase.web3_phase1.exit]
+- Confirm compile/deploy, tests pass.
+- Update docs/CHANGELOG.md and SCOPE_AND_PHASES.md.
+- WAIT_FOR_APPROVAL=Gate 4.
+
+### [phase.web3_phase2.tasks]
+- NFT proof-of-purchase receipt.
+- Integrate affiliate conversion → mint NFT.
+- Display NFTs in profile.
+
+### [phase.web3_phase2.exit]
+- Tests pass; minting flow demoed.
+- Update docs/CHANGELOG.md and SCOPE_AND_PHASES.md.
+- WAIT_FOR_APPROVAL=Gate 5.
+
+### [phase.deploy.tasks]
+- Deploy FE (Vercel), BE (Heroku/Render), Web3 assets (IPFS).
+- Add monitoring and error logging; document in /docs/DEPLOY/*.
+- Provide live URLs.
+
+### [phase.deploy.exit]
+- Update docs/CHANGELOG.md and SCOPE_AND_PHASES.md.
+- WAIT_FOR_APPROVAL=Gate 6.
+
+---
+
+## [reporting]
+At each gate, PR comment must include:
+- What changed.
+- How it was tested.
+- Known limitations.
+- Next steps.
+
+---
+
+## [style]
+- Commit messages clear & descriptive.
+- Small PRs over large ones.
+- Keep UI **on brand**:
+  - Swedish grid, Balenciaga-inspired.
+  - Minimal but premium.
+  - Niche UI elements: interactive map, voting visualizations, rankings.
+
+---
+
+## [frontend_rules]
+- Maintain typography/spacing/grid.
+- All routes navigable without console errors.
+- No production hardcoding; use placeholder JSON or API calls.
+- Data bindings clean and consistent.
+
+## [backend_rules]
+- Follow /docs/BACKEND/OVERVIEW.md & API_SPEC.md.
+- Keep scraping modular.
+- Implement APIs incrementally.
+
+## [web3_rules]
+- Wallet connect must not block browsing.
+- Fail gracefully if disconnected.
+- Keep on-chain & DB data in sync.
+
+## [testing_rules]
+- Tests for each feature.
+- UI: desktop & mobile.
+- Backend: Postman or automated.
+- Web3: testnet before mainnet.
+
+## [deployment_rules]
+- Environment variables for secrets.
+- Stage before prod.
+- Monitor logs for 48h post-launch.
+
+## [golden_rules]
+- Respect existing work.
+- Self-document all changes.
+- Wait for approvals.
+- Write scalable, maintainable code.
