@@ -6,7 +6,7 @@ export default function DiscoverPage() {
     id: `discover-${i}`,
     type: 'mixed' as const,
     name: `Discover ${i + 1}`,
-    image: `/brand-${i + 1}.jpg`
+    image: `/placeholders/brand-${i + 1}.jpg`
   }))
 
   return (

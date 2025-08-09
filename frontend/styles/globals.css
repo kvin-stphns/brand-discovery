@@ -93,5 +93,16 @@
   .scrollbar-hide::-webkit-scrollbar {
     display: none;
   }
+<<<<<<< Current (Your changes)
+=======
+  
+  .trk-tight { letter-spacing: 0.05em; }
+  .trk-mid { letter-spacing: 0.15em; }
+  .trk-wide { letter-spacing: 0.25em; }
+
+  .accent { color: #4FFFF4; }
+  .accent-border { border-color: color-mix(in oklab, #4FFFF4 60%, black); }
+  .accent-bg { background-color: color-mix(in oklab, #4FFFF4 10%, white); }
+>>>>>>> Incoming (Background Agent changes)
 }
 

@@ -26,10 +26,17 @@ export default function ProductPage() {
 
   // Placeholder images array
   const images = [
+<<<<<<< Current (Your changes)
     '/product-1.jpg',
     '/product-2.jpg',
     '/product-3.jpg',
     '/product-4.jpg',
+=======
+    '/placeholders/product-1.jpg',
+    '/placeholders/product-2.jpg',
+    '/placeholders/product-3.jpg',
+    '/placeholders/product-4.jpg',
+>>>>>>> Incoming (Background Agent changes)
   ]
 
   return (

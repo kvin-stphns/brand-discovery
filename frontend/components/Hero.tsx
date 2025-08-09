@@ -6,21 +6,30 @@ import { useEffect, useRef, useState } from 'react'
 const Hero = () => {
   const [isFixed, setIsFixed] = useState(true)
   const [opacity, setOpacity] = useState(1)
+  const [reducedMotion, setReducedMotion] = useState(false)
   const buttonRef = useRef<HTMLDivElement>(null)
   const backgroundRef = useRef<HTMLDivElement>(null)
   const lastScrollY = useRef(0)
   const ticking = useRef(false)
 
   useEffect(() => {
+    const media = window.matchMedia('(prefers-reduced-motion: reduce)')
+    const onChange = () => setReducedMotion(!!media.matches)
+    onChange()
+    media.addEventListener?.('change', onChange)
+    return () => media.removeEventListener?.('change', onChange)
+  }, [])
+
+  useEffect(() => {
+    if (reducedMotion) return
     const handleScroll = () => {
       lastScrollY.current = window.scrollY
 
       if (!ticking.current) {
         window.requestAnimationFrame(() => {
           if (backgroundRef.current) {
-            // Increased parallax effect on mobile, kept desktop the same
             const isMobile = window.innerWidth <= 768
-            const parallaxFactor = isMobile ? 0.35 : 0.5 // Increased from 0.15 to 0.35 for mobile
+            const parallaxFactor = isMobile ? 0.35 : 0.5
             backgroundRef.current.style.transform = `translate3d(0, ${lastScrollY.current * parallaxFactor}px, 0)`
           }
           ticking.current = false
@@ -31,16 +40,16 @@ const Hero = () => {
 
     window.addEventListener('scroll', handleScroll, { passive: true })
     return () => window.removeEventListener('scroll', handleScroll)
-  }, [])
+  }, [reducedMotion])
 
   useEffect(() => {
+    if (reducedMotion) return
     const observer = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting) {
           setOpacity(0)
           setTimeout(() => setIsFixed(false), 300)
         } else if (window.scrollY < window.innerHeight) {
-          // Only show button when scrolling up and within hero section
           setIsFixed(true)
           setTimeout(() => setOpacity(1), 50)
         }
@@ -54,10 +63,15 @@ const Hero = () => {
     }
 
     return () => observer.disconnect()
-  }, [])
+  }, [reducedMotion])
 
   return (
     <section className="relative w-full h-screen bg-white mt-[100px] overflow-hidden">
+      {/* Skip link */}
+      <a href="#featured-section" className="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 px-4 py-2 bg-black text-white">
+        Skip to content
+      </a>
+
       {/* Background Image with Parallax */}
       <div 
         ref={backgroundRef} 
@@ -71,10 +85,9 @@ const Hero = () => {
         <Image
           src="/hero-image.jpg"
           alt="Symmetrical Crowd"
-          layout="fill"
-          objectFit="cover"
+          fill
           priority
-          className="brightness-95"
+          className="object-cover brightness-95"
         />
       </div>
 

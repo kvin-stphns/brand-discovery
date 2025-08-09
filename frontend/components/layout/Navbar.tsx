@@ -39,7 +39,8 @@ const Navigation = () => {
 
               {/* Mobile Menu Button */}
               <button 
-                className="tablet:hidden hover:opacity-70 transition-opacity"
+                aria-label={isMenuOpen ? 'Close menu' : 'Open menu'}
+                className="tablet:hidden hover:opacity-70 transition-opacity focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-black/80 rounded"
                 onClick={() => setIsMenuOpen(!isMenuOpen)}
               >
                 {isMenuOpen ? (
@@ -50,17 +51,17 @@ const Navigation = () => {
               </button>
               
               {/* Logo */}
-              <Link href="/" className="absolute left-1/2 -translate-x-1/2 text-lg tracking-tight font-bold z-[1002] text-center">
+              <Link href="/" aria-label="Home" className="absolute left-1/2 -translate-x-1/2 text-lg tracking-tight font-bold z-[1002] text-center">
                 <span className="mobile:inline block">DISCOVERY</span>
                 <span className="mobile:inline block mobile:ml-1">STUDIOS</span>
               </Link>
               
               {/* User Actions */}
               <div className="flex items-center space-x-4 tablet:space-x-8">
-                <Link href="/login" className="hover:opacity-70 transition-opacity">
+                <Link href="/login" aria-label="Account" className="hover:opacity-70 transition-opacity focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-black/80 rounded">
                   <User className="w-[18px] h-[18px]" />
                 </Link>
-                <button className="hover:opacity-70 transition-opacity">
+                <button aria-label="Bag" className="hover:opacity-70 transition-opacity focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-black/80 rounded">
                   <ShoppingBag className="w-[18px] h-[18px]" />
                 </button>
               </div>
