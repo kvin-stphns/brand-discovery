@@ -29,7 +29,7 @@ interface GridItem {
   id: string
   name: string
   image: string
-  type: 'product' | 'brand' | 'designer' | 'mixed'
+  type: 'product' | 'brand' | 'designer'
   brand?: string
   designer?: string
   category?: string
@@ -91,16 +91,16 @@ export default function CategoryGrid({
       <div className="fixed top-0 left-0 right-0 bg-white z-30">
         <div className="mt-[155px] max-w-[2000px] mx-auto">
           <div className="px-8">
-            <h2 className="text-black text-2xl tracking-[0.05em] font-bold">
+            <h2 className="text-black text-2xl trk-tight font-bold">
               {title}
             </h2>
             {subtitle ? (
-              <p className="mt-2 text-xs tracking-[0.15em] text-gray-500">
+              <p className="mt-2 text-xs trk-mid text-gray-500">
                 {subtitle}
               </p>
             ) : (
               category && section && subsection && (
-                <p className="mt-2 text-xs tracking-[0.15em] text-gray-500">
+                <p className="mt-2 text-xs trk-mid text-gray-500">
                   {category.toUpperCase()} / {section.toUpperCase()} / {subsection.toUpperCase().replace('-', ' ')}
                 </p>
               )
@@ -137,7 +137,7 @@ export default function CategoryGrid({
                       height={500}
                       className="w-full h-full object-cover opacity-90 hover:opacity-100 transition-opacity"
                     />
-                    <span className="absolute bottom-6 text-xs font-semibold tracking-[0.15em] opacity-0 group-hover:opacity-100 transition-opacity">
+                    <span className="absolute bottom-6 text-xs font-semibold trk-mid opacity-0 group-hover:opacity-100 transition-opacity">
                       {link.name.toUpperCase()}
                     </span>
                   </Link>
@@ -167,11 +167,11 @@ export default function CategoryGrid({
                     className="w-full h-full object-cover opacity-90 hover:opacity-100 transition-opacity"
                   />
                   <div className="absolute bottom-6 space-y-1 text-center opacity-0 group-hover:opacity-100 transition-opacity">
-                    <p className="text-xs font-semibold tracking-[0.15em]">
+                    <p className="text-xs font-semibold trk-mid">
                       {item.name.toUpperCase()}
                     </p>
                     {item.label && (
-                      <p className="text-xs tracking-[0.15em] text-gray-700">
+                      <p className="text-xs trk-mid text-gray-700">
                         {item.label}
                       </p>
                     )}

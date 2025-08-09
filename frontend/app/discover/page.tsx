@@ -1,17 +1,16 @@
 'use client'
 import CategoryGrid from '@/components/templates/CategoryGrid'
+import { useEffect } from 'react'
+import { Analytics } from '@/lib/analytics'
 
 export default function DiscoverPage() {
-  const items = Array.from({ length: 8 }).map((_, i) => ({
-    id: `discover-${i}`,
-    type: 'mixed' as const,
-    name: `Discover ${i + 1}`,
-    image: `/placeholders/brand-${i + 1}.jpg`
-  }))
+  useEffect(() => {
+    Analytics.view('discover')
+  }, [])
 
   return (
     <CategoryGrid 
-      items={items}
+      items={[]}
       title="DISCOVER"
       isDiscoverPage={true}
     />

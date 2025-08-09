@@ -1,6 +1,7 @@
 import '@/styles/globals.css'
 import Navbar from '@/components/layout/Navbar'
 import Footer from '@/components/Footer'
+import { ToastViewport } from '@/lib/toast'
 
 export const metadata = {
   title: 'Discovery Studios',
@@ -23,8 +24,7 @@ export default function RootLayout({
           </main>
           <Footer />
         </div>
-        {/* Toast viewport placeholder */}
-        <div id="toast-viewport" aria-live="polite" aria-atomic="true" className="fixed bottom-4 right-4 z-[2000] space-y-2" />
+        <ToastViewport />
       </body>
     </html>
   )
