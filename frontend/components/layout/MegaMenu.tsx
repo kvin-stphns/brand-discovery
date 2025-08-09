@@ -57,44 +57,54 @@ const MegaMenu = ({ category }: MegaMenuProps) => {
   }
 
   const getBrandsHref = (link: string) => {
-    const formattedLink = link.toLowerCase().replace(' ', '-')
-    if (formattedLink === 'view-all') {
-      return `/${category.toLowerCase()}/brands/view-all`
-    }
-    return `/${category.toLowerCase()}/brands/${formattedLink}`
+  const formattedLink = link.toLowerCase().replace(' ', '-')
+  const cat = category.toLowerCase()
+  if (cat === 'explore') return '/discover'
+  if (formattedLink === 'view-all') {
+    return `/${cat}/brands/view-all`
   }
+  return `/${cat}/brands/${formattedLink}`
+}
 
   const getDiscoverHref = (link: string) => {
-    const formattedLink = link.toLowerCase().replace(' ', '-')
-    if (formattedLink === 'view-all') {
-      return `/${category.toLowerCase()}/discover/view-all`
-    }
-    return `/${category.toLowerCase()}/discover/${formattedLink}`
+  const formattedLink = link.toLowerCase().replace(' ', '-')
+  const cat = category.toLowerCase()
+  if (cat === 'explore') return '/discover'
+  if (formattedLink === 'view-all') {
+    return `/${cat}/discover/view-all`
   }
+  return `/${cat}/discover/${formattedLink}`
+}
 
   const getCategoriesHref = (link: string) => {
-    const formattedLink = link.toLowerCase().replace(' ', '-')
-    if (formattedLink === 'view-all') {
-      return `/${category.toLowerCase()}/categories/view-all`
-    }
-    return `/${category.toLowerCase()}/categories/${formattedLink}`
+  const formattedLink = link.toLowerCase().replace(' ', '-')
+  const cat = category.toLowerCase()
+  if (cat === 'explore') return '/discover'
+  if (formattedLink === 'view-all') {
+    return `/${cat}/categories/view-all`
   }
+  return `/${cat}/categories/${formattedLink}`
+}
 
   const getDesignersHref = (link: string) => {
-    const formattedLink = link.toLowerCase().replace(' ', '-')
-    if (formattedLink === 'view-all') {
-      return `/${category.toLowerCase()}/designers/view-all`
-    }
-    return `/${category.toLowerCase()}/designers/${formattedLink}`
+  const formattedLink = link.toLowerCase().replace(' ', '-')
+  const cat = category.toLowerCase()
+  if (cat === 'explore') return '/discover'
+  if (formattedLink === 'view-all') {
+    return `/${cat}/designers/view-all`
   }
+  return `/${cat}/designers/${formattedLink}`
+}
 
   const getRankingsHref = (link: string) => {
-    const formattedLink = link.toLowerCase().replace(' ', '-')
-    if (formattedLink === 'view-all') {
-      return `/${category.toLowerCase()}/rankings/view-all`
-    }
-    return `/${category.toLowerCase()}/rankings/${formattedLink}`
+  const formattedLink = link.toLowerCase().replace(' ', '-')
+  const cat = category.toLowerCase()
+  if (cat === 'explore') return '/discover'
+  if (formattedLink === 'view-all') {
+    return `/${cat}/rankings/view-all`
   }
+  return `/${cat}/rankings/${formattedLink}`
+}
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {

@@ -128,26 +128,33 @@ export default function CategoryGrid({
         <div className="max-w-[2000px] mx-auto">
           <div className="grid grid-cols-2 mobile:grid-cols-2 tablet:grid-cols-3 desktop:grid-cols-4">
             {isDiscoverPage ? (
-              exploreLinks.map((link, i) => (
-                <Link
-                  key={i}
-                  href={`/explore/discover/${link.name.toLowerCase().replace(' ', '-')}`}
-                  className={`group relative h-[500px] flex items-center justify-center border-r border-b border-black last:border-r-0 tablet:last:border-r ${
-                    i >= 6 ? 'tablet:hidden desktop:flex' : ''
-                  }`}
-                >
-                  <Image
-                    src={`/brand-${i + 1}.jpg`}
-                    alt={link.name}
-                    width={400}
-                    height={500}
-                    className="w-full h-full object-cover opacity-90 hover:opacity-100 transition-opacity"
-                  />
-                  <span className="absolute bottom-6 text-xs font-semibold tracking-[0.15em] opacity-0 group-hover:opacity-100 transition-opacity">
-                    {link.name.toUpperCase()}
-                  </span>
-                </Link>
-              ))
+              exploreLinks.map((link, i) => {
+                const slug = link.name.toLowerCase().replace(/\s+/g, '-')
+                const defaultCategory = 'women'
+                const href = slug === 'view-all'
+                  ? `/${defaultCategory}/${link.category}/view-all`
+                  : `/${defaultCategory}/${link.category}/${slug}`
+                return (
+                  <Link
+                    key={i}
+                    href={href}
+                    className={`group relative h-[500px] flex items-center justify-center border-r border-b border-black last:border-r-0 tablet:last:border-r ${
+                      i >= 6 ? 'tablet:hidden desktop:flex' : ''
+                    }`}
+                  >
+                    <Image
+                      src={`/placeholders/brand-${i + 1}.jpg`}
+                      alt={link.name}
+                      width={400}
+                      height={500}
+                      className="w-full h-full object-cover opacity-90 hover:opacity-100 transition-opacity"
+                    />
+                    <span className="absolute bottom-6 text-xs font-semibold tracking-[0.15em] opacity-0 group-hover:opacity-100 transition-opacity">
+                      {link.name.toUpperCase()}
+                    </span>
+                  </Link>
+                )
+              })
             ) : (
               items.map((item, i) => (
                 <Link
