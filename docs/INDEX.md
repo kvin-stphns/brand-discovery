@@ -53,8 +53,7 @@ This documentation is the **single source of truth** for Cursor’s Agent Mode t
 - **Web3**
   - `/docs/WEB3/OVERVIEW.md`
   - `/docs/WEB3/CONTRACTS_SPEC.md`
-  - `/docs/WEB3/WALLET_INTERGRATION.md`  
-    (Note: file name uses INTERGRATION, kept for now; align later if renamed.)
+  - `/docs/WEB3/WALLET_INTEGRATION.md`
   - `/docs/WEB3/DATA_FLOW.md`
 - **QA**
   - `/docs/QA/TEST_STRATEGY.md`
