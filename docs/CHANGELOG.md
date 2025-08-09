@@ -6,6 +6,15 @@
 
 ---
 
+## [2025-08-09] – Gate 0 build/lint green; Gate 1 UI cohesion pass (typed pages, a11y, skeletons)
+- Backend: added ESLint config and scripts; `npm run lint` and `npm run build` (no-op) now pass. Kept server plain JS.
+- Frontend: fixed a11y (skip link, `Menu.Button` aria, ESC close), resolved TypeScript typing on Featured/Popular, added analytics view/nav hooks, loading skeletons in `CategoryGrid`, and created `/terms` page.
+- Fixed Next lint warning in `not-found` by escaping apostrophe.
+- Ensured builds pass for both apps; only non-blocking lint warnings remain to be addressed during continued type cleanup.
+**Rationale:** Establish stable baseline before proceeding with Gate 1/2/3 implementation.
+
+---
+
 ## [2025-08-09] – Gate 1 UI cohesion progress (maps, mocks, nav helpers)
 - Added `frontend/lib/api/client.ts` and `frontend/lib/api/mock.ts` for data shims; refactored `/featured` and `/popular` to consume mocks.
 - Centralized menu link building via `frontend/lib/nav.ts`; updated `MegaMenu.tsx` to use it.

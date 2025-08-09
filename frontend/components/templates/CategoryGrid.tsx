@@ -2,6 +2,8 @@
 import Image from 'next/image'
 import Link from 'next/link'
 import { useState, useEffect } from 'react'
+import { GridCardSkeleton } from '@/components/common/Skeleton'
+import { Analytics } from '@/lib/analytics'
 
 const allExploreLinks = [
   { name: 'Spotlight', category: 'discover' },
@@ -14,7 +16,7 @@ const allExploreLinks = [
   { name: 'Location', category: 'discover' }
 ]
 
-const shuffleArray = (array: any[]) => {
+function shuffleArray<T>(array: T[]): T[] {
   const newArray = [...array]
   for (let i = newArray.length - 1; i > 0; i--) {
     const j = Math.floor(Math.random() * (i + 1))
@@ -81,6 +83,8 @@ export default function CategoryGrid({
     }
   }, [isDiscoverPage])
 
+  const isLoading = !isDiscoverPage && items.length === 0
+
   return (
     <section className="w-full min-h-screen">
       {/* Fixed Title Section */}
@@ -124,6 +128,7 @@ export default function CategoryGrid({
                     className={`group relative h-[500px] flex items-center justify-center border-r border-b border-black last:border-r-0 tablet:last:border-r ${
                       i >= 6 ? 'tablet:hidden desktop:flex' : ''
                     }`}
+                    onClick={() => Analytics.nav(link.name, href)}
                   >
                     <Image
                       src={`/placeholders/brand-${i + 1}.jpg`}
@@ -138,6 +143,12 @@ export default function CategoryGrid({
                   </Link>
                 )
               })
+            ) : isLoading ? (
+              Array.from({ length: 8 }).map((_, i) => (
+                <div key={i} className={`border-r border-b border-black last:border-r-0 tablet:last:border-r ${i >= 6 ? 'tablet:hidden desktop:flex' : ''}`}>
+                  <GridCardSkeleton />
+                </div>
+              ))
             ) : (
               items.map((item, i) => (
                 <Link
@@ -146,6 +157,7 @@ export default function CategoryGrid({
                   className={`group relative h-[500px] flex items-center justify-center border-r border-b border-black last:border-r-0 tablet:last:border-r ${
                     i >= 6 ? 'tablet:hidden desktop:flex' : ''
                   }`}
+                  onClick={() => Analytics.nav(item.name, getItemHref(item, category || ''))}
                 >
                   <Image
                     src={item.image}

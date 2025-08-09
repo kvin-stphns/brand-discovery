@@ -329,3 +329,10 @@ The human will reply:
 - Frontend builds successfully; lint warnings remain acceptable for now and will be addressed during the remaining UI cohesion tasks.
 
 ---
+
+## Gate 1 Status (Agent note – 2025-08-09, update 2)
+- Baseline green: frontend and backend install/lint/build pass; backend has ESLint + scripts.
+- UI cohesion: typed Featured/Popular pages, added skeletons to `CategoryGrid`, a11y improvements (skip link, Menu ESC, labels), analytics hooks for views/nav, and new `/terms` page.
+- Remaining for Gate 1: minor type cleanup in mocks, route crawl report, a11y and Lighthouse reports, and token utilities sweep.
+
+---

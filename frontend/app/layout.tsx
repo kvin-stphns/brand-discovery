@@ -15,11 +15,16 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body>
+        <a href="#main-content" className="sr-only focus:not-sr-only focus:absolute focus:top-2 focus:left-2 focus:bg-black focus:text-white focus:px-3 focus:py-2">Skip to content</a>
         <div className="min-h-screen flex flex-col bg-white">
           <Navbar />
-          {children}
+          <main id="main-content" className="flex-1">
+            {children}
+          </main>
           <Footer />
         </div>
+        {/* Toast viewport placeholder */}
+        <div id="toast-viewport" aria-live="polite" aria-atomic="true" className="fixed bottom-4 right-4 z-[2000] space-y-2" />
       </body>
     </html>
   )
