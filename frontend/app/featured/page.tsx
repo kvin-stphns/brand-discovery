@@ -1,14 +1,12 @@
 'use client'
 import CategoryGrid from '@/components/templates/CategoryGrid'
-import { getFeatured, type GridItem } from '@/lib/api/mock'
+import { getFeatured } from '@/lib/api/mock'
 import { useEffect, useState } from 'react'
-import { Analytics } from '@/lib/analytics'
 
 export default function FeaturedPage() {
-  const [items, setItems] = useState<GridItem[]>([])
+  const [items, setItems] = useState<any[]>([])
 
   useEffect(() => {
-    Analytics.view('featured')
     getFeatured(8).then(setItems)
   }, [])
 

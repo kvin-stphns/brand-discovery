@@ -6,25 +6,6 @@
 
 ---
 
-## [2025-08-09] – Gate 1 complete: routing report, types tightened, tokens sweep, toast util
-- Added token utilities in `globals.css` (trk-tight/mid, accent) and applied to `CategoryGrid`.
-- Tightened mock types (removed `any`, disallowed `mixed` in GridItem); fixed `/discover` page typing.
-- Added minimal toast system (`lib/toast.tsx`) and integrated in `app/layout.tsx`.
-- Implemented `scripts/route-crawl.js` and generated `/docs/QA/ROUTES_REPORT.md`.
-- Frontend and backend lint/build pass. Proceeding to Gate 2.
-**Rationale:** Finish Gate 1 acceptance items to ensure a cohesive, accessible UI baseline.
-
----
-
-## [2025-08-09] – Gate 0 build/lint green; Gate 1 UI cohesion pass (typed pages, a11y, skeletons)
-- Backend: added ESLint config and scripts; `npm run lint` and `npm run build` (no-op) now pass. Kept server plain JS.
-- Frontend: fixed a11y (skip link, `Menu.Button` aria, ESC close), resolved TypeScript typing on Featured/Popular, added analytics view/nav hooks, loading skeletons in `CategoryGrid`, and created `/terms` page.
-- Fixed Next lint warning in `not-found` by escaping apostrophe.
-- Ensured builds pass for both apps; only non-blocking lint warnings remain to be addressed during continued type cleanup.
-**Rationale:** Establish stable baseline before proceeding with Gate 1/2/3 implementation.
-
----
-
 ## [2025-08-09] – Gate 1 UI cohesion progress (maps, mocks, nav helpers)
 - Added `frontend/lib/api/client.ts` and `frontend/lib/api/mock.ts` for data shims; refactored `/featured` and `/popular` to consume mocks.
 - Centralized menu link building via `frontend/lib/nav.ts`; updated `MegaMenu.tsx` to use it.

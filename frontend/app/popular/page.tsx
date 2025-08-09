@@ -1,14 +1,12 @@
 'use client'
 import CategoryGrid from '@/components/templates/CategoryGrid'
-import { getPopular, type GridItem } from '@/lib/api/mock'
+import { getPopular } from '@/lib/api/mock'
 import { useEffect, useState } from 'react'
-import { Analytics } from '@/lib/analytics'
 
 export default function PopularPage() {
-  const [items, setItems] = useState<GridItem[]>([])
+  const [items, setItems] = useState<any[]>([])
 
   useEffect(() => {
-    Analytics.view('popular')
     getPopular(8).then(setItems)
   }, [])
 
