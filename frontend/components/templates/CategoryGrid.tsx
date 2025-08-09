@@ -43,7 +43,6 @@ interface CategoryGridProps {
   subsection?: string
   subtitle?: string
   isDiscoverPage?: boolean
-  gridType?: 'mixed' | 'brand' | 'designer' | 'product'
 }
 
 const getItemHref = (item: GridItem, category: string) => {
@@ -59,22 +58,6 @@ const getItemHref = (item: GridItem, category: string) => {
   }
 }
 
-const getGridItemType = (section: string, subsection?: string) => {
-  switch (section.toLowerCase()) {
-    case 'categories':
-      return 'product'
-    case 'brands':
-      return 'brand'
-    case 'designers':
-      return 'designer'
-    case 'discover':
-    case 'rankings':
-      return 'mixed'
-    default:
-      return 'product'
-  }
-}
-
 export default function CategoryGrid({
   items,
   title,
@@ -83,7 +66,6 @@ export default function CategoryGrid({
   subsection,
   subtitle,
   isDiscoverPage = false,
-  gridType
 }: CategoryGridProps) {
   const [exploreLinks, setExploreLinks] = useState(allExploreLinks)
 

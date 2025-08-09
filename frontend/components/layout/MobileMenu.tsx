@@ -2,7 +2,6 @@
 import { useState, useEffect } from 'react'
 import { X, ArrowLeft } from 'lucide-react'
 import { useRouter } from 'next/navigation'
-import Link from 'next/link'
 
 interface MobileMenuProps {
   isOpen: boolean

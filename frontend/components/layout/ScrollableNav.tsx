@@ -26,7 +26,7 @@ const ScrollableNav = ({ items }: ScrollableNavProps) => {
         className="overflow-x-auto scrollbar-hide w-full"
       >
         <div className="flex space-x-12 pr-16"> {/* Added padding for overscroll */}
-          {items.map((item, index) => (
+          {items.map((item) => (
             <MegaMenu 
               key={item} 
               category={item}

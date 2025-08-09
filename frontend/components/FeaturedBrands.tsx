@@ -17,16 +17,6 @@ const FeaturedBrands = () => {
 
   const productCategories = ['Tops', 'Bottoms', 'Outerwear', 'Accessories'] as const
 
-  const toSingular = (word: string) => {
-    switch (word.toLowerCase()) {
-      case 'accessories': return 'Accessory'
-      case 'tops': return 'Top'
-      case 'bottoms': return 'Bottom'
-      case 'outerwear': return 'Outerwear'
-      default: return word
-    }
-  }
-
   const items = Array.from({ length: 8 }).map((_, i) => {
     const types = ['product', 'brand', 'designer'] as const
     const type = types[i % 3]
