@@ -3,11 +3,13 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { useState, useEffect } from 'react'
 import { Heart, Bookmark, ChevronRight } from 'lucide-react'
+import { useCart } from '@/lib/store/cart'
 
 export default function ProductPage() {
   const [selectedImage, setSelectedImage] = useState(0)
   const [selectedSize, setSelectedSize] = useState('')
   const [isMobile, setIsMobile] = useState(false)
+  const addToCart = useCart((s) => s.add)
   
   useEffect(() => {
     // Handle mobile detection and viewport adjustments
@@ -31,6 +33,10 @@ export default function ProductPage() {
     '/placeholders/product-3.jpg',
     '/placeholders/product-4.jpg',
   ]
+
+  const add = () => {
+    addToCart({ id: 'product-1', name: 'PRODUCT NAME', price: 299, size: selectedSize || undefined, image: images[selectedImage] })
+  }
 
   return (
     <>
@@ -152,7 +158,7 @@ export default function ProductPage() {
               {/* Add desktop add to cart button */}
               {!isMobile && (
                 <div className="absolute bottom-0 left-8 right-8 pb-8">
-                  <button className="w-full bg-black text-white py-4 text-sm tracking-[0.15em]">
+                  <button onClick={add} className="w-full bg-black text-white py-4 text-sm tracking-[0.15em]">
                     ADD TO CART
                   </button>
                 </div>
@@ -163,7 +169,7 @@ export default function ProductPage() {
           {/* Mobile Buy Button Overlay */}
           {isMobile && (
             <div className="fixed bottom-0 left-0 right-0 bg-white border-t border-black p-4 z-50">
-              <button className="w-full bg-black text-white py-4 text-sm tracking-[0.15em]">
+              <button onClick={add} className="w-full bg-black text-white py-4 text-sm tracking-[0.15em]">
                 ADD TO CART
               </button>
             </div>

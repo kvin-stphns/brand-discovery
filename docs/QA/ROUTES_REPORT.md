@@ -8,6 +8,7 @@
 - /designer/[id]
 - /discover
 - /discover/map
+- /explore
 - /faq
 - /featured
 - /popular

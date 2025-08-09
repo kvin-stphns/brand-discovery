@@ -66,3 +66,14 @@
 - **Modified:** `/src/pages/Brands.tsx` to integrate InteractiveMap component.
 - **Removed:** Deprecated static brand list.
 **Rationale:** Implement premium discovery experience via interactive map UI.
+
+---
+
+## [2025-08-09] – Gate 1 UI Auto-Fix Sweep
+- Unified internal routing via `lib/nav.ts::hrefFor`; updated MegaMenu including distinct `/explore` vs `/discover`, and mapped Discover → Location to `/discover/map`.
+- Added `/explore` page (mixed feed) distinct from `/discover`.
+- Popular cards z-index/parallax fixes; Hero button fixed overlay via portal + sentinel (earlier hotfix).
+- Added minimal cart (Zustand) with navbar count and drawer; wired Product “ADD TO CART”.
+- Regenerated routes map and routes report; build green.
+
+---

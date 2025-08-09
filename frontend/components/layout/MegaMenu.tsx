@@ -8,7 +8,7 @@ interface MegaMenuProps {
   category: string
 }
 
-const topLinks = ['Discover', 'Brands', 'Categories', 'Designers', 'Rankings']
+const topLinks = ['Discover', 'Brands', 'Categories', 'Designers', 'Rankings', 'Explore']
 const bottomLinks = ['Login', 'Liked', 'Saved', 'Submissions', 'About']
 const discoverLinks = ['View All', 'Spotlight', 'Trending', 'Lookbooks', 'Location', 'Random']
 const brandLinks = ['View All', 'Alphabetical', 'Newest', 'Featured', 'Popular', 'Random']
@@ -25,7 +25,6 @@ const MegaMenu = ({ category }: MegaMenuProps) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
 
   const handleLinkClick = (link: string) => {
-    // Close all other menus first
     const closeAllExcept = (menuName: string) => {
       if (menuName !== 'Discover') setShowDiscoverMenu(false)
       if (menuName !== 'Brands') setShowBrandsMenu(false)
@@ -34,27 +33,11 @@ const MegaMenu = ({ category }: MegaMenuProps) => {
       if (menuName !== 'Rankings') setShowRankingsMenu(false)
     }
 
-    // Toggle the clicked menu and close others
-    if (link === 'Discover') {
-      closeAllExcept('Discover')
-      setShowDiscoverMenu(!showDiscoverMenu)
-    }
-    if (link === 'Brands') {
-      closeAllExcept('Brands')
-      setShowBrandsMenu(!showBrandsMenu)
-    }
-    if (link === 'Categories') {
-      closeAllExcept('Categories')
-      setShowCategoriesMenu(!showCategoriesMenu)
-    }
-    if (link === 'Designers') {
-      closeAllExcept('Designers')
-      setShowDesignersMenu(!showDesignersMenu)
-    }
-    if (link === 'Rankings') {
-      closeAllExcept('Rankings')
-      setShowRankingsMenu(!showRankingsMenu)
-    }
+    if (link === 'Discover') { closeAllExcept('Discover'); setShowDiscoverMenu(!showDiscoverMenu) }
+    if (link === 'Brands') { closeAllExcept('Brands'); setShowBrandsMenu(!showBrandsMenu) }
+    if (link === 'Categories') { closeAllExcept('Categories'); setShowCategoriesMenu(!showCategoriesMenu) }
+    if (link === 'Designers') { closeAllExcept('Designers'); setShowDesignersMenu(!showDesignersMenu) }
+    if (link === 'Rankings') { closeAllExcept('Rankings'); setShowRankingsMenu(!showRankingsMenu) }
   }
 
   const to = (section: 'discover'|'brands'|'categories'|'designers'|'rankings', link: string) => hrefFor(section, category, link)
@@ -123,22 +106,19 @@ const MegaMenu = ({ category }: MegaMenuProps) => {
                 leaveTo="transform translate-x-[-100%]"
               >
                 <Menu.Items static className="fixed left-0 top-[104px] bottom-0 w-[400px] bg-white z-[48] overflow-y-auto">
-                  {/* White overlay to hide the border lines */}
                   <div className="absolute -top-[1px] left-0 right-0 h-[2px] bg-white z-[1004]" />
                   
                   <div className="relative h-full border-r border-black">
-                    {/* Content wrapper */}
                     <div className="min-h-full flex flex-col justify-between">
-                      {/* Top Links */}
                       <div className="py-6">
                         {topLinks.map((link) => (
                           <Menu.Item key={link}>
                             {() => (
                               <a
-                                href="#"
+                                href={link === 'Explore' ? '/explore' : '#'}
                                 className="block px-12 py-4 text-sm tracking-[0.25em] hover:text-gray-500 transition-colors"
                                 onClick={(e) => {
-                                  e.preventDefault()
+                                  if (link !== 'Explore') e.preventDefault()
                                   handleLinkClick(link)
                                 }}
                                 role="menuitem"
@@ -160,7 +140,6 @@ const MegaMenu = ({ category }: MegaMenuProps) => {
                         ))}
                       </div>
 
-                      {/* Bottom Links */}
                       <div className="py-8">
                         {bottomLinks.map((link) => (
                           <Menu.Item key={link}>
@@ -182,30 +161,11 @@ const MegaMenu = ({ category }: MegaMenuProps) => {
                 </Menu.Items>
               </Transition>
 
-              {/* Layer 2 - Discover Menu */}
-              <Transition
-                show={showDiscoverMenu}
-                as={Fragment}
-                enter="transition duration-100 ease-out"
-                enterFrom="transform translate-x-[-100%]"
-                enterTo="transform translate-x-0"
-                leave="transition duration-75 ease-out"
-                leaveFrom="transform translate-x-0"
-                leaveTo="transform translate-x-[-100%]"
-              >
+              <Transition show={showDiscoverMenu} as={Fragment} enter="transition duration-100 ease-out" enterFrom="transform translate-x-[-100%]" enterTo="transform translate-x-0" leave="transition duration-75 ease-out" leaveFrom="transform translate-x-0" leaveTo="transform translate-x-[-100%]">
                 <div className="fixed left-[400px] top-[104px] bottom-0 w-[400px] bg-white z-[47] border-r border-black overflow-y-auto" role="menu" aria-label="Discover">
                   <div className="py-6">
                     {discoverLinks.map((link) => (
-                      <Link
-                        key={link}
-                        href={to('discover', link)}
-                        className="block px-12 py-4 text-sm tracking-[0.25em] hover:text-gray-500 transition-colors"
-                        onClick={() => {
-                          setShowDiscoverMenu(false)
-                          setIsMenuOpen(false)
-                        }}
-                        role="menuitem"
-                      >
+                      <Link key={link} href={to('discover', link)} className="block px-12 py-4 text-sm tracking-[0.25em] hover:text-gray-500 transition-colors" onClick={() => { setShowDiscoverMenu(false); setIsMenuOpen(false) }} role="menuitem">
                         {link}
                       </Link>
                     ))}
@@ -213,125 +173,42 @@ const MegaMenu = ({ category }: MegaMenuProps) => {
                 </div>
               </Transition>
 
-              {/* Layer 2 - Brands Menu */}
-              <Transition
-                show={showBrandsMenu}
-                as={Fragment}
-                enter="transition duration-100 ease-out"
-                enterFrom="transform translate-x-[-100%]"
-                enterTo="transform translate-x-0"
-                leave="transition duration-75 ease-out"
-                leaveFrom="transform translate-x-0"
-                leaveTo="transform translate-x-[-100%]"
-              >
+              {/* Other submenus unchanged */}
+              <Transition show={showBrandsMenu} as={Fragment} enter="transition duration-100 ease-out" enterFrom="transform translate-x-[-100%]" enterTo="transform translate-x-0" leave="transition duration-75 ease-out" leaveFrom="transform translate-x-0" leaveTo="transform translate-x-[-100%]">
                 <div className="fixed left-[400px] top-[104px] bottom-0 w-[400px] bg-white z-[47] border-r border-black overflow-y-auto" role="menu" aria-label="Brands">
                   <div className="py-6">
                     {brandLinks.map((link) => (
-                      <Link
-                        key={link}
-                        href={to('brands', link)}
-                        className="block px-12 py-4 text-sm tracking-[0.25em] hover:text-gray-500 transition-colors"
-                        onClick={() => {
-                          setShowBrandsMenu(false)
-                          setIsMenuOpen(false)
-                        }}
-                        role="menuitem"
-                      >
-                        {link}
-                      </Link>
+                      <Link key={link} href={to('brands', link)} className="block px-12 py-4 text-sm tracking-[0.25em] hover:text-gray-500 transition-colors" onClick={() => { setShowBrandsMenu(false); setIsMenuOpen(false) }} role="menuitem">{link}</Link>
                     ))}
                   </div>
                 </div>
               </Transition>
 
-              {/* Layer 2 - Categories Menu */}
-              <Transition
-                show={showCategoriesMenu}
-                as={Fragment}
-                enter="transition duration-100 ease-out"
-                enterFrom="transform translate-x-[-100%]"
-                enterTo="transform translate-x-0"
-                leave="transition duration-75 ease-out"
-                leaveFrom="transform translate-x-0"
-                leaveTo="transform translate-x-[-100%]"
-              >
+              <Transition show={showCategoriesMenu} as={Fragment} enter="transition duration-100 ease-out" enterFrom="transform translate-x-[-100%]" enterTo="transform translate-x-0" leave="transition duration-75 ease-out" leaveFrom="transform translate-x-0" leaveTo="transform translate-x-[-100%]">
                 <div className="fixed left-[400px] top-[104px] bottom-0 w-[400px] bg-white z-[47] border-r border-black overflow-y-auto" role="menu" aria-label="Categories">
                   <div className="py-6">
                     {categoryLinks.map((link) => (
-                      <Link
-                        key={link}
-                        href={to('categories', link)}
-                        className="block px-12 py-4 text-sm tracking-[0.25em] hover:text-gray-500 transition-colors"
-                        onClick={() => {
-                          setShowCategoriesMenu(false)
-                          setIsMenuOpen(false)
-                        }}
-                        role="menuitem"
-                      >
-                        {link}
-                      </Link>
+                      <Link key={link} href={to('categories', link)} className="block px-12 py-4 text-sm tracking-[0.25em] hover:text-gray-500 transition-colors" onClick={() => { setShowCategoriesMenu(false); setIsMenuOpen(false) }} role="menuitem">{link}</Link>
                     ))}
                   </div>
                 </div>
               </Transition>
 
-              {/* Layer 2 - Designers Menu */}
-              <Transition
-                show={showDesignersMenu}
-                as={Fragment}
-                enter="transition duration-100 ease-out"
-                enterFrom="transform translate-x-[-100%]"
-                enterTo="transform translate-x-0"
-                leave="transition duration-75 ease-out"
-                leaveFrom="transform translate-x-0"
-                leaveTo="transform translate-x-[-100%]"
-              >
+              <Transition show={showDesignersMenu} as={Fragment} enter="transition duration-100 ease-out" enterFrom="transform translate-x-[-100%]" enterTo="transform translate-x-0" leave="transition duration-75 ease-out" leaveFrom="transform translate-x-0" leaveTo="transform translate-x-[-100%]">
                 <div className="fixed left-[400px] top-[104px] bottom-0 w-[400px] bg-white z-[47] border-r border-black overflow-y-auto" role="menu" aria-label="Designers">
                   <div className="py-6">
                     {designerLinks.map((link) => (
-                      <Link
-                        key={link}
-                        href={to('designers', link)}
-                        className="block px-12 py-4 text-sm tracking-[0.25em] hover:text-gray-500 transition-colors"
-                        onClick={() => {
-                          setShowDesignersMenu(false)
-                          setIsMenuOpen(false)
-                        }}
-                        role="menuitem"
-                      >
-                        {link}
-                      </Link>
+                      <Link key={link} href={to('designers', link)} className="block px-12 py-4 text-sm tracking-[0.25em] hover:text-gray-500 transition-colors" onClick={() => { setShowDesignersMenu(false); setIsMenuOpen(false) }} role="menuitem">{link}</Link>
                     ))}
                   </div>
                 </div>
               </Transition>
 
-              {/* Layer 2 - Rankings Menu */}
-              <Transition
-                show={showRankingsMenu}
-                as={Fragment}
-                enter="transition duration-100 ease-out"
-                enterFrom="transform translate-x-[-100%]"
-                enterTo="transform translate-x-0"
-                leave="transition duration-75 ease-out"
-                leaveFrom="transform translate-x-0"
-                leaveTo="transform translate-x-[-100%]"
-              >
+              <Transition show={showRankingsMenu} as={Fragment} enter="transition duration-100 ease-out" enterFrom="transform translate-x-[-100%]" enterTo="transform translate-x-0" leave="transition duration-75 ease-out" leaveFrom="transform translate-x-0" leaveTo="transform translate-x-[-100%]">
                 <div className="fixed left-[400px] top-[104px] bottom-0 w-[400px] bg-white z-[47] border-r border-black overflow-y-auto" role="menu" aria-label="Rankings">
                   <div className="py-6">
                     {rankingLinks.map((link) => (
-                      <Link
-                        key={link}
-                        href={to('rankings', link)}
-                        className="block px-12 py-4 text-sm tracking-[0.25em] hover:text-gray-500 transition-colors"
-                        onClick={() => {
-                          setShowRankingsMenu(false)
-                          setIsMenuOpen(false)
-                        }}
-                        role="menuitem"
-                      >
-                        {link}
-                      </Link>
+                      <Link key={link} href={to('rankings', link)} className="block px-12 py-4 text-sm tracking-[0.25em] hover:text-gray-500 transition-colors" onClick={() => { setShowRankingsMenu(false); setIsMenuOpen(false) }} role="menuitem">{link}</Link>
                     ))}
                   </div>
                 </div>
