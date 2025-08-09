@@ -81,3 +81,11 @@ This documentation is the **single source of truth** for Cursor’s Agent Mode t
 - **Next Gate:** `Gate 1 – UI completed` *(See `/docs/SCOPE_AND_PHASES.md`)*
 
 ---
+
+
+---
+
+## QA & Deployment
+
+- **/docs/QA/TEST_STRATEGY.md** – Complete testing methodology for all gates, including tools, commands, and pass criteria.
+- **/docs/DEPLOYMENT.md** – Full deployment flow from local → staging → production, with Web3/testnet instructions.

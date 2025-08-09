@@ -13,7 +13,7 @@ alwaysApply: true
 - Finish UI first, wire checkout buttons, then build backend and affiliate redirect.
 - Implement scraper MVP for 1–2 aggregators.
 - Add Web3 Phase 1 (wallet connect + on-chain voting).
-- Keep documentation updated; pause at approval gates with clear summaries.
+- Keep documentation updated; proceed through all gates automatically unless blocked.
 
 ## [priorities]
 - Profit path > stability > feature breadth.
@@ -66,7 +66,7 @@ alwaysApply: true
 ### [phase.baseline.exit]
 - Summarize in docs/SCOPE_AND_PHASES.md.
 - Update docs/CHANGELOG.md.
-- WAIT_FOR_APPROVAL=Gate 0.
+- **AUTO-CONTINUE if all quality gates pass**.
 
 ### [phase.ui.tasks]
 - Implement missing pages and polish existing ones per docs/FRONTEND/UI_TASKS.md.
@@ -76,7 +76,7 @@ alwaysApply: true
 ### [phase.ui.exit]
 - Provide screenshots or DOM snapshots.
 - Update docs/CHANGELOG.md and SCOPE_AND_PHASES.md.
-- WAIT_FOR_APPROVAL=Gate 1.
+- **AUTO-CONTINUE if all quality gates pass**.
 
 ### [phase.backend.tasks]
 - Implement Express + Mongo (Mongoose) server.
@@ -89,7 +89,7 @@ alwaysApply: true
 ### [phase.backend.exit]
 - All tests pass.
 - Update docs/CHANGELOG.md and SCOPE_AND_PHASES.md.
-- WAIT_FOR_APPROVAL=Gate 2.
+- **AUTO-CONTINUE if all quality gates pass**.
 
 ### [phase.scraper.tasks]
 - Implement Playwright + Cheerio scraper for 1–2 aggregators.
@@ -99,7 +99,7 @@ alwaysApply: true
 
 ### [phase.scraper.exit]
 - Update docs/CHANGELOG.md and SCOPE_AND_PHASES.md.
-- WAIT_FOR_APPROVAL=Gate 3.
+- **AUTO-CONTINUE if all quality gates pass**.
 
 ### [phase.web3_phase1.tasks]
 - Wallet connect (Metamask/WalletConnect).
@@ -110,7 +110,7 @@ alwaysApply: true
 ### [phase.web3_phase1.exit]
 - Confirm compile/deploy, tests pass.
 - Update docs/CHANGELOG.md and SCOPE_AND_PHASES.md.
-- WAIT_FOR_APPROVAL=Gate 4.
+- **AUTO-CONTINUE if all quality gates pass**.
 
 ### [phase.web3_phase2.tasks]
 - NFT proof-of-purchase receipt.
@@ -120,7 +120,7 @@ alwaysApply: true
 ### [phase.web3_phase2.exit]
 - Tests pass; minting flow demoed.
 - Update docs/CHANGELOG.md and SCOPE_AND_PHASES.md.
-- WAIT_FOR_APPROVAL=Gate 5.
+- **AUTO-CONTINUE if all quality gates pass**.
 
 ### [phase.deploy.tasks]
 - Deploy FE (Vercel), BE (Heroku/Render), Web3 assets (IPFS).
@@ -129,12 +129,28 @@ alwaysApply: true
 
 ### [phase.deploy.exit]
 - Update docs/CHANGELOG.md and SCOPE_AND_PHASES.md.
-- WAIT_FOR_APPROVAL=Gate 6.
+- **AUTO-CONTINUE if all quality gates pass**.
+
+---
+
+## [Zero_Intervention_Protocol]
+- The agent is authorized to progress through all gates **without human approval** unless:
+  1. Build/test pipeline fails and cannot be resolved autonomously.
+  2. Data loss or destructive change is detected.
+  3. Deployment to production is about to occur without passing all QA gates.
+- At each gate:
+  - Perform all tasks from `/docs/SCOPE_AND_PHASES.md` and `/docs/QA/TEST_STRATEGY.md`.
+  - Self-QA per `/docs/QA/TEST_STRATEGY.md`.
+  - If criteria met, immediately proceed to next gate.
+- Always:
+  - Keep commits atomic and scoped.
+  - Maintain passing builds/lints/tests before proceeding.
+  - Keep routing/UI/data aligned with `/docs/FRONTEND/UI_TASKS.md` and `/docs/FRONTEND/OVERVIEW.md`.
 
 ---
 
 ## [reporting]
-At each gate, PR comment must include:
+At each gate (and in PR comments when applicable):
 - What changed.
 - How it was tested.
 - Known limitations.
@@ -182,5 +198,5 @@ At each gate, PR comment must include:
 ## [golden_rules]
 - Respect existing work.
 - Self-document all changes.
-- Wait for approvals.
+- Follow Zero Intervention Protocol rules in this file.
 - Write scalable, maintainable code.

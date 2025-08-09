@@ -24,10 +24,33 @@
 - Maintain Swedish-grid, Balenciaga-inspired UI; avoid regressions
 - Implement affiliate checkout and Web3 integrations per docs
 - Keep dependencies current; remove unused when safe
-- Run lint/build/tests before requesting gate approval
+- Run lint/build/tests before proceeding to the next gate
 
 ## Reporting at each gate
 - What changed, how tested, known limitations, next steps
 
 ---
 This file is a convenience summary. If any guidance conflicts, prefer `.cursor/rules/agent-mode-rules.mdc`.
+
+
+---
+
+## Zero Intervention Protocol
+
+- The agent is authorized to proceed through all gates **without requiring human approval** unless:
+  1. A build fails and cannot be resolved with autonomous fixes.
+  2. Data loss or irreversible destructive change is detected.
+  3. Deployment to production is about to occur without passing all QA gates.
+
+- For each gate:
+  - Perform all tasks defined in `/docs/SCOPE_AND_PHASES.md`, `/docs/QA/TEST_STRATEGY.md`, and related docs.
+  - Perform self-QA using the commands specified in `/docs/QA/TEST_STRATEGY.md`.
+  - If all criteria are met, **immediately continue to the next gate**.
+  - Update `/docs/CHANGELOG.md` and `/docs/SCOPE_AND_PHASES.md` with progress.
+
+- Do not halt or request manual "APPROVE" unless conditions above are met.
+
+- Always:
+  - Keep commits atomic and scoped to the gate or task being worked on.
+  - Maintain build/lint passing status between commits.
+  - Keep routing, UI, and data structures cohesive and aligned with brand/UI requirements in `/docs/FRONTEND/UI_TASKS.md` and `/docs/FRONTEND/OVERVIEW.md`.

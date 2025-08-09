@@ -43,6 +43,7 @@ interface CategoryGridProps {
   subsection?: string
   subtitle?: string
   isDiscoverPage?: boolean
+  gridType?: 'mixed' | 'product' | 'brand' | 'designer'
 }
 
 const getItemHref = (item: GridItem, category: string) => {
