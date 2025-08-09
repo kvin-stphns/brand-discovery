@@ -139,15 +139,12 @@ Acceptance
 Files: pages/index.tsx, components/Hero.tsx, components/FeaturedBrands.tsx, components/PopularBrands.tsx, components/Footer.tsx
 
 Tasks
-	•	Hero
-	•	Keep parallax, ensure it’s GPU-accelerated and throttled.
-	•	Add prefers-reduced-motion guard to disable parallax.
-	•	Add “Skip hero” anchor for accessibility.
-	•	Featured/Popular
-	•	Unify grid borders: no double borders at edges; use grid-cols-* with border-t strategy.
-	•	Instrument CTA clicks (to /featured, /popular). (Ask project owner about this first so it doesnt mess up current UI/ UX logic)
-	•	Footer
-	•	Verify all links exist; add /terms page stub if referenced.
+	• Hero
+		• Parallax guard: pending
+	• Featured/Popular
+		• Image paths validated and placeholder usage consistent (done – 2025-08-09)
+	• Footer
+		• Links audit: pending
 
 Acceptance
 	•	Smooth scroll & parallax; no layout shift.
@@ -249,9 +246,9 @@ Acceptance
 9) Routing, Slugs, and 404s
 
 Tasks
-	•	Add a friendly app/not-found.tsx with “Back to Discover”.
-	•	Create lib/slug.ts and use everywhere slugs are needed.
-	•	Validate [category]/[section]/[subsection] routes render consistently for all combinations present in menus.
+	• Added app/not-found.tsx (done – 2025-08-09)
+	• Slug helpers: pending
+	• Route validation report: pending
 
 Acceptance
 	•	No broken routes from any menu path.

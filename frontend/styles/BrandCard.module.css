@@ -10,9 +10,16 @@
     transform: translateY(-5px);
   }
   
+  .imageWrapper {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 1/1;
+    margin-bottom: 1rem;
+  }
+
   .image {
     border-radius: 5px;
-    margin-bottom: 1rem;
+    object-fit: cover;
   }
   
   .name {

@@ -21,13 +21,14 @@ This documentation is the **single source of truth** for Cursor’s Agent Mode t
 ---
 
 ## Read Me First (Agent Mode)
-1. **Always start by analyzing the existing codebase** — identify current structure, missing pieces, and inconsistencies before making changes.
-2. Read `/docs/SCOPE_AND_PHASES.md` for the current phase, tasks, and acceptance criteria.
-3. When changing file structure or tech choices:
+1. Read `/docs/CURSOR_RULES.md` (summary) and `.cursor/rules/agent-mode-rules.mdc` (authoritative).
+2. **Analyze the existing codebase** — identify current structure, missing pieces, and inconsistencies before making changes.
+3. Read `/docs/SCOPE_AND_PHASES.md` for the current phase, tasks, and acceptance criteria.
+4. When changing file structure or tech choices:
    - Append a short entry to `/docs/CHANGELOG.md`.
    - If altering a prior decision, add an ADR in `/docs/DECISIONS/ADR-*.md`.
-4. After completing a phase, write a **summary** in `/docs/SCOPE_AND_PHASES.md` and **wait for human approval**:
-   - The human will comment: `APPROVE: Gate <N>`.
+5. After completing a phase, write a **summary** in `/docs/SCOPE_AND_PHASES.md` and **wait for human approval**:
+   - The human will comment: `APPROVE: Gate <N>`. 
 
 ---
 
