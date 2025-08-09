@@ -102,8 +102,13 @@
 <<<<<<< Current (Your changes)
 <<<<<<< Current (Your changes)
 <<<<<<< Current (Your changes)
+<<<<<<< Current (Your changes)
   .accent-border { border-color: color-mix(in oklab, #4FFFF4 60%, black); }
   .accent-bg { background-color: color-mix(in oklab, #4FFFF4 10%, white); }
+>>>>>>> Incoming (Background Agent changes)
+=======
+  .accent-border { border-color: #4FFFF4; }
+  .accent-bg { background-color: rgba(79, 255, 244, 0.1); }
 >>>>>>> Incoming (Background Agent changes)
 =======
   .accent-border { border-color: #4FFFF4; }

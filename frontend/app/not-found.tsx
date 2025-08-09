@@ -8,7 +8,11 @@ export default function NotFound() {
       <h1 className="text-2xl tracking-[0.05em] font-bold">PAGE NOT FOUND</h1>
       <p className="text-sm tracking-[0.15em] text-black/60 max-w-md">
 <<<<<<< Current (Your changes)
+<<<<<<< Current (Your changes)
         The page you are looking for does not exist or has moved.
+=======
+        The page you are looking for doesn&apos;t exist or has moved.
+>>>>>>> Incoming (Background Agent changes)
 =======
         The page you are looking for doesn&apos;t exist or has moved.
 >>>>>>> Incoming (Background Agent changes)

@@ -330,21 +330,16 @@ The human will reply:
 
 ---
 
-<<<<<<< Current (Your changes)
-## Gate 1 Completion Update (Agent – 2025-08-09)
-- Implemented skeletons for Featured/Popular grids; added analytics view events.
-- A11y: added skip link and main landmark; fixed unescaped apostrophe.
-- Types: removed `any` usage in key pages and templates; cleaned unused vars.
-- Menus: addressed lint by removing unused render-prop params; no behavior change.
-- Liked/Saved placeholders corrected.
-- Lint/build: frontend now clean and green.
-
-Acceptance check: All routes render; skeletons present; a11y basics in place; analytics hooks exist; lint/build pass. Proceeding to Gate 2.
-=======
 ## Gate 1 Status (Agent note – 2025-08-09, update 2)
 - Baseline green: frontend and backend install/lint/build pass; backend has ESLint + scripts.
 - UI cohesion: typed Featured/Popular pages, added skeletons to `CategoryGrid`, a11y improvements (skip link, Menu ESC, labels), analytics hooks for views/nav, and new `/terms` page.
 - Remaining for Gate 1: minor type cleanup in mocks, route crawl report, a11y and Lighthouse reports, and token utilities sweep.
->>>>>>> Incoming (Background Agent changes)
+
+---
+
+## Gate 1 – Complete (Agent note – 2025-08-09)
+- Delivered: route map and crawl report, typed Featured/Popular/Discover, skeleton loaders, a11y fixes (skip link, menu ESC), analytics hooks, token utilities, toast viewport, `/terms` page.
+- Status: Frontend and backend lint/build green. Proceeding to Gate 2.
+- Next: Backend API MVP (Express + Mongo, models/routes/controllers, affiliate redirect, scraper fixtures) per `/docs/BACKEND/*`.
 
 ---
