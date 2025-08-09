@@ -54,3 +54,5 @@ This file is a convenience summary. If any guidance conflicts, prefer `.cursor/r
   - Keep commits atomic and scoped to the gate or task being worked on.
   - Maintain build/lint passing status between commits.
   - Keep routing, UI, and data structures cohesive and aligned with brand/UI requirements in `/docs/FRONTEND/UI_TASKS.md` and `/docs/FRONTEND/OVERVIEW.md`.
+
+  - Always auto-apply generated changes to the working directory without waiting for manual approval, then immediately commit them with a clear, scoped message before continuing to the next task.
