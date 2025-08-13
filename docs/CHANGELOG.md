@@ -88,3 +88,37 @@
   - Lint/build passed; routes report updated.
 
 ---
+
+## Gate 2 - Backend MVP
+- Unified backend entry: `server.js` now uses `src/app.js`; routes mounted under `/api`.
+- Added health endpoints: `GET /` and `GET /healthz`.
+- Hardened Express: helmet, cors, json limit, morgan, trust proxy, rate-limits (global and stricter for `/auth` and `/checkout`).
+- DB utils: retry with exponential backoff and graceful shutdown on SIGINT/SIGTERM.
+- Models added: `User`, `Designer`, `Product`, `Vote`, `Click`.
+- Auth: JWT magic login (`POST /api/auth/login`), `GET /api/auth/me`, RBAC guard.
+- Validation: Joi-based `validate()` middleware for POST/PUT and query params.
+- Routes implemented/extended: brands (CRUD admin create/update), designers, products (filters), votes (create + summary), rankings aggregates, affiliate checkout with non-blocking Click logging.
+- Tests: healthz, brand admin create+list, checkout redirect.
+- `.env.example` with required env vars.
+
+## Gate 3 - Seed + Live wiring + Optional Scrapers
+- Seed script `backend/scripts/seed.js` (idempotent upserts) for ~20 brands, 15 designers, 80 products; `npm run seed`.
+- Optional scrapers added (Cheerio): `ssense`, `farfetch` with safe delays and non-blocking behavior (`npm run scrape:*`).
+- Affiliate composition hardened via `src/affiliate/partners.js` with partner IDs in `.env.example`.
+- Frontend wired with graceful fallbacks: Featured/Popular pages and Product page use live API when available (2s timeout), fallback to mocks, and show a subtle toast if live data unavailable.
+- Routes report regenerated.
+
+## Gate 4 - Wallet connect + On-chain vote sync (testnet)
+- Added wagmi + viem config; minimal Connect Wallet button (non-blocking).
+- Backend web3 adapter `src/web3/voting.js`: sends tx if env present; otherwise returns dry-run hash and logs a warning. Integrated with `/api/votes` POST (fire-and-forget, attaches txHash if available).
+- Tests extended: votes create + summary; rankings endpoints.
+- Deploy readiness docs and configs added (see /docs/DEPLOY/*).
+
+## Flip to Live Data & MVP Hardening
+- Env: `NEXT_PUBLIC_USE_LIVE_API` flag added; frontend `.env.local.example` updated; backend CORS continues to accept configured origin.
+- Images: whitelisted Next/Image remote hosts for SSENSE/Farfetch.
+- Frontend live data: Featured/Popular/Product pages use live API when `USE_LIVE=true`; no mock fallback on failure—show empty states + toast.
+- Checkout: added `/api/affiliate/preview` and integrated product checkout CTA to open composed URL in a new tab.
+- Search: `/api/search` endpoint + debounced navbar search dropdown.
+- Rankings: endpoints resilient; groundwork to compute from Votes/Clicks with filters.
+- Admin data: `/api/admin/data-status` counts endpoint; QA smoke doc added.

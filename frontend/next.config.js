@@ -4,11 +4,19 @@ const path = require('path');
 const nextConfig = {
   images: {
     remotePatterns: [
-      { protocol: 'https', hostname: 'cdn-images.farfetch-contents.com' },
-      { protocol: 'https', hostname: 'res.cloudinary.com' },
+      { protocol: 'https', hostname: '**.ssense.com' },
       { protocol: 'https', hostname: 'img.ssensemedia.com' },
-      { protocol: 'https', hostname: 'assets.ssense.com' },
+      { protocol: 'https', hostname: '**.farfetch-contents.com' },
+      { protocol: 'https', hostname: '**.farfetch.net' },
     ],
+  },
+  webpack: (config) => {
+    config.resolve.fallback = {
+      ...(config.resolve.fallback || {}),
+      encoding: false,
+      'pino-pretty': false,
+    }
+    return config
   },
 }
 

@@ -1,39 +1,37 @@
 'use client'
 import CategoryGrid from '@/components/templates/CategoryGrid'
-import type { GridItem } from '@/lib/api/mock'
+import { type GridItem } from '@/lib/api/mock'
 import { useEffect, useState } from 'react'
 import { Analytics } from '@/lib/analytics'
-import { fetchBrands } from '@/lib/api/client'
+import { fetchProducts } from '@/lib/api/client'
 import { toast } from '@/lib/toast'
+import { USE_LIVE } from '@/lib/api/liveToggle'
 
 export default function FeaturedPage() {
   const [items, setItems] = useState<GridItem[]>([])
 
   useEffect(() => {
     Analytics.view('featured')
-    fetchBrands()
-      .then((brands) => {
-        setItems(
-          brands.slice(0, 8).map((b) => ({
-            id: b._id,
-            type: 'brand',
-            name: b.name,
-            image: b.image || '/placeholders/brand-default.jpg',
-          })) as GridItem[]
-        )
-      })
-      .catch(() => {
-        toast('Failed to load featured brands', 'error')
-        setItems([])
-      })
+    let didCancel = false
+    async function load() {
+      try {
+        const prods = await fetchProducts({ sort: '-createdAt', limit: 12, source: 'farfetch,ssense' } as any)
+        if (!didCancel && prods?.length) {
+          setItems(
+            prods.slice(0, 12).map((p: any, idx: number) => ({ id: p._id, name: p.name, image: p.images?.[0] || `/placeholders/product-${(idx % 4) + 1}.jpg`, type: 'product', label: 'Featured' })) as any
+          )
+        } else {
+          if (USE_LIVE) toast('Live data unavailable', 'info')
+        }
+      } catch (_e) {
+        if (USE_LIVE) toast('Live data unavailable', 'info')
+      }
+    }
+    load()
+    return () => { didCancel = true }
   }, [])
 
   return (
-    <CategoryGrid 
-      items={items}
-      title="FEATURED"
-      subtitle="Brands, Designers, and Pieces"
-      gridType="mixed"
-    />
+    <CategoryGrid items={items} title="FEATURED" subtitle="Brands, Designers, and Pieces" gridType="mixed" />
   )
 } 

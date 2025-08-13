@@ -1,33 +1,44 @@
 const express = require('express')
 const router = express.Router()
-const fs = require('fs')
-const path = require('path')
+const { Product } = require('../models/productModel')
+const { validate, Joi } = require('../src/middleware/validate')
 
-function loadProducts() {
-  const dataPath = path.join(__dirname, '..', 'utils', 'sample-products.json')
-  if (!fs.existsSync(dataPath)) return []
-  return JSON.parse(fs.readFileSync(dataPath, 'utf-8'))
-}
-
-router.get('/', async (req, res) => {
-  const { brandId, designerId, q, sort, source, limit = 20, page = 1 } = req.query
-  let items = loadProducts()
-  if (source) items = items.filter((p) => String(p.source) === String(source))
-  if (q) {
-    const re = new RegExp(String(q), 'i')
-    items = items.filter((p) => re.test(p.name) || re.test(p.brand))
+router.get(
+  '/',
+  validate({
+    query: Joi.object({
+      brandId: Joi.string().length(24).hex().optional(),
+      designerId: Joi.string().length(24).hex().optional(),
+      q: Joi.string().optional(),
+      sort: Joi.string().default('-createdAt'),
+      page: Joi.number().integer().min(1).default(1),
+      limit: Joi.number().integer().min(1).max(100).default(20),
+      source: Joi.string().optional(),
+    }),
+  }),
+  async (req, res) => {
+    const { brandId, designerId, q, sort, page, limit, source } = req.query
+    const filter = {}
+    if (brandId) filter.brandId = brandId
+    if (designerId) filter.designerId = designerId
+    if (q) filter.name = { $regex: q, $options: 'i' }
+    if (source) filter.source = { $in: String(source).split(',').map((s) => s.trim()) }
+    const docs = await Product.find(filter)
+      .sort(sort)
+      .limit(Number(limit))
+      .skip((Number(page) - 1) * Number(limit))
+    res.json({ items: docs })
   }
-  const total = items.length
-  const pageSize = Math.min(Number(limit), 100)
-  const paged = items.slice((Number(page) - 1) * pageSize, (Number(page) - 1) * pageSize + pageSize)
-  res.json({ items: paged, total })
-})
+)
 
-router.get('/:id', async (req, res) => {
-  const items = loadProducts()
-  const found = items.find((p) => String(p._id) === String(req.params.id))
-  if (!found) return res.status(404).json({ error: 'Not found' })
-  res.json(found)
-})
+router.get(
+  '/:id',
+  validate({ params: Joi.object({ id: Joi.string().length(24).hex().required() }) }),
+  async (req, res) => {
+    const doc = await Product.findById(req.params.id)
+    if (!doc) return res.status(404).json({ error: 'Not found' })
+    res.json(doc)
+  }
+)
 
 module.exports = router
