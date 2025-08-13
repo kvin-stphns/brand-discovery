@@ -5,13 +5,21 @@
     "scripts": {
       "dev": "nodemon server.js",
       "start": "node server.js",
+      "start:mem": "MONGODB_IN_MEMORY=true node server.js",
       "lint": "eslint .",
       "build": "node -e \"console.log('backend: no build step required for plain JS')\"",
+<<<<<<< HEAD
       "test": "jest --runInBand",
       "seed": "node scripts/seed.js",
       "scrape:ssense": "node src/scraper/run.js ssense",
       "scrape:farfetch": "node src/scraper/run.js farfetch",
       "scrape:all": "npm run scrape:ssense && npm run scrape:farfetch"
+=======
+      "scrape:farfetch": "SCRAPE_MAX=10 node src/scraper/run.js --only=farfetch",
+      "scrape:ssense": "SCRAPE_MAX=10 node src/scraper/run.js --only=ssense",
+      "scrape:all": "SCRAPE_MAX=10 node src/scraper/run.js",
+      "seed": "node scripts/seed.js"
+>>>>>>> 6a9a98b (Add product scraping, database models, and MongoDB memory server support)
     },
     "dependencies": {
       "cors": "^2.8.5",
@@ -23,15 +31,21 @@
       "morgan": "^1.10.0",
       "swagger-jsdoc": "^6.2.8",
       "swagger-ui-express": "^5.0.1",
+<<<<<<< HEAD
       "jsonwebtoken": "^9.0.2",
       "joi": "^17.11.0",
       "cheerio": "^1.0.0",
       "viem": "^2.21.5",
       "node-fetch": "^3.3.2"
+=======
+      "p-limit": "^5.0.0",
+      "playwright": "^1.46.0"
+>>>>>>> 6a9a98b (Add product scraping, database models, and MongoDB memory server support)
     },
     "devDependencies": {
       "nodemon": "^3.0.2",
       "eslint": "^8.57.0",
+<<<<<<< HEAD
       "jest": "^29.7.0",
       "supertest": "^7.0.0",
       "mongodb-memory-server": "^10.1.4"
@@ -40,5 +54,8 @@
       "testEnvironment": "node",
       "testMatch": ["**/__tests__/**/*.test.js"],
       "setupFiles": ["<rootDir>/test/setupEnv.js"]
+=======
+      "mongodb-memory-server": "^10.1.4"
+>>>>>>> 6a9a98b (Add product scraping, database models, and MongoDB memory server support)
     }
   }

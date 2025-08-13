@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 #!/usr/bin/env node
 require('dotenv').config()
 const mongoose = require('mongoose')
@@ -105,3 +106,26 @@ main().catch((e) => {
   console.error('Seed error', e)
   process.exit(1)
 })
+=======
+require('dotenv').config()
+const fs = require('fs')
+const path = require('path')
+const { connectToDatabase } = require('../utils/db')
+const { Product } = require('../models/productModel')
+
+async function main() {
+  await connectToDatabase()
+  const dataPath = path.join(__dirname, '..', 'utils', 'sample-products.json')
+  const items = fs.existsSync(dataPath) ? JSON.parse(fs.readFileSync(dataPath, 'utf-8')) : []
+  let upserts = 0
+  for (const p of items) {
+    await Product.updateOne({ url: p.url }, { $set: p }, { upsert: true })
+    upserts++
+  }
+  // eslint-disable-next-line no-console
+  console.log(JSON.stringify({ ok: true, upserts }))
+  process.exit(0)
+}
+
+main().catch((e) => { console.error(e); process.exit(1) })
+>>>>>>> 6a9a98b (Add product scraping, database models, and MongoDB memory server support)
