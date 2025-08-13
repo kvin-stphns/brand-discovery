@@ -152,6 +152,8 @@ const PopularBrands = () => {
           </div>
         </div>
       </div>
+      {/* Divider below Popular to match homepage pattern */}
+      <div className="w-full h-px bg-[#4FFFF4] opacity-50 mt-12" />
     </section>
   )
 }

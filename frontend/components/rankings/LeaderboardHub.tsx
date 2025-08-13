@@ -44,7 +44,7 @@ function Controls({ value, onChange, showCategory }: { value: RankingsFilters; o
   )
 }
 
-export default function LeaderboardHub({ initialMode = 'leaderboard' as Mode, variant = 'global' as 'global' | 'category' }) {
+export default function LeaderboardHub({ initialMode = 'leaderboard' as Mode, variant = 'global' as 'global' | 'category', showModeToggle = true }: { initialMode?: Mode; variant?: 'global' | 'category'; showModeToggle?: boolean }) {
   const [mode, setMode] = useState<Mode>(initialMode)
   const [filters, setFilters] = useState<RankingsFilters>({ timeframe: '7d', category: 'women', sort: 'mixed' as any })
   const [rows, setRows] = useState<LeaderboardRow[]>([])
@@ -63,7 +63,7 @@ export default function LeaderboardHub({ initialMode = 'leaderboard' as Mode, va
       <div className="desktop:col-span-3">
         <div className="flex items-center justify-between mb-4">
           <Controls value={filters} onChange={setFilters} showCategory={variant === 'global'} />
-          <ModeToggle mode={mode} onChange={setMode} />
+          {showModeToggle && <ModeToggle mode={mode} onChange={setMode} />}
         </div>
 
         {mode === 'leaderboard' && (

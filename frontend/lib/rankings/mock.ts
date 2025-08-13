@@ -113,7 +113,7 @@ export async function getMapData(filters: RankingsFilters): Promise<{ points: Ma
 }
 
 export const TIMEFRAMES: Timeframe[] = ['24h', '7d', '30d', 'all']
-export const CATEGORIES: CategoryScope[] = ['women', 'men', 'explore']
+export const CATEGORIES: CategoryScope[] = ['women', 'men', 'gifts', 'explore']
 export const SORTS = ['mixed', 'brand', 'designer', 'product'] as const
 
 export function formatScore(score: number) {
