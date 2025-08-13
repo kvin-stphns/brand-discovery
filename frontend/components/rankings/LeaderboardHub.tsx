@@ -12,9 +12,13 @@ type Mode = 'leaderboard' | 'most-liked' | 'most-viewed' | 'recently-liked' | 'm
 function ModeToggle({ mode, onChange }: { mode: Mode; onChange: (m: Mode) => void }) {
   const modes: Mode[] = ['leaderboard', 'most-liked', 'most-viewed', 'recently-liked', 'map']
   return (
-    <div className="inline-flex border border-black/40 text-xs">
+    <div className="inline-flex border border-black/40 text-xs rounded-sm overflow-x-auto max-w-full whitespace-nowrap">
       {modes.map((m) => (
-        <button key={m} className={`px-3 py-1 ${m === mode ? 'bg-black text-white' : ''}`} onClick={() => onChange(m)}>
+        <button
+          key={m}
+          className={`px-3 py-1 whitespace-nowrap ${m === mode ? 'bg-black text-white' : ''}`}
+          onClick={() => onChange(m)}
+        >
           {m.toUpperCase()}
         </button>
       ))}
@@ -33,7 +37,7 @@ function Controls({ value, onChange, showCategory }: { value: RankingsFilters; o
           {CATEGORIES.map((c) => <option key={c} value={c}>{c.toUpperCase()}</option>)}
         </select>
       )}
-      <div className="flex items-center gap-2">
+      <div className="flex items-center gap-2 flex-wrap">
         {SORTS.map((s) => (
           <button key={s} className={`text-xs px-2 py-1 border ${value.sort === s ? 'bg-black text-white' : 'border-black/20'}`} onClick={() => onChange({ ...value, sort: s as any })}>
             {s.toString().toUpperCase()}
@@ -61,7 +65,7 @@ export default function LeaderboardHub({ initialMode = 'leaderboard' as Mode, va
   return (
     <div className="grid grid-cols-1 desktop:grid-cols-4 gap-8">
       <div className="desktop:col-span-3">
-        <div className="flex items-center justify-between mb-4">
+        <div className="flex flex-col gap-2 tablet:flex-row tablet:items-center tablet:justify-between mb-4">
           <Controls value={filters} onChange={setFilters} showCategory={variant === 'global'} />
           {showModeToggle && <ModeToggle mode={mode} onChange={setMode} />}
         </div>
