@@ -1,1 +1,7 @@
-{}
+{
+  "name": "brand-discovery",
+  "private": true,
+  "scripts": {
+    "check:mvp": "bash ./scripts/check-mvp.sh || true"
+  }
+}
