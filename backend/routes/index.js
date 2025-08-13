@@ -53,7 +53,15 @@ router.get('/admin/data-status', async (_req, res) => {
     Vote.countDocuments(),
     Click.countDocuments(),
   ])
-  res.json({ brands, designers, products, votes, clicks })
+  const srcAgg = await Product.aggregate([
+    { $group: { _id: '$source', n: { $sum: 1 } } },
+  ])
+  const sources = srcAgg.reduce((acc, cur) => {
+    if (!cur._id) return acc
+    acc[cur._id] = cur.n
+    return acc
+  }, {})
+  res.json({ ok: true, counts: { brands, designers, products, votes, clicks }, sources })
 })
 
 // User endpoints
@@ -70,5 +78,6 @@ router.use('/votes', require('./votes'))
 router.use('/submissions', require('./submissions'))
 router.use('/rankings', require('./rankings'))
 router.use('/affiliate', require('./affiliate'))
+router.use('/img', require('./images'))
 
 module.exports = router

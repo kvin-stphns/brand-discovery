@@ -10,7 +10,8 @@
       "test": "jest --runInBand",
       "seed": "node scripts/seed.js",
       "scrape:ssense": "node src/scraper/run.js ssense",
-      "scrape:farfetch": "node src/scraper/run.js farfetch"
+      "scrape:farfetch": "node src/scraper/run.js farfetch",
+      "scrape:all": "npm run scrape:ssense && npm run scrape:farfetch"
     },
     "dependencies": {
       "cors": "^2.8.5",

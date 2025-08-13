@@ -11,6 +11,7 @@ const ProductSchema = new mongoose.Schema(
     currency: { type: String, default: 'USD' },
     url: { type: String },
     tags: [{ type: String, index: true }],
+    source: { type: String, enum: ['farfetch', 'ssense', 'demo'], index: true },
   },
   { timestamps: true }
 )

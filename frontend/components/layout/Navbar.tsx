@@ -15,9 +15,14 @@ function ConnectWalletButton() {
   useEffect(() => setMounted(true), [])
   if (!mounted) return null
   return (
-    <button className="px-3 py-1 border border-black text-xs tracking-[0.15em] hover:bg-black hover:text-white transition-colors">
-      CONNECT WALLET
-    </button>
+    <>
+      <button className="hidden desktop:inline px-3 py-1 border border-black text-xs tracking-[0.15em] hover:bg-black hover:text-white transition-colors">
+        CONNECT WALLET
+      </button>
+      <Link href="#" aria-label="Connect Wallet" className="inline desktop:hidden hover:opacity-70 transition-opacity">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M3 7a2 2 0 012-2h12a2 2 0 012 2v3h-5a3 3 0 100 6h5v1a2 2 0 01-2 2H5a2 2 0 01-2-2V7zm14 6a1 1 0 110 2h-3a1 1 0 110-2h3z" stroke="currentColor" strokeWidth="1.5"/></svg>
+      </Link>
+    </>
   )
 }
 

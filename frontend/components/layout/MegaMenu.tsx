@@ -107,10 +107,9 @@ const MegaMenu = ({ category }: MegaMenuProps) => {
                 leaveFrom="transform translate-x-0"
                 leaveTo="transform translate-x-[-100%]"
               >
-                <Menu.Items static className="fixed left-0 top-[104px] bottom-0 w-[400px] bg-white z-[48] overflow-y-auto">
-                  <div className="absolute -top-[1px] left-0 right-0 h-[2px] bg-white z-[1004]" />
+                <Menu.Items static className="fixed left-0 top-[104px] bottom-0 w-[400px] bg-white z-[48] overflow-y-auto border-r border-black">
                   
-                  <div className="relative h-full border-r border-black">
+                  <div className="relative h-full">
                     <div className="min-h-full flex flex-col justify-between">
                       <div className="py-6">
                         {topLinks.map((link) => (
