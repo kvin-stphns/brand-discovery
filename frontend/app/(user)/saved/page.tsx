@@ -55,15 +55,7 @@ export default function SavedPage() {
                 className="group relative h-[250px] border-r border-b border-black last:border-r-0"
               >
                 <Image
-<<<<<<< Current (Your changes)
-<<<<<<< Current (Your changes)
-                  src={`/brand-${(i % 8) + 1}.jpg`}
-=======
                   src={`/placeholders/brand-${(i % 4) + 1}.jpg`}
->>>>>>> Incoming (Background Agent changes)
-=======
-                  src={`/placeholders/brand-${(i % 4) + 1}.jpg`}
->>>>>>> Incoming (Background Agent changes)
                   alt={`Item ${i + 1}`}
                   fill
                   className="object-cover opacity-90 hover:opacity-100 transition-opacity"

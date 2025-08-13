@@ -1,41 +1,51 @@
-require('dotenv').config();
-<<<<<<< Current (Your changes)
-const express = require('express');
-const cors = require('cors');
-const helmet = require('helmet');
-const morgan = require('morgan');
+require('dotenv').config()
+const express = require('express')
+const helmet = require('helmet')
+const cors = require('cors')
+const morgan = require('morgan')
+const rateLimit = require('express-rate-limit')
+const swaggerUi = require('swagger-ui-express')
+const swaggerJsdoc = require('swagger-jsdoc')
+const { connectToDatabase } = require('./utils/db')
 
-const app = express();
+const app = express()
 
-const PORT = process.env.PORT || 3001;
-const CORS_ORIGIN = process.env.CORS_ORIGIN || '*';
+// Security & utilities
+app.use(helmet())
+app.use(cors({ origin: '*', credentials: false }))
+app.use(express.json({ limit: '1mb' }))
+app.use(morgan('dev'))
 
-app.use(helmet());
-app.use(cors({ origin: CORS_ORIGIN }));
-app.use(express.json());
-app.use(morgan('tiny'));
+// Rate limiting (basic)
+const limiter = rateLimit({ windowMs: 60 * 1000, max: 120 })
+app.use(limiter)
 
-// Health
-app.get('/health', (req, res) => {
-  res.json({ ok: true, env: process.env.NODE_ENV || 'development', uptime: process.uptime() });
-});
+// Health check
+app.get('/healthz', (req, res) => res.json({ ok: true }))
 
-// API v1 placeholder
-const v1 = express.Router();
+// Swagger setup
+const swaggerSpec = swaggerJsdoc({
+  definition: {
+    openapi: '3.0.0',
+    info: { title: 'Brand Discovery API', version: '1.0.0' },
+    servers: [{ url: '/api' }],
+  },
+  apis: ['./routes/**/*.js', './controllers/**/*.js'],
+})
+app.use('/docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec))
 
-v1.get('/brands', (_req, res) => {
-  res.json({ ok: true, data: [], meta: { page: 1, limit: 0, total: 0 } });
-});
+// Routes
+const apiRouter = require('./routes')
+app.use('/api', apiRouter)
 
-app.use('/v1', v1);
-=======
-const { createApp } = require('./src/app');
+// DB connect (no throw if fails in non-prod)
+connectToDatabase().catch((err) => {
+  // eslint-disable-next-line no-console
+  console.warn('[db] connection failed (continuing):', err.message)
+})
 
-const PORT = process.env.PORT || 3001;
-
-const app = createApp();
->>>>>>> Incoming (Background Agent changes)
-
+const PORT = process.env.PORT || 3001
 app.listen(PORT, () => {
-  console.log(`API listening on :${PORT}`);
-});
+  // eslint-disable-next-line no-console
+  console.log(`Server running on port ${PORT}`)
+})

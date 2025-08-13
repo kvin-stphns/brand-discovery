@@ -6,11 +6,17 @@ import ScrollableNav from './ScrollableNav'
 import MobileMenu from './MobileMenu'
 import MegaMenu from './MegaMenu'
 import Link from 'next/link'
+import { useCart } from '@/lib/store/cart'
+import CartDrawer from '@/components/ui/CartDrawer'
 
 const menuItems = ['WOMEN', 'MEN', 'GIFTS', 'EXPLORE']
 
 const Navigation = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
+  const [showCart, setShowCart] = useState(false)
+  const { items } = useCart()
+
+  const count = items.reduce((sum, i) => sum + i.qty, 0)
   
   return (
     <>
@@ -61,8 +67,13 @@ const Navigation = () => {
                 <Link href="/login" aria-label="Account" className="hover:opacity-70 transition-opacity focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-black/80 rounded">
                   <User className="w-[18px] h-[18px]" />
                 </Link>
-                <button aria-label="Bag" className="hover:opacity-70 transition-opacity focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-black/80 rounded">
+                <button aria-label="Bag" className="relative hover:opacity-70 transition-opacity focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-black/80 rounded" onClick={() => setShowCart(true)}>
                   <ShoppingBag className="w-[18px] h-[18px]" />
+                  {count > 0 && (
+                    <span className="absolute -top-2 -right-2 text-[10px] leading-3 px-1.5 py-0.5 bg-black text-white rounded">
+                      {count}
+                    </span>
+                  )}
                 </button>
               </div>
             </div>
@@ -75,9 +86,11 @@ const Navigation = () => {
               <div className="flex items-center h-6">
                 <Search className="w-3.5 h-3.5 text-black/60" />
                 <input
-                  type="text"
+                  id="global-search"
+                  type="search"
                   placeholder="WHAT DO YOU DESIRE?"
                   className="w-full pl-3 text-xs tracking-[0.25em] placeholder:text-black/60 focus:outline-none flex-1 leading-6"
+                  onChange={() => { /* wired for future dynamic search */ }}
                 />
               </div>
             </div>
@@ -85,6 +98,8 @@ const Navigation = () => {
         </div>
         <div className="fixed left-0 right-0 border-t border-black z-[1003]" />
       </header>
+
+      <CartDrawer open={showCart} onClose={() => setShowCart(false)} />
     </>
   )
 }

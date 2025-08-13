@@ -1,0 +1,22 @@
+'use client'
+import { useParams } from 'next/navigation'
+import LeaderboardHub from '@/components/rankings/LeaderboardHub'
+
+export default function CategoryRankingsPage() {
+  const params = useParams() as { category?: string }
+  const category = (params?.category || 'all').toString()
+  return (
+    <div className="pt-[155px] pb-16 px-8 max-w-[2000px] mx-auto">
+      <div className="mb-6">
+        <h1 className="text-2xl tracking-[0.05em] font-bold mb-4">{category.toUpperCase()} RANKINGS</h1>
+        <p className="text-xs tracking-[0.15em] text-gray-500 mb-6">LEADERBOARD</p>
+        <div className="border-t border-black" />
+      </div>
+      <div className="mt-8">
+        <LeaderboardHub initialMode="leaderboard" variant="category" />
+      </div>
+    </div>
+  )
+}
+
+

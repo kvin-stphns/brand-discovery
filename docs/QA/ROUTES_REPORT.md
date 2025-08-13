@@ -2,12 +2,18 @@
 
 - /[category]/[section]/[subsection]
 - /[category]/[section]/view-all
+- /[category]/rankings
+- /[category]/rankings/location
+- /[category]/rankings/most-liked
+- /[category]/rankings/most-viewed
+- /[category]/rankings/recently-liked
 - /about
 - /brand/[id]
 - /contact
 - /designer/[id]
 - /discover
 - /discover/map
+- /explore
 - /faq
 - /featured
 - /popular

@@ -2,6 +2,7 @@
 import { useState, useEffect } from 'react'
 import { X, ArrowLeft } from 'lucide-react'
 import { useRouter } from 'next/navigation'
+import { hrefFor } from '@/lib/nav'
 
 interface MobileMenuProps {
   isOpen: boolean
@@ -13,9 +14,11 @@ const topLinks = ['Discover', 'Brands', 'Categories', 'Designers', 'Rankings']
 const bottomLinks = ['Login', 'Liked', 'Saved', 'Submissions', 'About']
 const discoverLinks = ['View All', 'Spotlight', 'Trending', 'Lookbooks', 'Location', 'Random']
 const brandLinks = ['View All', 'Alphabetical', 'Newest', 'Featured', 'Popular', 'Random']
-const categoryLinks = ['View All', 'Tops', 'Bottoms', 'Outerwear', 'Accessories', 'Footwear']
+const baseCategoryLinks = ['View All', 'Tops', 'Bottoms', 'Outerwear', 'Accessories', 'Footwear']
+const giftsCategoryLinks = ['View All', 'Home Goods', 'Furniture', 'Art', 'Lighting', 'Tech']
+const exploreExtraLinks = ['Home Goods', 'Furniture', 'Art', 'Lighting', 'Tech']
 const designerLinks = ['View All', 'Trending', 'Spotlight', 'Lookbooks', 'Locations', 'Random']
-const rankingLinks = ['Top Rated', 'Recently Liked', 'Most Liked', 'Leaderboard', 'Locations']
+const rankingLinks = ['Leaderboard', 'Most Liked', 'Most Viewed', 'Recently Liked', 'Locations']
 
 export default function MobileMenu({ isOpen, onClose, items }: MobileMenuProps) {
   const [activeLayer0, setActiveLayer0] = useState<string | null>(null)
@@ -33,7 +36,12 @@ export default function MobileMenu({ isOpen, onClose, items }: MobileMenuProps) 
     switch (category) {
       case 'Discover': return discoverLinks
       case 'Brands': return brandLinks
-      case 'Categories': return categoryLinks
+      case 'Categories': {
+        const selectedTop = activeLayer0?.toLowerCase()
+        if (selectedTop === 'gifts') return giftsCategoryLinks
+        if (selectedTop === 'explore') return [...baseCategoryLinks, ...exploreExtraLinks]
+        return baseCategoryLinks
+      }
       case 'Designers': return designerLinks
       case 'Rankings': return rankingLinks
       default: return []
@@ -58,9 +66,12 @@ export default function MobileMenu({ isOpen, onClose, items }: MobileMenuProps) 
 
   const handleLayer2Click = (link: string) => {
     if (!activeLayer0 || !activeLayer1) return
-    
-    const formattedLink = link.toLowerCase().replace(' ', '-')
-    const path = `/${activeLayer0.toLowerCase()}/${activeLayer1.toLowerCase()}/${formattedLink}`
+
+    const path = hrefFor(
+      activeLayer1.toLowerCase() as any,
+      activeLayer0,
+      link
+    )
     router.push(path)
     setActiveLayer0(null)
     setActiveLayer1(null)

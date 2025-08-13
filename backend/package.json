@@ -3,53 +3,24 @@
     "version": "1.0.0",
     "private": true,
     "scripts": {
-<<<<<<< Current (Your changes)
-<<<<<<< Current (Your changes)
       "dev": "nodemon server.js",
       "start": "node server.js",
       "lint": "eslint .",
-      "test": "node -e \"console.log('no tests yet')\""
+      "build": "node -e \"console.log('backend: no build step required for plain JS')\""
     },
     "dependencies": {
       "cors": "^2.8.5",
       "dotenv": "^16.3.1",
       "express": "^4.18.2",
+      "express-rate-limit": "^7.4.0",
       "helmet": "^7.1.0",
-      "joi": "^17.13.3",
-      "jsonwebtoken": "^9.0.2",
-      "mongoose": "^8.3.2",
-      "morgan": "^1.10.0"
+      "mongoose": "^8.5.3",
+      "morgan": "^1.10.0",
+      "swagger-jsdoc": "^6.2.8",
+      "swagger-ui-express": "^5.0.1"
     },
     "devDependencies": {
-      "eslint": "^8.57.0",
-      "nodemon": "^3.0.2"
-=======
-        "dev": "nodemon server.js",
-        "start": "node server.js",
-        "lint": "eslint .",
-        "build": "node -e \"console.log('backend: no build step required for plain JS')\""
-    },
-    "dependencies": {
-        "dotenv": "^16.3.1",
-        "express": "^4.18.2"
-    },
-    "devDependencies": {
-        "eslint": "^8.57.1",
-        "nodemon": "^3.0.2"
->>>>>>> Incoming (Background Agent changes)
-=======
-        "dev": "nodemon server.js",
-        "start": "node server.js",
-        "lint": "eslint .",
-        "build": "node -e \"console.log('backend: no build step required for plain JS')\""
-    },
-    "dependencies": {
-        "dotenv": "^16.3.1",
-        "express": "^4.18.2"
-    },
-    "devDependencies": {
-        "eslint": "^8.57.1",
-        "nodemon": "^3.0.2"
->>>>>>> Incoming (Background Agent changes)
+      "nodemon": "^3.0.2",
+      "eslint": "^8.57.0"
     }
-}
+  }

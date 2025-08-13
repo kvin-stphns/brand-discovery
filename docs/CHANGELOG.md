@@ -6,6 +6,13 @@
 
 ---
 
+## [2025-08-09] – Gate-1 UI hotfix: hero overlay via portal + sentinel; Popular z-index/parallax; build green
+- Hero: added sentinel and portal for fixed DISCOVER button; guarded parallax with prefers-reduced-motion and rAF.
+- Popular: background moved to -z-10, content uses relative z-10; removed extreme offsets; gentler translateY parallax; ensured overflow-hidden on cards.
+- Verified no conflict markers; frontend lint/build green.
+
+---
+
 ## [2025-08-09] – Gate 1 complete: routing report, types tightened, tokens sweep, toast util
 - Added token utilities in `globals.css` (trk-tight/mid, accent) and applied to `CategoryGrid`.
 - Tightened mock types (removed `any`, disallowed `mixed` in GridItem); fixed `/discover` page typing.
@@ -59,3 +66,25 @@
 - **Modified:** `/src/pages/Brands.tsx` to integrate InteractiveMap component.
 - **Removed:** Deprecated static brand list.
 **Rationale:** Implement premium discovery experience via interactive map UI.
+
+---
+
+## [2025-08-09] – Gate 1 UI Auto-Fix Sweep
+- Unified internal routing via `lib/nav.ts::hrefFor`; updated MegaMenu including distinct `/explore` vs `/discover`, and mapped Discover → Location to `/discover/map`.
+- Added `/explore` page (mixed feed) distinct from `/discover`.
+- Popular cards z-index/parallax fixes; Hero button fixed overlay via portal + sentinel (earlier hotfix).
+- Added minimal cart (Zustand) with navbar count and drawer; wired Product “ADD TO CART”.
+- Regenerated routes map and routes report; build green.
+
+---
+
+## [2025-08-13] – Gate 1: Rankings Overhaul
+- Rankings Overhaul: Leaderboard Hub, list sub-sections, map rankings, menu routing, build green.
+  - Enhanced rankings with timeframe, category, and sorting chips; modes: Leaderboard/List/Map.
+  - New components: `frontend/components/rankings/LeaderboardHub.tsx`, `LeaderboardTable.tsx`, `Charts.tsx`, `RankingsList.tsx`, `MapLeaderboard.tsx`.
+  - New data layer: `frontend/lib/rankings/types.ts`, `frontend/lib/rankings/mock.ts`.
+  - Routes wired: `/rankings`, `/[category]/rankings`, sub-routes for `most-liked`, `most-viewed`, `recently-liked`, and `location`.
+  - Menus updated to generate rankings routes via `hrefFor(...)`.
+  - Lint/build passed; routes report updated.
+
+---

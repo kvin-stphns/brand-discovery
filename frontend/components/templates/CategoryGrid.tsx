@@ -2,6 +2,7 @@
 import Image from 'next/image'
 import Link from 'next/link'
 import { useState, useEffect } from 'react'
+import { hrefFor } from '@/lib/nav'
 import { GridCardSkeleton } from '@/components/common/Skeleton'
 import { Analytics } from '@/lib/analytics'
 
@@ -16,15 +17,7 @@ const allExploreLinks = [
   { name: 'Location', category: 'discover' }
 ]
 
-<<<<<<< Current (Your changes)
-<<<<<<< Current (Your changes)
-const shuffleArray = <T,>(array: T[]): T[] => {
-=======
 function shuffleArray<T>(array: T[]): T[] {
->>>>>>> Incoming (Background Agent changes)
-=======
-function shuffleArray<T>(array: T[]): T[] {
->>>>>>> Incoming (Background Agent changes)
   const newArray = [...array]
   for (let i = newArray.length - 1; i > 0; i--) {
     const j = Math.floor(Math.random() * (i + 1))
@@ -56,7 +49,7 @@ interface CategoryGridProps {
   gridType?: 'mixed' | 'product' | 'brand' | 'designer'
 }
 
-const getItemHref = (item: GridItem) => {
+const getItemHref = (item: GridItem, category: string) => {
   switch (item.type) {
     case 'product':
       return `/product/${item.id}`
@@ -124,11 +117,9 @@ export default function CategoryGrid({
           <div className="grid grid-cols-2 mobile:grid-cols-2 tablet:grid-cols-3 desktop:grid-cols-4">
             {isDiscoverPage ? (
               exploreLinks.map((link, i) => {
-                const slug = link.name.toLowerCase().replace(/\s+/g, '-')
-                const defaultCategory = 'women'
-                const href = slug === 'view-all'
-                  ? `/${defaultCategory}/${link.category}/view-all`
-                  : `/${defaultCategory}/${link.category}/${slug}`
+                const categories = ['WOMEN', 'MEN', 'GIFTS', 'EXPLORE'] as const
+                const randomCategory = categories[Math.floor(Math.random() * categories.length)]
+                const href = hrefFor(link.category as any, randomCategory, link.name)
                 return (
                   <Link
                     key={i}
@@ -139,7 +130,7 @@ export default function CategoryGrid({
                     onClick={() => Analytics.nav(link.name, href)}
                   >
                     <Image
-                      src={`/placeholders/brand-${i + 1}.jpg`}
+                      src={`/placeholders/brand-${(i % 4) + 1}.jpg`}
                       alt={link.name}
                       width={400}
                       height={500}
@@ -161,7 +152,7 @@ export default function CategoryGrid({
               items.map((item, i) => (
                 <Link
                   key={item.id}
-                  href={getItemHref(item)}
+                  href={getItemHref(item, category || '')}
                   className={`group relative h-[500px] flex items-center justify-center border-r border-b border-black last:border-r-0 tablet:last:border-r ${
                     i >= 6 ? 'tablet:hidden desktop:flex' : ''
                   }`}

@@ -3,11 +3,14 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { useState, useEffect } from 'react'
 import { Heart, Bookmark, ChevronRight } from 'lucide-react'
+import { useCart } from '@/lib/store/cart'
+import { hrefFor } from '@/lib/nav'
 
 export default function ProductPage() {
   const [selectedImage, setSelectedImage] = useState(0)
   const [selectedSize, setSelectedSize] = useState('')
   const [isMobile, setIsMobile] = useState(false)
+  const { add } = useCart()
   
   useEffect(() => {
     // Handle mobile detection and viewport adjustments
@@ -32,6 +35,8 @@ export default function ProductPage() {
     '/placeholders/product-4.jpg',
   ]
 
+  // add to cart handled inline on button click
+
   return (
     <>
       {/* Breadcrumb - Attached to Nav */}
@@ -41,7 +46,7 @@ export default function ProductPage() {
             HOME
           </Link>
           <ChevronRight className="w-3 h-3 mx-2 text-gray-400" />
-          <Link href="/discover" className="text-xs tracking-[0.15em] text-gray-500 hover:text-black transition-colors">
+          <Link href={hrefFor('discover', 'women', 'view all')} className="text-xs tracking-[0.15em] text-gray-500 hover:text-black transition-colors">
             DISCOVER
           </Link>
           <ChevronRight className="w-3 h-3 mx-2 text-gray-400" />
@@ -152,7 +157,16 @@ export default function ProductPage() {
               {/* Add desktop add to cart button */}
               {!isMobile && (
                 <div className="absolute bottom-0 left-8 right-8 pb-8">
-                  <button className="w-full bg-black text-white py-4 text-sm tracking-[0.15em]">
+                  <button
+                    className="w-full bg-black text-white py-4 text-sm tracking-[0.15em]"
+                    onClick={() => {
+                      if (!selectedSize) {
+                        alert('Please select a size')
+                        return
+                      }
+                      add({ id: 'product-1', name: 'PRODUCT NAME', price: 299, size: selectedSize, image: images[selectedImage] })
+                    }}
+                  >
                     ADD TO CART
                   </button>
                 </div>
@@ -163,7 +177,16 @@ export default function ProductPage() {
           {/* Mobile Buy Button Overlay */}
           {isMobile && (
             <div className="fixed bottom-0 left-0 right-0 bg-white border-t border-black p-4 z-50">
-              <button className="w-full bg-black text-white py-4 text-sm tracking-[0.15em]">
+              <button
+                className="w-full bg-black text-white py-4 text-sm tracking-[0.15em]"
+                onClick={() => {
+                  if (!selectedSize) {
+                    alert('Please select a size')
+                    return
+                  }
+                  add({ id: 'product-1', name: 'PRODUCT NAME', price: 299, size: selectedSize, image: images[selectedImage] })
+                }}
+              >
                 ADD TO CART
               </button>
             </div>
