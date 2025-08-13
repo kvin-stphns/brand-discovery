@@ -6,9 +6,20 @@ export type Section = 'discover' | 'brands' | 'categories' | 'designers' | 'rank
 
 export function hrefFor(section: Section, category: string, link: string) {
   const cat = toSlug(category)
-  if (cat === 'explore') return '/discover'
-
   const slug = toSlug(link)
+
+  // Special-case: Location maps page
+  if (section === 'discover' && slug === 'location') {
+    return '/discover/map'
+  }
+
+  // Explore is a distinct area
+  if (cat === 'explore') {
+    return '/explore'
+  }
+
+  if (cat === 'explore') return '/explore'
+
   const base = `/${cat}/${section}`
   return slug === 'view-all' ? `${base}/view-all` : `${base}/${slug}`
 }

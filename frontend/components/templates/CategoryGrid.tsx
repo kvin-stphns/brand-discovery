@@ -2,6 +2,8 @@
 import Image from 'next/image'
 import Link from 'next/link'
 import { useState, useEffect } from 'react'
+import { GridCardSkeleton } from '@/components/common/Skeleton'
+import { Analytics } from '@/lib/analytics'
 
 const allExploreLinks = [
   { name: 'Spotlight', category: 'discover' },
@@ -14,7 +16,7 @@ const allExploreLinks = [
   { name: 'Location', category: 'discover' }
 ]
 
-const shuffleArray = (array: any[]) => {
+function shuffleArray<T>(array: T[]): T[] {
   const newArray = [...array]
   for (let i = newArray.length - 1; i > 0; i--) {
     const j = Math.floor(Math.random() * (i + 1))
@@ -27,7 +29,7 @@ interface GridItem {
   id: string
   name: string
   image: string
-  type: 'product' | 'brand' | 'designer' | 'mixed'
+  type: 'product' | 'brand' | 'designer'
   brand?: string
   designer?: string
   category?: string
@@ -81,22 +83,24 @@ export default function CategoryGrid({
     }
   }, [isDiscoverPage])
 
+  const isLoading = !isDiscoverPage && items.length === 0
+
   return (
     <section className="w-full min-h-screen">
       {/* Fixed Title Section */}
       <div className="fixed top-0 left-0 right-0 bg-white z-30">
         <div className="mt-[155px] max-w-[2000px] mx-auto">
           <div className="px-8">
-            <h2 className="text-black text-2xl tracking-[0.05em] font-bold">
+            <h2 className="text-black text-2xl trk-tight font-bold">
               {title}
             </h2>
             {subtitle ? (
-              <p className="mt-2 text-xs tracking-[0.15em] text-gray-500">
+              <p className="mt-2 text-xs trk-mid text-gray-500">
                 {subtitle}
               </p>
             ) : (
               category && section && subsection && (
-                <p className="mt-2 text-xs tracking-[0.15em] text-gray-500">
+                <p className="mt-2 text-xs trk-mid text-gray-500">
                   {category.toUpperCase()} / {section.toUpperCase()} / {subsection.toUpperCase().replace('-', ' ')}
                 </p>
               )
@@ -124,6 +128,7 @@ export default function CategoryGrid({
                     className={`group relative h-[500px] flex items-center justify-center border-r border-b border-black last:border-r-0 tablet:last:border-r ${
                       i >= 6 ? 'tablet:hidden desktop:flex' : ''
                     }`}
+                    onClick={() => Analytics.nav(link.name, href)}
                   >
                     <Image
                       src={`/placeholders/brand-${i + 1}.jpg`}
@@ -132,12 +137,18 @@ export default function CategoryGrid({
                       height={500}
                       className="w-full h-full object-cover opacity-90 hover:opacity-100 transition-opacity"
                     />
-                    <span className="absolute bottom-6 text-xs font-semibold tracking-[0.15em] opacity-0 group-hover:opacity-100 transition-opacity">
+                    <span className="absolute bottom-6 text-xs font-semibold trk-mid opacity-0 group-hover:opacity-100 transition-opacity">
                       {link.name.toUpperCase()}
                     </span>
                   </Link>
                 )
               })
+            ) : isLoading ? (
+              Array.from({ length: 8 }).map((_, i) => (
+                <div key={i} className={`border-r border-b border-black last:border-r-0 tablet:last:border-r ${i >= 6 ? 'tablet:hidden desktop:flex' : ''}`}>
+                  <GridCardSkeleton />
+                </div>
+              ))
             ) : (
               items.map((item, i) => (
                 <Link
@@ -146,6 +157,7 @@ export default function CategoryGrid({
                   className={`group relative h-[500px] flex items-center justify-center border-r border-b border-black last:border-r-0 tablet:last:border-r ${
                     i >= 6 ? 'tablet:hidden desktop:flex' : ''
                   }`}
+                  onClick={() => Analytics.nav(item.name, getItemHref(item, category || ''))}
                 >
                   <Image
                     src={item.image}
@@ -155,11 +167,11 @@ export default function CategoryGrid({
                     className="w-full h-full object-cover opacity-90 hover:opacity-100 transition-opacity"
                   />
                   <div className="absolute bottom-6 space-y-1 text-center opacity-0 group-hover:opacity-100 transition-opacity">
-                    <p className="text-xs font-semibold tracking-[0.15em]">
+                    <p className="text-xs font-semibold trk-mid">
                       {item.name.toUpperCase()}
                     </p>
                     {item.label && (
-                      <p className="text-xs tracking-[0.15em] text-gray-700">
+                      <p className="text-xs trk-mid text-gray-700">
                         {item.label}
                       </p>
                     )}

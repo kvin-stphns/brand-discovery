@@ -2,7 +2,8 @@
 
 - `/` Home
 - `/discover` Discover hub
-- `/discover/map` Interactive map (GeoMap stub)
+- `/discover/map` Interactive map (GeoMap)
+- `/explore` Explore (mixed feed across categories)
 - `/featured` Featured grid
 - `/popular` Popular grid
 - `/brand/[id]` Brand detail
@@ -21,4 +22,4 @@
 - `/privacy` Privacy
 - `/rankings` Rankings overview
 
-All links validated against `Navbar`, `MegaMenu`, and `MobileMenu` structures.
+All links unified via `lib/nav.ts::hrefFor()`. `MegaMenu` and `MobileMenu` consume this for internal routing.

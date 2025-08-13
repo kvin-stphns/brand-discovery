@@ -2,15 +2,22 @@
 import Image from 'next/image'
 import Link from 'next/link'
 import { useEffect, useRef, useState } from 'react'
+import { createPortal } from 'react-dom'
+import { hrefFor } from '@/lib/nav'
 
 const Hero = () => {
   const [isFixed, setIsFixed] = useState(true)
   const [opacity, setOpacity] = useState(1)
   const [reducedMotion, setReducedMotion] = useState(false)
+  const [mounted, setMounted] = useState(false)
   const buttonRef = useRef<HTMLDivElement>(null)
   const backgroundRef = useRef<HTMLDivElement>(null)
   const lastScrollY = useRef(0)
   const ticking = useRef(false)
+
+  useEffect(() => {
+    setMounted(true)
+  }, [])
 
   useEffect(() => {
     const media = window.matchMedia('(prefers-reduced-motion: reduce)')
@@ -29,7 +36,7 @@ const Hero = () => {
         window.requestAnimationFrame(() => {
           if (backgroundRef.current) {
             const isMobile = window.innerWidth <= 768
-            const parallaxFactor = isMobile ? 0.35 : 0.5
+            const parallaxFactor = isMobile ? 0.2 : 0.35
             backgroundRef.current.style.transform = `translate3d(0, ${lastScrollY.current * parallaxFactor}px, 0)`
           }
           ticking.current = false
@@ -44,26 +51,39 @@ const Hero = () => {
 
   useEffect(() => {
     if (reducedMotion) return
+    const sentinel = document.getElementById('hero-sentinel')
+    if (!sentinel) return
+
     const observer = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting) {
           setOpacity(0)
-          setTimeout(() => setIsFixed(false), 300)
+          setTimeout(() => setIsFixed(false), 250)
         } else if (window.scrollY < window.innerHeight) {
           setIsFixed(true)
           setTimeout(() => setOpacity(1), 50)
         }
       },
-      { threshold: 0.1 }
+      { threshold: 0 }
     )
 
-    const featured = document.querySelector('#featured-section')
-    if (featured) {
-      observer.observe(featured)
-    }
-
+    observer.observe(sentinel)
     return () => observer.disconnect()
   }, [reducedMotion])
+
+  const content = (
+    <div
+      ref={buttonRef}
+      className={`${isFixed ? 'fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2' : 'absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2'} z-10 flex flex-col items-center space-y-8 transition-opacity duration-300`}
+      style={{ opacity }}
+    >
+      <Link href={hrefFor('discover', 'women', 'view all')}>
+        <button className="px-16 py-4 border border-black hover:bg-black/40 hover:backdrop-blur-sm hover:text-[#4FFFF4] hover:border-[#4FFFF4] text-sm tracking-[0.25em] bg-black/80 text-white transition-all duration-300">
+          DISCOVER
+        </button>
+      </Link>
+    </div>
+  )
 
   return (
     <section className="relative w-full h-screen bg-white mt-[100px] overflow-hidden">
@@ -73,42 +93,26 @@ const Hero = () => {
       </a>
 
       {/* Background Image with Parallax */}
-      <div 
-        ref={backgroundRef} 
-        className="absolute inset-0 z-0 will-change-transform"
-        style={{ 
+      <div
+        ref={backgroundRef}
+        className="absolute inset-0 -z-10 will-change-transform"
+        style={{
           transform: 'translate3d(0, 0, 0)',
           backfaceVisibility: 'hidden',
-          WebkitBackfaceVisibility: 'hidden'
+          WebkitBackfaceVisibility: 'hidden',
         }}
       >
-        <Image
-          src="/hero-image.jpg"
-          alt="Symmetrical Crowd"
-          fill
-          priority
-          className="object-cover brightness-95"
-        />
+        <Image src="/hero-image.jpg" alt="Symmetrical Crowd" fill priority className="object-cover brightness-95" />
       </div>
 
       {/* Overlay */}
       <div className="absolute inset-0 bg-white/10 backdrop-blur-[2px]"></div>
 
-      {/* Content */}
-      <div 
-        ref={buttonRef}
-        className={`
-          ${isFixed ? 'fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2' : 'absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2'} 
-          z-10 flex flex-col items-center space-y-8 transition-all duration-300
-        `}
-        style={{ opacity }}
-      >
-        <Link href="/discover">
-          <button className="px-16 py-4 border border-black hover:bg-black/40 hover:backdrop-blur-sm hover:text-[#4FFFF4] hover:border-[#4FFFF4] text-sm tracking-[0.25em] bg-black/80 text-white transition-all duration-300">
-            DISCOVER
-          </button>
-        </Link>
-      </div>
+      {/* Content: portal when fixed to avoid ancestor transforms affecting fixed positioning */}
+      {isFixed && mounted ? createPortal(content, document.body) : content}
+
+      {/* Sentinel at bottom of hero */}
+      <div id="hero-sentinel" className="absolute bottom-0 left-0 right-0 h-px pointer-events-none" />
     </section>
   )
 }

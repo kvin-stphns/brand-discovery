@@ -6,11 +6,16 @@ import ScrollableNav from './ScrollableNav'
 import MobileMenu from './MobileMenu'
 import MegaMenu from './MegaMenu'
 import Link from 'next/link'
+import { useCart } from '@/lib/store/cart'
 
 const menuItems = ['WOMEN', 'MEN', 'GIFTS', 'EXPLORE']
 
 const Navigation = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
+  const [showCart, setShowCart] = useState(false)
+  const { items } = useCart()
+
+  const count = items.reduce((sum, i) => sum + i.qty, 0)
   
   return (
     <>
@@ -61,8 +66,13 @@ const Navigation = () => {
                 <Link href="/login" aria-label="Account" className="hover:opacity-70 transition-opacity focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-black/80 rounded">
                   <User className="w-[18px] h-[18px]" />
                 </Link>
-                <button aria-label="Bag" className="hover:opacity-70 transition-opacity focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-black/80 rounded">
+                <button aria-label="Bag" className="relative hover:opacity-70 transition-opacity focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-black/80 rounded" onClick={() => setShowCart(true)}>
                   <ShoppingBag className="w-[18px] h-[18px]" />
+                  {count > 0 && (
+                    <span className="absolute -top-2 -right-2 text-[10px] leading-3 px-1.5 py-0.5 bg-black text-white rounded">
+                      {count}
+                    </span>
+                  )}
                 </button>
               </div>
             </div>
@@ -85,6 +95,33 @@ const Navigation = () => {
         </div>
         <div className="fixed left-0 right-0 border-t border-black z-[1003]" />
       </header>
+
+      {/* Cart Drawer */}
+      {showCart && (
+        <div className="fixed inset-0 z-[1100]" role="dialog" aria-modal="true">
+          <div className="absolute inset-0 bg-black/20" onClick={() => setShowCart(false)} />
+          <div className="absolute top-0 right-0 h-full w-[320px] bg-white border-l border-black p-4 overflow-y-auto">
+            <div className="flex items-center justify-between mb-4">
+              <h2 className="text-sm tracking-[0.25em]">CART</h2>
+              <button aria-label="Close cart" onClick={() => setShowCart(false)} className="hover:opacity-70">
+                <X className="w-[18px] h-[18px]" />
+              </button>
+            </div>
+            {items.length === 0 ? (
+              <p className="text-xs text-black/60">Your cart is empty.</p>
+            ) : (
+              <ul className="space-y-3">
+                {items.map((it) => (
+                  <li key={`${it.id}-${it.size}`} className="text-xs flex justify-between">
+                    <span>{it.name}{it.size ? ` (${it.size})` : ''}</span>
+                    <span>x{it.qty}</span>
+                  </li>
+                ))}
+              </ul>
+            )}
+          </div>
+        </div>
+      )}
     </>
   )
 }

@@ -59,7 +59,7 @@ const PopularBrands = () => {
         window.requestAnimationFrame(() => {
           if (backgroundRef.current) {
             const isMobile = window.innerWidth <= 768
-            const parallaxFactor = isMobile ? 0.15 : 0.25 // Gentler parallax effect
+            const parallaxFactor = isMobile ? 0.08 : 0.15 // gentler parallax
             const yOffset = lastScrollY.current * parallaxFactor
             backgroundRef.current.style.transform = `translate3d(0, ${yOffset}px, 0)`
           }
@@ -77,27 +77,25 @@ const PopularBrands = () => {
     <section className="relative py-20 overflow-hidden">
       <div 
         ref={backgroundRef}
-        className="absolute inset-0 will-change-transform"
+        className="absolute inset-0 -z-10 will-change-transform"
         style={{ 
           transform: 'translate3d(0, 0, 0)',
           backfaceVisibility: 'hidden',
-          WebkitBackfaceVisibility: 'hidden',
-          top: '-70%', // Moved up by 100% instead of 50%
-          height: '150%' // Increased height to 200% to compensate for higher positioning
+          WebkitBackfaceVisibility: 'hidden'
         }}
       >
         <Image
           src="/popular-bg-5.jpg"
           alt="Popular Background"
           fill
-          quality={100}
+          quality={90}
           sizes="100vw"
-          className="object-cover object-center scale-80"
+          className="object-cover object-center"
           priority
         />
       </div>
 
-      <div className="relative max-w-[2000px] mx-auto">
+      <div className="relative z-10 max-w-[2000px] mx-auto">
         <Link href="/popular">
           <h2 className="px-8 text-[#4FFFF4] text-2xl tracking-[0.25em] font-bold mb-4 hover:text-[#4FFFF4]/60 transition-colors">
             POPULAR
@@ -117,10 +115,10 @@ const PopularBrands = () => {
             {items.map((item) => (
               <div
                 key={item.id}
-                className="popular-brand rounded-xl bg-white/10 hover:bg-white/10 
+                className="popular-brand relative z-10 rounded-xl bg-white/10 hover:bg-white/10 
                          backdrop-blur-sm hover:backdrop-blur-md transition-all duration-300 
                          aspect-[2/1] flex flex-col items-start justify-between p-4 tablet:p-8 
-                         border border-transparent hover:border-[#4FFFF4]/50"
+                         border border-transparent hover:border-[#4FFFF4]/50 overflow-hidden"
               >
                 <span className="text-[#4FFFF4] text-sm tracking-[0.25em] font-bold">
                   {String(item.id.split('-')[1]).padStart(2, '0')}

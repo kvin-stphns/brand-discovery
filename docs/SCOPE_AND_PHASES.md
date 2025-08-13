@@ -329,3 +329,17 @@ The human will reply:
 - Frontend builds successfully; lint warnings remain acceptable for now and will be addressed during the remaining UI cohesion tasks.
 
 ---
+
+## Gate 1 Status (Agent note – 2025-08-09, update 2)
+- Baseline green: frontend and backend install/lint/build pass; backend has ESLint + scripts.
+- UI cohesion: typed Featured/Popular pages, added skeletons to `CategoryGrid`, a11y improvements (skip link, Menu ESC, labels), analytics hooks for views/nav, and new `/terms` page.
+- Remaining for Gate 1: minor type cleanup in mocks, route crawl report, a11y and Lighthouse reports, and token utilities sweep.
+
+---
+
+## Gate 1 – Complete (Agent note – 2025-08-09)
+- Delivered: route map and crawl report, typed Featured/Popular/Discover, skeleton loaders, a11y fixes (skip link, menu ESC), analytics hooks, token utilities, toast viewport, `/terms` page.
+- Status: Frontend and backend lint/build green. Proceeding to Gate 2.
+- Next: Backend API MVP (Express + Mongo, models/routes/controllers, affiliate redirect, scraper fixtures) per `/docs/BACKEND/*`.
+
+---
