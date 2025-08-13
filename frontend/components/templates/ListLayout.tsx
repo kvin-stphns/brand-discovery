@@ -88,7 +88,7 @@ const ListLayout = ({ title, items, category, section, subsection }: ListLayoutP
               className="object-cover"
             />
             <Link
-              href={`/product/${activeItem.id}`}
+              href={activeItem.href}
               className="absolute bottom-8 left-8 bg-white px-6 py-3 text-sm tracking-[0.15em] hover:bg-black hover:text-white transition-colors"
             >
               VIEW DETAILS

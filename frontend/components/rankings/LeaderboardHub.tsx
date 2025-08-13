@@ -1,7 +1,7 @@
 'use client'
 import { useEffect, useMemo, useState } from 'react'
 import LeaderboardTable from './LeaderboardTable'
-import { CategoryShareChart, MomentumChart } from './Charts'
+import { CategoryShareChart, MomentumChart, BarChart, CombinedInsightsChart } from './Charts'
 import RankingsList from './RankingsList'
 import MapLeaderboard from './MapLeaderboard'
 import { CATEGORIES, SORTS, TIMEFRAMES, getLeaderboardData, getListData, getMapData } from '@/lib/rankings/mock'
@@ -77,6 +77,14 @@ export default function LeaderboardHub({ initialMode = 'leaderboard' as Mode, va
               <div className="border border-black p-4">
                 <div className="text-xs mb-2 tracking-[0.15em]">MOMENTUM</div>
                 <MomentumChart />
+              </div>
+              <div className="border border-black p-4 tablet:col-span-2">
+                <div className="text-xs mb-2 tracking-[0.15em]">TOP 5 BAR</div>
+                <BarChart />
+              </div>
+              <div className="border border-black p-4 tablet:col-span-2">
+                <div className="text-xs mb-2 tracking-[0.15em]">INSIGHTS</div>
+                <CombinedInsightsChart series={rows.slice(0,3).map((r) => ({ name: r.name, data: r.trend }))} />
               </div>
             </div>
           </>

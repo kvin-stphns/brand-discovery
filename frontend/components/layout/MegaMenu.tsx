@@ -12,7 +12,9 @@ const topLinks = ['Discover', 'Brands', 'Categories', 'Designers', 'Rankings', '
 const bottomLinks = ['Login', 'Liked', 'Saved', 'Submissions', 'About']
 const discoverLinks = ['View All', 'Spotlight', 'Trending', 'Lookbooks', 'Location', 'Random']
 const brandLinks = ['View All', 'Alphabetical', 'Newest', 'Featured', 'Popular', 'Random']
-const categoryLinks = ['View All', 'Tops', 'Bottoms', 'Outerwear', 'Accessories', 'Footwear']
+const categoryLinksBase = ['View All', 'Tops', 'Bottoms', 'Outerwear', 'Accessories', 'Footwear']
+const exploreOnly = ['Home Goods', 'Furniture', 'Art', 'Lighting', 'Tech']
+const giftsOnly = ['View All', 'Home Goods', 'Furniture', 'Art', 'Lighting', 'Tech']
 const designerLinks = ['View All', 'Trending', 'Spotlight', 'Lookbooks', 'Locations', 'Random']
 const rankingLinks = ['Leaderboard', 'Most Liked', 'Most Viewed', 'Recently Liked', 'Locations']
 
@@ -187,9 +189,17 @@ const MegaMenu = ({ category }: MegaMenuProps) => {
               <Transition show={showCategoriesMenu} as={Fragment} enter="transition duration-100 ease-out" enterFrom="transform translate-x-[-100%]" enterTo="transform translate-x-0" leave="transition duration-75 ease-out" leaveFrom="transform translate-x-0" leaveTo="transform translate-x-[-100%]">
                 <div className="fixed left-[400px] top-[104px] bottom-0 w-[400px] bg-white z-[47] border-r border-black overflow-y-auto" role="menu" aria-label="Categories">
                   <div className="py-6">
-                    {categoryLinks.map((link) => (
-                      <Link key={link} href={to('categories', link)} className="block px-12 py-4 text-sm tracking-[0.25em] hover:text-gray-500 transition-colors" onClick={() => { setShowCategoriesMenu(false); setIsMenuOpen(false) }} role="menuitem">{link}</Link>
-                    ))}
+                    {(() => {
+                      const catLower = category.toLowerCase()
+                      const links = catLower === 'explore'
+                        ? [...categoryLinksBase, ...exploreOnly]
+                        : catLower === 'gifts'
+                        ? giftsOnly
+                        : categoryLinksBase
+                      return links.map((link) => (
+                        <Link key={link} href={to('categories', link)} className="block px-12 py-4 text-sm tracking-[0.25em] hover:text-gray-500 transition-colors" onClick={() => { setShowCategoriesMenu(false); setIsMenuOpen(false) }} role="menuitem">{link}</Link>
+                      ))
+                    })()}
                   </div>
                 </div>
               </Transition>

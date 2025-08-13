@@ -1,7 +1,9 @@
 'use client'
 import Image from 'next/image'
 import Link from 'next/link'
-import { useEffect, useRef } from 'react'
+import { useEffect, useRef, useState } from 'react'
+import { getLeaderboardData } from '@/lib/rankings/mock'
+import { RankingsFilters } from '@/lib/rankings/types'
 
 const PopularBrands = () => {
   const backgroundRef = useRef<HTMLDivElement>(null)
@@ -32,26 +34,25 @@ const PopularBrands = () => {
     }
   }
 
-  const items = Array.from({ length: 6 }).map((_, i) => {
-    const types = ['product', 'brand', 'designer'] as const
-    const type = types[i % 3]
-    const brandType = brandTypes[i % brandTypes.length]
-    const productType = productCategories[i % productCategories.length]
-    const brandName = `Brand${i + 1}`
-    const designerName = `Designer ${i + 1}`
-    const productTitle = `Product ${i + 1}`
+  const [items, setItems] = useState<Array<{ id: string; type: 'product'|'brand'|'designer'; label: string }>>([])
 
-    return {
-      id: `item-${i + 1}`,
-      type,
-      name: `${type} ${i + 1}`,
-      label: type === 'designer' 
-        ? `${designerName}: ${brandType} Designer`
-        : type === 'brand'
-        ? `${brandName}: ${brandType} Brand`
-        : `${productTitle}: ${brandName} ${toSingular(productType)}`
-    }
-  })
+  useEffect(() => {
+    const localBrandTypes = [...brandTypes]
+    const localProductCategories = [...productCategories]
+    const filters: RankingsFilters = { timeframe: '7d', category: 'women', sort: 'mixed' }
+    getLeaderboardData(filters, 6).then(({ rows }) => {
+      const mapped = rows.slice(0, 6).map((r, idx) => ({
+        id: r.id,
+        type: r.type,
+        label: r.type === 'designer'
+          ? `${r.name}: ${localBrandTypes[idx % localBrandTypes.length]} Designer`
+          : r.type === 'brand'
+          ? `${r.name}: ${localBrandTypes[idx % localBrandTypes.length]} Brand`
+          : `${r.name}: ${toSingular(localProductCategories[idx % localProductCategories.length])}`,
+      }))
+      setItems(mapped)
+    })
+  }, [])
 
   useEffect(() => {
     const measure = () => {
@@ -142,9 +143,7 @@ const PopularBrands = () => {
                          aspect-[2/1] flex flex-col items-start justify-between p-4 tablet:p-8 
                          border border-transparent hover:border-[#4FFFF4]/50 overflow-hidden"
               >
-                <span className="text-[#4FFFF4] text-sm tracking-[0.25em] font-bold">
-                  {String(item.id.split('-')[1]).padStart(2, '0')}
-                </span>
+                <span className="text-[#4FFFF4] text-sm tracking-[0.25em] font-bold">{String(items.indexOf(item) + 1).padStart(2, '0')}</span>
                 <span className="text-[#4FFFF4] text-[10px] tablet:text-sm tracking-[0.25em] font-medium tablet:font-bold">
                   {item.label}
                 </span>

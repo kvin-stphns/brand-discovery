@@ -86,9 +86,11 @@ const Navigation = () => {
               <div className="flex items-center h-6">
                 <Search className="w-3.5 h-3.5 text-black/60" />
                 <input
-                  type="text"
+                  id="global-search"
+                  type="search"
                   placeholder="WHAT DO YOU DESIRE?"
                   className="w-full pl-3 text-xs tracking-[0.25em] placeholder:text-black/60 focus:outline-none flex-1 leading-6"
+                  onChange={() => { /* wired for future dynamic search */ }}
                 />
               </div>
             </div>
