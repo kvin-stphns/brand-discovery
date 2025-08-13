@@ -162,7 +162,6 @@ const Navigation = () => {
             </div>
           </nav>
         </div>
-        <div className="fixed left-0 right-0 border-t border-black z-[1003]" />
       </header>
 
       <CartDrawer open={showCart} onClose={() => setShowCart(false)} />
