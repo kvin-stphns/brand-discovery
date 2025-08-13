@@ -88,3 +88,15 @@
   - Lint/build passed; routes report updated.
 
 ---
+
+## Gate 2 - Backend MVP
+- Unified backend entry: `server.js` now uses `src/app.js`; routes mounted under `/api`.
+- Added health endpoints: `GET /` and `GET /healthz`.
+- Hardened Express: helmet, cors, json limit, morgan, trust proxy, rate-limits (global and stricter for `/auth` and `/checkout`).
+- DB utils: retry with exponential backoff and graceful shutdown on SIGINT/SIGTERM.
+- Models added: `User`, `Designer`, `Product`, `Vote`, `Click`.
+- Auth: JWT magic login (`POST /api/auth/login`), `GET /api/auth/me`, RBAC guard.
+- Validation: Joi-based `validate()` middleware for POST/PUT and query params.
+- Routes implemented/extended: brands (CRUD admin create/update), designers, products (filters), votes (create + summary), rankings aggregates, affiliate checkout with non-blocking Click logging.
+- Tests: healthz, brand admin create+list, checkout redirect.
+- `.env.example` with required env vars.
