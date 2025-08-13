@@ -1,4 +1,5 @@
 export const API_BASE_URL = process.env.NEXT_PUBLIC_API_ENDPOINT || ''
+import { USE_LIVE } from './liveToggle'
 
 export async function get(path: string, init?: RequestInit) {
   const url = `${API_BASE_URL}${path}`
@@ -18,7 +19,7 @@ export async function post(path: string, body: unknown, init?: RequestInit) {
 export type BrandDTO = { _id: string; name: string; image?: string; slug: string }
 export type RankingItem = { rank: number; score: number; id: string; name: string }
 
-const useMocks = !API_BASE_URL
+const useMocks = !API_BASE_URL && !USE_LIVE
 
 export async function fetchBrands(): Promise<BrandDTO[]> {
   if (useMocks) {
@@ -27,6 +28,7 @@ export async function fetchBrands(): Promise<BrandDTO[]> {
     return items.map((i) => ({ _id: i.id, name: i.name, image: i.image, slug: i.id }))
   }
   const res = await get('/api/brands')
+  if (!res.ok) return []
   const json = await res.json()
   return json.items as BrandDTO[]
 }
@@ -36,6 +38,7 @@ export async function fetchRankings(): Promise<RankingItem[]> {
     return Array.from({ length: 10 }).map((_, i) => ({ rank: i + 1, score: 100 - i * 3, id: `brand-${i + 1}`, name: `Brand ${i + 1}` }))
   }
   const res = await get('/api/rankings')
+  if (!res.ok) return []
   const json = await res.json()
   return json.items as RankingItem[]
 }
@@ -49,6 +52,7 @@ export async function fetchDesigners(): Promise<DesignerDTO[]> {
     return items.map((i) => ({ _id: i.id, name: i.name, slug: i.id, image: i.image }))
   }
   const res = await get('/api/designers')
+  if (!res.ok) return []
   const json = await res.json()
   return json.items as DesignerDTO[]
 }
@@ -66,6 +70,7 @@ export async function fetchProducts(filters: ProductFilters = {}): Promise<Produ
     if (v !== undefined && v !== null) params.set(k, String(v))
   })
   const res = await get(`/api/products?${params.toString()}`)
+  if (!res.ok) return []
   const json = await res.json()
   return json.items as ProductDTO[]
 }
@@ -82,13 +87,11 @@ export async function fetchProduct(id: string): Promise<ProductDTO | null> {
 
 export type VoteCreate = { entityType: 'brand' | 'designer' | 'product'; entityId: string; weight?: number }
 export async function postVote(vote: VoteCreate) {
-  if (useMocks) return { ok: true }
   const res = await post('/api/votes', vote)
   return res.json()
 }
 
 export async function fetchVoteSummary(entityType: 'brand'|'designer'|'product', entityId: string) {
-  if (useMocks) return { ok: true, count: 0, weightedScore: 0 }
   const params = new URLSearchParams({ entityType, entityId })
   const res = await get(`/api/votes/summary?${params.toString()}`)
   return res.json()

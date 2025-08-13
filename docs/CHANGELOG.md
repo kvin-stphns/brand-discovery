@@ -113,3 +113,12 @@
 - Backend web3 adapter `src/web3/voting.js`: sends tx if env present; otherwise returns dry-run hash and logs a warning. Integrated with `/api/votes` POST (fire-and-forget, attaches txHash if available).
 - Tests extended: votes create + summary; rankings endpoints.
 - Deploy readiness docs and configs added (see /docs/DEPLOY/*).
+
+## Flip to Live Data & MVP Hardening
+- Env: `NEXT_PUBLIC_USE_LIVE_API` flag added; frontend `.env.local.example` updated; backend CORS continues to accept configured origin.
+- Images: whitelisted Next/Image remote hosts for SSENSE/Farfetch.
+- Frontend live data: Featured/Popular/Product pages use live API when `USE_LIVE=true`; no mock fallback on failure—show empty states + toast.
+- Checkout: added `/api/affiliate/preview` and integrated product checkout CTA to open composed URL in a new tab.
+- Search: `/api/search` endpoint + debounced navbar search dropdown.
+- Rankings: endpoints resilient; groundwork to compute from Votes/Clicks with filters.
+- Admin data: `/api/admin/data-status` counts endpoint; QA smoke doc added.

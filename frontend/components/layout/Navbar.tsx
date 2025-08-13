@@ -8,6 +8,7 @@ import MegaMenu from './MegaMenu'
 import Link from 'next/link'
 import { useCart } from '@/lib/store/cart'
 import CartDrawer from '@/components/ui/CartDrawer'
+import { useRouter } from 'next/navigation'
 
 function ConnectWalletButton() {
   const [mounted, setMounted] = useState(false)
@@ -26,6 +27,21 @@ const Navigation = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
   const [showCart, setShowCart] = useState(false)
   const { items } = useCart()
+  const [q, setQ] = useState('')
+  const [results, setResults] = useState<any | null>(null)
+  const [open, setOpen] = useState(false)
+  const router = useRouter()
+
+  useEffect(() => {
+    const h = setTimeout(async () => {
+      if (!q) { setResults(null); return }
+      try {
+        const res = await fetch(`/api/search?q=${encodeURIComponent(q)}`)
+        if (res.ok) setResults(await res.json())
+      } catch {}
+    }, 300)
+    return () => clearTimeout(h)
+  }, [q])
 
   const count = items.reduce((sum, i) => sum + i.qty, 0)
   
@@ -102,9 +118,28 @@ const Navigation = () => {
                   type="search"
                   placeholder="WHAT DO YOU DESIRE?"
                   className="w-full pl-3 text-xs tracking-[0.25em] placeholder:text-black/60 focus:outline-none flex-1 leading-6"
-                  onChange={() => { /* wired for future dynamic search */ }}
+                  value={q}
+                  onFocus={() => setOpen(true)}
+                  onBlur={() => setTimeout(() => setOpen(false), 200)}
+                  onChange={(e) => setQ(e.target.value)}
                 />
               </div>
+              {open && results && (
+                <div className="absolute left-0 right-0 mt-2 bg-white border border-black/20 shadow-sm text-xs">
+                  {['brands','designers','products'].map((k) => (
+                    <div key={k}>
+                      {(results[k]||[]).slice(0, k==='products'?6:4).map((it: any) => (
+                        <button key={it._id} className="w-full text-left px-3 py-2 hover:bg-black/5" onMouseDown={() => router.push(k==='products'?`/product/${it._id}`:k==='brands'?`/brand/${it._id}`:`/designer/${it._id}`)}>
+                          {it.name}
+                        </button>
+                      ))}
+                    </div>
+                  ))}
+                  {(!results.brands?.length && !results.designers?.length && !results.products?.length) && (
+                    <div className="px-3 py-2 text-black/60">No results</div>
+                  )}
+                </div>
+              )}
             </div>
           </nav>
         </div>

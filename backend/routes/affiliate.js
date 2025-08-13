@@ -7,9 +7,10 @@ const { composeOutboundUrl } = require('../src/affiliate/partners')
 
 router.get('/checkout', async (req, res) => {
   const { productId, url, source = 'grid', utm } = req.query
-  if (!url) return res.status(400).json({ error: 'Missing url' })
+  if (!url && !productId) return res.status(400).json({ error: 'Missing url or productId' })
 
-  const outbound = composeOutboundUrl(url, source, utm)
+  const targetUrl = url || ''
+  const outbound = composeOutboundUrl(targetUrl, source, utm)
 
   // Non-blocking Click log; only if DB is connected
   ;(async () => {
@@ -17,7 +18,7 @@ router.get('/checkout', async (req, res) => {
       if (mongoose.connection.readyState !== 1) return
       const ip = req.headers['x-forwarded-for'] || req.socket.remoteAddress || ''
       const ipHash = crypto.createHash('sha256').update(String(ip)).digest('hex').slice(0, 16)
-      await Click.create({ productId: productId || undefined, url: String(url), source: String(source || 'grid'), utm: utm ? String(utm) : undefined, ipHash })
+      await Click.create({ productId: productId || undefined, url: String(targetUrl), source: String(source || 'grid'), utm: utm ? String(utm) : undefined, ipHash })
     } catch (e) {
       if (process.env.NODE_ENV !== 'test') {
         // eslint-disable-next-line no-console
@@ -27,6 +28,14 @@ router.get('/checkout', async (req, res) => {
   })()
 
   res.redirect(302, outbound)
+})
+
+router.get('/preview', async (req, res) => {
+  const { productId, url, source = 'grid', utm } = req.query
+  if (!url && !productId) return res.status(400).json({ error: 'Missing url or productId' })
+  const targetUrl = url || ''
+  const outbound = composeOutboundUrl(targetUrl, source, utm)
+  res.json({ url: outbound })
 })
 
 module.exports = router
