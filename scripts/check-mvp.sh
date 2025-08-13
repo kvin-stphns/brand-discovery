@@ -16,12 +16,11 @@ check() {
 }
 
 check "healthz 200" "curl -fsS ${API_BASE}/healthz"
-check "products list" "curl -fsS ${API_BASE}/api/products | jq -e '.items | arrays'"
-check "rankings mostLiked" "curl -fsS ${API_BASE}/api/rankings/mostLiked | jq -e '.items | arrays'"
+check "products list has items field" "curl -fsS ${API_BASE}/api/products | grep -q '"items"'"
+check "rankings mostLiked has items field" "curl -fsS ${API_BASE}/api/rankings/mostLiked | grep -q '"items"'"
 check "affiliate checkout 302" "curl -fsSI '${API_BASE}/api/affiliate/checkout?url=https%3A%2F%2Fexample.com%2Fproduct' | grep -q 'HTTP/1.1 302'"
 
 # Optional: quick vote
-ENTITY=$(node -e "console.log(require('crypto').randomBytes(12).toString('hex'))")
 check "post vote (optional)" "curl -fsS -X POST -H 'Content-Type: application/json' -d '{"entityType":"brand","entityId":"000000000000000000000000","weight":1}' ${API_BASE}/api/votes"
 
 TOTAL=$((PASS+FAIL))

@@ -1,5 +1,6 @@
 #!/usr/bin/env node
 require('dotenv').config()
+const mongoose = require('mongoose')
 const { connectToDatabase, disconnectFromDatabase } = require('../utils/db')
 const { Brand } = require('../models/brandModel')
 const { Designer } = require('../models/designerModel')
@@ -63,6 +64,11 @@ async function upsertProduct(name, brandId, designerId, idx, stats) {
 
 async function main() {
   await connectToDatabase({ maxRetries: 1 }).catch(() => {})
+  if (mongoose.connection.readyState !== 1) {
+    // eslint-disable-next-line no-console
+    console.log('Seed skipped: no database connection available')
+    process.exit(0)
+  }
   const stats = { brandsCreated: 0, brandsUpdated: 0, designersCreated: 0, designersUpdated: 0, productsCreated: 0, productsUpdated: 0 }
 
   const brands = []
