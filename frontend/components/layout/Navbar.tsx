@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Search, User, ShoppingBag, Menu, X } from 'lucide-react'
 import ScrollableNav from './ScrollableNav'
 import MobileMenu from './MobileMenu'
@@ -8,6 +8,17 @@ import MegaMenu from './MegaMenu'
 import Link from 'next/link'
 import { useCart } from '@/lib/store/cart'
 import CartDrawer from '@/components/ui/CartDrawer'
+
+function ConnectWalletButton() {
+  const [mounted, setMounted] = useState(false)
+  useEffect(() => setMounted(true), [])
+  if (!mounted) return null
+  return (
+    <button className="px-3 py-1 border border-black text-xs tracking-[0.15em] hover:bg-black hover:text-white transition-colors">
+      CONNECT WALLET
+    </button>
+  )
+}
 
 const menuItems = ['WOMEN', 'MEN', 'GIFTS', 'EXPLORE']
 
@@ -75,6 +86,7 @@ const Navigation = () => {
                     </span>
                   )}
                 </button>
+                <ConnectWalletButton />
               </div>
             </div>
 

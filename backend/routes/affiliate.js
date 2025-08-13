@@ -3,18 +3,7 @@ const crypto = require('crypto')
 const mongoose = require('mongoose')
 const router = express.Router()
 const { Click } = require('../models/clickModel')
-
-function composeOutboundUrl(url, source = 'grid', utm) {
-  try {
-    const u = new URL(String(url))
-    // MVP: passthrough, append basic partner params if not present
-    if (utm) u.searchParams.set('utm_source', utm)
-    u.searchParams.set('ref', process.env.AFFILIATE_REF || 'partner')
-    return u.toString()
-  } catch (_e) {
-    return String(url)
-  }
-}
+const { composeOutboundUrl } = require('../src/affiliate/partners')
 
 router.get('/checkout', async (req, res) => {
   const { productId, url, source = 'grid', utm } = req.query

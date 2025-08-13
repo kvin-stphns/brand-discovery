@@ -7,7 +7,10 @@
       "start": "node server.js",
       "lint": "eslint .",
       "build": "node -e \"console.log('backend: no build step required for plain JS')\"",
-      "test": "jest --runInBand"
+      "test": "jest --runInBand",
+      "seed": "node scripts/seed.js",
+      "scrape:ssense": "node src/scraper/run.js ssense",
+      "scrape:farfetch": "node src/scraper/run.js farfetch"
     },
     "dependencies": {
       "cors": "^2.8.5",
@@ -20,7 +23,8 @@
       "swagger-jsdoc": "^6.2.8",
       "swagger-ui-express": "^5.0.1",
       "jsonwebtoken": "^9.0.2",
-      "joi": "^17.11.0"
+      "joi": "^17.11.0",
+      "cheerio": "^1.0.0"
     },
     "devDependencies": {
       "nodemon": "^3.0.2",

@@ -70,10 +70,27 @@ export async function fetchProducts(filters: ProductFilters = {}): Promise<Produ
   return json.items as ProductDTO[]
 }
 
+export async function fetchProduct(id: string): Promise<ProductDTO | null> {
+  if (useMocks) {
+    const all = await fetchProducts({})
+    return all[0] || null
+  }
+  const res = await get(`/api/products/${id}`)
+  if (!res.ok) return null
+  return (await res.json()) as ProductDTO
+}
+
 export type VoteCreate = { entityType: 'brand' | 'designer' | 'product'; entityId: string; weight?: number }
 export async function postVote(vote: VoteCreate) {
   if (useMocks) return { ok: true }
   const res = await post('/api/votes', vote)
+  return res.json()
+}
+
+export async function fetchVoteSummary(entityType: 'brand'|'designer'|'product', entityId: string) {
+  if (useMocks) return { ok: true, count: 0, weightedScore: 0 }
+  const params = new URLSearchParams({ entityType, entityId })
+  const res = await get(`/api/votes/summary?${params.toString()}`)
   return res.json()
 }
 
