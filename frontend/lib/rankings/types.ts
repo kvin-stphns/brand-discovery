@@ -1,5 +1,5 @@
 export type Timeframe = '24h' | '7d' | '30d' | 'all'
-export type CategoryScope = 'all' | 'women' | 'men' | 'gifts' | 'explore'
+export type CategoryScope = 'women' | 'men' | 'explore'
 export type RankingEntityType = 'brand' | 'designer' | 'product'
 
 export type LeaderboardRow = {

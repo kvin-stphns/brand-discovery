@@ -7,10 +7,10 @@ import MapLeaderboard from './MapLeaderboard'
 import { CATEGORIES, SORTS, TIMEFRAMES, getLeaderboardData, getListData, getMapData } from '@/lib/rankings/mock'
 import { CategoryScope, LeaderboardRow, MapRankingPoint, RankingListItem, RankingsFilters, Timeframe } from '@/lib/rankings/types'
 
-type Mode = 'leaderboard' | 'list' | 'map'
+type Mode = 'leaderboard' | 'most-liked' | 'most-viewed' | 'recently-liked' | 'map'
 
 function ModeToggle({ mode, onChange }: { mode: Mode; onChange: (m: Mode) => void }) {
-  const modes: Mode[] = ['leaderboard', 'list', 'map']
+  const modes: Mode[] = ['leaderboard', 'most-liked', 'most-viewed', 'recently-liked', 'map']
   return (
     <div className="inline-flex border border-black/40 text-xs">
       {modes.map((m) => (
@@ -22,15 +22,17 @@ function ModeToggle({ mode, onChange }: { mode: Mode; onChange: (m: Mode) => voi
   )
 }
 
-function Controls({ value, onChange }: { value: RankingsFilters; onChange: (v: RankingsFilters) => void }) {
+function Controls({ value, onChange, showCategory }: { value: RankingsFilters; onChange: (v: RankingsFilters) => void; showCategory: boolean }) {
   return (
     <div className="flex flex-wrap items-center gap-2">
       <select className="border border-black/20 px-2 py-1 text-xs" value={value.timeframe} onChange={(e) => onChange({ ...value, timeframe: e.target.value as Timeframe })}>
         {TIMEFRAMES.map((t) => <option key={t} value={t}>{t.toUpperCase()}</option>)}
       </select>
-      <select className="border border-black/20 px-2 py-1 text-xs" value={value.category} onChange={(e) => onChange({ ...value, category: e.target.value as CategoryScope })}>
-        {CATEGORIES.map((c) => <option key={c} value={c}>{c.toUpperCase()}</option>)}
-      </select>
+      {showCategory && (
+        <select className="border border-black/20 px-2 py-1 text-xs" value={value.category} onChange={(e) => onChange({ ...value, category: e.target.value as CategoryScope })}>
+          {CATEGORIES.map((c) => <option key={c} value={c}>{c.toUpperCase()}</option>)}
+        </select>
+      )}
       <div className="flex items-center gap-2">
         {SORTS.map((s) => (
           <button key={s} className={`text-xs px-2 py-1 border ${value.sort === s ? 'bg-black text-white' : 'border-black/20'}`} onClick={() => onChange({ ...value, sort: s as any })}>
@@ -42,9 +44,9 @@ function Controls({ value, onChange }: { value: RankingsFilters; onChange: (v: R
   )
 }
 
-export default function LeaderboardHub({ initialMode = 'leaderboard' as Mode }) {
+export default function LeaderboardHub({ initialMode = 'leaderboard' as Mode, variant = 'global' as 'global' | 'category' }) {
   const [mode, setMode] = useState<Mode>(initialMode)
-  const [filters, setFilters] = useState<RankingsFilters>({ timeframe: '7d', category: 'all', sort: 'mixed' as any })
+  const [filters, setFilters] = useState<RankingsFilters>({ timeframe: '7d', category: 'women', sort: 'mixed' as any })
   const [rows, setRows] = useState<LeaderboardRow[]>([])
   const [kpis, setKpis] = useState<{ totalVotes: number; topCategory: string; fastestRiser: string } | null>(null)
   const [listItems, setListItems] = useState<RankingListItem[]>([])
@@ -60,7 +62,7 @@ export default function LeaderboardHub({ initialMode = 'leaderboard' as Mode }) 
     <div className="grid grid-cols-1 desktop:grid-cols-4 gap-8">
       <div className="desktop:col-span-3">
         <div className="flex items-center justify-between mb-4">
-          <Controls value={filters} onChange={setFilters} />
+          <Controls value={filters} onChange={setFilters} showCategory={variant === 'global'} />
           <ModeToggle mode={mode} onChange={setMode} />
         </div>
 
@@ -80,7 +82,7 @@ export default function LeaderboardHub({ initialMode = 'leaderboard' as Mode }) 
           </>
         )}
 
-        {mode === 'list' && (
+        {(mode === 'most-liked' || mode === 'most-viewed' || mode === 'recently-liked') && (
           <div className="mt-2">
             <RankingsList items={listItems} />
           </div>

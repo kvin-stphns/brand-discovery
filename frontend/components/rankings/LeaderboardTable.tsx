@@ -1,7 +1,14 @@
 'use client'
 import Image from 'next/image'
+import Link from 'next/link'
 import { LeaderboardRow } from '@/lib/rankings/types'
 import { RowSparkline } from './Charts'
+
+function hrefForEntity(row: LeaderboardRow) {
+  if (row.type === 'brand') return `/brand/${row.id}`
+  if (row.type === 'designer') return `/designer/${row.id}`
+  return `/product/${row.id}`
+}
 
 export default function LeaderboardTable({ rows }: { rows: LeaderboardRow[] }) {
   return (
@@ -34,7 +41,7 @@ export default function LeaderboardTable({ rows }: { rows: LeaderboardRow[] }) {
               <td className="px-3 py-3 text-xs">{r.score}</td>
               <td className={`px-3 py-3 text-xs ${r.delta >= 0 ? 'text-green-600' : 'text-red-600'}`}>{r.delta >= 0 ? '▲' : '▼'} {Math.abs(r.delta)}</td>
               <td className="px-3 py-3"><RowSparkline data={r.trend} /></td>
-              <td className="px-3 py-3 text-xs"><button className="underline">View details</button></td>
+              <td className="px-3 py-3 text-xs"><Link className="underline" href={hrefForEntity(r)}>View details</Link></td>
             </tr>
           ))}
         </tbody>

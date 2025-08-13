@@ -14,7 +14,7 @@ const discoverLinks = ['View All', 'Spotlight', 'Trending', 'Lookbooks', 'Locati
 const brandLinks = ['View All', 'Alphabetical', 'Newest', 'Featured', 'Popular', 'Random']
 const categoryLinks = ['View All', 'Tops', 'Bottoms', 'Outerwear', 'Accessories', 'Footwear']
 const designerLinks = ['View All', 'Trending', 'Spotlight', 'Lookbooks', 'Locations', 'Random']
-const rankingLinks = ['View All', 'Leaderboard', 'Most Liked', 'Most Viewed', 'Recently Liked', 'Locations']
+const rankingLinks = ['Leaderboard', 'Most Liked', 'Most Viewed', 'Recently Liked', 'Locations']
 
 const MegaMenu = ({ category }: MegaMenuProps) => {
   const [showDiscoverMenu, setShowDiscoverMenu] = useState(false)

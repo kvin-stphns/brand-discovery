@@ -51,9 +51,20 @@ export async function getLeaderboardData(filters: RankingsFilters, count = 24): 
     }
   })
 
+  // Choose a sensible Top Category label depending on current scope
+  const pickTopCategory = () => {
+    if (filters.category === 'men' || filters.category === 'women') {
+      const subcats = ['Tops', 'Bottoms', 'Outerwear', 'Accessories', 'Footwear']
+      return subcats[Math.floor(rnd() * subcats.length)]
+    }
+    // Global (explore) – show segment leader across Men/Women/Explore
+    const globals = ['Women', 'Men', 'Explore']
+    return globals[Math.floor(rnd() * globals.length)]
+  }
+
   const kpis = {
     totalVotes: Math.floor(10000 + rnd() * 5000),
-    topCategory: ['Women', 'Men', 'Gifts', 'Explore'][Math.floor(rnd() * 4)],
+    topCategory: pickTopCategory(),
     fastestRiser: rows[Math.floor(rnd() * Math.min(10, rows.length))]?.name || 'N/A',
   }
 
@@ -102,7 +113,7 @@ export async function getMapData(filters: RankingsFilters): Promise<{ points: Ma
 }
 
 export const TIMEFRAMES: Timeframe[] = ['24h', '7d', '30d', 'all']
-export const CATEGORIES: CategoryScope[] = ['all', 'women', 'men', 'gifts', 'explore']
+export const CATEGORIES: CategoryScope[] = ['women', 'men', 'explore']
 export const SORTS = ['mixed', 'brand', 'designer', 'product'] as const
 
 export function formatScore(score: number) {

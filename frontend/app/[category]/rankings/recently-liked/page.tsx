@@ -8,7 +8,7 @@ export default function RecentlyLikedPage() {
   return (
     <div className="pt-[155px] px-8 max-w-[2000px] mx-auto">
       <h1 className="text-2xl tracking-[0.05em] font-bold mb-4">{category.toUpperCase()} • RECENTLY LIKED</h1>
-      <LeaderboardHub initialMode="list" />
+      <LeaderboardHub initialMode="recently-liked" variant="category" />
     </div>
   )
 }
