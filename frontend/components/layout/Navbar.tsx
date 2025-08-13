@@ -9,6 +9,7 @@ import Link from 'next/link'
 import { useCart } from '@/lib/store/cart'
 import CartDrawer from '@/components/ui/CartDrawer'
 import { useRouter } from 'next/navigation'
+import { LIVE_MODE_LABEL, USE_LIVE } from '@/lib/api/liveToggle'
 
 function ConnectWalletButton() {
   const [mounted, setMounted] = useState(false)
@@ -93,6 +94,9 @@ const Navigation = () => {
                 <span className="mobile:inline block">DISCOVERY</span>
                 <span className="mobile:inline block mobile:ml-1">STUDIOS</span>
               </Link>
+              {USE_LIVE && (
+                <span className="absolute left-[calc(50%+220px)] top-1 text-[10px] tracking-[0.25em] text-black/60">{LIVE_MODE_LABEL}</span>
+              )}
               
               {/* User Actions */}
               <div className="flex items-center space-x-4 tablet:space-x-8">

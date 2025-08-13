@@ -13,14 +13,16 @@ router.get(
       sort: Joi.string().default('-createdAt'),
       page: Joi.number().integer().min(1).default(1),
       limit: Joi.number().integer().min(1).max(100).default(20),
+      source: Joi.string().optional(),
     }),
   }),
   async (req, res) => {
-    const { brandId, designerId, q, sort, page, limit } = req.query
+    const { brandId, designerId, q, sort, page, limit, source } = req.query
     const filter = {}
     if (brandId) filter.brandId = brandId
     if (designerId) filter.designerId = designerId
     if (q) filter.name = { $regex: q, $options: 'i' }
+    if (source) filter.source = { $in: String(source).split(',').map((s) => s.trim()) }
     const docs = await Product.find(filter)
       .sort(sort)
       .limit(Number(limit))
