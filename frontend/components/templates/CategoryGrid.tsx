@@ -2,6 +2,7 @@
 import Image from 'next/image'
 import Link from 'next/link'
 import { useState, useEffect } from 'react'
+import { hrefFor } from '@/lib/nav'
 import { GridCardSkeleton } from '@/components/common/Skeleton'
 import { Analytics } from '@/lib/analytics'
 
@@ -116,11 +117,9 @@ export default function CategoryGrid({
           <div className="grid grid-cols-2 mobile:grid-cols-2 tablet:grid-cols-3 desktop:grid-cols-4">
             {isDiscoverPage ? (
               exploreLinks.map((link, i) => {
-                const slug = link.name.toLowerCase().replace(/\s+/g, '-')
-                const defaultCategory = 'women'
-                const href = slug === 'view-all'
-                  ? `/${defaultCategory}/${link.category}/view-all`
-                  : `/${defaultCategory}/${link.category}/${slug}`
+                const categories = ['WOMEN', 'MEN', 'GIFTS', 'EXPLORE'] as const
+                const randomCategory = categories[Math.floor(Math.random() * categories.length)]
+                const href = hrefFor(link.category as any, randomCategory, link.name)
                 return (
                   <Link
                     key={i}
@@ -131,7 +130,7 @@ export default function CategoryGrid({
                     onClick={() => Analytics.nav(link.name, href)}
                   >
                     <Image
-                      src={`/placeholders/brand-${i + 1}.jpg`}
+                      src={`/placeholders/brand-${(i % 4) + 1}.jpg`}
                       alt={link.name}
                       width={400}
                       height={500}

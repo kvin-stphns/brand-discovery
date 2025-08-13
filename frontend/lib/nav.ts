@@ -13,13 +13,20 @@ export function hrefFor(section: Section, category: string, link: string) {
     return '/discover/map'
   }
 
-  // Explore is a distinct area
-  if (cat === 'explore') {
-    return '/explore'
+  // Rankings special routes
+  if (section === 'rankings') {
+    const baseCategory = cat === 'explore' ? 'explore' : cat
+    const base = `/${baseCategory}/rankings`
+    if (slug === 'leaderboard' || slug === 'view-all') return base
+    if (slug === 'locations' || slug === 'location') return `${base}/location`
+    if (slug === 'most-liked') return `${base}/most-liked`
+    if (slug === 'most-viewed') return `${base}/most-viewed`
+    if (slug === 'recently-liked') return `${base}/recently-liked`
+    return base
   }
 
-  if (cat === 'explore') return '/explore'
-
-  const base = `/${cat}/${section}`
+  // Explore is a first-class base category
+  const baseCategory = cat === 'explore' ? 'explore' : cat
+  const base = `/${baseCategory}/${section}`
   return slug === 'view-all' ? `${base}/view-all` : `${base}/${slug}`
 }

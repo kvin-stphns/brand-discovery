@@ -5,6 +5,8 @@ import { useEffect, useRef } from 'react'
 
 const PopularBrands = () => {
   const backgroundRef = useRef<HTMLDivElement>(null)
+  const sectionRef = useRef<HTMLDivElement>(null)
+  const sectionTop = useRef(0)
   const lastScrollY = useRef(0)
   const ticking = useRef(false)
 
@@ -52,15 +54,20 @@ const PopularBrands = () => {
   })
 
   useEffect(() => {
+    const measure = () => {
+      if (!sectionRef.current) return
+      const rect = sectionRef.current.getBoundingClientRect()
+      sectionTop.current = window.scrollY + rect.top
+    }
     const handleScroll = () => {
       lastScrollY.current = window.scrollY
-
       if (!ticking.current) {
         window.requestAnimationFrame(() => {
           if (backgroundRef.current) {
             const isMobile = window.innerWidth <= 768
-            const parallaxFactor = isMobile ? 0.08 : 0.15 // gentler parallax
-            const yOffset = lastScrollY.current * parallaxFactor
+            const parallaxFactor = isMobile ? 0.08 : 0.15
+            const localScroll = Math.max(0, lastScrollY.current - sectionTop.current)
+            const yOffset = localScroll * parallaxFactor
             backgroundRef.current.style.transform = `translate3d(0, ${yOffset}px, 0)`
           }
           ticking.current = false
@@ -68,16 +75,30 @@ const PopularBrands = () => {
         ticking.current = true
       }
     }
-
+    // initialize and observe size changes to avoid layout shift issues
+    measure()
+    handleScroll()
+    const ro = new ResizeObserver(() => {
+      measure()
+      handleScroll()
+    })
+    if (sectionRef.current) ro.observe(sectionRef.current)
+    window.addEventListener('load', measure)
+    window.addEventListener('resize', measure)
     window.addEventListener('scroll', handleScroll, { passive: true })
-    return () => window.removeEventListener('scroll', handleScroll)
+    return () => {
+      ro.disconnect()
+      window.removeEventListener('load', measure)
+      window.removeEventListener('resize', measure)
+      window.removeEventListener('scroll', handleScroll)
+    }
   }, [])
 
   return (
-    <section className="relative py-20 overflow-hidden">
+    <section ref={sectionRef} className="relative py-20 overflow-hidden">
       <div 
         ref={backgroundRef}
-        className="absolute inset-0 -z-10 will-change-transform"
+        className="absolute inset-0 z-0 will-change-transform"
         style={{ 
           transform: 'translate3d(0, 0, 0)',
           backfaceVisibility: 'hidden',
@@ -113,8 +134,9 @@ const PopularBrands = () => {
         <div className="px-8 tablet:px-16 desktop:px-24">
           <div className="grid grid-cols-2 gap-4 tablet:gap-8">
             {items.map((item) => (
-              <div
+              <Link
                 key={item.id}
+                href={item.type === 'brand' ? `/brand/${item.id}` : item.type === 'designer' ? `/designer/${item.id}` : `/product/${item.id}`}
                 className="popular-brand relative z-10 rounded-xl bg-white/10 hover:bg-white/10 
                          backdrop-blur-sm hover:backdrop-blur-md transition-all duration-300 
                          aspect-[2/1] flex flex-col items-start justify-between p-4 tablet:p-8 
@@ -126,7 +148,7 @@ const PopularBrands = () => {
                 <span className="text-[#4FFFF4] text-[10px] tablet:text-sm tracking-[0.25em] font-medium tablet:font-bold">
                   {item.label}
                 </span>
-              </div>
+              </Link>
             ))}
           </div>
         </div>

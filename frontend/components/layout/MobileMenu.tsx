@@ -2,6 +2,7 @@
 import { useState, useEffect } from 'react'
 import { X, ArrowLeft } from 'lucide-react'
 import { useRouter } from 'next/navigation'
+import { hrefFor } from '@/lib/nav'
 
 interface MobileMenuProps {
   isOpen: boolean
@@ -15,7 +16,7 @@ const discoverLinks = ['View All', 'Spotlight', 'Trending', 'Lookbooks', 'Locati
 const brandLinks = ['View All', 'Alphabetical', 'Newest', 'Featured', 'Popular', 'Random']
 const categoryLinks = ['View All', 'Tops', 'Bottoms', 'Outerwear', 'Accessories', 'Footwear']
 const designerLinks = ['View All', 'Trending', 'Spotlight', 'Lookbooks', 'Locations', 'Random']
-const rankingLinks = ['Top Rated', 'Recently Liked', 'Most Liked', 'Leaderboard', 'Locations']
+const rankingLinks = ['Leaderboard', 'Most Liked', 'Most Viewed', 'Recently Liked', 'Locations']
 
 export default function MobileMenu({ isOpen, onClose, items }: MobileMenuProps) {
   const [activeLayer0, setActiveLayer0] = useState<string | null>(null)
@@ -58,9 +59,12 @@ export default function MobileMenu({ isOpen, onClose, items }: MobileMenuProps) 
 
   const handleLayer2Click = (link: string) => {
     if (!activeLayer0 || !activeLayer1) return
-    
-    const formattedLink = link.toLowerCase().replace(' ', '-')
-    const path = `/${activeLayer0.toLowerCase()}/${activeLayer1.toLowerCase()}/${formattedLink}`
+
+    const path = hrefFor(
+      activeLayer1.toLowerCase() as any,
+      activeLayer0,
+      link
+    )
     router.push(path)
     setActiveLayer0(null)
     setActiveLayer1(null)

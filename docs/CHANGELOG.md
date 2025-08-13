@@ -77,3 +77,14 @@
 - Regenerated routes map and routes report; build green.
 
 ---
+
+## [2025-08-13] – Gate 1: Rankings Overhaul
+- Rankings Overhaul: Leaderboard Hub, list sub-sections, map rankings, menu routing, build green.
+  - Enhanced rankings with timeframe, category, and sorting chips; modes: Leaderboard/List/Map.
+  - New components: `frontend/components/rankings/LeaderboardHub.tsx`, `LeaderboardTable.tsx`, `Charts.tsx`, `RankingsList.tsx`, `MapLeaderboard.tsx`.
+  - New data layer: `frontend/lib/rankings/types.ts`, `frontend/lib/rankings/mock.ts`.
+  - Routes wired: `/rankings`, `/[category]/rankings`, sub-routes for `most-liked`, `most-viewed`, `recently-liked`, and `location`.
+  - Menus updated to generate rankings routes via `hrefFor(...)`.
+  - Lint/build passed; routes report updated.
+
+---

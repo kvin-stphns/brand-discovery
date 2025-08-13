@@ -56,10 +56,16 @@ const Hero = () => {
 
     const observer = new IntersectionObserver(
       ([entry]) => {
+        const belowFold = window.scrollY >= window.innerHeight
+        if (belowFold) {
+          setIsFixed(false)
+          setOpacity(0)
+          return
+        }
         if (entry.isIntersecting) {
           setOpacity(0)
           setTimeout(() => setIsFixed(false), 250)
-        } else if (window.scrollY < window.innerHeight) {
+        } else {
           setIsFixed(true)
           setTimeout(() => setOpacity(1), 50)
         }
@@ -77,7 +83,7 @@ const Hero = () => {
       className={`${isFixed ? 'fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2' : 'absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2'} z-10 flex flex-col items-center space-y-8 transition-opacity duration-300`}
       style={{ opacity }}
     >
-      <Link href={hrefFor('discover', 'women', 'view all')}>
+      <Link href="/discover">
         <button className="px-16 py-4 border border-black hover:bg-black/40 hover:backdrop-blur-sm hover:text-[#4FFFF4] hover:border-[#4FFFF4] text-sm tracking-[0.25em] bg-black/80 text-white transition-all duration-300">
           DISCOVER
         </button>
@@ -95,7 +101,7 @@ const Hero = () => {
       {/* Background Image with Parallax */}
       <div
         ref={backgroundRef}
-        className="absolute inset-0 -z-10 will-change-transform"
+        className="absolute inset-0 z-0 will-change-transform"
         style={{
           transform: 'translate3d(0, 0, 0)',
           backfaceVisibility: 'hidden',
@@ -106,7 +112,7 @@ const Hero = () => {
       </div>
 
       {/* Overlay */}
-      <div className="absolute inset-0 bg-white/10 backdrop-blur-[2px]"></div>
+      <div className="absolute inset-0 z-[1] bg-white/10 backdrop-blur-[2px]"></div>
 
       {/* Content: portal when fixed to avoid ancestor transforms affecting fixed positioning */}
       {isFixed && mounted ? createPortal(content, document.body) : content}

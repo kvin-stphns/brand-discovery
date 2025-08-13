@@ -10,7 +10,7 @@ export default function ProductPage() {
   const [selectedImage, setSelectedImage] = useState(0)
   const [selectedSize, setSelectedSize] = useState('')
   const [isMobile, setIsMobile] = useState(false)
-  const addToCart = useCart((s) => s.add)
+  const { add } = useCart()
   
   useEffect(() => {
     // Handle mobile detection and viewport adjustments
@@ -35,9 +35,7 @@ export default function ProductPage() {
     '/placeholders/product-4.jpg',
   ]
 
-  const add = () => {
-    addToCart({ id: 'product-1', name: 'PRODUCT NAME', price: 299, size: selectedSize || undefined, image: images[selectedImage] })
-  }
+  // add to cart handled inline on button click
 
   return (
     <>
@@ -159,7 +157,16 @@ export default function ProductPage() {
               {/* Add desktop add to cart button */}
               {!isMobile && (
                 <div className="absolute bottom-0 left-8 right-8 pb-8">
-                  <button onClick={add} className="w-full bg-black text-white py-4 text-sm tracking-[0.15em]">
+                  <button
+                    className="w-full bg-black text-white py-4 text-sm tracking-[0.15em]"
+                    onClick={() => {
+                      if (!selectedSize) {
+                        alert('Please select a size')
+                        return
+                      }
+                      add({ id: 'product-1', name: 'PRODUCT NAME', price: 299, size: selectedSize, image: images[selectedImage] })
+                    }}
+                  >
                     ADD TO CART
                   </button>
                 </div>
@@ -170,7 +177,16 @@ export default function ProductPage() {
           {/* Mobile Buy Button Overlay */}
           {isMobile && (
             <div className="fixed bottom-0 left-0 right-0 bg-white border-t border-black p-4 z-50">
-              <button onClick={add} className="w-full bg-black text-white py-4 text-sm tracking-[0.15em]">
+              <button
+                className="w-full bg-black text-white py-4 text-sm tracking-[0.15em]"
+                onClick={() => {
+                  if (!selectedSize) {
+                    alert('Please select a size')
+                    return
+                  }
+                  add({ id: 'product-1', name: 'PRODUCT NAME', price: 299, size: selectedSize, image: images[selectedImage] })
+                }}
+              >
                 ADD TO CART
               </button>
             </div>

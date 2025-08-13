@@ -1,0 +1,115 @@
+'use client'
+import { useEffect, useMemo, useState } from 'react'
+import LeaderboardTable from './LeaderboardTable'
+import { CategoryShareChart, MomentumChart } from './Charts'
+import RankingsList from './RankingsList'
+import MapLeaderboard from './MapLeaderboard'
+import { CATEGORIES, SORTS, TIMEFRAMES, getLeaderboardData, getListData, getMapData } from '@/lib/rankings/mock'
+import { CategoryScope, LeaderboardRow, MapRankingPoint, RankingListItem, RankingsFilters, Timeframe } from '@/lib/rankings/types'
+
+type Mode = 'leaderboard' | 'list' | 'map'
+
+function ModeToggle({ mode, onChange }: { mode: Mode; onChange: (m: Mode) => void }) {
+  const modes: Mode[] = ['leaderboard', 'list', 'map']
+  return (
+    <div className="inline-flex border border-black/40 text-xs">
+      {modes.map((m) => (
+        <button key={m} className={`px-3 py-1 ${m === mode ? 'bg-black text-white' : ''}`} onClick={() => onChange(m)}>
+          {m.toUpperCase()}
+        </button>
+      ))}
+    </div>
+  )
+}
+
+function Controls({ value, onChange }: { value: RankingsFilters; onChange: (v: RankingsFilters) => void }) {
+  return (
+    <div className="flex flex-wrap items-center gap-2">
+      <select className="border border-black/20 px-2 py-1 text-xs" value={value.timeframe} onChange={(e) => onChange({ ...value, timeframe: e.target.value as Timeframe })}>
+        {TIMEFRAMES.map((t) => <option key={t} value={t}>{t.toUpperCase()}</option>)}
+      </select>
+      <select className="border border-black/20 px-2 py-1 text-xs" value={value.category} onChange={(e) => onChange({ ...value, category: e.target.value as CategoryScope })}>
+        {CATEGORIES.map((c) => <option key={c} value={c}>{c.toUpperCase()}</option>)}
+      </select>
+      <div className="flex items-center gap-2">
+        {SORTS.map((s) => (
+          <button key={s} className={`text-xs px-2 py-1 border ${value.sort === s ? 'bg-black text-white' : 'border-black/20'}`} onClick={() => onChange({ ...value, sort: s as any })}>
+            {s.toString().toUpperCase()}
+          </button>
+        ))}
+      </div>
+    </div>
+  )
+}
+
+export default function LeaderboardHub({ initialMode = 'leaderboard' as Mode }) {
+  const [mode, setMode] = useState<Mode>(initialMode)
+  const [filters, setFilters] = useState<RankingsFilters>({ timeframe: '7d', category: 'all', sort: 'mixed' as any })
+  const [rows, setRows] = useState<LeaderboardRow[]>([])
+  const [kpis, setKpis] = useState<{ totalVotes: number; topCategory: string; fastestRiser: string } | null>(null)
+  const [listItems, setListItems] = useState<RankingListItem[]>([])
+  const [mapPoints, setMapPoints] = useState<MapRankingPoint[]>([])
+
+  useEffect(() => {
+    getLeaderboardData(filters, 24).then((res) => { setRows(res.rows); setKpis(res.kpis) })
+    getListData(filters, 30).then(setListItems)
+    getMapData(filters).then((res) => setMapPoints(res.points))
+  }, [filters])
+
+  return (
+    <div className="grid grid-cols-1 desktop:grid-cols-4 gap-8">
+      <div className="desktop:col-span-3">
+        <div className="flex items-center justify-between mb-4">
+          <Controls value={filters} onChange={setFilters} />
+          <ModeToggle mode={mode} onChange={setMode} />
+        </div>
+
+        {mode === 'leaderboard' && (
+          <>
+            <LeaderboardTable rows={rows} />
+            <div className="grid grid-cols-1 tablet:grid-cols-2 gap-6 mt-6">
+              <div className="border border-black p-4">
+                <div className="text-xs mb-2 tracking-[0.15em]">CATEGORY SHARE</div>
+                <CategoryShareChart />
+              </div>
+              <div className="border border-black p-4">
+                <div className="text-xs mb-2 tracking-[0.15em]">MOMENTUM</div>
+                <MomentumChart />
+              </div>
+            </div>
+          </>
+        )}
+
+        {mode === 'list' && (
+          <div className="mt-2">
+            <RankingsList items={listItems} />
+          </div>
+        )}
+
+        {mode === 'map' && (
+          <div className="mt-2">
+            <MapLeaderboard points={mapPoints} />
+          </div>
+        )}
+      </div>
+      <aside className="desktop:col-span-1">
+        <div className="sticky top-[140px] space-y-4">
+          <div className="border border-black p-4">
+            <div className="text-xs tracking-[0.15em] mb-2">TOTAL VOTES</div>
+            <div className="text-2xl">{kpis?.totalVotes ?? '—'}</div>
+          </div>
+          <div className="border border-black p-4">
+            <div className="text-xs tracking-[0.15em] mb-2">TOP CATEGORY</div>
+            <div className="text-sm">{kpis?.topCategory ?? '—'}</div>
+          </div>
+          <div className="border border-black p-4">
+            <div className="text-xs tracking-[0.15em] mb-2">FASTEST RISER</div>
+            <div className="text-sm">{kpis?.fastestRiser ?? '—'}</div>
+          </div>
+        </div>
+      </aside>
+    </div>
+  )
+}
+
+

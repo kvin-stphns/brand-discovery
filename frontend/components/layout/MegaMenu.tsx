@@ -14,7 +14,7 @@ const discoverLinks = ['View All', 'Spotlight', 'Trending', 'Lookbooks', 'Locati
 const brandLinks = ['View All', 'Alphabetical', 'Newest', 'Featured', 'Popular', 'Random']
 const categoryLinks = ['View All', 'Tops', 'Bottoms', 'Outerwear', 'Accessories', 'Footwear']
 const designerLinks = ['View All', 'Trending', 'Spotlight', 'Lookbooks', 'Locations', 'Random']
-const rankingLinks = ['View All', 'Top Rated', 'Recently Liked', 'Most Liked', 'Leaderboard', 'Locations']
+const rankingLinks = ['View All', 'Leaderboard', 'Most Liked', 'Most Viewed', 'Recently Liked', 'Locations']
 
 const MegaMenu = ({ category }: MegaMenuProps) => {
   const [showDiscoverMenu, setShowDiscoverMenu] = useState(false)
@@ -116,7 +116,7 @@ const MegaMenu = ({ category }: MegaMenuProps) => {
                             {() => (
                               <a
                                 href={link === 'Explore' ? '/explore' : '#'}
-                                className="block px-12 py-4 text-sm tracking-[0.25em] hover:text-gray-500 transition-colors"
+                        className="block px-12 py-4 text-sm tracking-[0.25em] hover:text-gray-500 transition-colors"
                                 onClick={(e) => {
                                   if (link !== 'Explore') e.preventDefault()
                                   handleLinkClick(link)
