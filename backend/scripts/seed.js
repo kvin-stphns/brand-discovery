@@ -12,8 +12,9 @@ function slugify(name) {
   return name.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '')
 }
 
-async function upsertBrand(name, idx) {
+async function upsertBrand(name, idx, stats) {
   const slug = slugify(name)
+  const exists = await Brand.exists({ slug })
   const update = {
     name,
     slug,
@@ -22,22 +23,28 @@ async function upsertBrand(name, idx) {
     location: 'Global',
     links: { website: `https://example.com/${slug}` },
   }
-  return Brand.findOneAndUpdate({ slug }, update, { new: true, upsert: true, setDefaultsOnInsert: true })
+  const doc = await Brand.findOneAndUpdate({ slug }, update, { new: true, upsert: true, setDefaultsOnInsert: true })
+  exists ? (stats.brandsUpdated++) : (stats.brandsCreated++)
+  return doc
 }
 
-async function upsertDesigner(name, idx) {
+async function upsertDesigner(name, idx, stats) {
   const slug = slugify(name)
+  const exists = await Designer.exists({ slug })
   const update = {
     name,
     slug,
     image: `/placeholders/designer-${(idx % 4) + 1}.jpg`,
     url: `https://example.com/${slug}`,
   }
-  return Designer.findOneAndUpdate({ slug }, update, { new: true, upsert: true, setDefaultsOnInsert: true })
+  const doc = await Designer.findOneAndUpdate({ slug }, update, { new: true, upsert: true, setDefaultsOnInsert: true })
+  exists ? (stats.designersUpdated++) : (stats.designersCreated++)
+  return doc
 }
 
-async function upsertProduct(name, brandId, designerId, idx) {
+async function upsertProduct(name, brandId, designerId, idx, stats) {
   const slug = slugify(name)
+  const exists = await Product.exists({ slug })
   const update = {
     name,
     slug,
@@ -49,22 +56,26 @@ async function upsertProduct(name, brandId, designerId, idx) {
     url: `https://example.com/product/${slug}`,
     tags: [productCategories[idx % productCategories.length]],
   }
-  return Product.findOneAndUpdate({ slug }, update, { new: true, upsert: true, setDefaultsOnInsert: true })
+  const doc = await Product.findOneAndUpdate({ slug }, update, { new: true, upsert: true, setDefaultsOnInsert: true })
+  exists ? (stats.productsUpdated++) : (stats.productsCreated++)
+  return doc
 }
 
 async function main() {
   await connectToDatabase({ maxRetries: 1 }).catch(() => {})
+  const stats = { brandsCreated: 0, brandsUpdated: 0, designersCreated: 0, designersUpdated: 0, productsCreated: 0, productsUpdated: 0 }
+
   const brands = []
   for (let i = 1; i <= 20; i++) {
     // eslint-disable-next-line no-await-in-loop
-    const b = await upsertBrand(`Brand ${i}`, i)
+    const b = await upsertBrand(`Brand ${i}`, i, stats)
     brands.push(b)
   }
 
   const designers = []
   for (let i = 1; i <= 15; i++) {
     // eslint-disable-next-line no-await-in-loop
-    const d = await upsertDesigner(`Designer ${i}`, i)
+    const d = await upsertDesigner(`Designer ${i}`, i, stats)
     designers.push(d)
   }
 
@@ -74,12 +85,12 @@ async function main() {
     const brand = brands[i % brands.length]
     const designer = designers[i % designers.length]
     // eslint-disable-next-line no-await-in-loop
-    const p = await upsertProduct(`Product ${i}`, brand._id, designer._id, i)
+    const p = await upsertProduct(`Product ${i}`, brand._id, designer._id, i, stats)
     products.push(p)
   }
 
   // eslint-disable-next-line no-console
-  console.log(`Seed complete: ${brands.length} brands, ${designers.length} designers, ${products.length} products`)
+  console.log(`Seed complete: brands +${stats.brandsCreated}/~${stats.brandsUpdated} updated, designers +${stats.designersCreated}/~${stats.designersUpdated}, products +${stats.productsCreated}/~${stats.productsUpdated}`)
   await disconnectFromDatabase()
 }
 

@@ -2,6 +2,7 @@ const express = require('express')
 const router = express.Router()
 const { Vote } = require('../models/voteModel')
 const { Click } = require('../models/clickModel')
+const mongoose = require('mongoose')
 
 router.get('/', async (_req, res) => {
   const items = Array.from({ length: 10 }).map((_, i) => ({
@@ -14,6 +15,7 @@ router.get('/', async (_req, res) => {
 })
 
 router.get('/mostLiked', async (_req, res) => {
+  if (mongoose.connection.readyState !== 1) return res.json({ items: [] })
   const pipeline = [
     { $match: { entityType: 'brand' } },
     { $group: { _id: '$entityId', score: { $sum: '$weight' }, count: { $sum: 1 } } },
@@ -25,6 +27,7 @@ router.get('/mostLiked', async (_req, res) => {
 })
 
 router.get('/mostViewed', async (_req, res) => {
+  if (mongoose.connection.readyState !== 1) return res.json({ items: [] })
   const pipeline = [
     { $group: { _id: '$url', count: { $sum: 1 } } },
     { $sort: { count: -1 } },
@@ -35,6 +38,7 @@ router.get('/mostViewed', async (_req, res) => {
 })
 
 router.get('/recentVotes', async (_req, res) => {
+  if (mongoose.connection.readyState !== 1) return res.json({ items: [] })
   const items = await Vote.find({}).sort({ createdAt: -1 }).limit(50)
   res.json({ items })
 })

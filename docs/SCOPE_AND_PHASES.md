@@ -348,9 +348,21 @@ The human will reply:
 - Backend entry unified; `/` and `/healthz` live and green.
 - Mongo connection uses retry/backoff; clean shutdown on signals.
 - Brands/Designers/Products: readable; Products filterable by brandId/designerId/q.
-- Votes: POST works; `/votes/summary` returns counts and weighted score.
+- Votes: POST works; `/votes/summary` returns counts/weighted score.
 - Checkout: `/affiliate/checkout` logs `Click` and 302 to composed URL.
 - JWT magic login + `/auth/me` returns user; RBAC enforced on admin routes.
 - Validation + rate-limit active; errors JSON-shaped via centralized middleware.
 - Frontend remains unchanged; API base controllable via `NEXT_PUBLIC_API_ENDPOINT`.
 - Tests added (Jest+Supertest) for healthz, brand CRUD, checkout.
+
+## Gate 3 Progress
+- Seed script idempotent; non-blocking scrapers added.
+- FE Featured/Popular/Product wired to live endpoints with 2s timeout and toast fallback.
+- Rankings endpoints used for future wiring; mock fallback remains.
+- ROUTES_REPORT regenerated; CHANGELOG updated.
+
+## Gate 4 Progress
+- Wallet connect groundwork (wagmi/viem config + button); browsing unaffected.
+- Backend web3 adapter with dry-run mode; votes POST integrates fire-and-forget txHash update.
+- Tests extended (votes + rankings); CI remains green.
+- Deploy docs/config scaffolding added.

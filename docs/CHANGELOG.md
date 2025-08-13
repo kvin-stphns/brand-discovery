@@ -100,3 +100,16 @@
 - Routes implemented/extended: brands (CRUD admin create/update), designers, products (filters), votes (create + summary), rankings aggregates, affiliate checkout with non-blocking Click logging.
 - Tests: healthz, brand admin create+list, checkout redirect.
 - `.env.example` with required env vars.
+
+## Gate 3 - Seed + Live wiring + Optional Scrapers
+- Seed script `backend/scripts/seed.js` (idempotent upserts) for ~20 brands, 15 designers, 80 products; `npm run seed`.
+- Optional scrapers added (Cheerio): `ssense`, `farfetch` with safe delays and non-blocking behavior (`npm run scrape:*`).
+- Affiliate composition hardened via `src/affiliate/partners.js` with partner IDs in `.env.example`.
+- Frontend wired with graceful fallbacks: Featured/Popular pages and Product page use live API when available (2s timeout), fallback to mocks, and show a subtle toast if live data unavailable.
+- Routes report regenerated.
+
+## Gate 4 - Wallet connect + On-chain vote sync (testnet)
+- Added wagmi + viem config; minimal Connect Wallet button (non-blocking).
+- Backend web3 adapter `src/web3/voting.js`: sends tx if env present; otherwise returns dry-run hash and logs a warning. Integrated with `/api/votes` POST (fire-and-forget, attaches txHash if available).
+- Tests extended: votes create + summary; rankings endpoints.
+- Deploy readiness docs and configs added (see /docs/DEPLOY/*).
