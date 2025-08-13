@@ -78,8 +78,8 @@ const Navigation = () => {
               </div>
             </div>
 
-            {/* Divider */}
-            <div className="fixed left-0 right-0 border-t border-black z-[1003]" />
+            {/* Divider aligned to MegaMenu */}
+            <div className="fixed left-0 right-0 top-[104px] h-px bg-black z-[1003]" />
 
             {/* Search section */}
             <div className="relative pt-2.5 pb-1 z-[1003]">

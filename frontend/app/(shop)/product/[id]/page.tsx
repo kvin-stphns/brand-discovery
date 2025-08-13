@@ -2,7 +2,7 @@
 import Image from 'next/image'
 import Link from 'next/link'
 import { useState, useEffect } from 'react'
-import { Heart, Bookmark, ChevronRight } from 'lucide-react'
+import { Heart, Bookmark, ChevronRight, ExternalLink } from 'lucide-react'
 import { useCart } from '@/lib/store/cart'
 import { hrefFor } from '@/lib/nav'
 
@@ -91,8 +91,8 @@ export default function ProductPage() {
             </div>
           </div>
 
-          {/* Vertical Divider */}
-          <div className="hidden md:block w-px bg-black" />
+          {/* Vertical Divider (exact solid black) */}
+          <div className="hidden md:block self-stretch w-px bg-black" />
 
           {/* Product Info Section */}
           <div className={`${isMobile ? 'w-full pb-32 border-t border-black' : 'w-[60%] relative'}`}>
@@ -152,6 +152,18 @@ export default function ProductPage() {
                     Shipping information placeholder text.
                   </p>
                 </div>
+              </div>
+
+              {/* Checkout via affiliate preview (opens in new tab) */}
+              <div className="mt-8">
+                <a
+                  href={`/api/affiliate/preview?productId=product-1`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-2 px-4 py-2 border border-black bg-white text-black hover:bg-black hover:text-white transition-colors text-sm tracking-[0.15em]"
+                >
+                  PREVIEW CHECKOUT <ExternalLink className="w-4 h-4" />
+                </a>
               </div>
 
               {/* Add desktop add to cart button */}

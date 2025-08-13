@@ -1,4 +1,5 @@
 export const API_BASE_URL = process.env.NEXT_PUBLIC_API_ENDPOINT || ''
+const USE_LIVE = String(process.env.NEXT_PUBLIC_USE_LIVE_API || '').toLowerCase() === 'true'
 
 export async function get(path: string, init?: RequestInit) {
   const url = `${API_BASE_URL}${path}`
@@ -18,7 +19,7 @@ export async function post(path: string, body: unknown, init?: RequestInit) {
 export type BrandDTO = { _id: string; name: string; image?: string; slug: string }
 export type RankingItem = { rank: number; score: number; id: string; name: string }
 
-const useMocks = !API_BASE_URL
+const useMocks = !API_BASE_URL && !USE_LIVE
 
 export async function fetchBrands(): Promise<BrandDTO[]> {
   if (useMocks) {
@@ -27,6 +28,16 @@ export async function fetchBrands(): Promise<BrandDTO[]> {
     return items.map((i) => ({ _id: i.id, name: i.name, image: i.image, slug: i.id }))
   }
   const res = await get('/api/brands')
+  if (!res.ok) {
+    if (USE_LIVE) {
+      const { toast } = await import('@/lib/toast')
+      toast('Failed to load brands', 'error')
+      return []
+    }
+    const { mockList } = await import('./mock')
+    const items = await mockList('brand', 12)
+    return items.map((i) => ({ _id: i.id, name: i.name, image: i.image, slug: i.id }))
+  }
   const json = await res.json()
   return json.items as BrandDTO[]
 }
@@ -36,6 +47,14 @@ export async function fetchRankings(): Promise<RankingItem[]> {
     return Array.from({ length: 10 }).map((_, i) => ({ rank: i + 1, score: 100 - i * 3, id: `brand-${i + 1}`, name: `Brand ${i + 1}` }))
   }
   const res = await get('/api/rankings')
+  if (!res.ok) {
+    if (USE_LIVE) {
+      const { toast } = await import('@/lib/toast')
+      toast('Failed to load rankings', 'error')
+      return []
+    }
+    return Array.from({ length: 10 }).map((_, i) => ({ rank: i + 1, score: 100 - i * 3, id: `brand-${i + 1}`, name: `Brand ${i + 1}` }))
+  }
   const json = await res.json()
   return json.items as RankingItem[]
 }

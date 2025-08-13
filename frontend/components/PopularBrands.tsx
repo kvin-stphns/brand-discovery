@@ -2,8 +2,9 @@
 import Image from 'next/image'
 import Link from 'next/link'
 import { useEffect, useRef, useState } from 'react'
-import { getLeaderboardData } from '@/lib/rankings/mock'
 import { RankingsFilters } from '@/lib/rankings/types'
+import { toast } from '@/lib/toast'
+import { fetchRankings } from '@/lib/api/client'
 
 const PopularBrands = () => {
   const backgroundRef = useRef<HTMLDivElement>(null)
@@ -40,18 +41,20 @@ const PopularBrands = () => {
     const localBrandTypes = [...brandTypes]
     const localProductCategories = [...productCategories]
     const filters: RankingsFilters = { timeframe: '7d', category: 'women', sort: 'mixed' }
-    getLeaderboardData(filters, 6).then(({ rows }) => {
-      const mapped = rows.slice(0, 6).map((r, idx) => ({
-        id: r.id,
-        type: r.type,
-        label: r.type === 'designer'
-          ? `${r.name}: ${localBrandTypes[idx % localBrandTypes.length]} Designer`
-          : r.type === 'brand'
-          ? `${r.name}: ${localBrandTypes[idx % localBrandTypes.length]} Brand`
-          : `${r.name}: ${toSingular(localProductCategories[idx % localProductCategories.length])}`,
-      }))
-      setItems(mapped)
-    })
+    fetchRankings()
+      .then((rows) => {
+        const mapped = rows.slice(0, 6).map((r, idx) => ({
+          id: r.id,
+          type: 'brand' as const,
+          label: `${r.name}: ${localBrandTypes[idx % localBrandTypes.length]} Brand`,
+        }))
+        setItems(mapped)
+      })
+      .catch(() => {
+        toast('Failed to load popular rankings', 'error')
+        setItems([])
+      })
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   useEffect(() => {
@@ -134,7 +137,7 @@ const PopularBrands = () => {
 
         <div className="px-8 tablet:px-16 desktop:px-24">
           <div className="grid grid-cols-2 gap-4 tablet:gap-8">
-            {items.map((item) => (
+            {items.map((item, idx) => (
               <Link
                 key={item.id}
                 href={item.type === 'brand' ? `/brand/${item.id}` : item.type === 'designer' ? `/designer/${item.id}` : `/product/${item.id}`}
@@ -143,7 +146,7 @@ const PopularBrands = () => {
                          aspect-[2/1] flex flex-col items-start justify-between p-4 tablet:p-8 
                          border border-transparent hover:border-[#4FFFF4]/50 overflow-hidden"
               >
-                <span className="text-[#4FFFF4] text-sm tracking-[0.25em] font-bold">{String(items.indexOf(item) + 1).padStart(2, '0')}</span>
+                <span className="text-[#4FFFF4] text-sm tracking-[0.25em] font-bold">{String(idx + 1).padStart(2, '0')}</span>
                 <span className="text-[#4FFFF4] text-[10px] tablet:text-sm tracking-[0.25em] font-medium tablet:font-bold">
                   {item.label}
                 </span>

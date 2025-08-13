@@ -1,6 +1,4 @@
-export function toSlug(input: string) {
-  return input.toLowerCase().replace(/\s+/g, '-').replace(/[^a-z0-9-]/g, '')
-}
+import { toSlug } from '@/lib/str'
 
 export type Section = 'discover' | 'brands' | 'categories' | 'designers' | 'rankings'
 
