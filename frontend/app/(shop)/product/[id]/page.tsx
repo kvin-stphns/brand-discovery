@@ -61,8 +61,8 @@ export default function ProductPage() {
 
   async function onCheckout() {
     try {
-      const urlParam = encodeURIComponent(product?.url || 'https://example.com/product')
-      const res = await fetch(`/api/affiliate/preview?url=${urlParam}`)
+      const id = product?._id || params?.id
+      const res = await fetch(`/api/affiliate/preview?productId=${encodeURIComponent(String(id))}`)
       const json = await res.json()
       if (json?.url) {
         window.open(json.url, '_blank')
@@ -103,10 +103,8 @@ export default function ProductPage() {
             </div>
           </div>
 
-          {/* Vertical Divider */}
-          <div className="hidden md:block w-px bg-black/15" />
-
-          <div className={`${isMobile ? 'w-full pb-32 border-t border-black' : 'w-[60%] relative'}`}>
+          {/* Content column with desktop-only left divider */}
+          <div className={`${isMobile ? 'w-full pb-32 border-t border-black' : 'w-[60%] relative md:border-l md:border-black'}`}>
             <div className="max-w-2xl pt-6 px-8">
               <div className="flex justify-between items-start mb-6">
                 <div>
