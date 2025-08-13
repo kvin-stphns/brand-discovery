@@ -10,6 +10,14 @@ const nextConfig = {
       { protocol: 'https', hostname: '**.farfetch.net' },
     ],
   },
+  webpack: (config) => {
+    config.resolve.fallback = {
+      ...(config.resolve.fallback || {}),
+      encoding: false,
+      'pino-pretty': false,
+    }
+    return config
+  },
 }
 
 module.exports = nextConfig

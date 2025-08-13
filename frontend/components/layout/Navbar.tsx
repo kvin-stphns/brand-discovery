@@ -10,17 +10,21 @@ import { useCart } from '@/lib/store/cart'
 import CartDrawer from '@/components/ui/CartDrawer'
 import { useRouter } from 'next/navigation'
 import { LIVE_MODE_LABEL, USE_LIVE } from '@/lib/api/liveToggle'
-import { useAccount, useConnect, useDisconnect } from 'wagmi'
-import { InjectedConnector } from 'wagmi/connectors/injected'
+import { useAccount, useConnect, useDisconnect, useConnectors } from 'wagmi'
 
 function ConnectWalletButton() {
   const [mounted, setMounted] = useState(false)
-  const { address, isConnected } = useAccount()
-  const { connect } = useConnect({ connector: new InjectedConnector() })
+  const { isConnected } = useAccount()
+  const { connect } = useConnect()
   const { disconnect } = useDisconnect()
+  const connectors = useConnectors()
   useEffect(() => setMounted(true), [])
   if (!mounted) return null
-  const connectAction = () => (isConnected ? disconnect() : connect())
+  const connectAction = () => {
+    if (isConnected) return disconnect()
+    const injected = connectors.find((c) => c.id === 'injected') || connectors[0]
+    if (injected) connect({ connector: injected })
+  }
   return (
     <>
       <button onClick={connectAction} className="hidden desktop:inline px-3 py-1 border border-black text-xs tracking-[0.15em] hover:bg-black hover:text-white transition-colors">

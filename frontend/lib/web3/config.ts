@@ -1,16 +1,12 @@
 import { createConfig, http } from 'wagmi'
-import { defineChain } from 'viem'
-
-export const neonDevnet = defineChain({
-  id: Number(process.env.NEXT_PUBLIC_CHAIN_ID || 245022926),
-  name: 'Neon Devnet',
-  nativeCurrency: { name: 'NEON', symbol: 'NEON', decimals: 18 },
-  rpcUrls: {
-    default: { http: [process.env.NEXT_PUBLIC_NEON_RPC_URL || 'https://devnet.neonevm.org'] },
-  },
-})
+import { mainnet } from 'wagmi/chains'
+import { injected } from 'wagmi/connectors'
 
 export const wagmiConfig = createConfig({
-  chains: [neonDevnet],
-  transports: { [neonDevnet.id]: http(neonDevnet.rpcUrls.default.http[0]) },
+  chains: [mainnet],
+  transports: {
+    [mainnet.id]: http(),
+  },
+  connectors: [injected()],
+  ssr: true,
 })
