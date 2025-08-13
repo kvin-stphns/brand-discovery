@@ -1,15 +1,25 @@
 'use client'
 import CategoryGrid from '@/components/templates/CategoryGrid'
 import { useEffect, useState } from 'react'
-import { mockList, type GridItem } from '@/lib/api/mock'
+import type { GridItem } from '@/lib/api/mock'
 import { Analytics } from '@/lib/analytics'
 import LeaderboardHub from '@/components/rankings/LeaderboardHub'
+import { toast } from '@/lib/toast'
 
 export default function ExplorePage() {
   const [items, setItems] = useState<GridItem[]>([])
   useEffect(() => {
     Analytics.view('explore')
-    mockList('mixed', 12).then(setItems)
+    // Live mode: leave empty when no live API defined
+    const USE_LIVE = String(process.env.NEXT_PUBLIC_USE_LIVE_API || '').toLowerCase() === 'true'
+    if (USE_LIVE) {
+      setItems([])
+    } else {
+      import('@/lib/api/mock').then(({ mockList }) => mockList('mixed', 12).then(setItems)).catch(() => {
+        toast('Failed to load explore mock', 'error')
+        setItems([])
+      })
+    }
   }, [])
   return (
     <div className="pt-0">

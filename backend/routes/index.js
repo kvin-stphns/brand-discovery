@@ -10,5 +10,6 @@ router.use('/votes', require('./votes'))
 router.use('/submissions', require('./submissions'))
 router.use('/rankings', require('./rankings'))
 router.use('/affiliate', require('./affiliate'))
+router.use('/admin', require('./admin'))
 
 module.exports = router

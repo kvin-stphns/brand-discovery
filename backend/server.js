@@ -20,7 +20,8 @@ app.use(morgan('dev'))
 const limiter = rateLimit({ windowMs: 60 * 1000, max: 120 })
 app.use(limiter)
 
-// Health check
+// Root & health
+app.get('/', (req, res) => res.send('Backend OK'))
 app.get('/healthz', (req, res) => res.json({ ok: true }))
 
 // Swagger setup
