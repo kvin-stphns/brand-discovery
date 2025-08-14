@@ -48,7 +48,7 @@ export default function LeaderboardHub({ initialMode = 'leaderboard' as Mode, va
     fetchRankings()
       .then((items) => {
         const safeItems = Array.isArray(items) ? items : []
-        const mapped: LeaderboardRow[] = safeItems.map((i, idx) => ({ id: String(i.id), name: String(i.name || ''), type: 'brand', rank: idx + 1, score: Number((i as any).score ?? 100 - idx), delta: 0, image: '', trend: Array.from({ length: 16 }).map((_, j) => 5 + Math.sin((idx + j) / 3)) }))
+        const mapped: LeaderboardRow[] = safeItems.map((i, idx) => ({ id: String(i.id), name: String((i.name || '')).replace(/\{[^}]*\}|var\([^)]*\)/g, '').trim(), type: 'brand', rank: idx + 1, score: Number((i as any).score ?? 100 - idx), delta: 0, image: '', trend: Array.from({ length: 16 }).map((_, j) => 5 + Math.sin((idx + j) / 3)) }))
         setRows(mapped)
         setKpis(safeItems.length ? { totalVotes: safeItems.length * 100, topCategory: '—', fastestRiser: String(safeItems[0]?.name || '—') } : null)
       })
@@ -64,7 +64,7 @@ export default function LeaderboardHub({ initialMode = 'leaderboard' as Mode, va
       fetchRankingsRecentVotes(),
     ]).then((results) => {
       const liked = results[0].status === 'fulfilled' ? results[0].value : []
-      const mappedLiked: RankingListItem[] = liked.map((it: any, idx: number) => ({ id: String(it.id), rank: idx + 1, name: String(it.id), type: 'brand', image: '', metric: Number(it.score || 0) }))
+      const mappedLiked: RankingListItem[] = liked.map((it: any, idx: number) => ({ id: String(it.id), rank: idx + 1, name: String(it.id).replace(/\{[^}]*\}|var\([^)]*\)/g, '').trim(), type: 'brand', image: '', metric: Number(it.score || 0) }))
       setListItems(mappedLiked)
       setMapPoints([])
     }).catch(() => {

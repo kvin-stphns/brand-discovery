@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { Search, User, ShoppingBag, Menu, X } from 'lucide-react'
 import ScrollableNav from './ScrollableNav'
 import MobileMenu from './MobileMenu'
@@ -48,6 +48,8 @@ const Navigation = () => {
   const [results, setResults] = useState<any | null>(null)
   const [open, setOpen] = useState(false)
   const router = useRouter()
+  const topRowRef = useRef<HTMLDivElement>(null)
+  const [topDividerTop, setTopDividerTop] = useState<number>(104)
 
   useEffect(() => {
     const h = setTimeout(async () => {
@@ -62,6 +64,18 @@ const Navigation = () => {
 
   const count = items.reduce((sum, i) => sum + i.qty, 0)
   
+  useEffect(() => {
+    const measure = () => {
+      const el = topRowRef.current
+      if (!el) return
+      const rect = el.getBoundingClientRect()
+      setTopDividerTop(rect.bottom + window.scrollY)
+    }
+    measure()
+    window.addEventListener('resize', measure)
+    return () => window.removeEventListener('resize', measure)
+  }, [])
+
   return (
     <>
       <MobileMenu 
@@ -70,11 +84,11 @@ const Navigation = () => {
         items={menuItems}
       />
       
-      <header className="fixed top-0 left-0 right-0 bg-white z-[1001]">
+       <header className="fixed top-0 left-0 right-0 bg-white z-[1001]">
         <div className="max-w-[2000px] mx-auto px-8">
           <nav className="py-5 pb-1.5">
             {/* Top section */}
-            <div className="relative flex items-center justify-between mb-4">
+            <div ref={topRowRef} className="relative flex items-center justify-between mb-4">
               {/* Desktop Navigation */}
               <div className="hidden desktop:flex space-x-12 z-[500]">
                 {menuItems.map((item) => (
@@ -124,8 +138,8 @@ const Navigation = () => {
               </div>
             </div>
 
-            {/* Single top divider under nav, aligned to MegaMenu (edge-to-edge 1px) */}
-            <div className="fixed inset-x-0 top-[104px] h-px bg-black z-[1003]" />
+            {/* Divider between top row and search (edge-to-edge, measured to avoid gaps) */}
+            <div className="fixed inset-x-0 h-px bg-black z-[1003]" style={{ top: topDividerTop }} />
 
             {/* Search section */}
             <div className="relative pt-2.5 pb-1 z-[1003]">
@@ -143,7 +157,7 @@ const Navigation = () => {
                 />
               </div>
             {open && results && (
-                <div className="absolute left-0 right-0 mt-2 bg-white border border-black text-xs">
+                <div className="absolute left-0 right-0 mt-2 bg-white border border-black text-xs shadow-none">
                   {['brands','designers','products'].map((k) => (
                     <div key={k}>
                       {(results[k]||[]).slice(0, k==='products'?6:4).map((it: any) => (
