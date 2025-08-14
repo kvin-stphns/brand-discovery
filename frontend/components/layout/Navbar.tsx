@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { useEffect, useLayoutEffect, useRef, useState } from 'react'
 import { Search, User, ShoppingBag, Menu, X } from 'lucide-react'
 import ScrollableNav from './ScrollableNav'
 import MobileMenu from './MobileMenu'
@@ -48,6 +48,34 @@ const Navigation = () => {
   const [results, setResults] = useState<any | null>(null)
   const [open, setOpen] = useState(false)
   const router = useRouter()
+  const topRowRef = useRef<HTMLDivElement>(null)
+  const searchRowRef = useRef<HTMLDivElement>(null)
+  const [midDividerTop, setMidDividerTop] = useState<number>(104)
+  const [bottomDividerTop, setBottomDividerTop] = useState<number>(140)
+
+  useLayoutEffect(() => {
+    const update = () => {
+      const topEl = topRowRef.current
+      const searchEl = searchRowRef.current
+      if (topEl) {
+        const r = topEl.getBoundingClientRect()
+        setMidDividerTop(Math.round(r.bottom + window.scrollY))
+      }
+      if (searchEl) {
+        const r2 = searchEl.getBoundingClientRect()
+        setBottomDividerTop(Math.round(r2.bottom + window.scrollY))
+      }
+    }
+    update()
+    const ro = new ResizeObserver(update)
+    if (topRowRef.current) ro.observe(topRowRef.current)
+    if (searchRowRef.current) ro.observe(searchRowRef.current)
+    window.addEventListener('resize', update)
+    return () => {
+      ro.disconnect()
+      window.removeEventListener('resize', update)
+    }
+  }, [])
 
   useEffect(() => {
     const h = setTimeout(async () => {
@@ -74,7 +102,7 @@ const Navigation = () => {
         <div className="max-w-[2000px] mx-auto px-8">
           <nav className="py-5 pb-1.5">
             {/* Top section */}
-            <div className="relative flex items-center justify-between mb-4">
+            <div ref={topRowRef} className="relative flex items-center justify-between mb-4">
               {/* Desktop Navigation */}
               <div className="hidden desktop:flex space-x-12 z-[500]">
                 {menuItems.map((item) => (
@@ -124,11 +152,11 @@ const Navigation = () => {
               </div>
             </div>
 
-            {/* Divider between top row and search (exact position, 1px, edge-to-edge) */}
-            <div className="fixed inset-x-0 top-[104px] h-px bg-black z-[1003]" />
+            {/* Divider between top row and search (edge-to-edge) */}
+            <div className="fixed inset-x-0 h-px bg-black z-[1003] pointer-events-none" style={{ top: midDividerTop }} />
 
             {/* Search section */}
-            <div className="relative pt-2.5 pb-1 z-[1003]">
+            <div ref={searchRowRef} className="relative pt-2.5 pb-1 z-[1003]">
               <div className="flex items-center h-6">
                 <Search className="w-3.5 h-3.5 text-black/60" />
                 <input
@@ -160,7 +188,7 @@ const Navigation = () => {
               )}
             </div>
             {/* Single bottom divider below search (desktop), edge-to-edge 1px */}
-            <div className="hidden desktop:block fixed inset-x-0 top-[140px] h-px bg-black z-[1003]" />
+            <div className="hidden desktop:block fixed inset-x-0 h-px bg-black z-[1003] pointer-events-none" style={{ top: bottomDividerTop }} />
           </nav>
         </div>
       </header>
