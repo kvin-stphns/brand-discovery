@@ -112,7 +112,7 @@ const MegaMenu = ({ category }: MegaMenuProps) => {
                   {/* Top horizontal divider (1px) */}
                   <div className="absolute top-0 left-0 right-0 h-px bg-black z-[1004]" />
 
-                  {/* Right vertical divider (single 1px). Layer-two panels will not add a left border to avoid double thickness. */}
+                  {/* Right vertical divider (single 1px) flush to the right */}
                   <div className="absolute top-0 right-0 bottom-0 w-px bg-black z-[1004]" />
 
                   <div className="relative h-full">

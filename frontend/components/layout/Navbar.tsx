@@ -124,8 +124,8 @@ const Navigation = () => {
               </div>
             </div>
 
-            {/* Single top divider under nav, aligned to MegaMenu */}
-            <div className="fixed left-0 right-0 top-[104px] h-px bg-black z-[1003]" />
+            {/* Single top divider under nav, aligned to MegaMenu (edge-to-edge 1px) */}
+            <div className="fixed inset-x-0 top-[104px] h-px bg-black z-[1003]" />
 
             {/* Search section */}
             <div className="relative pt-2.5 pb-1 z-[1003]">
@@ -142,8 +142,8 @@ const Navigation = () => {
                   onChange={(e) => setQ(e.target.value)}
                 />
               </div>
-              {open && results && (
-                <div className="absolute left-0 right-0 mt-2 bg-white border border-black/20 shadow-sm text-xs">
+            {open && results && (
+                <div className="absolute left-0 right-0 mt-2 bg-white border border-black text-xs">
                   {['brands','designers','products'].map((k) => (
                     <div key={k}>
                       {(results[k]||[]).slice(0, k==='products'?6:4).map((it: any) => (
@@ -159,8 +159,8 @@ const Navigation = () => {
                 </div>
               )}
             </div>
-            {/* Single bottom divider below search (desktop) */}
-            <div className="hidden desktop:block fixed left-0 right-0 top-[140px] h-px bg-black z-[1003]" />
+            {/* Single bottom divider below search (desktop) - remove to avoid double borders */}
+            <div className="hidden" />
           </nav>
         </div>
       </header>

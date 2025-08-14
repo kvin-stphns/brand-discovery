@@ -5,6 +5,7 @@ import { useState, useEffect } from 'react'
 import { hrefFor } from '@/lib/nav'
 import { GridCardSkeleton } from '@/components/common/Skeleton'
 import { Analytics } from '@/lib/analytics'
+import { sanitizeText } from '@/lib/format'
 
 const allExploreLinks = [
   { name: 'Spotlight', category: 'discover' },
@@ -167,7 +168,7 @@ export default function CategoryGrid({
                   />
                   <div className="absolute bottom-6 space-y-1 text-center opacity-0 group-hover:opacity-100 transition-opacity">
                     <p className="text-xs font-semibold trk-mid">
-                      {item.name.toUpperCase()}
+                      {sanitizeText(item.name).toUpperCase()}
                     </p>
                     {item.label && (
                       <p className="text-xs trk-mid text-gray-700">

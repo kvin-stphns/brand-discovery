@@ -3,6 +3,7 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { LeaderboardRow } from '@/lib/rankings/types'
 import { RowSparkline } from './Charts'
+import { sanitizeText } from '@/lib/format'
 
 function hrefForEntity(row: LeaderboardRow) {
   if (row.type === 'brand') return `/brand/${row.id}`
@@ -32,9 +33,9 @@ export default function LeaderboardTable({ rows }: { rows: LeaderboardRow[] }) {
               <td className="px-3 py-3">
                 <div className="flex items-center gap-3">
                   <div className="relative w-10 h-10 border border-black/10">
-                    <Image src={r.image} alt={r.name} fill className="object-cover" />
+                    <Image src={r.image || '/placeholders/brand-1.jpg'} alt={sanitizeText(r.name)} fill className="object-cover" />
                   </div>
-                  <div className="text-sm tracking-[0.15em] font-semibold">{r.name}</div>
+                  <div className="text-sm tracking-[0.15em] font-semibold">{sanitizeText(r.name)}</div>
                 </div>
               </td>
               <td className="px-3 py-3 text-xs">{r.type.toUpperCase()}</td>

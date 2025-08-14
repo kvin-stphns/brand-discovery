@@ -5,11 +5,14 @@ import { useState, useEffect } from 'react'
 import { Heart, Bookmark, ChevronRight, ExternalLink } from 'lucide-react'
 import { useCart } from '@/lib/store/cart'
 import { hrefFor } from '@/lib/nav'
+import { fetchProduct, getCheckoutRedirectUrl } from '@/lib/api/client'
+import { sanitizeText, formatPrice } from '@/lib/format'
 
 export default function ProductPage() {
   const [selectedImage, setSelectedImage] = useState(0)
   const [selectedSize, setSelectedSize] = useState('')
   const [isMobile, setIsMobile] = useState(false)
+  const [product, setProduct] = useState<any | null>(null)
   const { add } = useCart()
   
   useEffect(() => {
@@ -27,13 +30,17 @@ export default function ProductPage() {
     }
   }, [])
 
-  // Placeholder images array
-  const images = [
-    '/placeholders/product-1.jpg',
-    '/placeholders/product-2.jpg',
-    '/placeholders/product-3.jpg',
-    '/placeholders/product-4.jpg',
-  ]
+  // Load product by route param (id)
+  useEffect(() => {
+    const id = window.location.pathname.split('/').pop() || ''
+    let cancelled = false
+    fetchProduct(id).then((p) => { if (!cancelled) setProduct(p) }).catch(() => setProduct(null))
+    return () => { cancelled = true }
+  }, [])
+
+  const images = product?.media?.length ? product.media : (product?.images?.length ? product.images : [
+    product?.image || '/placeholders/product-1.jpg',
+  ])
 
   // add to cart handled inline on button click
 
@@ -50,7 +57,7 @@ export default function ProductPage() {
             DISCOVER
           </Link>
           <ChevronRight className="w-3 h-3 mx-2 text-gray-400" />
-          <span className="text-xs tracking-[0.15em]">PRODUCT NAME</span>
+          <span className="text-xs tracking-[0.15em]">{sanitizeText(product?.name || 'Product')}</span>
         </div>
       </div>
 
@@ -100,8 +107,8 @@ export default function ProductPage() {
               {/* Header with actions */}
               <div className="flex justify-between items-start mb-6">
                 <div>
-                  <h1 className="text-lg tracking-[0.15em] mb-1 font-bold">PRODUCT NAME</h1>
-                  <p className="text-sm tracking-[0.1em] text-gray-500">BRAND NAME</p>
+                  <h1 className="text-lg tracking-[0.15em] mb-1 font-bold">{sanitizeText(product?.name || '')}</h1>
+                  <p className="text-sm tracking-[0.1em] text-gray-500">{sanitizeText(product?.brand || '')}</p>
                 </div>
                 <div className="flex space-x-4">
                   <button className="hover:text-[#4FFFF4] transition-colors">
@@ -114,7 +121,7 @@ export default function ProductPage() {
               </div>
 
               {/* Price */}
-              <p className="text-base tracking-[0.1em] mb-6">$299.00</p>
+              <p className="text-base tracking-[0.1em] mb-6">{formatPrice(product?.price?.value, product?.price?.currency)}</p>
 
               {/* Size Selection */}
               <select
@@ -157,7 +164,7 @@ export default function ProductPage() {
               {/* Checkout via affiliate preview (opens in new tab) */}
               <div className="mt-8">
                 <a
-                  href={`/api/affiliate/preview?productId=product-1`}
+                  href={product?.url ? getCheckoutRedirectUrl(product.url, 'product') : '#'}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="inline-flex items-center gap-2 px-4 py-2 border border-black bg-white text-black hover:bg-black hover:text-white transition-colors text-sm tracking-[0.15em]"
@@ -176,7 +183,7 @@ export default function ProductPage() {
                         alert('Please select a size')
                         return
                       }
-                      add({ id: 'product-1', name: 'PRODUCT NAME', price: 299, size: selectedSize, image: images[selectedImage] })
+                      add({ id: String(product?._id || 'product'), name: sanitizeText(product?.name || 'PRODUCT'), price: Number(product?.price?.value || 0), size: selectedSize, image: images[selectedImage] })
                     }}
                   >
                     ADD TO CART
@@ -196,7 +203,7 @@ export default function ProductPage() {
                     alert('Please select a size')
                     return
                   }
-                  add({ id: 'product-1', name: 'PRODUCT NAME', price: 299, size: selectedSize, image: images[selectedImage] })
+                  add({ id: String(product?._id || 'product'), name: sanitizeText(product?.name || 'PRODUCT'), price: Number(product?.price?.value || 0), size: selectedSize, image: images[selectedImage] })
                 }}
               >
                 ADD TO CART
