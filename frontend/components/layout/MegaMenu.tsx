@@ -126,7 +126,7 @@ const MegaMenu = ({ category }: MegaMenuProps) => {
                   ].join(' ')}
                 >
                   {/* Center seam: authoritative 1px line ABOVE everything */}
-                  <div className="absolute top-0 right-0 bottom-0 w-px bg-black z-[1010]" />
+                  <div className="absolute top-0 desktop:top-[1.5px] right-0 bottom-0 w-px bg-black z-[1010]" />
 
                   <div className="relative h-full">
                     <div className="min-h-full flex flex-col justify-between">
@@ -193,7 +193,7 @@ const MegaMenu = ({ category }: MegaMenuProps) => {
                   role="menu"
                   aria-label="Discover"
                 >
-                  <div className="absolute top-0 right-0 bottom-0 w-px bg-black" />
+                  <div className="absolute top-0 desktop:top-[1.5px] right-0 bottom-0 w-px bg-black z-[1010]" />
                   <div className="py-6">
                     {discoverLinks.map((link) => (
                       <Link key={link} href={to('discover', link)} className="block px-12 py-4 text-sm tracking-[0.25em] hover:text-gray-500 transition-colors" onClick={() => { setShowDiscoverMenu(false); setIsMenuOpen(false) }} role="menuitem">
@@ -206,7 +206,7 @@ const MegaMenu = ({ category }: MegaMenuProps) => {
 
               <Transition show={showBrandsMenu} as={Fragment} enter="transition duration-100 ease-out" enterFrom="transform translate-x-[-100%]" enterTo="transform translate-x-0" leave="transition duration-75 ease-out" leaveFrom="transform translate-x-0" leaveTo="transform translate-x-[-100%]">
                 <div className={['fixed bottom-0 bg-white bg-clip-padding z-[1005] overflow-y-auto shadow-none', TOP_DESKTOP, TOP_TABLET, LAYER_LEFT, 'tablet:w-[calc(100vw-401px)] desktop:w-[400px]'].join(' ')} role="menu" aria-label="Brands">
-                  <div className="absolute top-0 right-0 bottom-0 w-px bg-black" />
+                <div className="absolute top-0 desktop:top-[1.5px] right-0 bottom-0 w-px bg-black z-[1010]" />
                   <div className="py-6">
                     {brandLinks.map((link) => (
                       <Link key={link} href={to('brands', link)} className="block px-12 py-4 text-sm tracking-[0.25em] hover:text-gray-500 transition-colors" onClick={() => { setShowBrandsMenu(false); setIsMenuOpen(false) }} role="menuitem">
@@ -219,7 +219,7 @@ const MegaMenu = ({ category }: MegaMenuProps) => {
 
               <Transition show={showCategoriesMenu} as={Fragment} enter="transition duration-100 ease-out" enterFrom="transform translate-x-[-100%]" enterTo="transform translate-x-0" leave="transition duration-75 ease-out" leaveFrom="transform translate-x-0" leaveTo="transform translate-x-[-100%]">
                 <div className={['fixed bottom-0 bg-white bg-clip-padding z-[1005] overflow-y-auto shadow-none', TOP_DESKTOP, TOP_TABLET, LAYER_LEFT, 'tablet:w-[calc(100vw-401px)] desktop:w-[400px]'].join(' ')} role="menu" aria-label="Categories">
-                  <div className="absolute top-0 right-0 bottom-0 w-px bg-black" />
+                <div className="absolute top-0 desktop:top-[1.5px] right-0 bottom-0 w-px bg-black z-[1010]" />
                   <div className="py-6">
                     {(() => {
                       const catLower = category.toLowerCase()
@@ -240,7 +240,7 @@ const MegaMenu = ({ category }: MegaMenuProps) => {
 
               <Transition show={showDesignersMenu} as={Fragment} enter="transition duration-100 ease-out" enterFrom="transform translate-x-[-100%]" enterTo="transform translate-x-0" leave="transition duration-75 ease-out" leaveFrom="transform translate-x-0" leaveTo="transform translate-x-[-100%]">
                 <div className={['fixed bottom-0 bg-white bg-clip-padding z-[1005] overflow-y-auto shadow-none', TOP_DESKTOP, TOP_TABLET, LAYER_LEFT, 'tablet:w-[calc(100vw-401px)] desktop:w-[400px]'].join(' ')} role="menu" aria-label="Designers">
-                  <div className="absolute top-0 right-0 bottom-0 w-px bg-black" />
+                <div className="absolute top-0 desktop:top-[1.5px] right-0 bottom-0 w-px bg-black z-[1010]" />
                   <div className="py-6">
                     {designerLinks.map((link) => (
                       <Link key={link} href={to('designers', link)} className="block px-12 py-4 text-sm tracking-[0.25em] hover:text-gray-500 transition-colors" onClick={() => { setShowDesignersMenu(false); setIsMenuOpen(false) }} role="menuitem">
@@ -253,7 +253,7 @@ const MegaMenu = ({ category }: MegaMenuProps) => {
 
               <Transition show={showRankingsMenu} as={Fragment} enter="transition duration-100 ease-out" enterFrom="transform translate-x-[-100%]" enterTo="transform translate-x-0" leave="transition duration-75 ease-out" leaveFrom="transform translate-x-0" leaveTo="transform translate-x-[-100%]">
                 <div className={['fixed bottom-0 bg-white bg-clip-padding z-[1005] overflow-y-auto shadow-none', TOP_DESKTOP, TOP_TABLET, LAYER_LEFT, 'tablet:w-[calc(100vw-401px)] desktop:w-[400px]'].join(' ')} role="menu" aria-label="Rankings">
-                  <div className="absolute top-0 right-0 bottom-0 w-px bg-black" />
+                <div className="absolute top-0 desktop:top-[1.5px] right-0 bottom-0 w-px bg-black z-[1010]" />
                   <div className="py-6">
                     {rankingLinks.map((link) => (
                       <Link key={link} href={to('rankings', link)} className="block px-12 py-4 text-sm tracking-[0.25em] hover:text-gray-500 transition-colors" onClick={() => { setShowRankingsMenu(false); setIsMenuOpen(false) }} role="menuitem">
