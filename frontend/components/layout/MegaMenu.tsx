@@ -109,10 +109,10 @@ const MegaMenu = ({ category }: MegaMenuProps) => {
               >
                 {/* Primary column with single consistent borders */}
                 <Menu.Items static className="fixed left-0 top-[104px] bottom-0 w-[400px] bg-white z-[48] overflow-y-auto">
-                  {/* Top horizontal divider */}
+                  {/* Top horizontal divider (1px) */}
                   <div className="absolute top-0 left-0 right-0 h-px bg-black z-[1004]" />
 
-                  {/* Right vertical divider (single source of truth) */}
+                  {/* Right vertical divider (single 1px). Layer-two panels will not add a left border to avoid double thickness. */}
                   <div className="absolute top-0 right-0 bottom-0 w-px bg-black z-[1004]" />
 
                   <div className="relative h-full">
@@ -172,6 +172,7 @@ const MegaMenu = ({ category }: MegaMenuProps) => {
               <Transition show={showDiscoverMenu} as={Fragment} enter="transition duration-100 ease-out" enterFrom="transform translate-x-[-100%]" enterTo="transform translate-x-0" leave="transition duration-75 ease-out" leaveFrom="transform translate-x-0" leaveTo="transform translate-x-[-100%]">
                 <div className="fixed left-[400px] top-[104px] bottom-0 w-[400px] bg-white z-[47] overflow-y-auto" role="menu" aria-label="Discover">
                   <div className="absolute top-0 right-0 bottom-0 w-px bg-black" />
+                  {/* No left border to avoid double thickness; rely on primary column's right divider */}
                   <div className="absolute top-0 left-0 right-0 h-px bg-black" />
                   <div className="py-6">
                     {discoverLinks.map((link) => (
@@ -186,6 +187,7 @@ const MegaMenu = ({ category }: MegaMenuProps) => {
               <Transition show={showBrandsMenu} as={Fragment} enter="transition duration-100 ease-out" enterFrom="transform translate-x-[-100%]" enterTo="transform translate-x-0" leave="transition duration-75 ease-out" leaveFrom="transform translate-x-0" leaveTo="transform translate-x-[-100%]">
                 <div className="fixed left-[400px] top-[104px] bottom-0 w-[400px] bg-white z-[47] overflow-y-auto" role="menu" aria-label="Brands">
                   <div className="absolute top-0 right-0 bottom-0 w-px bg-black" />
+                  {/* No left border to avoid double thickness */}
                   <div className="absolute top-0 left-0 right-0 h-px bg-black" />
                   <div className="py-6">
                     {brandLinks.map((link) => (
@@ -198,6 +200,7 @@ const MegaMenu = ({ category }: MegaMenuProps) => {
               <Transition show={showCategoriesMenu} as={Fragment} enter="transition duration-100 ease-out" enterFrom="transform translate-x-[-100%]" enterTo="transform translate-x-0" leave="transition duration-75 ease-out" leaveFrom="transform translate-x-0" leaveTo="transform translate-x-[-100%]">
                 <div className="fixed left-[400px] top-[104px] bottom-0 w-[400px] bg-white z-[47] overflow-y-auto" role="menu" aria-label="Categories">
                   <div className="absolute top-0 right-0 bottom-0 w-px bg-black" />
+                  {/* No left border to avoid double thickness */}
                   <div className="absolute top-0 left-0 right-0 h-px bg-black" />
                   <div className="py-6">
                     {(() => {
@@ -218,6 +221,7 @@ const MegaMenu = ({ category }: MegaMenuProps) => {
               <Transition show={showDesignersMenu} as={Fragment} enter="transition duration-100 ease-out" enterFrom="transform translate-x-[-100%]" enterTo="transform translate-x-0" leave="transition duration-75 ease-out" leaveFrom="transform translate-x-0" leaveTo="transform translate-x-[-100%]">
                 <div className="fixed left-[400px] top-[104px] bottom-0 w-[400px] bg-white z-[47] overflow-y-auto" role="menu" aria-label="Designers">
                   <div className="absolute top-0 right-0 bottom-0 w-px bg-black" />
+                  {/* No left border to avoid double thickness */}
                   <div className="absolute top-0 left-0 right-0 h-px bg-black" />
                   <div className="py-6">
                     {designerLinks.map((link) => (
@@ -230,6 +234,7 @@ const MegaMenu = ({ category }: MegaMenuProps) => {
               <Transition show={showRankingsMenu} as={Fragment} enter="transition duration-100 ease-out" enterFrom="transform translate-x-[-100%]" enterTo="transform translate-x-0" leave="transition duration-75 ease-out" leaveFrom="transform translate-x-0" leaveTo="transform translate-x-[-100%]">
                 <div className="fixed left-[400px] top-[104px] bottom-0 w-[400px] bg-white z-[47] overflow-y-auto" role="menu" aria-label="Rankings">
                   <div className="absolute top-0 right-0 bottom-0 w-px bg-black" />
+                  {/* No left border to avoid double thickness */}
                   <div className="absolute top-0 left-0 right-0 h-px bg-black" />
                   <div className="py-6">
                     {rankingLinks.map((link) => (

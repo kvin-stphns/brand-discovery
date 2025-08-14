@@ -1,25 +1,42 @@
 'use client'
 import CategoryGrid from '@/components/templates/CategoryGrid'
 import { useEffect, useState } from 'react'
-import type { GridItem } from '@/lib/api/mock'
 import { Analytics } from '@/lib/analytics'
 import LeaderboardHub from '@/components/rankings/LeaderboardHub'
 import { toast } from '@/lib/toast'
+import { fetchProducts } from '@/lib/api/client'
+
+type GridItem = { id: string; name: string; image: string; type: 'product'|'brand'|'designer'; label?: string; brand?: string; price?: number }
 
 export default function ExplorePage() {
   const [items, setItems] = useState<GridItem[]>([])
   useEffect(() => {
     Analytics.view('explore')
-    // Live mode: leave empty when no live API defined
-    const USE_LIVE = String(process.env.NEXT_PUBLIC_USE_LIVE_API || '').toLowerCase() === 'true'
-    if (USE_LIVE) {
-      setItems([])
-    } else {
-      import('@/lib/api/mock').then(({ mockList }) => mockList('mixed', 12).then(setItems)).catch(() => {
-        toast('Failed to load explore mock', 'error')
+    let didCancel = false
+    async function load() {
+      try {
+        const prods = await fetchProducts({ sort: '-createdAt', limit: 12 })
+        if (!didCancel && prods?.length) {
+          setItems(
+            prods.slice(0, 12).map((p: any, idx: number) => ({
+              id: p._id,
+              type: 'product',
+              name: p.name,
+              image: p.media?.[0] || p.images?.[0] || p.image || `/placeholders/product-${(idx % 4) + 1}.jpg`,
+              label: 'Explore',
+              brand: p.brand || '',
+              price: p.price?.value,
+            }))
+          )
+        } else {
+          setItems([])
+        }
+      } catch {
         setItems([])
-      })
+      }
     }
+    load()
+    return () => { didCancel = true }
   }, [])
   return (
     <div className="pt-0">

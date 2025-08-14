@@ -6,7 +6,7 @@ import RankingsList from './RankingsList'
 import MapLeaderboard from './MapLeaderboard'
 import { CategoryScope, LeaderboardRow, MapRankingPoint, RankingListItem, RankingsFilters, Timeframe } from '@/lib/rankings/types'
 import { toast } from '@/lib/toast'
-import { fetchRankings } from '@/lib/api/client'
+import { fetchRankings, fetchRankingsMostLiked, fetchRankingsMostViewed, fetchRankingsRecentVotes } from '@/lib/api/client'
 
 const USE_LIVE = String(process.env.NEXT_PUBLIC_USE_LIVE_API || '').toLowerCase() === 'true'
 
@@ -44,18 +44,33 @@ export default function LeaderboardHub({ initialMode = 'leaderboard' as Mode, va
   const [mapPoints, setMapPoints] = useState<MapRankingPoint[]>([])
 
   useEffect(() => {
+    // Leaderboard base table
     fetchRankings()
       .then((items) => {
-        const mapped: LeaderboardRow[] = items.map((i, idx) => ({ id: i.id, name: i.name, type: 'brand', rank: idx + 1, score: i.score ?? (100 - idx), delta: 0, image: '', trend: Array.from({ length: 16 }).map((_, j) => 5 + Math.sin((idx + j) / 3)) }))
+        const safeItems = Array.isArray(items) ? items : []
+        const mapped: LeaderboardRow[] = safeItems.map((i, idx) => ({ id: String(i.id), name: String(i.name || ''), type: 'brand', rank: idx + 1, score: Number((i as any).score ?? 100 - idx), delta: 0, image: '', trend: Array.from({ length: 16 }).map((_, j) => 5 + Math.sin((idx + j) / 3)) }))
         setRows(mapped)
-        setKpis({ totalVotes: items.length * 100, topCategory: '—', fastestRiser: items[0]?.name || '—' })
-        setListItems(items.map((i, idx) => ({ id: i.id, rank: idx + 1, name: i.name, type: 'brand', image: '', metric: i.score ?? (100 - idx) })))
-        setMapPoints([])
+        setKpis(safeItems.length ? { totalVotes: safeItems.length * 100, topCategory: '—', fastestRiser: String(safeItems[0]?.name || '—') } : null)
       })
       .catch(() => {
         if (USE_LIVE) toast('Failed to load rankings', 'error')
-        setRows([]); setKpis(null); setListItems([]); setMapPoints([])
+        setRows([]); setKpis(null)
       })
+
+    // Secondary lists
+    Promise.allSettled([
+      fetchRankingsMostLiked(),
+      fetchRankingsMostViewed(),
+      fetchRankingsRecentVotes(),
+    ]).then((results) => {
+      const liked = results[0].status === 'fulfilled' ? results[0].value : []
+      const mappedLiked: RankingListItem[] = liked.map((it: any, idx: number) => ({ id: String(it.id), rank: idx + 1, name: String(it.id), type: 'brand', image: '', metric: Number(it.score || 0) }))
+      setListItems(mappedLiked)
+      setMapPoints([])
+    }).catch(() => {
+      setListItems([])
+      setMapPoints([])
+    })
   }, [])
 
   return (

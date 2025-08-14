@@ -1,31 +1,44 @@
 'use client'
 import CategoryGrid from '@/components/templates/CategoryGrid'
-import type { GridItem } from '@/lib/api/mock'
 import { useEffect, useState } from 'react'
 import { Analytics } from '@/lib/analytics'
-import { fetchRankings } from '@/lib/api/client'
+import { fetchProducts } from '@/lib/api/client'
 import { toast } from '@/lib/toast'
+
+type GridItem = { id: string; name: string; image: string; type: 'product'|'brand'|'designer'; label?: string; brand?: string; price?: number }
 
 export default function PopularPage() {
   const [items, setItems] = useState<GridItem[]>([])
 
   useEffect(() => {
     Analytics.view('popular')
-    fetchRankings()
-      .then((rows) => {
-        setItems(
-          rows.slice(0, 8).map((r) => ({
-            id: r.id,
-            type: 'brand',
-            name: r.name,
-            image: '/placeholders/brand-default.jpg',
-          })) as GridItem[]
-        )
-      })
-      .catch(() => {
-        toast('Failed to load popular', 'error')
+    let didCancel = false
+    async function load() {
+      try {
+        const prods = await fetchProducts({ sort: '-createdAt', limit: 12 })
+        if (!didCancel && prods?.length) {
+          setItems(
+            prods.slice(0, 12).map((p: any, idx: number) => ({
+              id: p._id,
+              type: 'product',
+              name: p.name,
+              image: p.media?.[0] || p.images?.[0] || p.image || `/placeholders/product-${(idx % 4) + 1}.jpg`,
+              label: 'Popular',
+              brand: p.brand || '',
+              price: p.price?.value,
+            }))
+          )
+        } else {
+          toast('No results', 'info')
+          setItems([])
+        }
+      } catch {
+        toast('No results', 'error')
         setItems([])
-      })
+      }
+    }
+    load()
+    return () => { didCancel = true }
   }, [])
 
   return (
@@ -36,4 +49,4 @@ export default function PopularPage() {
       gridType="mixed"
     />
   )
-} 
+}

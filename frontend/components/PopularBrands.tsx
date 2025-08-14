@@ -43,10 +43,10 @@ const PopularBrands = () => {
     const filters: RankingsFilters = { timeframe: '7d', category: 'women', sort: 'mixed' }
     fetchRankings()
       .then((rows) => {
-        const mapped = rows.slice(0, 6).map((r, idx) => ({
-          id: r.id,
+        const mapped = (rows || []).slice(0, 6).map((r, idx) => ({
+          id: String(r.id),
           type: 'brand' as const,
-          label: `${r.name}: ${localBrandTypes[idx % localBrandTypes.length]} Brand`,
+          label: `${String(r.name || '')}: ${localBrandTypes[idx % localBrandTypes.length]} Brand`,
         }))
         setItems(mapped)
       })

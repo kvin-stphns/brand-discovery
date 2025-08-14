@@ -1,5 +1,6 @@
 export const API_BASE_URL = process.env.NEXT_PUBLIC_API_ENDPOINT || ''
 import { USE_LIVE } from './liveToggle'
+const FORCE_SOURCE = (process.env.NEXT_PUBLIC_FORCE_SOURCE || '').trim()
 
 export async function get(path: string, init?: RequestInit) {
   const url = `${API_BASE_URL}${path}`
@@ -43,6 +44,30 @@ export async function fetchRankings(): Promise<RankingItem[]> {
   return json.items as RankingItem[]
 }
 
+export async function fetchRankingsMostLiked(): Promise<Array<{ id: string; score: number }>> {
+  const res = await get('/api/rankings/mostLiked')
+  if (!res.ok) return []
+  const json = await res.json()
+  const items = Array.isArray(json.items) ? json.items : []
+  return items.map((it: any) => ({ id: String(it._id), score: Number(it.score || 0) }))
+}
+
+export async function fetchRankingsMostViewed(): Promise<Array<{ id: string; count: number }>> {
+  const res = await get('/api/rankings/mostViewed')
+  if (!res.ok) return []
+  const json = await res.json()
+  const items = Array.isArray(json.items) ? json.items : []
+  return items.map((it: any) => ({ id: String(it._id), count: Number(it.count || 0) }))
+}
+
+export async function fetchRankingsRecentVotes(): Promise<Array<{ id: string; entityType: string }>> {
+  const res = await get('/api/rankings/recentVotes')
+  if (!res.ok) return []
+  const json = await res.json()
+  const items = Array.isArray(json.items) ? json.items : []
+  return items.map((it: any) => ({ id: String(it.entityId || it._id), entityType: String(it.entityType || '') }))
+}
+
 // Additional helpers (non-breaking)
 export type DesignerDTO = { _id: string; name: string; slug: string; image?: string; url?: string }
 export async function fetchDesigners(): Promise<DesignerDTO[]> {
@@ -57,18 +82,41 @@ export async function fetchDesigners(): Promise<DesignerDTO[]> {
   return json.items as DesignerDTO[]
 }
 
-export type ProductDTO = { _id: string; name: string; slug: string; images?: string[]; price?: number; currency?: string; url?: string; brandId: string; designerId?: string }
-export type ProductFilters = { brandId?: string; designerId?: string; q?: string; sort?: string; page?: number; limit?: number }
+export type ProductPrice = { value: number; currency: string; originalValue?: number }
+export type ProductDTO = {
+  _id: string
+  name: string
+  slug: string
+  brand?: string
+  designer?: string
+  media?: string[]
+  image?: string
+  images?: string[]
+  price?: ProductPrice
+  url?: string
+  brandId?: string
+  designerId?: string
+}
+export type ProductFilters = { brandId?: string; designerId?: string; source?: string; q?: string; sort?: string; page?: number; limit?: number }
+
+function applyForceSource(params: URLSearchParams) {
+  if (USE_LIVE && FORCE_SOURCE) {
+    if (!params.has('source')) {
+      params.set('source', FORCE_SOURCE)
+    }
+  }
+}
 export async function fetchProducts(filters: ProductFilters = {}): Promise<ProductDTO[]> {
   if (useMocks) {
     const { mockList } = await import('./mock')
     const items = await mockList('product', 12)
-    return items.map((i) => ({ _id: i.id, name: i.name, slug: i.id, images: [i.image], price: i.price, currency: 'USD', url: undefined, brandId: 'brand-1' }))
+    return items.map((i) => ({ _id: i.id, name: i.name, slug: i.id, images: [i.image], price: i.price ? { value: i.price, currency: 'USD' } : undefined, url: undefined, brandId: 'brand-1' }))
   }
   const params = new URLSearchParams()
   Object.entries(filters).forEach(([k, v]) => {
     if (v !== undefined && v !== null) params.set(k, String(v))
   })
+  applyForceSource(params)
   const res = await get(`/api/products?${params.toString()}`)
   if (!res.ok) return []
   const json = await res.json()

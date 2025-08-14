@@ -9,7 +9,8 @@ import Link from 'next/link'
 import { useCart } from '@/lib/store/cart'
 import CartDrawer from '@/components/ui/CartDrawer'
 import { useRouter } from 'next/navigation'
-import { LIVE_MODE_LABEL, USE_LIVE } from '@/lib/api/liveToggle'
+// Remove LIVE label per request; keep USE_LIVE if needed elsewhere
+import { USE_LIVE } from '@/lib/api/liveToggle'
 import { useAccount, useConnect, useDisconnect, useConnectors } from 'wagmi'
 
 function ConnectWalletButton() {
@@ -104,9 +105,7 @@ const Navigation = () => {
                 <span className="mobile:inline block">DISCOVERY</span>
                 <span className="mobile:inline block mobile:ml-1">STUDIOS</span>
               </Link>
-              {USE_LIVE && (
-                <span className="absolute left-[calc(50%+220px)] top-1 text-[10px] tracking-[0.25em] text-black/60">{LIVE_MODE_LABEL}</span>
-              )}
+              {/* LIVE label removed */}
               
               {/* User Actions */}
               <div className="flex items-center space-x-4 tablet:space-x-8">
@@ -125,7 +124,7 @@ const Navigation = () => {
               </div>
             </div>
 
-            {/* Divider aligned to MegaMenu */}
+            {/* Single top divider under nav, aligned to MegaMenu */}
             <div className="fixed left-0 right-0 top-[104px] h-px bg-black z-[1003]" />
 
             {/* Search section */}
@@ -160,6 +159,8 @@ const Navigation = () => {
                 </div>
               )}
             </div>
+            {/* Single bottom divider below search (desktop) */}
+            <div className="hidden desktop:block fixed left-0 right-0 top-[140px] h-px bg-black z-[1003]" />
           </nav>
         </div>
       </header>
