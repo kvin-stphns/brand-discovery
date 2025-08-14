@@ -1,5 +1,5 @@
 'use client'
-import { Fragment, useState, useEffect } from 'react'
+import { Fragment, useEffect, useState } from 'react'
 import { Menu, Transition } from '@headlessui/react'
 import Link from 'next/link'
 import { hrefFor } from '@/lib/nav'
@@ -18,7 +18,11 @@ const giftsOnly = ['View All', 'Home Goods', 'Furniture', 'Art', 'Lighting', 'Te
 const designerLinks = ['View All', 'Trending', 'Spotlight', 'Lookbooks', 'Locations', 'Random']
 const rankingLinks = ['Leaderboard', 'Most Liked', 'Most Viewed', 'Recently Liked', 'Locations']
 
-const MegaMenu = ({ category }: MegaMenuProps) => {
+/** Manual placement so the panel sits perfectly under the nav divider. */
+const MENU_TOP_PX = 106.5;   // tweak by ±1 if your divider shifts
+const COL_W_PX = 400;
+
+export default function MegaMenu({ category }: MegaMenuProps) {
   const [showDiscoverMenu, setShowDiscoverMenu] = useState(false)
   const [showBrandsMenu, setShowBrandsMenu] = useState(false)
   const [showCategoriesMenu, setShowCategoriesMenu] = useState(false)
@@ -42,7 +46,8 @@ const MegaMenu = ({ category }: MegaMenuProps) => {
     if (link === 'Rankings') { closeAllExcept('Rankings'); setShowRankingsMenu(!showRankingsMenu) }
   }
 
-  const to = (section: 'discover'|'brands'|'categories'|'designers'|'rankings', link: string) => hrefFor(section, category, link)
+  const to = (section: 'discover'|'brands'|'categories'|'designers'|'rankings', link: string) =>
+    hrefFor(section, category, link)
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -56,7 +61,6 @@ const MegaMenu = ({ category }: MegaMenuProps) => {
         setIsMenuOpen(false)
       }
     }
-
     const handleEsc = (event: KeyboardEvent) => {
       if (event.key === 'Escape') {
         setShowDiscoverMenu(false)
@@ -67,7 +71,6 @@ const MegaMenu = ({ category }: MegaMenuProps) => {
         setIsMenuOpen(false)
       }
     }
-
     document.addEventListener('mousedown', handleClickOutside)
     document.addEventListener('keydown', handleEsc)
     return () => {
@@ -86,17 +89,27 @@ const MegaMenu = ({ category }: MegaMenuProps) => {
     }
   }, [isMenuOpen])
 
+  // Positioning styles
+  const primaryStyle = { top: MENU_TOP_PX, width: COL_W_PX }                   // primary column
+  const layerStyle   = { top: MENU_TOP_PX, left: COL_W_PX + 1, width: COL_W_PX } // +1px to avoid white spill over the seam
+
   return (
     <Menu as="div" className="relative">
       {({ open }) => {
         if (open !== isMenuOpen) setIsMenuOpen(open)
         return (
           <>
-            <Menu.Button aria-haspopup="true" aria-expanded={isMenuOpen} aria-label={`${category} menu`} className="text-sm tracking-[0.25em] hover:text-gray-500 transition-colors">
+            <Menu.Button
+              aria-haspopup="true"
+              aria-expanded={isMenuOpen}
+              aria-label={`${category} menu`}
+              className="text-sm tracking-[0.25em] hover:text-gray-500 transition-colors"
+            >
               {category}
             </Menu.Button>
 
             <div className="menu-container" role="presentation">
+              {/* PRIMARY COLUMN — flat (no shadow), no top border; owns the single center seam */}
               <Transition
                 show={isMenuOpen}
                 as={Fragment}
@@ -107,13 +120,13 @@ const MegaMenu = ({ category }: MegaMenuProps) => {
                 leaveFrom="transform translate-x-0"
                 leaveTo="transform translate-x-[-100%]"
               >
-                {/* Primary column with single consistent borders */}
-                <Menu.Items static className="fixed left-0 top-[104px] bottom-0 w-[400px] bg-white z-[48] overflow-y-auto shadow-none">
-                  {/* Top horizontal divider (1px, flush) */}
-                  <div className="absolute top-0 left-0 right-0 h-px bg-black z-[1004]" />
-
-                  {/* Right vertical divider (single 1px) flush to the right */}
-                  <div className="absolute top-0 right-0 bottom-0 w-px bg-black z-[1004]" />
+                <Menu.Items
+                  static
+                  className="fixed left-0 bottom-0 bg-white z-[1006] overflow-y-auto shadow-none"
+                  style={primaryStyle}
+                >
+                  {/* Center seam: authoritative 1px line ABOVE everything */}
+                  <div className="absolute top-0 right-0 bottom-0 w-px bg-black z-[1010]" />
 
                   <div className="relative h-full">
                     <div className="min-h-full flex flex-col justify-between">
@@ -168,15 +181,33 @@ const MegaMenu = ({ category }: MegaMenuProps) => {
                 </Menu.Items>
               </Transition>
 
-              {/* Layer-two panels: no left border to avoid double thickness; rely on primary column's right divider */}
-              <Transition show={showDiscoverMenu} as={Fragment} enter="transition duration-100 ease-out" enterFrom="transform translate-x-[-100%]" enterTo="transform translate-x-0" leave="transition duration-75 ease-out" leaveFrom="transform translate-x-0" leaveTo="transform translate-x-[-100%]">
-                <div className="fixed left-[400px] top-[104px] bottom-0 w-[400px] bg-white z-[47] overflow-y-auto shadow-none" role="menu" aria-label="Discover">
+              {/* LAYER-TWO PANELS — flat, NO left border; own right edge; start 1px to the right of the seam */}
+              <Transition
+                show={showDiscoverMenu}
+                as={Fragment}
+                enter="transition duration-100 ease-out"
+                enterFrom="transform translate-x-[-100%]"
+                enterTo="transform translate-x-0"
+                leave="transition duration-75 ease-out"
+                leaveFrom="transform translate-x-0"
+                leaveTo="transform translate-x-[-100%]"
+              >
+                <div
+                  className="fixed bottom-0 bg-white bg-clip-padding z-[1005] overflow-y-auto shadow-none"
+                  style={layerStyle}
+                  role="menu"
+                  aria-label="Discover"
+                >
                   <div className="absolute top-0 right-0 bottom-0 w-px bg-black" />
-                  {/* No left border to avoid double thickness; rely on primary column's right divider */}
-                  <div className="absolute top-0 left-0 right-0 h-px bg-black" />
                   <div className="py-6">
                     {discoverLinks.map((link) => (
-                      <Link key={link} href={to('discover', link)} className="block px-12 py-4 text-sm tracking-[0.25em] hover:text-gray-500 transition-colors" onClick={() => { setShowDiscoverMenu(false); setIsMenuOpen(false) }} role="menuitem">
+                      <Link
+                        key={link}
+                        href={to('discover', link)}
+                        className="block px-12 py-4 text-sm tracking-[0.25em] hover:text-gray-500 transition-colors"
+                        onClick={() => { setShowDiscoverMenu(false); setIsMenuOpen(false) }}
+                        role="menuitem"
+                      >
                         {link}
                       </Link>
                     ))}
@@ -185,23 +216,21 @@ const MegaMenu = ({ category }: MegaMenuProps) => {
               </Transition>
 
               <Transition show={showBrandsMenu} as={Fragment} enter="transition duration-100 ease-out" enterFrom="transform translate-x-[-100%]" enterTo="transform translate-x-0" leave="transition duration-75 ease-out" leaveFrom="transform translate-x-0" leaveTo="transform translate-x-[-100%]">
-                <div className="fixed left-[400px] top-[104px] bottom-0 w-[400px] bg-white z-[47] overflow-y-auto shadow-none" role="menu" aria-label="Brands">
+                <div className="fixed bottom-0 bg-white bg-clip-padding z-[1005] overflow-y-auto shadow-none" style={layerStyle} role="menu" aria-label="Brands">
                   <div className="absolute top-0 right-0 bottom-0 w-px bg-black" />
-                  {/* No left border to avoid double thickness */}
-                  <div className="absolute top-0 left-0 right-0 h-px bg-black" />
                   <div className="py-6">
                     {brandLinks.map((link) => (
-                      <Link key={link} href={to('brands', link)} className="block px-12 py-4 text-sm tracking-[0.25em] hover:text-gray-500 transition-colors" onClick={() => { setShowBrandsMenu(false); setIsMenuOpen(false) }} role="menuitem">{link}</Link>
+                      <Link key={link} href={to('brands', link)} className="block px-12 py-4 text-sm tracking-[0.25em] hover:text-gray-500 transition-colors" onClick={() => { setShowBrandsMenu(false); setIsMenuOpen(false) }} role="menuitem">
+                        {link}
+                      </Link>
                     ))}
                   </div>
                 </div>
               </Transition>
 
               <Transition show={showCategoriesMenu} as={Fragment} enter="transition duration-100 ease-out" enterFrom="transform translate-x-[-100%]" enterTo="transform translate-x-0" leave="transition duration-75 ease-out" leaveFrom="transform translate-x-0" leaveTo="transform translate-x-[-100%]">
-                <div className="fixed left-[400px] top-[104px] bottom-0 w-[400px] bg-white z-[47] overflow-y-auto shadow-none" role="menu" aria-label="Categories">
+                <div className="fixed bottom-0 bg-white bg-clip-padding z-[1005] overflow-y-auto shadow-none" style={layerStyle} role="menu" aria-label="Categories">
                   <div className="absolute top-0 right-0 bottom-0 w-px bg-black" />
-                  {/* No left border to avoid double thickness */}
-                  <div className="absolute top-0 left-0 right-0 h-px bg-black" />
                   <div className="py-6">
                     {(() => {
                       const catLower = category.toLowerCase()
@@ -211,7 +240,9 @@ const MegaMenu = ({ category }: MegaMenuProps) => {
                         ? giftsOnly
                         : categoryLinksBase
                       return links.map((link) => (
-                        <Link key={link} href={to('categories', link)} className="block px-12 py-4 text-sm tracking-[0.25em] hover:text-gray-500 transition-colors" onClick={() => { setShowCategoriesMenu(false); setIsMenuOpen(false) }} role="menuitem">{link}</Link>
+                        <Link key={link} href={to('categories', link)} className="block px-12 py-4 text-sm tracking-[0.25em] hover:text-gray-500 transition-colors" onClick={() => { setShowCategoriesMenu(false); setIsMenuOpen(false) }} role="menuitem">
+                          {link}
+                        </Link>
                       ))
                     })()}
                   </div>
@@ -219,26 +250,26 @@ const MegaMenu = ({ category }: MegaMenuProps) => {
               </Transition>
 
               <Transition show={showDesignersMenu} as={Fragment} enter="transition duration-100 ease-out" enterFrom="transform translate-x-[-100%]" enterTo="transform translate-x-0" leave="transition duration-75 ease-out" leaveFrom="transform translate-x-0" leaveTo="transform translate-x-[-100%]">
-                <div className="fixed left-[400px] top-[104px] bottom-0 w-[400px] bg-white z-[47] overflow-y-auto shadow-none" role="menu" aria-label="Designers">
+                <div className="fixed bottom-0 bg-white bg-clip-padding z-[1005] overflow-y-auto shadow-none" style={layerStyle} role="menu" aria-label="Designers">
                   <div className="absolute top-0 right-0 bottom-0 w-px bg-black" />
-                  {/* No left border to avoid double thickness */}
-                  <div className="absolute top-0 left-0 right-0 h-px bg-black" />
                   <div className="py-6">
                     {designerLinks.map((link) => (
-                      <Link key={link} href={to('designers', link)} className="block px-12 py-4 text-sm tracking-[0.25em] hover:text-gray-500 transition-colors" onClick={() => { setShowDesignersMenu(false); setIsMenuOpen(false) }} role="menuitem">{link}</Link>
+                      <Link key={link} href={to('designers', link)} className="block px-12 py-4 text-sm tracking-[0.25em] hover:text-gray-500 transition-colors" onClick={() => { setShowDesignersMenu(false); setIsMenuOpen(false) }} role="menuitem">
+                        {link}
+                      </Link>
                     ))}
                   </div>
                 </div>
               </Transition>
 
               <Transition show={showRankingsMenu} as={Fragment} enter="transition duration-100 ease-out" enterFrom="transform translate-x-[-100%]" enterTo="transform translate-x-0" leave="transition duration-75 ease-out" leaveFrom="transform translate-x-0" leaveTo="transform translate-x-[-100%]">
-                <div className="fixed left-[400px] top-[104px] bottom-0 w-[400px] bg-white z-[47] overflow-y-auto shadow-none" role="menu" aria-label="Rankings">
+                <div className="fixed bottom-0 bg-white bg-clip-padding z-[1005] overflow-y-auto shadow-none" style={layerStyle} role="menu" aria-label="Rankings">
                   <div className="absolute top-0 right-0 bottom-0 w-px bg-black" />
-                  {/* No left border to avoid double thickness */}
-                  <div className="absolute top-0 left-0 right-0 h-px bg-black" />
                   <div className="py-6">
                     {rankingLinks.map((link) => (
-                      <Link key={link} href={to('rankings', link)} className="block px-12 py-4 text-sm tracking-[0.25em] hover:text-gray-500 transition-colors" onClick={() => { setShowRankingsMenu(false); setIsMenuOpen(false) }} role="menuitem">{link}</Link>
+                      <Link key={link} href={to('rankings', link)} className="block px-12 py-4 text-sm tracking-[0.25em] hover:text-gray-500 transition-colors" onClick={() => { setShowRankingsMenu(false); setIsMenuOpen(false) }} role="menuitem">
+                        {link}
+                      </Link>
                     ))}
                   </div>
                 </div>
@@ -250,5 +281,3 @@ const MegaMenu = ({ category }: MegaMenuProps) => {
     </Menu>
   )
 }
-
-export default MegaMenu

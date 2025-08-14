@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useLayoutEffect, useRef, useState } from 'react'
+import { useEffect, useState, useRef } from 'react'
 import { Search, User, ShoppingBag, Menu, X } from 'lucide-react'
 import ScrollableNav from './ScrollableNav'
 import MobileMenu from './MobileMenu'
@@ -9,8 +9,6 @@ import Link from 'next/link'
 import { useCart } from '@/lib/store/cart'
 import CartDrawer from '@/components/ui/CartDrawer'
 import { useRouter } from 'next/navigation'
-// Remove LIVE label per request; keep USE_LIVE if needed elsewhere
-import { USE_LIVE } from '@/lib/api/liveToggle'
 import { useAccount, useConnect, useDisconnect, useConnectors } from 'wagmi'
 
 function ConnectWalletButton() {
@@ -48,35 +46,10 @@ const Navigation = () => {
   const [results, setResults] = useState<any | null>(null)
   const [open, setOpen] = useState(false)
   const router = useRouter()
-  const topRowRef = useRef<HTMLDivElement>(null)
-  const searchRowRef = useRef<HTMLDivElement>(null)
-  const [midDividerTop, setMidDividerTop] = useState<number>(104)
-  const [bottomDividerTop, setBottomDividerTop] = useState<number>(140)
+  const count = items.reduce((sum, i) => sum + i.qty, 0)
+  const searchInputRef = useRef<HTMLInputElement>(null)
 
-  useLayoutEffect(() => {
-    const update = () => {
-      const topEl = topRowRef.current
-      const searchEl = searchRowRef.current
-      if (topEl) {
-        const r = topEl.getBoundingClientRect()
-        setMidDividerTop(Math.round(r.bottom + window.scrollY))
-      }
-      if (searchEl) {
-        const r2 = searchEl.getBoundingClientRect()
-        setBottomDividerTop(Math.round(r2.bottom + window.scrollY))
-      }
-    }
-    update()
-    const ro = new ResizeObserver(update)
-    if (topRowRef.current) ro.observe(topRowRef.current)
-    if (searchRowRef.current) ro.observe(searchRowRef.current)
-    window.addEventListener('resize', update)
-    return () => {
-      ro.disconnect()
-      window.removeEventListener('resize', update)
-    }
-  }, [])
-
+  // Simple debounced search (unchanged)
   useEffect(() => {
     const h = setTimeout(async () => {
       if (!q) { setResults(null); return }
@@ -88,8 +61,6 @@ const Navigation = () => {
     return () => clearTimeout(h)
   }, [q])
 
-  const count = items.reduce((sum, i) => sum + i.qty, 0)
-  
   return (
     <>
       <MobileMenu 
@@ -97,12 +68,13 @@ const Navigation = () => {
         onClose={() => setIsMenuOpen(false)}
         items={menuItems}
       />
-      
-       <header className="fixed top-0 left-0 right-0 bg-white z-[1001]">
+
+      {/* Fixed header */}
+      <header className="fixed top-0 left-0 right-0 bg-white z-[1001]">
         <div className="max-w-[2000px] mx-auto px-8">
           <nav className="py-5 pb-1.5">
             {/* Top section */}
-            <div ref={topRowRef} className="relative flex items-center justify-between mb-4">
+            <div className="relative flex items-center justify-between mb-4">
               {/* Desktop Navigation */}
               <div className="hidden desktop:flex space-x-12 z-[500]">
                 {menuItems.map((item) => (
@@ -133,8 +105,7 @@ const Navigation = () => {
                 <span className="mobile:inline block">DISCOVERY</span>
                 <span className="mobile:inline block mobile:ml-1">STUDIOS</span>
               </Link>
-              {/* LIVE label removed */}
-              
+
               {/* User Actions */}
               <div className="flex items-center space-x-4 tablet:space-x-8">
                 <Link href="/login" aria-label="Account" className="hover:opacity-70 transition-opacity focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-black/80 rounded">
@@ -152,14 +123,15 @@ const Navigation = () => {
               </div>
             </div>
 
-            {/* Divider between top row and search (edge-to-edge) */}
-            <div className="fixed inset-x-0 h-px bg-black z-[1003] pointer-events-none" style={{ top: midDividerTop }} />
+            {/* Divider between top row and search (edge-to-edge, stable) */}
+            <div className="fixed inset-x-0 h-px bg-black z-[1003]" />
 
             {/* Search section */}
-            <div ref={searchRowRef} className="relative pt-2.5 pb-1 z-[1003]">
+            <div className="relative pt-2.5 pb-1 z-[1003]">
               <div className="flex items-center h-6">
                 <Search className="w-3.5 h-3.5 text-black/60" />
                 <input
+                  ref={searchInputRef}
                   id="global-search"
                   type="search"
                   placeholder="WHAT DO YOU DESIRE?"
@@ -170,12 +142,15 @@ const Navigation = () => {
                   onChange={(e) => setQ(e.target.value)}
                 />
               </div>
-            {open && results && (
+              {open && results && (
                 <div className="absolute left-0 right-0 mt-2 bg-white border border-black text-xs shadow-none">
-                  {['brands','designers','products'].map((k) => (
+                  {(['brands','designers','products'] as const).map((k) => (
                     <div key={k}>
                       {(results[k]||[]).slice(0, k==='products'?6:4).map((it: any) => (
-                        <button key={it._id} className="w-full text-left px-3 py-2 hover:bg-black/5" onMouseDown={() => router.push(k==='products'?`/product/${it._id}`:k==='brands'?`/brand/${it._id}`:`/designer/${it._id}`)}>
+                        <button key={it._id} className="w-full text-left px-3 py-2 hover:bg-black/5" onMouseDown={() => {
+                          const href = k==='products'?`/product/${it._id}`:k==='brands'?`/brand/${it._id}`:`/designer/${it._id}`
+                          router.push(href)
+                        }}>
                           {it.name}
                         </button>
                       ))}
@@ -187,10 +162,10 @@ const Navigation = () => {
                 </div>
               )}
             </div>
-            {/* Single bottom divider below search (desktop), edge-to-edge 1px */}
-            <div className="hidden desktop:block fixed inset-x-0 h-px bg-black z-[1003] pointer-events-none" style={{ top: bottomDividerTop }} />
           </nav>
         </div>
+        {/* Single bottom divider below search (edge-to-edge, 1px) */}
+        <div className="fixed inset-x-0 h-px bg-black z-[1003]" />
       </header>
 
       <CartDrawer open={showCart} onClose={() => setShowCart(false)} />
@@ -198,4 +173,4 @@ const Navigation = () => {
   )
 }
 
-export default Navigation 
+export default Navigation
