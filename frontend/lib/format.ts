@@ -4,6 +4,8 @@ export function sanitizeText(input: unknown, maxLength = 120): string {
   // Remove CSS var dumps or object-like strings
   text = text.replace(/var\([^)]*\)/gi, '')
   text = text.replace(/\{[^}]*\}/g, '')
+  text = text.replace(/\[[^\]]*\]/g, '')
+  text = text.replace(/class(Name)?\s*[:=]\s*[^\s,}]+/gi, '')
   text = text.replace(/\s+/g, ' ').trim()
   if (text.length > maxLength) {
     text = text.slice(0, maxLength - 1).trimEnd() + '…'

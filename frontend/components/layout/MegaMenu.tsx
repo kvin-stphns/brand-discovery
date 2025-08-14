@@ -109,7 +109,7 @@ const MegaMenu = ({ category }: MegaMenuProps) => {
               >
                 {/* Primary column with single consistent borders */}
                 <Menu.Items static className="fixed left-0 top-[104px] bottom-0 w-[400px] bg-white z-[48] overflow-y-auto shadow-none">
-                  {/* Top horizontal divider (1px) */}
+                  {/* Top horizontal divider (1px, flush) */}
                   <div className="absolute top-0 left-0 right-0 h-px bg-black z-[1004]" />
 
                   {/* Right vertical divider (single 1px) flush to the right */}

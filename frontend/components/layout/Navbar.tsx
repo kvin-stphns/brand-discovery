@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Search, User, ShoppingBag, Menu, X } from 'lucide-react'
 import ScrollableNav from './ScrollableNav'
 import MobileMenu from './MobileMenu'
@@ -48,8 +48,6 @@ const Navigation = () => {
   const [results, setResults] = useState<any | null>(null)
   const [open, setOpen] = useState(false)
   const router = useRouter()
-  const topRowRef = useRef<HTMLDivElement>(null)
-  const [topDividerTop, setTopDividerTop] = useState<number>(104)
 
   useEffect(() => {
     const h = setTimeout(async () => {
@@ -64,18 +62,6 @@ const Navigation = () => {
 
   const count = items.reduce((sum, i) => sum + i.qty, 0)
   
-  useEffect(() => {
-    const measure = () => {
-      const el = topRowRef.current
-      if (!el) return
-      const rect = el.getBoundingClientRect()
-      setTopDividerTop(rect.bottom + window.scrollY)
-    }
-    measure()
-    window.addEventListener('resize', measure)
-    return () => window.removeEventListener('resize', measure)
-  }, [])
-
   return (
     <>
       <MobileMenu 
@@ -88,7 +74,7 @@ const Navigation = () => {
         <div className="max-w-[2000px] mx-auto px-8">
           <nav className="py-5 pb-1.5">
             {/* Top section */}
-            <div ref={topRowRef} className="relative flex items-center justify-between mb-4">
+            <div className="relative flex items-center justify-between mb-4">
               {/* Desktop Navigation */}
               <div className="hidden desktop:flex space-x-12 z-[500]">
                 {menuItems.map((item) => (
@@ -138,8 +124,8 @@ const Navigation = () => {
               </div>
             </div>
 
-            {/* Divider between top row and search (edge-to-edge, measured to avoid gaps) */}
-            <div className="fixed inset-x-0 h-px bg-black z-[1003]" style={{ top: topDividerTop }} />
+            {/* Divider between top row and search (exact position, 1px, edge-to-edge) */}
+            <div className="fixed inset-x-0 top-[104px] h-px bg-black z-[1003]" />
 
             {/* Search section */}
             <div className="relative pt-2.5 pb-1 z-[1003]">
@@ -173,8 +159,8 @@ const Navigation = () => {
                 </div>
               )}
             </div>
-            {/* Single bottom divider below search (desktop) - remove to avoid double borders */}
-            <div className="hidden" />
+            {/* Single bottom divider below search (desktop), edge-to-edge 1px */}
+            <div className="hidden desktop:block fixed inset-x-0 top-[140px] h-px bg-black z-[1003]" />
           </nav>
         </div>
       </header>
