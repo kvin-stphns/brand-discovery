@@ -68,42 +68,7 @@ async function upsertProduct(name, brandId, designerId, idx, stats) {
 }
 
 async function seedFromSampleJSON() {
-  const dataPath = path.join(__dirname, '..', 'utils', 'sample-products.json');
-  const items = fs.existsSync(dataPath) ? JSON.parse(fs.readFileSync(dataPath, 'utf-8')) : [];
-  let upserts = 0;
-
-  for (const raw of items) {
-    const p = { ...raw };
-
-    // Normalize to new schema shape
-    if (typeof p.price === 'number') {
-      p.price = { value: p.price, currency: p.currency || 'USD' };
-    } else if (p.price && typeof p.price === 'object') {
-      p.price = {
-        value: Number(p.price.value ?? p.value ?? 0),
-        currency: p.price.currency || p.currency || 'USD',
-        originalValue: p.price.originalValue != null ? Number(p.price.originalValue) : undefined,
-      };
-    } else {
-      p.price = { value: undefined, currency: 'USD' };
-    }
-
-    if (!Array.isArray(p.media)) {
-      // prefer images/media arrays if present
-      if (Array.isArray(p.images)) p.media = p.images;
-      else if (p.image) p.media = [p.image];
-      else p.media = [];
-    }
-
-    // Upsert by URL if present, otherwise by {source, externalId}
-    const query = p.url ? { url: p.url } : (p.source && p.externalId ? { source: p.source, externalId: p.externalId } : null);
-    if (!query) continue;
-
-    await Product.updateOne(query, { $set: p }, { upsert: true });
-    upserts++;
-  }
-
-  console.log(JSON.stringify({ ok: true, mode: 'sample-json', upserts }));
+  console.log('Seed from sample JSON disabled. Remove mocks per live-mode requirements.')
 }
 
 async function seedGenerateDummies() {
@@ -143,7 +108,7 @@ async function main() {
     process.exit(0);
   }
 
-  const useSample = String(process.env.SEED_FROM_SAMPLE || '').toLowerCase() === 'true';
+  const useSample = false;
   const useGenerate = String(process.env.SEED_GENERATE_DUMMIES || '').toLowerCase() === 'true';
 
   if (useSample) {

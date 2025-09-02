@@ -1,5 +1,4 @@
 export const API_BASE_URL = process.env.NEXT_PUBLIC_API_ENDPOINT || ''
-import { USE_LIVE } from './liveToggle'
 const FORCE_SOURCE = (process.env.NEXT_PUBLIC_FORCE_SOURCE || '').trim()
 
 export async function get(path: string, init?: RequestInit) {
@@ -20,14 +19,7 @@ export async function post(path: string, body: unknown, init?: RequestInit) {
 export type BrandDTO = { _id: string; name: string; image?: string; slug: string }
 export type RankingItem = { rank: number; score: number; id: string; name: string }
 
-const useMocks = !API_BASE_URL && !USE_LIVE
-
 export async function fetchBrands(): Promise<BrandDTO[]> {
-  if (useMocks) {
-    const { mockList } = await import('./mock')
-    const items = await mockList('brand', 12)
-    return items.map((i) => ({ _id: i.id, name: i.name, image: i.image, slug: i.id }))
-  }
   const res = await get('/api/brands')
   if (!res.ok) return []
   const json = await res.json()
@@ -35,9 +27,6 @@ export async function fetchBrands(): Promise<BrandDTO[]> {
 }
 
 export async function fetchRankings(): Promise<RankingItem[]> {
-  if (useMocks) {
-    return Array.from({ length: 10 }).map((_, i) => ({ rank: i + 1, score: 100 - i * 3, id: `brand-${i + 1}`, name: `Brand ${i + 1}` }))
-  }
   const res = await get('/api/rankings')
   if (!res.ok) return []
   const json = await res.json()
@@ -71,47 +60,31 @@ export async function fetchRankingsRecentVotes(): Promise<Array<{ id: string; en
 // Additional helpers (non-breaking)
 export type DesignerDTO = { _id: string; name: string; slug: string; image?: string; url?: string }
 export async function fetchDesigners(): Promise<DesignerDTO[]> {
-  if (useMocks) {
-    const { mockList } = await import('./mock')
-    const items = await mockList('designer', 12)
-    return items.map((i) => ({ _id: i.id, name: i.name, slug: i.id, image: i.image }))
-  }
   const res = await get('/api/designers')
   if (!res.ok) return []
   const json = await res.json()
   return json.items as DesignerDTO[]
 }
 
-export type ProductPrice = { value: number; currency: string; originalValue?: number }
+export type ProductPrice = { value: number | undefined; currency?: string; originalValue?: number }
 export type ProductDTO = {
   _id: string
-  name: string
-  slug: string
+  title: string
   brand?: string
-  designer?: string
-  media?: string[]
-  image?: string
   images?: string[]
   price?: ProductPrice
-  url?: string
-  brandId?: string
-  designerId?: string
+  canonicalUrl?: string
 }
 export type ProductFilters = { brandId?: string; designerId?: string; source?: string; q?: string; sort?: string; page?: number; limit?: number }
 
 function applyForceSource(params: URLSearchParams) {
-  if (USE_LIVE && FORCE_SOURCE) {
+  if (FORCE_SOURCE) {
     if (!params.has('source')) {
       params.set('source', FORCE_SOURCE)
     }
   }
 }
 export async function fetchProducts(filters: ProductFilters = {}): Promise<ProductDTO[]> {
-  if (useMocks) {
-    const { mockList } = await import('./mock')
-    const items = await mockList('product', 12)
-    return items.map((i) => ({ _id: i.id, name: i.name, slug: i.id, images: [i.image], price: i.price ? { value: i.price, currency: 'USD' } : undefined, url: undefined, brandId: 'brand-1' }))
-  }
   const params = new URLSearchParams()
   Object.entries(filters).forEach(([k, v]) => {
     if (v !== undefined && v !== null) params.set(k, String(v))
@@ -124,10 +97,6 @@ export async function fetchProducts(filters: ProductFilters = {}): Promise<Produ
 }
 
 export async function fetchProduct(id: string): Promise<ProductDTO | null> {
-  if (useMocks) {
-    const all = await fetchProducts({})
-    return all[0] || null
-  }
   const res = await get(`/api/products/${id}`)
   if (!res.ok) return null
   return (await res.json()) as ProductDTO
@@ -145,9 +114,9 @@ export async function fetchVoteSummary(entityType: 'brand'|'designer'|'product',
   return res.json()
 }
 
-export function getCheckoutRedirectUrl(url: string, source: 'featured' | 'popular' | 'grid' | 'product' = 'grid', utm?: string) {
+export function getCheckoutRedirectUrlById(productId: string, source: 'featured' | 'popular' | 'grid' | 'product' = 'grid', utm?: string) {
   const u = new URL(`${API_BASE_URL}/api/affiliate/checkout`)
-  u.searchParams.set('url', url)
+  u.searchParams.set('productId', productId)
   if (source) u.searchParams.set('source', source)
   if (utm) u.searchParams.set('utm', utm)
   return u.toString()

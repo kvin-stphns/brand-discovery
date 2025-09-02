@@ -10,6 +10,9 @@ const ClickSchema = new mongoose.Schema(
       enum: ['featured', 'popular', 'grid', 'product', 'affiliate', 'checkout'],
       default: 'product',
     },
+    // product source metadata (for analytics)
+    sourceId: { type: String },
+    productSource: { type: String },
     // optional analytics
     utm: { type: String },
     ipHash: { type: String, index: true },

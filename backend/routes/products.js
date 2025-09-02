@@ -15,7 +15,7 @@ try {
  * GET /api/products
  * Query params:
  *  - brandId, designerId: 24-char hex ObjectId
- *  - q: text search against name/brand/designer
+ *  - q: text search against title/brand
  *  - source: "farfetch", "ssense" or comma-separated list
  *  - sort: "new" (default), "priceAsc", "priceDesc", "popular"
  *  - page: 1+
@@ -41,13 +41,7 @@ router.get(
     if (brandId) filter.brandId = brandId;
     if (designerId) filter.designerId = designerId;
 
-    if (q) {
-      filter.$or = [
-        { name: { $regex: q, $options: 'i' } },
-        { brand: { $regex: q, $options: 'i' } },
-        { designer: { $regex: q, $options: 'i' } },
-      ];
-    }
+    if (q) filter.$or = [{ title: { $regex: q, $options: 'i' } }, { brand: { $regex: q, $options: 'i' } }]
 
     if (source) {
       const list = String(source)

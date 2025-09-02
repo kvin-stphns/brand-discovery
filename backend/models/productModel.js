@@ -4,15 +4,7 @@ const PriceSchema = new mongoose.Schema(
   {
     value: { type: Number, index: true },
     currency: { type: String, default: 'USD' },
-    originalValue: { type: Number }, // was-price for sales
-  },
-  { _id: false }
-);
-
-const SizeSchema = new mongoose.Schema(
-  {
-    label: { type: String },
-    available: { type: Boolean, default: true },
+    originalValue: { type: Number },
   },
   { _id: false }
 );
@@ -20,48 +12,52 @@ const SizeSchema = new mongoose.Schema(
 const ProductSchema = new mongoose.Schema(
   {
     // Identity
-    externalId: { type: String, index: true }, // unique per source
     source: { type: String, enum: ['farfetch', 'ssense', 'other'], required: true, index: true },
+    sourceId: { type: String, required: true, index: true }, // canonical per-site id
 
-    // Naming / linking
-    name: { type: String, required: true, index: true },
-    slug: { type: String, index: true },
-    url: { type: String, required: true, unique: true },
+    // Linking
+    canonicalUrl: { type: String },
 
-    // Brand / designer linkage
+    // Naming
+    title: { type: String, required: true, index: true },
+    slug: { type: String, index: true }, // non-unique search index
+
+    // Brand / designer (flat for now)
     brand: { type: String, index: true },
-    brandId: { type: mongoose.Schema.Types.ObjectId, ref: 'Brand', index: true },
-    designer: { type: String, index: true },
-    designerId: { type: mongoose.Schema.Types.ObjectId, ref: 'Designer', index: true },
 
     // Pricing
     price: { type: PriceSchema },
 
     // Media
-    media: [{ type: String }],              // primary + gallery (preferred)
-    image: { type: String },                // backward-compat primary image
-    images: [{ type: String }],             // backward-compat array
+    images: [{ type: String }],
 
     // Content
     description: { type: String },
     details: [{ type: String }],
-    sizes: [SizeSchema],
-    shipping: { type: String },
+    sizes: [{ type: String }],
+    availability: { type: String },
+    sku: { type: String },
+    color: { type: String },
 
     // Taxonomy
-    category: { type: String, index: true },
-    gender: { type: String, enum: ['men', 'women', 'unisex', ''], default: '' },
+    category: [{ type: String, index: true }],
+    breadcrumbs: [{ type: String }],
 
-    // Misc
-    tags: [{ type: String, index: true }],
+    // Policy
+    shipping: { type: String },
+    returns: { type: String },
   },
-  { timestamps: true }
+  {
+    timestamps: true,
+    autoIndex: false, // avoid implicit index changes; use migration script
+  }
 );
 
-// Composite unique to dedupe upserts from scrapers
-ProductSchema.index({ source: 1, externalId: 1 }, { unique: true });
-// Helpful query index
-ProductSchema.index({ source: 1, createdAt: -1 });
+// Dedup key
+ProductSchema.index({ source: 1, sourceId: 1 }, { unique: true });
+// Useful queries
+ProductSchema.index({ brand: 1 });
+ProductSchema.index({ createdAt: -1 });
 
 const Product = mongoose.models.Product || mongoose.model('Product', ProductSchema);
 module.exports = { Product };

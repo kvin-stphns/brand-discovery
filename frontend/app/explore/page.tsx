@@ -19,10 +19,10 @@ export default function ExplorePage() {
         if (!didCancel && prods?.length) {
           setItems(
             prods.slice(0, 12).map((p: any, idx: number) => ({
-              id: p._id,
+              id: String(p._id),
               type: 'product',
-              name: p.name,
-              image: p.media?.[0] || p.images?.[0] || p.image || `/placeholders/product-${(idx % 4) + 1}.jpg`,
+              name: String(p.title || ''),
+              image: p.images?.[0] || `/placeholders/product-${(idx % 4) + 1}.jpg`,
               label: 'Explore',
               brand: p.brand || '',
               price: p.price?.value,

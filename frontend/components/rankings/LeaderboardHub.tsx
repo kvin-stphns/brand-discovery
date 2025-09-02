@@ -8,8 +8,6 @@ import { CategoryScope, LeaderboardRow, MapRankingPoint, RankingListItem, Rankin
 import { toast } from '@/lib/toast'
 import { fetchRankings, fetchRankingsMostLiked, fetchRankingsMostViewed, fetchRankingsRecentVotes } from '@/lib/api/client'
 
-const USE_LIVE = String(process.env.NEXT_PUBLIC_USE_LIVE_API || '').toLowerCase() === 'true'
-
 type Mode = 'leaderboard' | 'most-liked' | 'most-viewed' | 'recently-liked' | 'map'
 
 function Controls({ value, onChange, showCategory }: { value: RankingsFilters; onChange: (v: RankingsFilters) => void; showCategory: boolean }) {
@@ -52,10 +50,7 @@ export default function LeaderboardHub({ initialMode = 'leaderboard' as Mode, va
         setRows(mapped)
         setKpis(safeItems.length ? { totalVotes: safeItems.length * 100, topCategory: '—', fastestRiser: String(safeItems[0]?.name || '—') } : null)
       })
-      .catch(() => {
-        if (USE_LIVE) toast('Failed to load rankings', 'error')
-        setRows([]); setKpis(null)
-      })
+      .catch(() => { setRows([]); setKpis(null) })
 
     // Secondary lists
     Promise.allSettled([
@@ -144,5 +139,4 @@ export default function LeaderboardHub({ initialMode = 'leaderboard' as Mode, va
     </div>
   )
 }
-
 

@@ -5,7 +5,7 @@ import { useState, useEffect } from 'react'
 import { Heart, Bookmark, ChevronRight, ExternalLink } from 'lucide-react'
 import { useCart } from '@/lib/store/cart'
 import { hrefFor } from '@/lib/nav'
-import { fetchProduct, getCheckoutRedirectUrl } from '@/lib/api/client'
+import { fetchProduct, getCheckoutRedirectUrlById } from '@/lib/api/client'
 import { sanitizeText, formatPrice } from '@/lib/format'
 
 export default function ProductPage() {
@@ -38,9 +38,7 @@ export default function ProductPage() {
     return () => { cancelled = true }
   }, [])
 
-  const images = product?.media?.length ? product.media : (product?.images?.length ? product.images : [
-    product?.image || '/placeholders/product-1.jpg',
-  ])
+  const images = product?.images?.length ? product.images : [ '/placeholders/product-1.jpg' ]
 
   // add to cart handled inline on button click
 
@@ -57,7 +55,7 @@ export default function ProductPage() {
             DISCOVER
           </Link>
           <ChevronRight className="w-3 h-3 mx-2 text-gray-400" />
-          <span className="text-xs tracking-[0.15em]">{sanitizeText(product?.name || 'Product')}</span>
+          <span className="text-xs tracking-[0.15em]">{sanitizeText(product?.title || 'Product')}</span>
         </div>
       </div>
 
@@ -107,7 +105,7 @@ export default function ProductPage() {
               {/* Header with actions */}
               <div className="flex justify-between items-start mb-6">
                 <div>
-                  <h1 className="text-lg tracking-[0.15em] mb-1 font-bold">{sanitizeText(product?.name || '')}</h1>
+                  <h1 className="text-lg tracking-[0.15em] mb-1 font-bold">{sanitizeText(product?.title || '')}</h1>
                   <p className="text-sm tracking-[0.1em] text-gray-500">{sanitizeText(product?.brand || '')}</p>
                 </div>
                 <div className="flex space-x-4">
@@ -164,7 +162,7 @@ export default function ProductPage() {
               {/* Checkout via affiliate preview (opens in new tab) */}
               <div className="mt-8">
                 <a
-                  href={product?.url ? getCheckoutRedirectUrl(product.url, 'product') : '#'}
+                  href={product?._id ? getCheckoutRedirectUrlById(String(product._id), 'product') : '#'}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="inline-flex items-center gap-2 px-4 py-2 border border-black bg-white text-black hover:bg-black hover:text-white transition-colors text-sm tracking-[0.15em]"

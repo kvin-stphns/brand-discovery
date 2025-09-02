@@ -13,23 +13,12 @@ const FeaturedBrands = () => {
   const brandTypes = ['Streetwear', 'High Fashion', 'Avant Garde', 'Hybrid', 'Techwear', 'Workwear', 'Other'] as const
   const productCategories = ['Tops', 'Bottoms', 'Outerwear', 'Accessories'] as const
 
-  const initial: Item[] = Array.from({ length: 8 }).map((_, i) => {
-    const types = ['product', 'brand', 'designer'] as const
-    const type = types[i % 3]
-    const brandType = brandTypes[i % brandTypes.length]
-    const productType = productCategories[i % productCategories.length]
-    const brandName = `Brand${i + 1}`
-    return {
-      id: `item-${i}`,
-      type,
-      name: `Featured ${type} ${i + 1}`,
-      image: getPlaceholderImage(type, i % 4),
-      category: type === 'product' ? productType : undefined,
-      brand: type === 'product' ? brandName : undefined,
-      designer: type === 'product' ? `Designer ${i + 1}` : undefined,
-      label: getFormattedLabel(type, 'featured', brandType, productType, brandName),
-    }
-  })
+  const initial: Item[] = Array.from({ length: 8 }).map((_, i) => ({
+    id: `placeholder-${i}`,
+    type: 'product',
+    name: `Featured ${i + 1}`,
+    image: getPlaceholderImage('product', i % 4),
+  }))
 
   const [items, setItems] = useState<Item[]>(initial)
 
@@ -44,11 +33,11 @@ const FeaturedBrands = () => {
           const mapped: Item[] = prods.slice(0, 8).map((p: any, i: number) => ({
             id: String(p._id),
             type: 'product',
-            name: String(p.name),
+            name: String(p.title || ''),
             image: String(p.images?.[0] || getPlaceholderImage('product', i % 4)),
             category: productCategories[i % productCategories.length],
-            brand: 'Brand',
-            label: getFormattedLabel('product', 'featured', brandTypes[i % brandTypes.length], productCategories[i % productCategories.length], 'Brand'),
+            brand: p.brand ? String(p.brand) : undefined,
+            label: getFormattedLabel('product', 'featured', brandTypes[i % brandTypes.length], productCategories[i % productCategories.length], String(p.brand || '')),
           }))
           setItems(mapped)
         } else {

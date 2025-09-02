@@ -122,3 +122,12 @@
 - Search: `/api/search` endpoint + debounced navbar search dropdown.
 - Rankings: endpoints resilient; groundwork to compute from Votes/Clicks with filters.
 - Admin data: `/api/admin/data-status` counts endpoint; QA smoke doc added.
+## Unreleased
+
+- Backend: Add Crawlee-based scraper scaffolding and Firecrawl fallback integration (not yet executed).
+- Backend: Update Product schema to normalized fields (title, images[], canonicalUrl, sourceId) and prepare idempotent index migration script.
+- Backend: Affiliate routes now return structured preview and 302 checkout with Click logging and link resolver.
+- Backend: Mount `/api/admin/status` for live status counts.
+- Frontend: Remove mock data paths and live toggle; map product cards to title/brand/price/images correctly without style changes.
+- Frontend: Add shared Product TS type and update API client to DB-only.
+- Docs: Add runbook for env vars, scraping, and verification.
