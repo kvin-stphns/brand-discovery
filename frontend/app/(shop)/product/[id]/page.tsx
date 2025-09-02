@@ -181,7 +181,7 @@ export default function ProductPage() {
                         alert('Please select a size')
                         return
                       }
-                      add({ id: String(product?._id || 'product'), name: sanitizeText(product?.name || 'PRODUCT'), price: Number(product?.price?.value || 0), size: selectedSize, image: images[selectedImage] })
+                      add({ id: String(product?._id || 'product'), name: sanitizeText(product?.title || 'PRODUCT'), price: Number(product?.price?.value || 0), size: selectedSize, image: images[selectedImage] })
                     }}
                   >
                     ADD TO CART
@@ -201,7 +201,7 @@ export default function ProductPage() {
                     alert('Please select a size')
                     return
                   }
-                  add({ id: String(product?._id || 'product'), name: sanitizeText(product?.name || 'PRODUCT'), price: Number(product?.price?.value || 0), size: selectedSize, image: images[selectedImage] })
+                  add({ id: String(product?._id || 'product'), name: sanitizeText(product?.title || 'PRODUCT'), price: Number(product?.price?.value || 0), size: selectedSize, image: images[selectedImage] })
                 }}
               >
                 ADD TO CART
