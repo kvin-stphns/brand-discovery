@@ -1,5 +1,4 @@
 const { Product } = require('../../models/productModel')
-const fetch = require('node-fetch')
 
 function normalizeText(s) {
   return String(s || '').replace(/\s+/g, ' ').trim()
@@ -78,9 +77,24 @@ async function upsertProduct(doc) {
   await Product.updateOne({ source: doc.source, sourceId: doc.sourceId }, { $set: update, $setOnInsert: { createdAt: new Date() } }, { upsert: true })
 }
 
-async function firecrawlExtract(url, schema, { budget = 100, used = 0 } = {}) {
+async function firecrawlExtract(url, _schema, { budget = 100, used = 0 } = {}) {
   const key = process.env.FIRECRAWL_API_KEY
   if (!key || used >= budget) return { used, data: null }
+  const schema = {
+    type: 'object',
+    properties: {
+      title: { type: 'string' },
+      brand: { type: 'string' },
+      images: { type: 'array', items: { type: 'string' } },
+      price: {
+        type: 'object',
+        properties: { value: { type: 'number' }, currency: { type: 'string' } },
+      },
+      description: { type: 'string' },
+      details: { type: 'array', items: { type: 'string' } },
+      sizes: { type: 'array', items: { type: 'string' } },
+    },
+  }
   const payload = {
     url,
     formats: ['extract'],
@@ -107,4 +121,3 @@ module.exports = {
   upsertProduct,
   firecrawlExtract,
 }
-

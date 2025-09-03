@@ -21,7 +21,7 @@ router.get(
     const [brands, designers, products] = await Promise.all([
       Brand.find({ name: re }).limit(10),
       Designer.find({ name: re }).limit(10),
-      Product.find({ $or: [{ name: re }, { tags: re }] }).limit(20),
+      Product.find({ $or: [{ title: re }, { brand: re }] }).limit(20),
     ])
     res.json({ brands, designers, products })
   }

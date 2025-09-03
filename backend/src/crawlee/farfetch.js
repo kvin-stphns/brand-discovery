@@ -10,12 +10,13 @@ function extractSourceIdFromUrl(url) {
 
 function seedUrls() {
   const seeds = [
-    'https://www.farfetch.com/shopping/men/items.aspx',
-    'https://www.farfetch.com/shopping/women/items.aspx',
-    'https://www.farfetch.com/shopping/men/clothing-2/items.aspx',
-    'https://www.farfetch.com/shopping/women/clothing-1/items.aspx',
+    'https://www.farfetch.com/shopping/men/items.aspx?view=180',
+    'https://www.farfetch.com/shopping/women/items.aspx?view=180',
   ]
-  const env = (process.env.SCRAPE_URLS_FF || '').split(',').map((s) => s.trim()).filter(Boolean)
+  const env = (process.env.SCRAPE_URLS_FF || process.env.SEED_LIST_URLS_FF || '')
+    .split(',')
+    .map((s) => s.trim())
+    .filter(Boolean)
   return env.length ? env : seeds
 }
 
@@ -23,6 +24,11 @@ async function runFarfetch({ maxItems = 1000, maxPages = 100 } = {}) {
   log.setLevel(log.LEVELS.INFO)
   const queue = await RequestQueue.open()
   for (const u of seedUrls()) await queue.addRequest({ url: u, label: 'LIST' })
+  const productSeeds = (process.env.SCRAPE_PRODUCT_URLS_FF || process.env.SEED_PRODUCT_URLS_FF || '')
+    .split(',')
+    .map((s) => s.trim())
+    .filter(Boolean)
+  for (const u of productSeeds) await queue.addRequest({ url: u, label: 'DETAIL' })
 
   let seen = 0
   let firecrawl = { used: 0 }
@@ -117,4 +123,3 @@ async function runFarfetch({ maxItems = 1000, maxPages = 100 } = {}) {
 }
 
 module.exports = { runFarfetch }
-

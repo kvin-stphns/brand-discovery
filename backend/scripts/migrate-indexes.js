@@ -39,7 +39,14 @@ async function run() {
   ops.push(await dropIndexIfExists(coll, 'source_1_externalId_1')); // legacy compound unique
 
   // 2) Desired indexes
-  ops.push(await ensureIndex(coll, { source: 1, sourceId: 1 }, { unique: true, name: 'source_1_sourceId_1' }));
+  // Unique only when both fields exist as strings (avoid legacy null duplicates)
+  ops.push(
+    await ensureIndex(
+      coll,
+      { source: 1, sourceId: 1 },
+      { unique: true, name: 'source_1_sourceId_1', partialFilterExpression: { source: { $type: 'string' }, sourceId: { $type: 'string' } } }
+    )
+  );
   ops.push(await ensureIndex(coll, { slug: 1 }, { unique: false }));
   ops.push(await ensureIndex(coll, { brand: 1 }));
   ops.push(await ensureIndex(coll, { createdAt: -1 }));
@@ -53,4 +60,3 @@ run().catch((e) => {
   console.error('Migration failed', e);
   process.exit(1);
 });
-

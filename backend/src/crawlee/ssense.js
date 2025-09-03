@@ -9,12 +9,13 @@ function extractSourceIdFromUrl(url) {
 
 function seedUrls() {
   const seeds = [
-    'https://www.ssense.com/en-us/men',
-    'https://www.ssense.com/en-us/women',
-    'https://www.ssense.com/en-us/men/clothing',
-    'https://www.ssense.com/en-us/women/clothing',
+    'https://www.ssense.com/en-us/men/all',
+    'https://www.ssense.com/en-us/women/all',
   ]
-  const env = (process.env.SCRAPE_URLS_SS || '').split(',').map((s) => s.trim()).filter(Boolean)
+  const env = (process.env.SCRAPE_URLS_SS || process.env.SEED_LIST_URLS_SS || '')
+    .split(',')
+    .map((s) => s.trim())
+    .filter(Boolean)
   return env.length ? env : seeds
 }
 
@@ -22,6 +23,11 @@ async function runSsense({ maxItems = 1000 } = {}) {
   log.setLevel(log.LEVELS.INFO)
   const queue = await RequestQueue.open()
   for (const u of seedUrls()) await queue.addRequest({ url: u, label: 'LIST' })
+  const productSeeds = (process.env.SCRAPE_PRODUCT_URLS_SS || process.env.SEED_PRODUCT_URLS_SS || '')
+    .split(',')
+    .map((s) => s.trim())
+    .filter(Boolean)
+  for (const u of productSeeds) await queue.addRequest({ url: u, label: 'DETAIL' })
 
   let seen = 0
   let firecrawl = { used: 0 }
@@ -101,4 +107,3 @@ async function runSsense({ maxItems = 1000 } = {}) {
 }
 
 module.exports = { runSsense }
-

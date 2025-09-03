@@ -31,7 +31,7 @@ router.get('/', async (req, res) => {
     rank: idx + 1,
     score: 100 - idx, // placeholder score until we wire real popularity
     id: String(p._id),
-    name: p.brand ? `${p.brand} ${p.name}` : p.name,
+    name: p.brand ? `${p.brand} ${p.title || ''}`.trim() : (p.title || ''),
   }));
 
   res.json({ items: rows });
