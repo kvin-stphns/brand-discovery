@@ -1,13 +1,11 @@
 'use client'
 import { useState, useEffect } from 'react'
-import Image from 'next/image'
-import Link from 'next/link'
 
 type FilterType = 'all' | 'brands' | 'designers' | 'products'
 
 export default function LikedPage() {
   const [filter, setFilter] = useState<FilterType>('all')
-  const [likedItems] = useState(Array(32).fill(null))
+  const [likedItems] = useState<any[]>([])
 
   useEffect(() => {
     document.body.style.overscrollBehavior = 'none'
@@ -43,30 +41,10 @@ export default function LikedPage() {
         <div className="max-w-[2000px] mx-auto border-t border-black mt-12" />
       </div>
 
-      {/* Main Content - Grid Layout */}
+      {/* Main Content - Empty State (no placeholders) */}
       <div className="mt-[271px]">
-        <div className="max-w-[2000px] mx-auto">
-          <div className="grid grid-cols-4 mobile:grid-cols-4 tablet:grid-cols-6 desktop:grid-cols-8 border-t border-black">
-            {likedItems.map((_, i) => (
-              <Link
-                key={i}
-                href="#"
-                className="group relative h-[250px] border-r border-b border-black last:border-r-0"
-              >
-                <Image
-                  src={`/placeholders/brand-${(i % 4) + 1}.jpg`}
-                  alt={`Item ${i + 1}`}
-                  fill
-                  className="object-cover opacity-90 hover:opacity-100 transition-opacity"
-                />
-                <div className="absolute inset-0 flex items-center justify-center">
-                  <span className="text-[10px] font-semibold tracking-[0.15em] opacity-0 group-hover:opacity-100 transition-opacity">
-                    ITEM {i + 1}
-                  </span>
-                </div>
-              </Link>
-            ))}
-          </div>
+        <div className="max-w-[2000px] mx-auto py-24 px-8 text-center text-sm tracking-[0.15em] text-black/70">
+          {likedItems.length === 0 ? 'No liked items yet.' : null}
         </div>
       </div>
     </section>

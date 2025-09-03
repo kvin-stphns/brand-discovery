@@ -155,7 +155,7 @@ const Navigation = () => {
                           const href = k==='products'?`/product/${it._id}`:k==='brands'?`/brand/${it._id}`:`/designer/${it._id}`
                           router.push(href)
                         }}>
-                          {it.name}
+                          {k==='products' ? (it.title || `${it.brand?it.brand+' ':''}`) : it.name}
                         </button>
                       ))}
                     </div>
