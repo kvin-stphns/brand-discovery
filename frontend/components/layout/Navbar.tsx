@@ -9,6 +9,7 @@ import Link from 'next/link'
 import { useCart } from '@/lib/store/cart'
 import CartDrawer from '@/components/ui/CartDrawer'
 import { useRouter } from 'next/navigation'
+import { get } from '@/lib/api/client'
 import { useAccount, useConnect, useDisconnect, useConnectors } from 'wagmi'
 
 function ConnectWalletButton() {
@@ -54,9 +55,12 @@ const Navigation = () => {
     const h = setTimeout(async () => {
       if (!q) { setResults(null); return }
       try {
-        const res = await fetch(`/api/search?q=${encodeURIComponent(q)}`)
+        const res = await get(`/api/search?q=${encodeURIComponent(q)}`)
         if (res.ok) setResults(await res.json())
-      } catch {}
+        else setResults(null)
+      } catch {
+        setResults(null)
+      }
     }, 300)
     return () => clearTimeout(h)
   }, [q])

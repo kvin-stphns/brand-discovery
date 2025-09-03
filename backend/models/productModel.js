@@ -23,7 +23,7 @@ const ProductSchema = new mongoose.Schema(
     slug: { type: String, index: true }, // non-unique search index
 
     // Brand / designer (flat for now)
-    brand: { type: String, index: true },
+    brand: { type: String },
 
     // Pricing
     price: { type: PriceSchema },
@@ -40,7 +40,7 @@ const ProductSchema = new mongoose.Schema(
     color: { type: String },
 
     // Taxonomy
-    category: [{ type: String, index: true }],
+    category: [{ type: String }],
     breadcrumbs: [{ type: String }],
 
     // Policy

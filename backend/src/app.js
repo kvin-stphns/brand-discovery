@@ -18,7 +18,22 @@ function createApp() {
 
   // Security & utilities
   app.use(helmet())
-  app.use(cors({ origin: CORS_ORIGIN, credentials: false }))
+  // Dev: allow all origins to avoid local misconfig friction. Prod: respect env with optional comma-separated allowlist.
+  let corsOrigin
+  if (NODE_ENV !== 'production') {
+    corsOrigin = true
+  } else if (!CORS_ORIGIN || CORS_ORIGIN === '*') {
+    corsOrigin = '*'
+  } else if (CORS_ORIGIN.includes(',')) {
+    const allow = CORS_ORIGIN.split(',').map((s) => s.trim()).filter(Boolean)
+    corsOrigin = (origin, cb) => {
+      if (!origin) return cb(null, true)
+      return cb(null, allow.includes(origin))
+    }
+  } else {
+    corsOrigin = CORS_ORIGIN
+  }
+  app.use(cors({ origin: corsOrigin, credentials: false }))
   app.use(express.json({ limit: '1mb' }))
   app.use(morgan(NODE_ENV === 'development' ? 'dev' : 'tiny'))
 
