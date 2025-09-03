@@ -13,7 +13,8 @@
     "scrape:ff": "node src/crawlee/scrape.js --only=farfetch",
     "scrape:ss": "node src/crawlee/scrape.js --only=ssense",
     "scrape:all": "node src/crawlee/scrape.js",
-    "migrate:indexes": "node scripts/migrate-indexes.js"
+    "migrate:indexes": "node scripts/migrate-indexes.js",
+    "migrate:backfill": "node scripts/backfill-products.js"
   },
   "dependencies": {
     "cheerio": "^1.0.0",
