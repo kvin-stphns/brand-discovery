@@ -2,6 +2,50 @@ const express = require('express');
 const router = express.Router();
 const { Product } = require('../models/productModel');
 
+function cleanText(input) {
+  if (!input) return ''
+  let s = String(input)
+  // strip CSS blocks and var() dumps
+  s = s.replace(/\{[^}]*\}/g, ' ')
+  s = s.replace(/var\([^)]*\)/g, ' ')
+  // strip known class tokens leaked into text (Farfetch)
+  s = s.replace(/\.ltr-[\w:-]+/gi, ' ')
+  // strip common pseudo-classes that might linger
+  s = s.replace(/:(hover|focus|active)/gi, ' ')
+  // collapse whitespace
+  s = s.replace(/\s+/g, ' ').trim()
+  // guard against ridiculous leftovers
+  if (/^\d{3}\s+Too\s+Many\s+Requests/i.test(s)) return ''
+  return s
+}
+
+function sanitizeImages(doc) {
+  const list = Array.isArray(doc.images) && doc.images.length ? doc.images : (Array.isArray(doc.media) ? doc.media : [])
+  const imgs = (list || [])
+    .map((u) => String(u || ''))
+    .filter((u) => /^https?:\/\//i.test(u))
+    // exclude tracking pixels and analytics
+    .filter((u) => !/bat\.bing\.com|doubleclick|analytics|pixel\./i.test(u))
+    // keep only image-like URLs
+    .filter((u) => /\.(jpg|jpeg|png|webp)(?:\?.*)?$/i.test(u))
+  return Array.from(new Set(imgs))
+}
+
+function toDTO(doc) {
+  const title = cleanText(doc.title || doc.name)
+  const brand = cleanText(doc.brand)
+  const images = sanitizeImages(doc)
+  return {
+    _id: String(doc._id),
+    title,
+    brand,
+    images,
+    price: doc.price || undefined,
+    canonicalUrl: doc.canonicalUrl || doc.url || undefined,
+    source: doc.source,
+  }
+}
+
 // Optional validate middleware (kept for compatibility). If it doesn't exist in your tree, you can remove these two lines.
 let validate, Joi;
 try {
@@ -63,11 +107,14 @@ router.get(
     const pageSize = Math.min(100, Math.max(1, Number(limit)));
     const skip = (pageNum - 1) * pageSize;
 
-    const [items, total] = await Promise.all([
-      Product.find(filter).sort(sortSpec).limit(pageSize).skip(skip).lean().exec(),
-      Product.countDocuments(filter),
-    ]);
-
+    // Fetch a bit extra to account for post-filter sanitation
+    const raw = await Product.find(filter).sort(sortSpec).limit(pageSize * 3).skip(skip).lean().exec();
+    // Map + filter invalid entries
+    const mapped = raw
+      .map(toDTO)
+      .filter((p) => p.title && p.title.toLowerCase() !== '429 too many requests' && p.images && p.images[0])
+    const items = mapped.slice(0, pageSize)
+    const total = await Product.countDocuments(filter)
     const totalPages = Math.max(1, Math.ceil(total / pageSize));
     res.json({ items, page: pageNum, total, totalPages });
   }

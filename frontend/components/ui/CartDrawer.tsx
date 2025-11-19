@@ -1,6 +1,8 @@
 'use client'
 import { X } from 'lucide-react'
 import { useCart } from '@/lib/store/cart'
+import { formatPrice } from '@/lib/format'
+import { getCheckoutRedirectUrlById } from '@/lib/api/client'
 
 interface CartDrawerProps {
   open: boolean
@@ -31,7 +33,7 @@ export default function CartDrawer({ open, onClose }: CartDrawerProps) {
                 <li key={`${it.id}-${it.size}`} className="text-xs flex justify-between items-center">
                   <div>
                     <div>{it.name}{it.size ? ` (${it.size})` : ''}</div>
-                    <div className="text-black/60">${'{'}it.price{'}'} x{it.qty}</div>
+                    <div className="text-black/60">{formatPrice(it.price)} x{it.qty}</div>
                   </div>
                   <button className="text-[10px] underline" onClick={() => remove(it.id, it.size)}>remove</button>
                 </li>
@@ -39,7 +41,17 @@ export default function CartDrawer({ open, onClose }: CartDrawerProps) {
             </ul>
             <div className="mt-4 flex justify-between">
               <button className="text-xs underline" onClick={clear}>Clear</button>
-              <button className="text-xs border border-black px-3 py-1">Checkout</button>
+              <button
+                className="text-xs border border-black px-3 py-1"
+                onClick={() => {
+                  const first = items[0]
+                  if (!first) return
+                  const url = getCheckoutRedirectUrlById(String(first.id), 'grid', 'cart')
+                  window.open(url, '_blank')
+                }}
+              >
+                Checkout
+              </button>
             </div>
           </>
         )}
@@ -47,5 +59,4 @@ export default function CartDrawer({ open, onClose }: CartDrawerProps) {
     </div>
   )
 }
-
 

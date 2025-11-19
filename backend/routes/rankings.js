@@ -27,12 +27,21 @@ router.get('/', async (req, res) => {
     .lean()
     .exec();
 
-  const rows = items.map((p, idx) => ({
-    rank: idx + 1,
-    score: 100 - idx, // placeholder score until we wire real popularity
-    id: String(p._id),
-    name: p.brand ? `${p.brand} ${p.title || ''}`.trim() : (p.title || ''),
-  }));
+  const rows = items.map((p, idx) => {
+    const clean = (s) => String(s || '')
+      .replace(/\{[^}]*\}/g, ' ')
+      .replace(/var\([^)]*\)/g, ' ')
+      .replace(/\.ltr-[\w:-]+/gi, ' ')
+      .replace(/:(hover|focus|active)/gi, ' ')
+      .replace(/\s+/g, ' ').trim()
+    const name = clean(p.brand ? `${p.brand} ${p.title || ''}` : (p.title || ''))
+    return {
+      rank: idx + 1,
+      score: 100 - idx, // placeholder score until we wire real popularity
+      id: String(p._id),
+      name,
+    }
+  });
 
   res.json({ items: rows });
 });

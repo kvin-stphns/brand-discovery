@@ -15,7 +15,7 @@ export default function ExplorePage() {
     let didCancel = false
     async function load() {
       try {
-        const prods = await fetchProducts({ sort: '-createdAt', limit: 12 })
+        const prods = await fetchProducts({ sort: 'new', limit: 12 })
         if (!didCancel && prods?.length) {
           setItems(
             prods.slice(0, 12).map((p: any, idx: number) => ({

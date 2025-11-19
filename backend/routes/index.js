@@ -11,6 +11,26 @@ const { validate, Joi } = require('../src/middleware/validate')
 
 router.get('/', (req, res) => res.json({ ok: true }))
 
+function cleanText(input) {
+  if (!input) return ''
+  let s = String(input)
+  s = s.replace(/\{[^}]*\}/g, ' ')
+  s = s.replace(/var\([^)]*\)/g, ' ')
+  s = s.replace(/\.ltr-[\w:-]+/gi, ' ')
+  s = s.replace(/:(hover|focus|active)/gi, ' ')
+  return s.replace(/\s+/g, ' ').trim()
+}
+
+function sanitizeImages(doc) {
+  const list = Array.isArray(doc.images) && doc.images.length ? doc.images : (Array.isArray(doc.media) ? doc.media : [])
+  const imgs = (list || [])
+    .map((u) => String(u || ''))
+    .filter((u) => /^https?:\/\//i.test(u))
+    .filter((u) => !/bat\.bing\.com|doubleclick|analytics|pixel\./i.test(u))
+    .filter((u) => /\.(jpg|jpeg|png|webp)(?:\?.*)?$/i.test(u))
+  return Array.from(new Set(imgs))
+}
+
 // Search endpoint
 router.get(
   '/search',
@@ -18,11 +38,17 @@ router.get(
   async (req, res) => {
     const q = req.query.q
     const re = new RegExp(q, 'i')
-    const [brands, designers, products] = await Promise.all([
-      Brand.find({ name: re }).limit(10),
-      Designer.find({ name: re }).limit(10),
-      Product.find({ $or: [{ title: re }, { brand: re }] }).limit(20),
+    const [brandsRaw, designersRaw, productsRaw] = await Promise.all([
+      Brand.find({ name: re }).limit(10).lean().exec(),
+      Designer.find({ name: re }).limit(10).lean().exec(),
+      Product.find({ $or: [{ title: re }, { brand: re }] }).limit(40).lean().exec(),
     ])
+    const brands = brandsRaw.map((b) => ({ _id: b._id, name: cleanText(b.name || '') }))
+    const designers = designersRaw.map((d) => ({ _id: d._id, name: cleanText(d.name || '') }))
+    const products = productsRaw
+      .map((p) => ({ _id: p._id, title: cleanText(p.title || p.name || ''), brand: cleanText(p.brand || ''), images: sanitizeImages(p) }))
+      .filter((p) => p.title && p.title.toLowerCase() !== '429 too many requests')
+      .slice(0, 20)
     res.json({ brands, designers, products })
   }
 )
