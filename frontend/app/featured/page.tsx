@@ -15,7 +15,7 @@ export default function FeaturedPage() {
     let didCancel = false
     async function load() {
       try {
-        const prods = await fetchProducts({ sort: 'new', limit: 12 })
+        const prods = await fetchProducts({ sort: '-createdAt', limit: 12 })
         if (!didCancel && prods?.length) {
           setItems(
             prods.slice(0, 12).map((p: any, idx: number) => ({ id: String(p._id), name: String(p.title || ''), image: p.images?.[0] || `/placeholders/product-${(idx % 4) + 1}.jpg`, type: 'product', label: 'Featured', brand: p.brand || '', price: p.price?.value }))

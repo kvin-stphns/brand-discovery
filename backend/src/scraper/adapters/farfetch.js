@@ -172,8 +172,6 @@ async function parseProduct(productUrl, browser) {
               imgs
                 .map((img) => img.src || (img.srcset || '').split(' ')[0])
                 .filter((u) => /^https?:\/\//i.test(u))
-                .filter((u) => /\.(jpg|jpeg|png|webp)(?:\?.*)?$/i.test(u))
-                .filter((u) => !/bat\.bing\.com|doubleclick|analytics|pixel\./i.test(u))
             )
           )
       )
@@ -287,10 +285,6 @@ async function scrapeFarfetch({
         limit(async () => {
           try {
             const p = await parseProduct(link, browser);
-            // Skip rate-limit or bad pages
-            if (!p || /429\s+Too\s+Many\s+Requests/i.test(p.name || '') || !Array.isArray(p.media) || p.media.length === 0) {
-              return
-            }
             // Attach required fields
             const record = {
               source: 'farfetch',

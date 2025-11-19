@@ -6,17 +6,6 @@
 
 ---
 
-## [2025-11-19] – Initial System Analysis & Health Check
-- **Analysis**: Conducted full codebase scan; identified gaps in Web3 implementation and scraping infrastructure.
-- **Docs**: Populated `ARCHITECTURE.md` "Current State" section.
-- **Docs**: Created `SYSTEM_HEALTH.md` to track logic gaps, bottlenecks, and risks.
-- **Findings**:
-  - `backend/routes/scraping.js` is empty.
-  - `contracts/` is empty despite architecture claims.
-  - Frontend uses fragile timeouts and `any` types.
-
----
-
 ## [2025-08-09] – Gate-1 UI hotfix: hero overlay via portal + sentinel; Popular z-index/parallax; build green
 - Hero: added sentinel and portal for fixed DISCOVER button; guarded parallax with prefers-reduced-motion and rAF.
 - Popular: background moved to -z-10, content uses relative z-10; removed extreme offsets; gentler translateY parallax; ensured overflow-hidden on cards.

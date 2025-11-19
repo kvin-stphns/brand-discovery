@@ -44,40 +44,34 @@ Agent — do this immediately and update the sections below.
 
 4) Current State (Agent-filled)
 
+Agent: Fill this section comprehensively from your analysis. Keep it accurate and terse where possible.
+
 4.1 Frontend Snapshot
-	•	Framework: Next.js 13.4 (App Router)
+	•	Framework: Next.js 13+ (App Router present)
 	•	Structure:
-		•	app/: Main application routes.
-		•	components/: Modular components (Hero, FeaturedBrands, etc.).
-		•	lib/: Utilities and API clients.
-	•	Key Components: `Hero`, `FeaturedBrands`, `PopularBrands`, `LeaderboardHub`.
-	•	Design System: Tailwind CSS + Shadcn UI (Radix Primitives).
-	•	Known Issues: 
-		•	`FeaturedBrands.tsx` uses `any` types and has a fragile 2s timeout.
-		•	Web3 dependencies (`wagmi`, `viem`) installed but not fully integrated.
+	•	app/… routes: (list all with purpose; note dynamic routes like /brand/[id], /designer/[id], etc.)
+	•	pages/… routes: (list if still used and why; recommend consolidation plan if needed)
+	•	Key Components & Templates: (Navbar, MegaMenu, MobileMenu, CategoryGrid, ListLayout, etc. with responsibilities)
+	•	Design System: Tailwind; custom breakpoints (mobile, tablet, desktop) — confirm usage consistency.
+	•	Known Issues / Risks: (ex: duplicated utils, image domain config **, layout offset inconsistencies, hardcoded placeholders that must become typed DTOs later, etc.)
 
 4.2 Backend Snapshot
-	•	Server bootstrap: `backend/server.js` loads `src/app.js`.
-	•	Routes: `products`, `brands`, `designers`, `votes` exist. `scraping.js` is empty.
-	•	Models: `Product`, `Brand`, `Designer`, `Vote`, `User`, `Click` exist.
-	•	Env: Uses `dotenv`. `helmet`, `cors`, `rate-limit` configured.
-	•	Missing: `scraping` route implementation, Web3 routes, robust validation (Joi is installed but usage not verified in all controllers).
+	•	Server bootstrap: backend/server.js (Express; minimal)
+	•	Routes/controllers/models present: (list which files are empty; note missing middleware/auth)
+	•	Env: backend/.env.example includes MONGODB_URI, OPENROUTER_API_KEY, BLOCKCHAIN_KEY.
+	•	Missing: Robust API routes, models, validation, security middleware, tests.
 
 4.3 Web3 Snapshot
-	•	Wallet UI: Dependencies installed (`wagmi`, `viem`).
-	•	Contracts: `contracts/` directory exists but contains no Solidity files.
-	•	Status: Planned but not implemented.
+	•	Wallet UI: Placeholder buttons on login/signup.
+	•	Contracts: None yet. Target chain: Neon EVM.
+	•	Planned features: on-chain voting, NFT proof-of-purchase, on-chain brand verification.
 
 4.4 Data Dependencies
-	•	Frontend fetches from `/api/products` via `lib/api/client.ts`.
-	•	Backend connects to MongoDB.
-	•	Scraping: CLI scripts (`scrape:ff`, `scrape:ss`) exist using Crawlee/Playwright, but API trigger is missing.
+	•	Placeholder data throughout FE (images/labels).
+	•	Needed to wire: Products, Brands, Designers, Votes, Submissions, Users, Sessions.
 
 4.5 Proposed Minimal Changes (Augment-not-Rewrite)
-	1.	Implement `backend/routes/scraping.js` to trigger scrapes safely.
-	2.	Create `contracts/Voting.sol` and `contracts/ReceiptNFT.sol` scaffolds.
-	3.	Add Web3 routes to `backend/routes/web3.js`.
-	4.	Refactor Frontend API calls to use proper Types.
+	•	(Agent proposes small, low-risk steps to stabilize structure; record as ADR drafts if non-trivial.)
 
 ⸻
 
