@@ -79,6 +79,7 @@ router.use('/submissions', require('./submissions'))
 router.use('/rankings', require('./rankings'))
 router.use('/affiliate', require('./affiliate'))
 router.use('/img', require('./images'))
+router.use('/scrape', require('./scrape'))
 router.use('/admin', require('./admin'))
 
 module.exports = router

@@ -108,7 +108,7 @@ export async function postVote(vote: VoteCreate) {
   return res.json()
 }
 
-export async function fetchVoteSummary(entityType: 'brand'|'designer'|'product', entityId: string) {
+export async function fetchVoteSummary(entityType: 'brand' | 'designer' | 'product', entityId: string) {
   const params = new URLSearchParams({ entityType, entityId })
   const res = await get(`/api/votes/summary?${params.toString()}`)
   return res.json()
