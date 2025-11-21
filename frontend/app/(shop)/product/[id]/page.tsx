@@ -14,7 +14,7 @@ export default function ProductPage() {
   const [isMobile, setIsMobile] = useState(false)
   const [product, setProduct] = useState<any | null>(null)
   const { add } = useCart()
-  
+
   useEffect(() => {
     // Handle mobile detection and viewport adjustments
     const checkMobile = () => {
@@ -23,7 +23,7 @@ export default function ProductPage() {
     checkMobile()
     window.addEventListener('resize', checkMobile)
     document.body.style.overscrollBehavior = 'none'
-    
+
     return () => {
       window.removeEventListener('resize', checkMobile)
       document.body.style.overscrollBehavior = ''
@@ -38,7 +38,15 @@ export default function ProductPage() {
     return () => { cancelled = true }
   }, [])
 
-  const images = product?.images?.length ? product.images : [ '/placeholders/product-1.jpg' ]
+  const images = (product?.images?.length ? product.images : ['/placeholders/product-1.jpg'])
+    .filter((img: string) => {
+      // Filter out known bad domains that cause next/image crashes
+      if (img.includes('bat.bing.com') || img.includes('googleadservices') || img.includes('doubleclick')) return false
+      return true
+    })
+
+  // If all images were filtered out, show placeholder
+  if (images.length === 0) images.push('/placeholders/product-1.jpg')
 
   // add to cart handled inline on button click
 
@@ -67,14 +75,18 @@ export default function ProductPage() {
               {/* Preview Image */}
               <div className="relative flex-1">
                 <Image
-                  src={images[selectedImage]}
+                  src={images[selectedImage] || '/placeholders/product-1.jpg'}
                   alt="Product Image"
                   fill
                   className="object-contain"
                   priority
+                  onError={(e) => {
+                    const target = e.target as HTMLImageElement;
+                    target.src = '/placeholders/product-1.jpg';
+                  }}
                 />
               </div>
-              
+
               {/* Thumbnails */}
               <div className="h-20 grid grid-cols-4 border-t border-black mt-4 -mr-8">
                 {images.map((img, index) => (
@@ -85,10 +97,14 @@ export default function ProductPage() {
                       ${selectedImage === index ? 'ring-1 ring-black' : 'opacity-50 hover:opacity-100'}`}
                   >
                     <Image
-                      src={img}
+                      src={img || '/placeholders/product-1.jpg'}
                       alt={`Thumbnail ${index + 1}`}
                       fill
                       className="object-cover"
+                      onError={(e) => {
+                        const target = e.target as HTMLImageElement;
+                        target.src = '/placeholders/product-1.jpg';
+                      }}
                     />
                   </button>
                 ))}

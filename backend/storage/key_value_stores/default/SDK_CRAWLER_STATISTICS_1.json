@@ -1,0 +1,49 @@
+{
+  "requestsFinished": 5,
+  "requestsFailed": 0,
+  "requestsRetries": 2,
+  "requestsFailedPerMinute": 0,
+  "requestsFinishedPerMinute": 5,
+  "requestMinDurationMillis": 15328,
+  "requestMaxDurationMillis": 30723,
+  "requestTotalFailedDurationMillis": 0,
+  "requestTotalFinishedDurationMillis": 101869,
+  "crawlerStartedAt": "2025-11-21T18:02:31.223Z",
+  "crawlerFinishedAt": "2025-11-21T18:03:32.357Z",
+  "statsPersistedAt": "2025-11-21T18:03:32.357Z",
+  "crawlerRuntimeMillis": 61546,
+  "crawlerLastStartTimestamp": 1763748150811,
+  "requestRetryHistogram": [
+    3,
+    2
+  ],
+  "statsId": 1,
+  "requestAvgFailedDurationMillis": null,
+  "requestAvgFinishedDurationMillis": 20374,
+  "requestTotalDurationMillis": 101869,
+  "requestsTotal": 5,
+  "requestsWithStatusCode": {
+    "200": 7
+  },
+  "errors": {},
+  "retryErrors": {
+    "/Users/cozykev/Documents/GitHub/brand-discovery/backend/src/crawlee/farfetch.js:79:33": {
+      "missing error code": {
+        "Error": {
+          "page.$$eval: Target page, context or browser has been closed": {
+            "count": 2
+          }
+        }
+      }
+    },
+    "/Users/cozykev/Documents/GitHub/brand-discovery/backend/node_modules/@crawlee/browser-pool/browser-pool.js:405:19": {
+      "missing error code": {
+        "Error": {
+          "browserController.newPage() failed: DlzpKOg0VBnPt_tPcT65I": {
+            "count": 1
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,8 +1,8 @@
 {
 	"id": "mpyHY5rqSrp0Glt",
-	"json": "{\"id\":\"mpyHY5rqSrp0Glt\",\"url\":\"https://www.farfetch.com/shopping/women/prada-intarsia-turtleneck-ribbed-sweater-item-32705964.aspx?storeid=12113\",\"uniqueKey\":\"https://www.farfetch.com/shopping/women/prada-intarsia-turtleneck-ribbed-sweater-item-32705964.aspx?storeid=12113\",\"method\":\"GET\",\"noRetry\":false,\"retryCount\":0,\"errorMessages\":[],\"headers\":{},\"userData\":{\"label\":\"DETAIL\",\"__crawlee\":{\"crawlDepth\":1,\"enqueueStrategy\":\"same-hostname\"}}}",
+	"json": "{\"id\":\"mpyHY5rqSrp0Glt\",\"url\":\"https://www.farfetch.com/shopping/women/prada-intarsia-turtleneck-ribbed-sweater-item-32705964.aspx?storeid=12113\",\"loadedUrl\":\"https://www.farfetch.com/shopping/women/prada-intarsia-turtleneck-ribbed-sweater-item-32705964.aspx?storeid=12113\",\"uniqueKey\":\"https://www.farfetch.com/shopping/women/prada-intarsia-turtleneck-ribbed-sweater-item-32705964.aspx?storeid=12113\",\"method\":\"GET\",\"noRetry\":false,\"retryCount\":0,\"errorMessages\":[],\"headers\":{},\"userData\":{\"label\":\"DETAIL\",\"__crawlee\":{\"crawlDepth\":1,\"enqueueStrategy\":\"same-hostname\",\"state\":4}},\"handledAt\":\"2025-11-21T18:03:06.893Z\"}",
 	"method": "GET",
-	"orderNo": 1763746370348,
+	"orderNo": null,
 	"retryCount": 0,
 	"uniqueKey": "https://www.farfetch.com/shopping/women/prada-intarsia-turtleneck-ribbed-sweater-item-32705964.aspx?storeid=12113",
 	"url": "https://www.farfetch.com/shopping/women/prada-intarsia-turtleneck-ribbed-sweater-item-32705964.aspx?storeid=12113"

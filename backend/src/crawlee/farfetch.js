@@ -93,11 +93,15 @@ async function runFarfetch({ maxItems = 1000, maxPages = 100 } = {}) {
         const domPrice = (await page.$eval('[data-component="Price"]', (el) => el.textContent?.trim()).catch(() => '')) || ''
         const domImgs = await page.$$eval('img', (els) => els.map(e => e.src).filter(s => s.includes('farfetch.com') && s.length > 50))
 
+        const normalizedImages = [meta.image, ...domImgs]
+          .map((u) => normalizeImageUrl(u))
+          .filter(Boolean)
+
         extracted = {
           title: normalizeText(meta.title || domTitle),
           brand: normalizeText(meta.brand || domBrand),
           price: meta.price ? { value: Number(meta.price), currency: meta.currency || 'USD' } : parsePrice(domPrice),
-          images: [meta.image, ...domImgs].filter(Boolean).map((u) => normalizeImageUrl(u))
+          images: normalizedImages
         }
       }
 

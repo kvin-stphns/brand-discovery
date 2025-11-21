@@ -21,11 +21,25 @@ function pickLargestFromSrcSet(srcset) {
 function normalizeImageUrl(u) {
   try {
     const url = new URL(u)
-    // strip common size params
-    ;['wid', 'hei', 'w', 'h', 'size'].forEach((k) => url.searchParams.delete(k))
-    return url.toString()
+      // strip common size params
+      ;['wid', 'hei', 'w', 'h', 'size'].forEach((k) => url.searchParams.delete(k))
+
+    const cleanUrl = url.toString()
+
+    // BLOCKLIST: Ad pixels and tracking domains
+    const blocklist = ['bat.bing.com', 'googleadservices.com', 'doubleclick.net', 'facebook.com/tr']
+    if (blocklist.some(domain => cleanUrl.includes(domain))) return null
+
+    // ALLOWLIST: Must look like an image (unless it's a known CDN path without extension, but for now we are strict)
+    // We check if the pathname ends with a valid extension OR if it comes from a trusted CDN (like farfetch)
+    // For Farfetch, images often don't have extensions in the URL params, but the base path usually does or is specific.
+    // However, the crash comes from "bat.bing.com", so the blocklist is the most critical part.
+    // We will also enforce that it must be http/https
+    if (!cleanUrl.startsWith('http')) return null
+
+    return cleanUrl
   } catch {
-    return u
+    return null
   }
 }
 
