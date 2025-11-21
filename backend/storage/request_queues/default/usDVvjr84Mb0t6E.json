@@ -1,0 +1,9 @@
+{
+	"id": "usDVvjr84Mb0t6E",
+	"json": "{\"id\":\"usDVvjr84Mb0t6E\",\"url\":\"https://www.farfetch.com/shopping/women/miu-miu-mini-ivy-sequin-embellishment-tote-bag-item-32706230.aspx?storeid=11251\",\"loadedUrl\":\"https://www.farfetch.com/shopping/women/miu-miu-mini-ivy-sequin-embellishment-tote-bag-item-32706230.aspx?storeid=11251\",\"uniqueKey\":\"https://www.farfetch.com/shopping/women/miu-miu-mini-ivy-sequin-embellishment-tote-bag-item-32706230.aspx?storeid=11251\",\"method\":\"GET\",\"noRetry\":false,\"retryCount\":1,\"errorMessages\":[\"page.$$eval: Target page, context or browser has been closed\\n    at PlaywrightCrawler.requestHandler (/Users/cozykev/Documents/GitHub/brand-discovery/backend/src/crawlee/farfetch.js:79:33)\\n    at async wrap (/Users/cozykev/Documents/GitHub/brand-discovery/backend/node_modules/@apify/timeout/cjs/index.cjs:54:21)\"],\"headers\":{},\"userData\":{\"label\":\"DETAIL\",\"__crawlee\":{\"crawlDepth\":1,\"enqueueStrategy\":\"same-hostname\",\"state\":5}}}",
+	"method": "GET",
+	"orderNo": 1763746231080,
+	"retryCount": 1,
+	"uniqueKey": "https://www.farfetch.com/shopping/women/miu-miu-mini-ivy-sequin-embellishment-tote-bag-item-32706230.aspx?storeid=11251",
+	"url": "https://www.farfetch.com/shopping/women/miu-miu-mini-ivy-sequin-embellishment-tote-bag-item-32706230.aspx?storeid=11251"
+}

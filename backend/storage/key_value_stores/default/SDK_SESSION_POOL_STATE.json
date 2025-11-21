@@ -1,9 +1,9 @@
 {
-  "usableSessionsCount": 8,
-  "retiredSessionsCount": 0,
+  "usableSessionsCount": 12,
+  "retiredSessionsCount": 1,
   "sessions": [
     {
-      "id": "session_4qYL5GGptb",
+      "id": "session_ydjoZbckQS",
       "cookieJar": {
         "version": "tough-cookie@5.1.2",
         "storeType": "MemoryCookieStore",
@@ -16,14 +16,14 @@
       "userData": {},
       "maxErrorScore": 3,
       "errorScoreDecrement": 0.5,
-      "expiresAt": "2025-09-03T20:23:34.095Z",
-      "createdAt": "2025-09-03T19:33:34.095Z",
+      "expiresAt": "2025-11-21T18:19:32.688Z",
+      "createdAt": "2025-11-21T17:29:32.688Z",
       "usageCount": 0,
       "maxUsageCount": 50,
       "errorScore": 0
     },
     {
-      "id": "session_50oAQqg9Kj",
+      "id": "session_OZR2APnDTL",
       "cookieJar": {
         "version": "tough-cookie@5.1.2",
         "storeType": "MemoryCookieStore",
@@ -35,356 +35,378 @@
           {
             "key": "ckm-ctx-sf",
             "value": "%2F",
-            "expires": "2025-10-03T19:33:35.374Z",
+            "expires": "2025-12-21T17:29:35.837Z",
             "domain": "farfetch.com",
             "path": "/",
             "secure": true,
             "hostOnly": false,
-            "creation": "2025-09-03T19:33:38.707Z",
-            "lastAccessed": "2025-09-03T19:33:44.978Z"
+            "creation": "2025-11-21T17:29:39.213Z",
+            "lastAccessed": "2025-11-21T17:30:26.940Z"
           },
           {
             "key": "_l",
             "value": "0",
-            "expires": "2025-09-03T20:03:35.374Z",
+            "expires": "2025-11-21T17:59:35.837Z",
             "domain": "farfetch.com",
             "path": "/",
             "secure": true,
             "hostOnly": false,
-            "creation": "2025-09-03T19:33:38.710Z",
-            "lastAccessed": "2025-09-03T19:33:44.979Z"
+            "creation": "2025-11-21T17:29:39.219Z",
+            "lastAccessed": "2025-11-21T17:30:26.942Z"
           },
           {
             "key": "ffcp",
             "value": "a.1.0_f.1.0_p.1.0_c.1.0",
-            "expires": "2026-09-03T19:33:43.889Z",
+            "expires": "2026-11-21T17:30:24.031Z",
             "domain": "farfetch.com",
             "path": "/",
             "secure": true,
             "hostOnly": false,
-            "creation": "2025-09-03T19:33:38.712Z",
-            "lastAccessed": "2025-09-03T19:33:44.979Z"
+            "creation": "2025-11-21T17:29:39.221Z",
+            "lastAccessed": "2025-11-21T17:30:26.942Z"
           },
           {
             "key": "ub",
-            "value": "BC89FA9FE4D4CE4AC8B183EF217B6971",
-            "expires": "2025-10-03T19:33:43.889Z",
+            "value": "C0C9BE0EC9BFFF913D2BF6717012DF1A",
+            "expires": "2025-12-21T17:30:24.031Z",
             "domain": "farfetch.com",
             "path": "/",
             "secure": true,
             "hostOnly": false,
-            "creation": "2025-09-03T19:33:38.712Z",
-            "lastAccessed": "2025-09-03T19:33:44.979Z"
+            "creation": "2025-11-21T17:29:39.221Z",
+            "lastAccessed": "2025-11-21T17:30:26.942Z"
           },
           {
             "key": "BIcookieID",
-            "value": "3d8ecc0f-6b03-420e-9480-7fd04518ef33",
-            "expires": "2026-10-08T19:33:36.375Z",
+            "value": "8d6b267f-9712-4837-8ec9-08809c6117e8",
+            "expires": "2026-12-26T17:29:35.837Z",
             "domain": "farfetch.com",
             "path": "/",
             "secure": true,
             "hostOnly": false,
-            "creation": "2025-09-03T19:33:38.712Z",
-            "lastAccessed": "2025-09-03T19:33:44.979Z"
+            "creation": "2025-11-21T17:29:39.221Z",
+            "lastAccessed": "2025-11-21T17:30:26.942Z"
           },
           {
             "key": "BISessionId",
-            "value": "48d6dc76-18d9-4667-2bb2-a7b56e23b69b",
-            "expires": "2025-09-03T20:23:38.721Z",
+            "value": "9a0d22ef-45fd-72d4-46a5-e2e04520dc05",
+            "expires": "2025-11-21T18:19:39.227Z",
             "domain": "farfetch.com",
             "path": "/",
             "secure": true,
             "hostOnly": false,
-            "creation": "2025-09-03T19:33:38.712Z",
-            "lastAccessed": "2025-09-03T19:33:44.979Z"
+            "creation": "2025-11-21T17:29:39.221Z",
+            "lastAccessed": "2025-11-21T17:30:26.942Z"
           },
           {
             "key": "__Host-FF.AppCookie",
-            "value": "CfDJ8BZV7bSK_gVKoJ5_tFR15T78PX7Ww_6aJHfqe5m1EFHCRXYUyE71gzK4Sx4VgReWoOOO0rJCyovEX1WkdT5CPFE2BxtoI68OpSPptNixSPJgLSkZwV36uVgrcCWUfxrSDUSOx1Fl5kv1YtaYlScw0h-ZJngvFJBnusKuvb_zciLDCazDoKhyzdiSpPe8VufOgS0M_qQFxWi-aypWMoG5_YGH8ihO1iSgBLCWQXgKZqV8izrVEupeBWDHMoXgtYGdryJ6wtJ7mmPoZ0tCtdYr1f42rm1dfLGtnIYxgGuQ-06G",
-            "expires": "2026-03-02T19:33:35.374Z",
+            "value": "CfDJ8BZV7bSK_gVKoJ5_tFR15T4hQjhFmm90ZZFw5NofcGIybMlNDa-DT9QFe2YcZ3lozG5JSK33Qo3lob44HleLGnyvcRvOQY81QF0qh5fYyywe0t1Q25vAWEHyrg-1NXfZufHhNFjfcOhG1p0zlIy2AUaPobs3avLRmo3P7m8Belh8J2Tac8sqEdLDdbXrnPt68xshkmyl6amkFTk64JEtOF3RlV9jWhqEQlJprDNxnQLkivkCD6-cIBCBXHuO1DHBTb92pxkFjtcCHhUzM9LOLfIqpDLXtc9mZNTy2Q1PpAmA",
+            "expires": "2026-05-20T17:29:35.837Z",
             "domain": "www.farfetch.com",
             "path": "/",
             "secure": true,
             "httpOnly": true,
             "hostOnly": true,
-            "creation": "2025-09-03T19:33:38.712Z",
-            "lastAccessed": "2025-09-03T19:33:44.979Z"
+            "creation": "2025-11-21T17:29:39.221Z",
+            "lastAccessed": "2025-11-21T17:30:26.942Z"
           },
           {
             "key": "ff_navroot_history",
             "value": "141258",
-            "expires": "2026-10-08T19:33:43.446Z",
+            "expires": "2026-12-26T17:29:52.385Z",
             "domain": "farfetch.com",
             "path": "/",
             "secure": true,
             "hostOnly": false,
-            "creation": "2025-09-03T19:33:38.712Z",
-            "lastAccessed": "2025-09-03T19:33:44.980Z"
+            "creation": "2025-11-21T17:29:39.221Z",
+            "lastAccessed": "2025-11-21T17:30:26.943Z"
           },
           {
             "key": "__Host-CSRF-TOKEN",
-            "value": "CfDJ8BZV7bSK_gVKoJ5_tFR15T42rEuTamYeXvn7x_4c0x061MAHSGeN-vu43E03XgZI5S8NDipohuULAcOyOACa-JJjZGxIGX-ckZP-XAPp3hEr5uKTaaw7xQ30riCZFab82ILutpLLthyj0HP27FFwDx4",
-            "expires": "2025-09-03T20:23:38.721Z",
+            "value": "CfDJ8BZV7bSK_gVKoJ5_tFR15T7luQlr7WKtVk_lPhfmvj7gmtuIKpIblaynFlNtizH0T1KEegHEBU929KHzccT0kpLLU8zFGUMkapDJRBCk-vxzONUboJi29CDEEHFMyXrjPeqlMYZNKXCis-si_WUSjEg",
+            "expires": "2025-11-21T18:19:39.227Z",
             "domain": "www.farfetch.com",
             "path": "/",
             "secure": true,
             "httpOnly": true,
             "hostOnly": true,
-            "creation": "2025-09-03T19:33:38.712Z",
-            "lastAccessed": "2025-09-03T19:33:44.979Z"
+            "creation": "2025-11-21T17:29:39.221Z",
+            "lastAccessed": "2025-11-21T17:30:26.942Z"
           },
           {
             "key": "__Host-FF.AppSession",
-            "value": "CfDJ8BZV7bSK%2FgVKoJ5%2FtFR15T6l02%2FYFT%2F%2FaaFWHgqw33t0Akl2oviPRpotGseICKmaKfSljF%2Fx8bLYRJHCc2xLnUfOUehjBPMvV6xlrC7NQXuufnQ%2FEXo%2FgCAzpe8ZVbglU9FoRfWqRAxZVp657Dq8pTt9ItGGby1ms02jJqJKIGvf",
-            "expires": "2025-09-03T20:23:38.721Z",
+            "value": "CfDJ8BZV7bSK%2FgVKoJ5%2FtFR15T5Pzzn3lSFNvBD29vGiuzDHmNCoRsf%2BdfcCzPnL8s5VMPYy1Dg7UDtt4e7RIKqEhCzmbNwbAMklVJES%2B0cgqGTQ4vvWlelkIDmJVAQ56aYuFbcqiWBIHcnx0yZX0%2Bgk8JiQsi9jVyHIBqNhfEqOuyWw",
+            "expires": "2025-11-21T18:19:39.227Z",
             "domain": "www.farfetch.com",
             "path": "/",
             "secure": true,
             "httpOnly": true,
             "hostOnly": true,
-            "creation": "2025-09-03T19:33:38.712Z",
-            "lastAccessed": "2025-09-03T19:33:44.979Z"
+            "creation": "2025-11-21T17:29:39.221Z",
+            "lastAccessed": "2025-11-21T17:30:26.942Z"
           },
           {
             "key": "bm_sz",
-            "value": "7499B13F440DE988A2C2253922B3C3EE~YAAQcCTDFwU9aPmYAQAAfxsSERwa1dYBcOKJQqAovlEdASJymQYAARU5HyhHO+5jgLeJetnHzP1BDVBb2qxNDxwp9O021+MdwluBuoD1GCEfZQ9F8p3TNEypB9Qih5aVh0dPE3UHHw+PE1QDR3FRsYtJ+iLtW+ZyXeDtIgCIN8fB7quVznobr2TE6ctHdfyivG3VIEsE5dC5LyrmgqVnhhcpez2gW57hFcPdK5cyU67FbcskXNMseL4Dc5+bK/dAhtMqSdoy1G0jLBWHgV8R7MfxSnB+5KnDk2L4RLASHnqpx28AytciVFOZgzXhBxwyDaGNDIFrsgpwgyehKxsbCmO98JBeBcMzF0ZE75IEr3HRHj3NWnmOVKwpwQqua3K+7JDw0KnmVffu8qyGdRTDrOGCFC/ySRYtAGA=~3752756~3622470",
-            "expires": "2025-09-03T23:33:35.446Z",
+            "value": "2983A016F45FDAD19D0DB7874D418D83~YAAQayTDF+Xvu5+aAQAAr5l3px2xcohRE4yWAz2CkbHT+vT+btRqP1gwSxePknDPMCkD+fd2Z5ClPTP5t2PlLVNdaNa3aVcJoEo5Db5H81c/gk01Ml5IiAyUM51Hav5pfvs4Mj9hutEMT+T7yK8vX+fGLCtDAu6jMLWDi7PatlIpkDQiFbb7fW95zeZC39K0MdACGH+EqRm3Gf8tUk6PNO5A0n9R0hbUiUMTk9XMkW39UXSVnX3BzpCnAPL9BTJhZzN7RnqTmXlWUlB7byBjlv2ocg1jHv8ieG8Mrqg/euv5iUsflydMaPuUSXfsyZKenLjwMqKMuQ4FrHQB0zRGyjvGwCeQJGtPvVnDj1i7mL2C9z0Em1S/QrDsMHgB4JdrT9hK5SPgzrQkHHGTX4v+qh2eAjH8prYw0KxTczKGfGVSCFTuX+hj1Q==~3752752~4469808",
+            "expires": "2025-11-21T21:29:35.549Z",
             "domain": "farfetch.com",
             "path": "/",
             "hostOnly": false,
-            "creation": "2025-09-03T19:33:38.712Z",
-            "lastAccessed": "2025-09-03T19:33:44.980Z"
+            "creation": "2025-11-21T17:29:39.221Z",
+            "lastAccessed": "2025-11-21T17:30:26.946Z"
           },
           {
             "key": "checkoutType2",
             "value": "4",
-            "expires": "2026-09-03T19:33:43.889Z",
+            "expires": "2026-11-21T17:30:24.031Z",
             "domain": "farfetch.com",
             "path": "/",
             "secure": true,
             "hostOnly": false,
-            "creation": "2025-09-03T19:33:38.712Z",
-            "lastAccessed": "2025-09-03T19:33:44.979Z"
+            "creation": "2025-11-21T17:29:39.222Z",
+            "lastAccessed": "2025-11-21T17:30:26.942Z"
           },
           {
             "key": "session-1",
-            "value": "5d57b4a5-1d9c-f9b4-f2ae-64ef2c3e5a1e",
-            "expires": "2026-10-08T19:33:36.627Z",
+            "value": "9a0d22ef-45fd-72d4-46a5-e2e04520dc05",
+            "expires": "2026-12-26T17:29:36.691Z",
             "domain": "farfetch.com",
             "path": "/",
             "secure": true,
             "hostOnly": false,
-            "creation": "2025-09-03T19:33:38.713Z",
-            "lastAccessed": "2025-09-03T19:33:44.979Z"
+            "creation": "2025-11-21T17:29:39.222Z",
+            "lastAccessed": "2025-11-21T17:30:26.942Z"
           },
           {
             "key": "AkamaiFeatureToggle",
-            "value": "02a57c.1_0357f7.1_040786.1584706446_04154b.1_04b9bf.1083442635_06510b.2_0a3efc.1_0bab67.-1_0f6c2f.431765611_1af61f.-1627644200_1d8e03.1_20b92f.-1_20f499.-1_22d278.-1_247006.-1_26ddb8.2_286534.1_2a90a3.-1828205740_2ba087.3_317bfa.-555864285_37ee6b.-1_3aa8d2.0_3c8089.2_3cd6f6.724759236_3e98f6.-1_40decb.-588859104_4247d8.-210644093_45dc7d.0_48259b.1_48b225.-114289678_4b57a6.-1_4d76c8.0_4dd6f9.-1934861777_4f9348.351382932_55af68.616935129_56f7db.-1_599d53.1820183946_5a000f.1_5a745a.-1_5b3429.-1303401377_5d121f.-1_5dbd1a.-1_5edc51.-1959550240_603919.1_6352c6.-1_64d19c.1_64df9e.-733002096_677d5c.351382932_686265.-1_729872.208461136_729a35.1_7486ff.-1_751ef1.-1_7723fd.-1_7c7dd8.161219615_7cf0c5.-1_81160a.351382932_8149dc.-1_82b66e.-1967263264_8c4007.-1_945679.1_95b01e.931339867_95f9cf.-1_96bab0.-450272722_999fce.3_9a173a.498330749_9a710c.1_9d8620.-257072075_9eaecb.-44589764_9ebcf7.1_9f0eda.0_9f983a.-1830301272_a0e87f.1492093235_a166c1.-1529076973_a27c87.1952121051_a45ca7.1278471572_a54601.1_a7e49d.351382932_a8355c.1075549021_ac4767.-836661740_ac992b.1_ae134f.1_af169b.-1_b425b4.2023427498_b45ee1.1_b79103.-1224173840_b833c7.-1_b8e9db.-1_b90715.3_be3c96.338880806_bf110c.-1_bfc591.1_c06844.-1518973774_c0ba66.-900375819_c2155c.-1_c2504f.-168229439_c5e8eb.351382932_c6215a.-1_c7adc2.619131285_c93c68.1936798425_ca11bd.274285006_ca47d2.-2125519295_cfc1ba.1_d0ae73.-1089171451_d26d24.1_d2d2fd.2088696188_d43933.-1508053039_d47781.-1_d59758.1_d59986.-44589764_da4cdf.1_dab09d.632075632_db79f1.2_dd19ed.-1_deb641.-1_dec9f3.-1_df039e.-1_df93a0.1_e0a7fe.-403885320_e28bee.-1_e89c2a.1_e8a8b6.-1_ebf8c9.1898056937_ec3f20.-1_ed07fa.0_ed8d9e.1_ee6531.1194745009_f02dd6.231688310_f220ef.-1_f2746b.-1909242120_f3db94.1_f427c7.-1486225143_f5969a.-1_f8c66b.1_fb273c.466665085_fb2b96.1_fb99aa.1171797472_fbf4d6.1_fdd39e.1859817457_fff3a2.243168535",
-            "expires": "2025-09-04T01:33:44.741Z",
+            "value": "0357f7.1_040786.1584706446_04154b.1_04b9bf.1083442635_06510b.2_0a3efc.1_0bab67.-6230673_0f6c2f.431765611_1af61f.-1627644200_1d8e03.1_20b92f.-1_20f499.-1_22d278.654313722_247006.-1_24b3f4.-1_286534.1_2a90a3.-1828205740_2ba087.3_317bfa.-555864285_37ee6b.654313722_3929b4.-136300112_3c8089.2_3cd6f6.724759236_3e98f6.-1_40decb.-588859104_45dc7d.0_48b225.-114289678_4b57a6.-1_4d76c8.0_4dd6f9.-1934861777_4f9348.351382932_55af68.616935129_56f7db.-1_599d53.1820183946_5a745a.-1_5d121f.-190266984_5dbd1a.-1_5edc51.-1959550240_603919.1_6180cf.-1373877549_64d19c.1_64df9e.-733002096_677d5c.351382932_686265.-1_729872.208461136_729a35.1_7486ff.-1_751ef1.-1_7723fd.-1_7c7dd8.161219615_82b66e.-1967263264_896ea1.-1_8ae751.1099716731_8c4007.-1_945679.1_95b01e.931339867_95f9cf.-1079716704_999fce.3_9a173a.498330749_9a710c.1_9d8620.-257072075_9eaecb.-44589764_9f0eda.4_9f983a.-1830301272_a0e87f.1492093235_a166c1.-1529076973_a45ca7.1992330696_a8355c.1075549021_abfb57.-1_ac4767.-836661740_ac992b.1_adec4f.-1_ae134f.1_b45ee1.1_b47211.-277486626_b6ba0a.-1_b79103.-1224173840_b8e9db.-1_b90715.3_be3c96.338880806_bfc591.1_c06844.-1518973774_c0ba66.-900375819_c2155c.-1_c2504f.-168229439_c5e8eb.351382932_c6215a.-1_c7adc2.619131285_c93c68.1936798425_cfc1ba.1_d0ae73.-1089171451_d26d24.1_d2d2fd.2088696188_d43933.-1508053039_d47781.-1_d59758.1_d59986.-44589764_d9a9a7.386116420_da4cdf.1_dacf42.-549716117_dd19ed.-1_deb641.-1_df039e.-1_df93a0.1_e04699.-1_e0a7fe.-403885320_e0fcec.-1_e28bee.-1741597957_e89c2a.1_eb5511.-282061102_ebf8c9.1898056937_ec3f20.28729758_ed07fa.0_ed8d9e.1_ee6531.1194745009_f02dd6.231688310_f220ef.-1_f2746b.-1909242120_f427c7.-1486225143_f5969a.-1_f8c66b.1_fb273c.466665085_fb2b96.1_fb99aa.1171797472_fbf4d6.1_fdd39e.1859817457_fff3a2.243168535",
+            "expires": "2025-11-21T23:30:25.977Z",
             "domain": "farfetch.com",
             "path": "/",
             "secure": true,
             "hostOnly": false,
-            "creation": "2025-09-03T19:33:38.713Z",
-            "lastAccessed": "2025-09-03T19:33:44.980Z"
+            "creation": "2025-11-21T17:29:39.222Z",
+            "lastAccessed": "2025-11-21T17:30:26.943Z"
           },
           {
-            "key": "ak_bmsc",
-            "value": "4BAB69CC9BB31B0BAE94F449D3A39A24~000000000000000000000000000000~YAAQcCTDF0oqaPmYAQAAhwQSERy6ylmbHnCcCRSp05UoDdtp847rym20vzA3ZeoG7Xlu0ClaerA9Yl4EDvC1l/T37WvrzPys4GapOZqy07uUtjBi6ae4J9AkkfNMHJEJvHJp+sqHnx1Zix1SlCYIsUdC6D1e1LNA+YUmehZ8QmV9DeB1hQy52Qsy1y0yADB9vg2zR0vU3hU3D40mopEqByFdA2YVd+oCrNJh0q5QKLhiLxRC5MlgEWJDqS1CbkgEsqZV3fzcBXmR4Wix/Ed8mBZ5Gv7CcucwbInwhsonaBj+wFtwjjXMtqMX0gdkNwBJUuwieJuiuuIcywkxJVbHNdYtrFZbOhL5x6m6ntsojpnavhD4ETwj4EDfrUfXSeiMuUpbwxAKEHkbe1vSBay8/46RawME+NoZGx47Ry6iH5mAFUkwMtgnrriytIL6ieD2LdwVlLTA6DAgRr1M1HgvTA==",
-            "expires": "2025-09-03T21:33:35.530Z",
+            "key": "_abck",
+            "value": "BB2EC36F08040A5D1BE63FD45EF5BFC0~-1~YAAQayTDF7j0u5+aAQAAfp13pw6ISV/pJ2KRk05tmKZsEsdP14rmJiFb1D1uADjjOzysNbOzupX3jN35bmPmKBU5EGw+dyYuG8mdG04S0iew4i7dafPoS9A6i8RbEe82p9QXJuPEs+Nrj8iJZ4sWOi5KIJpO2oXNgim76AUoz9LGJdO/jFiEwEihfVh2U2xv78oXdJH0qGGkhVCADSW1yuh1LzoVy2HHBQeWsw5Usqb6vi38hLRBlYYz5ejToM7B0kB+Qcx0ZQTEIULU6DZUWP8/NDS6vxkf3bssBYWOY/O2E/AGukiDIgpnmA9Zz4FVV5DfIDwtVV4tCwdYv7IgRCXrlwMnjz4zvBT0RZ0S2eIaQ/slWXaQ2BLCzxnBckgwRcqSidQS4XHGlIgRhwObHKQtm6J/02aYLOBpzeKYre44IuA1Ev2iPxeiOHkIJW4nP02Iz6uxS8x0HBJTMoUE3XTZz/e/9zRev29eQ5ztlPtTdWDUcs51u2TcX8f2Y8YyBcr2ip2B/RiSOVnCip1L01hfemh1mW+SOmn5AGjbUAbgT4HsLSU4avkDEofZmUTedw1QCAU4K59eeRclBJPEOVBwjw1HW1byrI4JAhfzh7jlvOGPvT30BbLo2HlOYE0zoNdYlfnU689cL1UNNiA2wPIyikxJZ7h6LIOMF+2h7EwodCgnrYUA2Rlu/0f40NA3zN0dMkWESS6cdqUEGyDbGw==~-1~-1~1763749776~AAQAAAAE%2f%2f%2f%2f%2f9LMPicNXemI8dabPVVxnmi%2f8wsznkHoc3No7d73ppuJ8xApnmWiz647VExJmOPUburPbD9tNWkngLRLojJ4lcozXj4SVZlRQ0%2fuSDNSZ+kKtcIpfKKlNoeEqt3JMTZatyeroyQ%3d~-1",
+            "expires": "2026-11-21T17:30:25.592Z",
             "domain": "farfetch.com",
             "path": "/",
+            "secure": true,
             "hostOnly": false,
-            "creation": "2025-09-03T19:33:38.713Z",
-            "lastAccessed": "2025-09-03T19:33:44.979Z"
+            "creation": "2025-11-21T17:29:39.222Z",
+            "lastAccessed": "2025-11-21T17:30:26.947Z"
           },
           {
             "key": "__cuid",
-            "value": "d764547e3eb84d289a248c4916336901",
-            "expires": "2026-10-08T19:33:44.400Z",
+            "value": "09456c45b0f84ebcb3673de469d44f59",
+            "expires": "2026-12-26T17:30:25.473Z",
             "domain": "farfetch.com",
             "path": "/",
             "hostOnly": false,
-            "creation": "2025-09-03T19:33:38.713Z",
-            "lastAccessed": "2025-09-03T19:33:44.980Z"
+            "creation": "2025-11-21T17:29:39.222Z",
+            "lastAccessed": "2025-11-21T17:30:26.947Z"
+          },
+          {
+            "key": "_gcl_au",
+            "value": "1.1.145216683.1763746177",
+            "expires": "2026-02-19T17:29:37.000Z",
+            "domain": "farfetch.com",
+            "path": "/",
+            "hostOnly": false,
+            "creation": "2025-11-21T17:29:39.222Z",
+            "lastAccessed": "2025-11-21T17:30:26.942Z"
           },
           {
             "key": "__Host-CSRF-REQUEST-TOKEN",
-            "value": "CfDJ8BZV7bSK_gVKoJ5_tFR15T7Mw_IGfNwHr165sKnUTgurnEWgZ0rKj0ANV1A6_9Ae2ueKmNo_WX0bKV4xLgnSLQbT-kS0p3-9YnJV0qTtIdswV5PzMD0XfCxJMuaNnXQZGW4BTt_H84U_qeBzz31XcTjdpM_VvzT2odJdMQezMaEbB7jCnBApJYib2rsl8yMEdQ",
-            "expires": "2025-09-03T20:23:44.978Z",
+            "value": "CfDJ8BZV7bSK_gVKoJ5_tFR15T6GHJitFDJGIJiyTqGmFHHnNUC5ZrdLaW2E_obyRzxyK68--THKX-VvuZi0OcTeKMZdE_h1VjGSAM7c8aSDss7rm0K7ZS8JkHbmZfD95jXaG5iEUOB1_TkepupM62i4Iyu0vFtfdFMLNACUIk5nL0V-YRmFesYn0oh5E-e2R4TQdA",
+            "expires": "2025-11-21T18:20:26.939Z",
             "domain": "www.farfetch.com",
             "path": "/",
             "secure": true,
             "hostOnly": true,
-            "creation": "2025-09-03T19:33:38.713Z",
-            "lastAccessed": "2025-09-03T19:33:44.980Z"
+            "creation": "2025-11-21T17:29:39.222Z",
+            "lastAccessed": "2025-11-21T17:30:26.947Z"
           },
           {
             "key": "__Secure-CSRF-REQUEST-TOKEN",
-            "value": "CfDJ8BZV7bSK_gVKoJ5_tFR15T7Mw_IGfNwHr165sKnUTgurnEWgZ0rKj0ANV1A6_9Ae2ueKmNo_WX0bKV4xLgnSLQbT-kS0p3-9YnJV0qTtIdswV5PzMD0XfCxJMuaNnXQZGW4BTt_H84U_qeBzz31XcTjdpM_VvzT2odJdMQezMaEbB7jCnBApJYib2rsl8yMEdQ",
-            "expires": "2025-09-03T20:23:44.978Z",
+            "value": "CfDJ8BZV7bSK_gVKoJ5_tFR15T6GHJitFDJGIJiyTqGmFHHnNUC5ZrdLaW2E_obyRzxyK68--THKX-VvuZi0OcTeKMZdE_h1VjGSAM7c8aSDss7rm0K7ZS8JkHbmZfD95jXaG5iEUOB1_TkepupM62i4Iyu0vFtfdFMLNACUIk5nL0V-YRmFesYn0oh5E-e2R4TQdA",
+            "expires": "2025-11-21T18:20:26.939Z",
             "domain": "farfetch.com",
             "path": "/",
             "secure": true,
             "hostOnly": false,
-            "creation": "2025-09-03T19:33:38.713Z",
-            "lastAccessed": "2025-09-03T19:33:44.980Z"
+            "creation": "2025-11-21T17:29:39.222Z",
+            "lastAccessed": "2025-11-21T17:30:26.947Z"
           },
           {
             "key": "bm_sv",
-            "value": "9781D438535A390FF437656B04FF9A1F~YAAQcCTDF8JBaPmYAQAAjCASERwt38NGX3mVvFyXwT88DbsUP4OxQ57M0H3KeYksctPFTem/qzahcNBkfuCa1mLXUKsOuE8VIWFi9PJm9yzLL+e8yqnv5BfooLkJQz0tSy/Ji3rJOzHLvD/sik85eimqE0NIJYrVrRN3OcEPB8GTS8YTABUBE8pL8uHap6i444wYTrSyvHob45SvJSOHBAg4LU5ceJp0h731/f5KdwGufFKKz0vLBQMO3UYL5OIcBGA=~1",
-            "expires": "2025-09-03T21:33:37.670Z",
+            "value": "379D728ADF27EABD3140237A71532726~YAAQayTDFwb2u5+aAQAApJ53px2iufULWMH1GwjcgttJdompUa+KqqqhaRfqf5R/zXUCpl1gwKbQNRHrVkcAEQ2dLL6foxyiI+c6mPueK8VEVkQdKqtYzlTari2Bsd5xqib2fRFzbRAhYcm7lvUIYMW0aSUMU1FGPiw9jkJ5Qor69LaJmqSZyyCbp/ZpzxDyD8lcRMAvmlGWhDj2x3lNwhxkn9hMAGRjHM5PswEL7yFcxXJfSZ2EEe85HIIHiOj+PIgN~1",
+            "expires": "2025-11-21T19:29:37.866Z",
             "domain": "farfetch.com",
             "path": "/",
             "secure": true,
             "hostOnly": false,
-            "creation": "2025-09-03T19:33:38.713Z",
-            "lastAccessed": "2025-09-03T19:33:44.980Z"
+            "creation": "2025-11-21T17:29:39.222Z",
+            "lastAccessed": "2025-11-21T17:30:26.947Z"
           },
           {
-            "key": "_gcl_au",
-            "value": "1.1.1489043520.1756928018",
-            "expires": "2025-12-02T19:33:38.000Z",
+            "key": "ak_bmsc",
+            "value": "7ADD26AD3046D5163F161F14AA3D7F5E~000000000000000000000000000000~YAAQcCTDFwDGrqWaAQAA4ud2px2SynsBELZUqLNH2IICAJ9To7733YU/nidau99fLcdnSSNwQEVvfv6QGVD22o6Z4t7sCaOXlrhygevPatTFhGV+2YKjlFbVdu9UwLrUNM0WhjrPiHb5SZ/e7nzRJHuEJOhJY0QKT3kZFvDv+qGtxMyR/essQZ+T4q2uXcDBMLrQlgcJLXE1z5Q0ZsYjRm6N4hZzg7aT9rg4WIanXAN/hYZDXEAtDiiJuU9ZL9LEd5eEnowQSlHh4pDl12+vbrCJ+IWoWPmlAXX07w7J28+LQz2Rh8hIrn3Z8V9XVN7QjLF/2Z2NX1Ahu4xdf4VBtp413La1Wgoi+V97wggu2uBhDoGtWy0nWY1ZTmszhpexH/2YHUikU8NrJkAbaekX4+xrZ6qnSoZla2WHt35FW8qAcJB5Ry+hNPJppT/9UTMMKdCDN9xaZSBvFHO+DisM",
+            "expires": "2025-11-21T19:29:35.017Z",
             "domain": "farfetch.com",
             "path": "/",
+            "httpOnly": true,
             "hostOnly": false,
-            "creation": "2025-09-03T19:33:38.713Z",
-            "lastAccessed": "2025-09-03T19:33:44.979Z"
+            "creation": "2025-11-21T17:29:39.223Z",
+            "lastAccessed": "2025-11-21T17:30:26.942Z"
           },
           {
-            "key": "_abck",
-            "value": "25A7E4DF9A78C429F34AFF93F7C46FC3~-1~YAAQcCTDF8dAaPmYAQAAWx8SEQ5t71ixqnMEVqIPnz5NBZtECX+YnESLILU/LofWxo3ZU4MNA4r5Or8T3+k3eh7s+1M3AuPb5ifptW3q8L8tmbfhnrAzIwcBUdjMvtmRoFg8YaLx0aCwgK9qAVmbq3jVLowvY8hliU2jcpbc5NKRNznwmd3FNSEsVLQoEuP39HOqFNmaFviVBKCx2ncZF1+erwZJearHSZVT/xBpaxgAQ8tR/hCmh2dLQTaH4Lg4AW4afXdNSUBmae0hDnjDF9P30HoWewkvo1ZbA34Sh9V/pGEvUGxV7gAJ/C3tGKVZN86x84+7eBlTN7xngH8X21Dwlf1sytZWgEdrmw3XAo3ct1akt7i1t0DvRCZFYCvLUL3oiwwReEReqa6zm4ykHpIiP1EzhG5UVlRXlXzrwBdcsqV3aHSphbvIFNdGDRZrqouJjOUlmOiKSXzlL3INHj6otn42QEzSKpHbMyPUFEdF5ra6+Zi+j5HxDMZiQgAubEbEe6okOVr7iqVf7znglMQ9S/jzPV/GFmAiG6sOYxH7pMzNYcRhKQN4OYQ2fiYvVFI1WK05Ymj+6nkjnAJ7uLa2Cf19sXnyd2GIJWNQPo1+r9u+YgJ5PNjFSu8=~-1~-1~1756931616~~",
-            "expires": "2026-09-03T19:33:44.403Z",
-            "domain": "farfetch.com",
+            "key": "g_state",
+            "value": "{\"i_l\":0,\"i_ll\":1763746225660,\"i_b\":\"nY96BEPo3pIkj8mm7sJ90g0vOH3cMl0vaPNh7Y61sn4\"}",
+            "expires": "2026-05-20T17:30:25.000Z",
+            "domain": "www.farfetch.com",
             "path": "/",
-            "secure": true,
-            "hostOnly": false,
-            "creation": "2025-09-03T19:33:38.713Z",
-            "lastAccessed": "2025-09-03T19:33:44.980Z"
+            "hostOnly": true,
+            "creation": "2025-11-21T17:29:39.223Z",
+            "lastAccessed": "2025-11-21T17:30:26.947Z"
           },
           {
             "key": "forterToken",
-            "value": "1a18ddddc3c040f4851db3133d6de139_1756928024534__UDF43_27ck_",
-            "expires": "2026-10-08T19:33:44.000Z",
+            "value": "ae33397d96cf49069f2f474e9efc1bfe_1763746225692__UDF43_27ck_",
+            "expires": "2026-12-26T17:30:26.000Z",
             "domain": "farfetch.com",
             "path": "/",
             "hostOnly": false,
-            "creation": "2025-09-03T19:33:38.713Z",
-            "lastAccessed": "2025-09-03T19:33:44.980Z"
+            "creation": "2025-11-21T17:29:39.223Z",
+            "lastAccessed": "2025-11-21T17:30:26.947Z"
           },
           {
             "key": "RT",
-            "value": "\"z=1&dm=www.farfetch.com&si=a098d340-c7b5-4965-9063-162528563f93&ss=mf4dksn2&sl=1&tt=2id&rl=1\"",
-            "expires": "2025-09-10T19:33:40.000Z",
+            "value": "\"z=1&dm=www.farfetch.com&si=94b1f0f8-267c-435d-af5d-0588a9e78e88&ss=mi94xmba&sl=1&tt=3de&rl=1\"",
+            "expires": "2025-11-28T17:29:52.000Z",
             "domain": "www.farfetch.com",
             "path": "/",
             "hostOnly": false,
-            "creation": "2025-09-03T19:33:38.713Z",
-            "lastAccessed": "2025-09-03T19:33:44.980Z"
+            "creation": "2025-11-21T17:29:39.223Z",
+            "lastAccessed": "2025-11-21T17:30:26.946Z"
           },
           {
             "key": "rskxRunCookie",
             "value": "0",
-            "expires": "2026-10-08T19:33:44.688Z",
+            "expires": "2026-12-26T17:30:25.850Z",
             "domain": "farfetch.com",
             "path": "/",
             "hostOnly": false,
-            "creation": "2025-09-03T19:33:41.881Z",
-            "lastAccessed": "2025-09-03T19:33:44.979Z"
+            "creation": "2025-11-21T17:29:54.812Z",
+            "lastAccessed": "2025-11-21T17:30:26.942Z"
           },
           {
             "key": "rCookie",
-            "value": "yvob1znt4ruo8hy6i627smf4dkvge",
-            "expires": "2026-10-08T19:33:44.766Z",
+            "value": "tdo4r7wp5mm6dgwylefsl7mi94xpu3",
+            "expires": "2026-12-26T17:30:26.808Z",
             "domain": "farfetch.com",
             "path": "/",
             "hostOnly": false,
-            "creation": "2025-09-03T19:33:41.881Z",
-            "lastAccessed": "2025-09-03T19:33:44.979Z"
-          },
-          {
-            "key": "lastRskxRun",
-            "value": "1756928024686",
-            "expires": "2026-10-08T19:33:44.687Z",
-            "domain": "farfetch.com",
-            "path": "/",
-            "hostOnly": false,
-            "creation": "2025-09-03T19:33:41.881Z",
-            "lastAccessed": "2025-09-03T19:33:44.980Z"
-          },
-          {
-            "key": "_ga_CEF7PMN9HX",
-            "value": "GS2.1.s1756928018$o1$g1$t1756928024$j54$l0$h0",
-            "expires": "2026-10-08T19:33:44.719Z",
-            "domain": "farfetch.com",
-            "path": "/",
-            "hostOnly": false,
-            "creation": "2025-09-03T19:33:41.881Z",
-            "lastAccessed": "2025-09-03T19:33:44.980Z"
+            "creation": "2025-11-21T17:29:54.812Z",
+            "lastAccessed": "2025-11-21T17:30:26.942Z"
           },
           {
             "key": "_ga",
-            "value": "GA1.1.673673939.1756928019",
-            "expires": "2026-10-08T19:33:44.713Z",
+            "value": "GA1.1.1208458259.1763746179",
+            "expires": "2026-12-26T17:30:26.553Z",
             "domain": "farfetch.com",
             "path": "/",
             "hostOnly": false,
-            "creation": "2025-09-03T19:33:41.881Z",
-            "lastAccessed": "2025-09-03T19:33:44.979Z"
+            "creation": "2025-11-21T17:29:54.812Z",
+            "lastAccessed": "2025-11-21T17:30:26.942Z"
           },
           {
-            "key": "forterToken",
-            "value": "1a18ddddc3c040f4851db3133d6de139_1756928018413__UDF43_27ck_",
-            "expires": "2026-10-08T19:33:38.000Z",
-            "domain": "www.farfetch.com",
-            "path": "/",
-            "hostOnly": false,
-            "creation": "2025-09-03T19:33:41.881Z",
-            "lastAccessed": "2025-09-03T19:33:44.979Z"
-          },
-          {
-            "key": "_uetsid",
-            "value": "e4206ac088fc11f0b322cd4206cade42|a6hkjs|2|fz0|0|2072",
-            "expires": "2025-09-04T19:33:44.000Z",
+            "key": "moe_uuid",
+            "value": "fd823878-8183-47b5-87c8-4ae1df22c88c",
+            "expires": "2026-12-26T17:30:25.784Z",
             "domain": "farfetch.com",
             "path": "/",
+            "secure": true,
             "hostOnly": false,
-            "creation": "2025-09-03T19:33:41.881Z",
-            "lastAccessed": "2025-09-03T19:33:44.980Z"
+            "creation": "2025-11-21T17:29:54.812Z",
+            "lastAccessed": "2025-11-21T17:30:26.942Z"
           },
           {
             "key": "cto_bundle",
-            "value": "oldgN182ZU5tVHJpM2tlaE5YWm5YNTVOeHRWJTJGSjM0YU9YdFRZc054Q2NFJTJCYTRJcVpNNTRyQmFObkJTVEszRTZmOWFtOFdwQXZjd2ZLaW1pJTJCS3NmZkt1VWJCVEhDNjR1b3d1QUd6TmN0OHhuc2xCbDFMT1ZZbmhlRm1NV3lMT0JwVjN6MTg0UjVzcTliUDB3akVBdkVWSSUyQlFvRzRGUG02NyUyRmptQ2Y3YWphZVZlZDJWV1JJTmolMkZRUWZFQ0VoYlJwZXdpUXRQdm5BV2VUZTdISDExTXNId2NrRk13JTNEJTNE",
-            "expires": "2026-10-04T05:33:39.000Z",
+            "value": "6bJO3l9RRlQ5aGh1WnZXVk15ZmNxaEklMkZRcGdvaVlDVHZib3FrakcyQzlqNmZoT2lvdjlyQzZrYmkwTnh5a1JKcVJGaWpVZ0V3S084c25Mem5jRERxUjJIRk1Wa2JxQ3MlMkI4dDREeSUyRkVyQUtTWlBUUnBONE9CZ3FGNjdsTVVLVCUyRnJYRUl3MmplUFVZNzBzcHU0d2IwTGtFck03dGlOdXBySUJjM0xwYkI2VzJoQnhBOCUzRA",
+            "expires": "2026-12-22T03:30:13.000Z",
             "domain": "farfetch.com",
             "path": "/",
             "hostOnly": false,
-            "creation": "2025-09-03T19:33:41.881Z",
-            "lastAccessed": "2025-09-03T19:33:44.980Z"
+            "creation": "2025-11-21T17:29:54.812Z",
+            "lastAccessed": "2025-11-21T17:30:26.946Z"
+          },
+          {
+            "key": "_uetsid",
+            "value": "a88ecf90c6ff11f0a0eed3945c461ad3|1xvbo90|2|g17|0|2151",
+            "expires": "2025-11-22T17:30:26.000Z",
+            "domain": "farfetch.com",
+            "path": "/",
+            "hostOnly": false,
+            "creation": "2025-11-21T17:29:54.812Z",
+            "lastAccessed": "2025-11-21T17:30:26.947Z"
           },
           {
             "key": "_uetvid",
-            "value": "e4207e1088fc11f09593a9de756daea7|1p94n82|1756928019282|1|1|bat.bing.com/p/insights/c/z",
-            "expires": "2026-09-28T19:33:44.000Z",
+            "value": "a88ec090c6ff11f095205b363014c927|yin2cy|1763746200694|3|1|bat.bing.com/p/insights/c/i",
+            "expires": "2026-12-16T17:30:00.000Z",
             "domain": "farfetch.com",
             "path": "/",
             "hostOnly": false,
-            "creation": "2025-09-03T19:33:41.881Z",
-            "lastAccessed": "2025-09-03T19:33:44.980Z"
+            "creation": "2025-11-21T17:29:54.813Z",
+            "lastAccessed": "2025-11-21T17:30:23.643Z"
+          },
+          {
+            "key": "lastRskxRun",
+            "value": "1763746225846",
+            "expires": "2026-12-26T17:30:25.850Z",
+            "domain": "farfetch.com",
+            "path": "/",
+            "hostOnly": false,
+            "creation": "2025-11-21T17:29:54.813Z",
+            "lastAccessed": "2025-11-21T17:30:26.947Z"
+          },
+          {
+            "key": "_ga_CEF7PMN9HX",
+            "value": "GS2.1.s1763746179$o1$g1$t1763746226$j13$l0$h0",
+            "expires": "2026-12-26T17:30:26.573Z",
+            "domain": "farfetch.com",
+            "path": "/",
+            "hostOnly": false,
+            "creation": "2025-11-21T17:29:54.813Z",
+            "lastAccessed": "2025-11-21T17:30:26.947Z"
+          },
+          {
+            "key": "_uetvid",
+            "value": "a88ec090c6ff11f095205b363014c927|yin2cy|1763746200694|3|1|bat.bing.com/p/insights/c/i",
+            "expires": "2026-12-16T17:30:26.000Z",
+            "domain": "www.farfetch.com",
+            "path": "/",
+            "hostOnly": true,
+            "creation": "2025-11-21T17:30:02.396Z",
+            "lastAccessed": "2025-11-21T17:30:26.947Z"
           }
         ]
       },
       "userData": {},
       "maxErrorScore": 3,
       "errorScoreDecrement": 0.5,
-      "expiresAt": "2025-09-03T20:23:34.097Z",
-      "createdAt": "2025-09-03T19:33:34.097Z",
-      "usageCount": 4,
+      "expiresAt": "2025-11-21T18:19:32.695Z",
+      "createdAt": "2025-11-21T17:29:32.695Z",
+      "usageCount": 14,
       "maxUsageCount": 50,
-      "errorScore": 0
+      "errorScore": 14
     },
     {
-      "id": "session_ajMbCi2MZJ",
+      "id": "session_BfZw6AsQj0",
       "cookieJar": {
         "version": "tough-cookie@5.1.2",
         "storeType": "MemoryCookieStore",
@@ -397,14 +419,14 @@
       "userData": {},
       "maxErrorScore": 3,
       "errorScoreDecrement": 0.5,
-      "expiresAt": "2025-09-03T20:23:34.103Z",
-      "createdAt": "2025-09-03T19:33:34.103Z",
+      "expiresAt": "2025-11-21T18:19:32.718Z",
+      "createdAt": "2025-11-21T17:29:32.718Z",
       "usageCount": 0,
       "maxUsageCount": 50,
       "errorScore": 0
     },
     {
-      "id": "session_AJKGKWBzbW",
+      "id": "session_VlZkCRcT63",
       "cookieJar": {
         "version": "tough-cookie@5.1.2",
         "storeType": "MemoryCookieStore",
@@ -417,14 +439,14 @@
       "userData": {},
       "maxErrorScore": 3,
       "errorScoreDecrement": 0.5,
-      "expiresAt": "2025-09-03T20:23:40.151Z",
-      "createdAt": "2025-09-03T19:33:40.151Z",
+      "expiresAt": "2025-11-21T18:19:50.384Z",
+      "createdAt": "2025-11-21T17:29:50.384Z",
       "usageCount": 0,
       "maxUsageCount": 50,
       "errorScore": 0
     },
     {
-      "id": "session_X2SVPbltt0",
+      "id": "session_lK5Vmahcva",
       "cookieJar": {
         "version": "tough-cookie@5.1.2",
         "storeType": "MemoryCookieStore",
@@ -437,14 +459,14 @@
       "userData": {},
       "maxErrorScore": 3,
       "errorScoreDecrement": 0.5,
-      "expiresAt": "2025-09-03T20:23:42.229Z",
-      "createdAt": "2025-09-03T19:33:42.229Z",
+      "expiresAt": "2025-11-21T18:19:50.396Z",
+      "createdAt": "2025-11-21T17:29:50.396Z",
       "usageCount": 0,
       "maxUsageCount": 50,
       "errorScore": 0
     },
     {
-      "id": "session_fePJfpE9fI",
+      "id": "session_tlh964OZZR",
       "cookieJar": {
         "version": "tough-cookie@5.1.2",
         "storeType": "MemoryCookieStore",
@@ -457,258 +479,14 @@
       "userData": {},
       "maxErrorScore": 3,
       "errorScoreDecrement": 0.5,
-      "expiresAt": "2025-09-03T20:23:54.575Z",
-      "createdAt": "2025-09-03T19:33:54.575Z",
+      "expiresAt": "2025-11-21T18:19:50.614Z",
+      "createdAt": "2025-11-21T17:29:50.614Z",
       "usageCount": 0,
       "maxUsageCount": 50,
       "errorScore": 0
     },
     {
-      "id": "session_NflhpFwWdj",
-      "cookieJar": {
-        "version": "tough-cookie@5.1.2",
-        "storeType": "MemoryCookieStore",
-        "rejectPublicSuffixes": true,
-        "enableLooseMode": false,
-        "allowSpecialUseDomain": true,
-        "prefixSecurity": "silent",
-        "cookies": [
-          {
-            "key": "gdprCountry",
-            "value": "false",
-            "expires": "2025-09-03T20:23:56.802Z",
-            "domain": "www.ssense.com",
-            "path": "/",
-            "hostOnly": true,
-            "creation": "2025-09-03T19:33:56.773Z",
-            "lastAccessed": "2025-09-03T19:33:56.803Z"
-          },
-          {
-            "key": "detect_one_trust_policy",
-            "value": "false",
-            "expires": "2025-09-03T19:48:56.751Z",
-            "domain": "www.ssense.com",
-            "path": "/",
-            "hostOnly": true,
-            "creation": "2025-09-03T19:33:56.773Z",
-            "lastAccessed": "2025-09-03T19:33:56.803Z"
-          },
-          {
-            "key": "preferredLanguage",
-            "value": "en",
-            "expires": "2026-10-08T19:33:55.459Z",
-            "domain": "www.ssense.com",
-            "path": "/",
-            "hostOnly": true,
-            "creation": "2025-09-03T19:33:56.773Z",
-            "lastAccessed": "2025-09-03T19:33:56.803Z"
-          },
-          {
-            "key": "exp_is_using_cognito_enabled",
-            "value": "true",
-            "expires": "2025-12-02T19:33:56.751Z",
-            "domain": "www.ssense.com",
-            "path": "/",
-            "hostOnly": true,
-            "creation": "2025-09-03T19:33:56.773Z",
-            "lastAccessed": "2025-09-03T19:33:56.803Z"
-          },
-          {
-            "key": "isp",
-            "value": "verizon business",
-            "expires": "2026-10-08T19:33:56.751Z",
-            "domain": "www.ssense.com",
-            "path": "/",
-            "hostOnly": true,
-            "creation": "2025-09-03T19:33:56.773Z",
-            "lastAccessed": "2025-09-03T19:33:56.803Z"
-          },
-          {
-            "key": "visitorId",
-            "value": "640fcc4a6d882e86b3c8ace5de81dafabb8d0aecf7693e3ae20f8cf0a39dc075",
-            "expires": "2026-10-08T19:33:55.459Z",
-            "domain": "www.ssense.com",
-            "path": "/",
-            "hostOnly": true,
-            "creation": "2025-09-03T19:33:56.773Z",
-            "lastAccessed": "2025-09-03T19:33:56.803Z"
-          },
-          {
-            "key": "sid",
-            "value": "e18b5a26abccc903ede2560f862beb2c",
-            "expires": "2026-10-08T19:33:55.975Z",
-            "domain": "www.ssense.com",
-            "path": "/",
-            "hostOnly": true,
-            "creation": "2025-09-03T19:33:56.773Z",
-            "lastAccessed": "2025-09-03T19:33:56.803Z"
-          },
-          {
-            "key": "pxcts",
-            "value": "ee451555-88fc-11f0-9dab-8d37eabc0cdb",
-            "expires": "2025-09-03T20:23:56.802Z",
-            "domain": "ssense.com",
-            "path": "/",
-            "hostOnly": false,
-            "creation": "2025-09-03T19:33:56.773Z",
-            "lastAccessed": "2025-09-03T19:33:56.803Z"
-          },
-          {
-            "key": "_pxvid",
-            "value": "ee1e1de3-88fc-11f0-8924-d89d3f77e10d",
-            "expires": "2026-09-03T19:33:55.000Z",
-            "domain": "ssense.com",
-            "path": "/",
-            "hostOnly": false,
-            "creation": "2025-09-03T19:33:56.774Z",
-            "lastAccessed": "2025-09-03T19:33:56.803Z"
-          },
-          {
-            "key": "lang",
-            "value": "en_US",
-            "expires": "2026-09-03T19:33:56.000Z",
-            "domain": "www.ssense.com",
-            "path": "/",
-            "hostOnly": true,
-            "creation": "2025-09-03T19:33:56.774Z",
-            "lastAccessed": "2025-09-03T19:33:56.803Z"
-          },
-          {
-            "key": "country",
-            "value": "US",
-            "expires": "2026-09-03T19:33:56.000Z",
-            "domain": "www.ssense.com",
-            "path": "/",
-            "hostOnly": true,
-            "creation": "2025-09-03T19:33:56.774Z",
-            "lastAccessed": "2025-09-03T19:33:56.803Z"
-          },
-          {
-            "key": "_dd_s",
-            "value": "logs=1&id=c530a5cf-212c-4876-b693-857fc81c2a16&created=1756928036046&expire=1756928936054&rum=0",
-            "expires": "2025-09-03T19:48:56.000Z",
-            "domain": "www.ssense.com",
-            "path": "/",
-            "hostOnly": true,
-            "creation": "2025-09-03T19:33:56.774Z",
-            "lastAccessed": "2025-09-03T19:33:56.803Z"
-          },
-          {
-            "key": "_ga",
-            "value": "GA1.1.823481992.1756928036",
-            "expires": "2026-10-08T19:33:56.501Z",
-            "domain": "ssense.com",
-            "path": "/",
-            "hostOnly": false,
-            "creation": "2025-09-03T19:33:56.774Z",
-            "lastAccessed": "2025-09-03T19:33:56.803Z"
-          },
-          {
-            "key": "_gcl_au",
-            "value": "1.1.1372292348.1756928036",
-            "expires": "2025-12-02T19:33:56.000Z",
-            "domain": "ssense.com",
-            "path": "/",
-            "hostOnly": false,
-            "creation": "2025-09-03T19:33:56.774Z",
-            "lastAccessed": "2025-09-03T19:33:56.803Z"
-          },
-          {
-            "key": "SSP_AB_78931651321",
-            "value": "unallocated",
-            "expires": "2026-10-08T19:33:56.515Z",
-            "domain": "ssense.com",
-            "path": "/",
-            "hostOnly": false,
-            "creation": "2025-09-03T19:33:56.774Z",
-            "lastAccessed": "2025-09-03T19:33:56.803Z"
-          },
-          {
-            "key": "_sp_ses.c6c8",
-            "value": "*",
-            "expires": "2025-09-03T20:03:56.000Z",
-            "domain": "ssense.com",
-            "path": "/",
-            "secure": true,
-            "hostOnly": false,
-            "creation": "2025-09-03T19:33:56.774Z",
-            "lastAccessed": "2025-09-03T19:33:56.803Z"
-          },
-          {
-            "key": "_ga_3L9QF4WT0T",
-            "value": "GS2.1.s1756928036$o1$g1$t1756928036$j60$l0$h1934506803",
-            "expires": "2026-10-08T19:33:56.514Z",
-            "domain": "ssense.com",
-            "path": "/",
-            "hostOnly": false,
-            "creation": "2025-09-03T19:33:56.774Z",
-            "lastAccessed": "2025-09-03T19:33:56.803Z"
-          },
-          {
-            "key": "_ga_KVC6VYD121",
-            "value": "GS2.1.s1756928036$o1$g1$t1756928036$j60$l0$h0",
-            "expires": "2026-10-08T19:33:56.517Z",
-            "domain": "ssense.com",
-            "path": "/",
-            "hostOnly": false,
-            "creation": "2025-09-03T19:33:56.774Z",
-            "lastAccessed": "2025-09-03T19:33:56.803Z"
-          },
-          {
-            "key": "_sp_id.c6c8",
-            "value": "acf8b465-7290-4ca0-bf25-9a854ab55737.1756928036.1.1756928037.1756928036.08fd35cd-6d0c-44d4-a567-b35edd6194ee",
-            "expires": "2026-10-08T19:33:56.521Z",
-            "domain": "ssense.com",
-            "path": "/",
-            "secure": true,
-            "hostOnly": false,
-            "creation": "2025-09-03T19:33:56.774Z",
-            "lastAccessed": "2025-09-03T19:33:56.803Z"
-          },
-          {
-            "key": "_fbp",
-            "value": "fb.1.1756928036590.11410048606009970",
-            "expires": "2025-12-02T19:33:56.000Z",
-            "domain": "ssense.com",
-            "path": "/",
-            "hostOnly": false,
-            "creation": "2025-09-03T19:33:56.774Z",
-            "lastAccessed": "2025-09-03T19:33:56.803Z"
-          },
-          {
-            "key": "shopping_bag",
-            "value": "68b89824d6593bd358954070",
-            "expires": "2025-10-01T19:33:56.750Z",
-            "domain": "www.ssense.com",
-            "path": "/",
-            "secure": true,
-            "hostOnly": true,
-            "creation": "2025-09-03T19:33:56.774Z",
-            "lastAccessed": "2025-09-03T19:33:56.803Z"
-          },
-          {
-            "key": "_pxhd",
-            "value": "bF-MZUv7JHrd2Glv30Cmov6JXRQwwj3zrgodvxIEuauHt4cbTp-I45WkNc8qGdzMkVBgQcxMWEcXrDD87Ez53g==:zR8U41nunpTrdObidVTLEahqqW2HR2jCW3lmjX-GbQqM5JBxghrFWIdrZkqtvs7BHY9EJ0-vo46AStAuCpZ6ZBa8gTU2R/gyGx9I4c2W9cc=",
-            "expires": "2026-09-03T19:33:56.750Z",
-            "domain": "www.ssense.com",
-            "path": "/",
-            "hostOnly": true,
-            "creation": "2025-09-03T19:33:56.774Z",
-            "lastAccessed": "2025-09-03T19:33:56.803Z"
-          }
-        ]
-      },
-      "userData": {},
-      "maxErrorScore": 3,
-      "errorScoreDecrement": 0.5,
-      "expiresAt": "2025-09-03T20:23:54.575Z",
-      "createdAt": "2025-09-03T19:33:54.575Z",
-      "usageCount": 2,
-      "maxUsageCount": 50,
-      "errorScore": 0
-    },
-    {
-      "id": "session_rfCbPknCKV",
+      "id": "session_eIQ6x5pcS7",
       "cookieJar": {
         "version": "tough-cookie@5.1.2",
         "storeType": "MemoryCookieStore",
@@ -721,8 +499,128 @@
       "userData": {},
       "maxErrorScore": 3,
       "errorScoreDecrement": 0.5,
-      "expiresAt": "2025-09-03T20:23:54.583Z",
-      "createdAt": "2025-09-03T19:33:54.583Z",
+      "expiresAt": "2025-11-21T18:19:53.885Z",
+      "createdAt": "2025-11-21T17:29:53.885Z",
+      "usageCount": 0,
+      "maxUsageCount": 50,
+      "errorScore": 0
+    },
+    {
+      "id": "session_Bkdw13Lex0",
+      "cookieJar": {
+        "version": "tough-cookie@5.1.2",
+        "storeType": "MemoryCookieStore",
+        "rejectPublicSuffixes": true,
+        "enableLooseMode": false,
+        "allowSpecialUseDomain": true,
+        "prefixSecurity": "silent",
+        "cookies": []
+      },
+      "userData": {},
+      "maxErrorScore": 3,
+      "errorScoreDecrement": 0.5,
+      "expiresAt": "2025-11-21T18:20:09.069Z",
+      "createdAt": "2025-11-21T17:30:09.069Z",
+      "usageCount": 0,
+      "maxUsageCount": 50,
+      "errorScore": 0
+    },
+    {
+      "id": "session_qUSUZaz7ul",
+      "cookieJar": {
+        "version": "tough-cookie@5.1.2",
+        "storeType": "MemoryCookieStore",
+        "rejectPublicSuffixes": true,
+        "enableLooseMode": false,
+        "allowSpecialUseDomain": true,
+        "prefixSecurity": "silent",
+        "cookies": []
+      },
+      "userData": {},
+      "maxErrorScore": 3,
+      "errorScoreDecrement": 0.5,
+      "expiresAt": "2025-11-21T18:20:09.071Z",
+      "createdAt": "2025-11-21T17:30:09.071Z",
+      "usageCount": 0,
+      "maxUsageCount": 50,
+      "errorScore": 0
+    },
+    {
+      "id": "session_XW76pBGzoh",
+      "cookieJar": {
+        "version": "tough-cookie@5.1.2",
+        "storeType": "MemoryCookieStore",
+        "rejectPublicSuffixes": true,
+        "enableLooseMode": false,
+        "allowSpecialUseDomain": true,
+        "prefixSecurity": "silent",
+        "cookies": []
+      },
+      "userData": {},
+      "maxErrorScore": 3,
+      "errorScoreDecrement": 0.5,
+      "expiresAt": "2025-11-21T18:20:09.077Z",
+      "createdAt": "2025-11-21T17:30:09.077Z",
+      "usageCount": 0,
+      "maxUsageCount": 50,
+      "errorScore": 0
+    },
+    {
+      "id": "session_a5XTocgsMh",
+      "cookieJar": {
+        "version": "tough-cookie@5.1.2",
+        "storeType": "MemoryCookieStore",
+        "rejectPublicSuffixes": true,
+        "enableLooseMode": false,
+        "allowSpecialUseDomain": true,
+        "prefixSecurity": "silent",
+        "cookies": []
+      },
+      "userData": {},
+      "maxErrorScore": 3,
+      "errorScoreDecrement": 0.5,
+      "expiresAt": "2025-11-21T18:20:09.079Z",
+      "createdAt": "2025-11-21T17:30:09.079Z",
+      "usageCount": 0,
+      "maxUsageCount": 50,
+      "errorScore": 0
+    },
+    {
+      "id": "session_C8fJXVQHjM",
+      "cookieJar": {
+        "version": "tough-cookie@5.1.2",
+        "storeType": "MemoryCookieStore",
+        "rejectPublicSuffixes": true,
+        "enableLooseMode": false,
+        "allowSpecialUseDomain": true,
+        "prefixSecurity": "silent",
+        "cookies": []
+      },
+      "userData": {},
+      "maxErrorScore": 3,
+      "errorScoreDecrement": 0.5,
+      "expiresAt": "2025-11-21T18:20:22.552Z",
+      "createdAt": "2025-11-21T17:30:22.552Z",
+      "usageCount": 0,
+      "maxUsageCount": 50,
+      "errorScore": 0
+    },
+    {
+      "id": "session_fEEDDdvmbS",
+      "cookieJar": {
+        "version": "tough-cookie@5.1.2",
+        "storeType": "MemoryCookieStore",
+        "rejectPublicSuffixes": true,
+        "enableLooseMode": false,
+        "allowSpecialUseDomain": true,
+        "prefixSecurity": "silent",
+        "cookies": []
+      },
+      "userData": {},
+      "maxErrorScore": 3,
+      "errorScoreDecrement": 0.5,
+      "expiresAt": "2025-11-21T18:20:22.553Z",
+      "createdAt": "2025-11-21T17:30:22.553Z",
       "usageCount": 0,
       "maxUsageCount": 50,
       "errorScore": 0

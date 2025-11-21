@@ -1,0 +1,9 @@
+{
+	"id": "MwTNp7qIy5vs3N7",
+	"json": "{\"id\":\"MwTNp7qIy5vs3N7\",\"url\":\"https://www.farfetch.com/shopping/women/prada-velvet-top-item-32705970.aspx?storeid=11241\",\"loadedUrl\":\"https://www.farfetch.com/shopping/women/prada-velvet-top-item-32705970.aspx?storeid=11241\",\"uniqueKey\":\"https://www.farfetch.com/shopping/women/prada-velvet-top-item-32705970.aspx?storeid=11241\",\"method\":\"GET\",\"noRetry\":false,\"retryCount\":1,\"errorMessages\":[\"page.$$eval: Target page, context or browser has been closed\\n    at PlaywrightCrawler.requestHandler (/Users/cozykev/Documents/GitHub/brand-discovery/backend/src/crawlee/farfetch.js:79:33)\\n    at async wrap (/Users/cozykev/Documents/GitHub/brand-discovery/backend/node_modules/@apify/timeout/cjs/index.cjs:54:21)\"],\"headers\":{},\"userData\":{\"label\":\"DETAIL\",\"__crawlee\":{\"crawlDepth\":1,\"enqueueStrategy\":\"same-hostname\",\"state\":5}}}",
+	"method": "GET",
+	"orderNo": 1763746231078,
+	"retryCount": 1,
+	"uniqueKey": "https://www.farfetch.com/shopping/women/prada-velvet-top-item-32705970.aspx?storeid=11241",
+	"url": "https://www.farfetch.com/shopping/women/prada-velvet-top-item-32705970.aspx?storeid=11241"
+}

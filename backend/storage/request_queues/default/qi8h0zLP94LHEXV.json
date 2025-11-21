@@ -1,0 +1,9 @@
+{
+	"id": "qi8h0zLP94LHEXV",
+	"json": "{\"id\":\"qi8h0zLP94LHEXV\",\"url\":\"https://www.farfetch.com/shopping/women/chloe-panelled-chain-shoulder-bag-item-32359128.aspx?storeid=16017\",\"loadedUrl\":\"https://www.farfetch.com/shopping/women/chloe-panelled-chain-shoulder-bag-item-32359128.aspx?storeid=16017\",\"uniqueKey\":\"https://www.farfetch.com/shopping/women/chloe-panelled-chain-shoulder-bag-item-32359128.aspx?storeid=16017\",\"method\":\"GET\",\"noRetry\":false,\"retryCount\":0,\"errorMessages\":[],\"headers\":{},\"userData\":{\"label\":\"DETAIL\",\"__crawlee\":{\"crawlDepth\":1,\"enqueueStrategy\":\"same-hostname\",\"state\":4}},\"handledAt\":\"2025-11-21T17:30:08.897Z\"}",
+	"method": "GET",
+	"orderNo": null,
+	"retryCount": 0,
+	"uniqueKey": "https://www.farfetch.com/shopping/women/chloe-panelled-chain-shoulder-bag-item-32359128.aspx?storeid=16017",
+	"url": "https://www.farfetch.com/shopping/women/chloe-panelled-chain-shoulder-bag-item-32359128.aspx?storeid=16017"
+}

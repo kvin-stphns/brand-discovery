@@ -1,29 +1,39 @@
 {
-  "requestsFinished": 4,
+  "requestsFinished": 6,
   "requestsFailed": 0,
   "requestsRetries": 0,
   "requestsFailedPerMinute": 0,
-  "requestsFinishedPerMinute": 12,
-  "requestMinDurationMillis": 5961,
-  "requestMaxDurationMillis": 11931,
+  "requestsFinishedPerMinute": 6,
+  "requestMinDurationMillis": 17524,
+  "requestMaxDurationMillis": 20843,
   "requestTotalFailedDurationMillis": 0,
-  "requestTotalFinishedDurationMillis": 29898,
-  "crawlerStartedAt": "2025-09-03T19:33:34.033Z",
-  "crawlerFinishedAt": "2025-09-03T19:33:54.454Z",
-  "statsPersistedAt": "2025-09-03T19:33:54.454Z",
-  "crawlerRuntimeMillis": 20496,
-  "crawlerLastStartTimestamp": 1756928013958,
+  "requestTotalFinishedDurationMillis": 111572,
+  "crawlerStartedAt": "2025-11-21T17:29:32.608Z",
+  "crawlerFinishedAt": "2025-11-21T17:30:31.412Z",
+  "statsPersistedAt": "2025-11-21T17:30:31.412Z",
+  "crawlerRuntimeMillis": 58985,
+  "crawlerLastStartTimestamp": 1763746172427,
   "requestRetryHistogram": [
-    4
+    6
   ],
   "statsId": 0,
   "requestAvgFailedDurationMillis": null,
-  "requestAvgFinishedDurationMillis": 7475,
-  "requestTotalDurationMillis": 29898,
-  "requestsTotal": 4,
+  "requestAvgFinishedDurationMillis": 18595,
+  "requestTotalDurationMillis": 111572,
+  "requestsTotal": 6,
   "requestsWithStatusCode": {
-    "200": 4
+    "200": 12
   },
   "errors": {},
-  "retryErrors": {}
+  "retryErrors": {
+    "/Users/cozykev/Documents/GitHub/brand-discovery/backend/src/crawlee/farfetch.js:79:33": {
+      "missing error code": {
+        "Error": {
+          "page.$$eval: Target page, context or browser has been closed": {
+            "count": 5
+          }
+        }
+      }
+    }
+  }
 }

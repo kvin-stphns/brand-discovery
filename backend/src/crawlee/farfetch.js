@@ -45,12 +45,19 @@ async function runFarfetch({ maxItems = 1000, maxPages = 100 } = {}) {
       const { label } = request
       if (label === 'LIST') {
         await page.goto(request.url, { waitUntil: 'domcontentloaded' })
+        await page.waitForLoadState('networkidle', { timeout: 10000 }).catch(() => { })
+
+        const links = await page.$$('a[href*="-item-"]')
+        const hrefs = await Promise.all(links.slice(0, 3).map(l => l.getAttribute('href')))
+        console.log(`[farfetch] found ${links.length} links. First 3:`, hrefs)
+
         // Enqueue product detail links
-        await enqueueLinks({
-          strategy: 'all',
-          globs: ['**/shopping/*/item-*.aspx', '**/shopping/*/product-*.aspx'],
+        const info = await enqueueLinks({
+          selector: 'a[href*="-item-"]',
           label: 'DETAIL',
         })
+        console.log(`[farfetch] enqueued ${info.processedRequests.length} products from list`)
+
         // Enqueue pagination
         await enqueueLinks({ strategy: 'same-domain', globs: ['**page=**'], label: 'LIST' })
         return
@@ -58,7 +65,7 @@ async function runFarfetch({ maxItems = 1000, maxPages = 100 } = {}) {
 
       // DETAIL
       await page.goto(request.url, { waitUntil: 'domcontentloaded' })
-      await page.waitForLoadState('networkidle', { timeout: 10000 }).catch(() => {})
+      await page.waitForLoadState('networkidle', { timeout: 10000 }).catch(() => { })
 
       const sourceId = extractSourceIdFromUrl(request.url)
       const base = { source: 'farfetch', sourceId, canonicalUrl: request.url }
@@ -67,17 +74,30 @@ async function runFarfetch({ maxItems = 1000, maxPages = 100 } = {}) {
       const ldRaw = await page.$$eval('script[type="application/ld+json"]', (nodes) => nodes.map((n) => n.textContent || '').join('\n')).catch(() => '')
       let extracted = fromJsonLd(ldRaw)
 
-      // DOM fallback
+      // OpenGraph / Meta fallback
       if (!extracted || !extracted.title || !extracted.images?.length) {
-        const title = (await page.$eval('h1,[data-testid="product-title"]', (el) => el.textContent?.trim()).catch(() => '')) || ''
-        const brand = (await page.$eval('a[aria-label*="Brand"], [data-testid="designer-name"], [itemprop="brand"]', (el) => el.textContent?.trim()).catch(() => '')) || ''
-        const priceText = (await page.$eval('[data-testid*="price"], [itemprop="price"], .price', (el) => el.textContent?.trim()).catch(() => '')) || ''
-        const imgs = await page.$$eval('img[src], img[srcset]', (els) => Array.from(new Set(els.map((e) => e.src || (e.srcset || '').split(' ')[0])))).catch(() => [])
+        const meta = await page.$$eval('meta', (tags) => {
+          const get = (p) => tags.find(t => t.getAttribute('property') === p || t.getAttribute('name') === p)?.getAttribute('content')
+          return {
+            title: get('og:title') || get('twitter:title'),
+            image: get('og:image') || get('twitter:image'),
+            price: get('product:price:amount'),
+            currency: get('product:price:currency'),
+            brand: get('product:brand')
+          }
+        })
+
+        // DOM fallback (Generic)
+        const domTitle = (await page.$eval('h1', (el) => el.textContent?.trim()).catch(() => '')) || ''
+        const domBrand = (await page.$eval('a[href*="/shopping/"][class*="Heading"]', (el) => el.textContent?.trim()).catch(() => '')) || ''
+        const domPrice = (await page.$eval('[data-component="Price"]', (el) => el.textContent?.trim()).catch(() => '')) || ''
+        const domImgs = await page.$$eval('img', (els) => els.map(e => e.src).filter(s => s.includes('farfetch.com') && s.length > 50))
+
         extracted = {
-          title: normalizeText(title),
-          brand: normalizeText(brand),
-          price: parsePrice(priceText),
-          images: imgs.map((u) => normalizeImageUrl(u))
+          title: normalizeText(meta.title || domTitle),
+          brand: normalizeText(meta.brand || domBrand),
+          price: meta.price ? { value: Number(meta.price), currency: meta.currency || 'USD' } : parsePrice(domPrice),
+          images: [meta.image, ...domImgs].filter(Boolean).map((u) => normalizeImageUrl(u))
         }
       }
 
