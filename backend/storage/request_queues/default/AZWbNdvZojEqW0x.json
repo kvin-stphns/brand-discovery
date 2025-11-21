@@ -1,0 +1,9 @@
+{
+	"id": "AZWbNdvZojEqW0x",
+	"json": "{\"id\":\"AZWbNdvZojEqW0x\",\"url\":\"https://www.farfetch.com/shopping/men/timex-x-mm6-gold-tone-36mm-item-32575556.aspx?storeid=13539\",\"loadedUrl\":\"https://www.farfetch.com/shopping/men/timex-x-mm6-gold-tone-36mm-item-32575556.aspx?storeid=13539\",\"uniqueKey\":\"https://www.farfetch.com/shopping/men/timex-x-mm6-gold-tone-36mm-item-32575556.aspx?storeid=13539\",\"method\":\"GET\",\"noRetry\":false,\"retryCount\":0,\"errorMessages\":[],\"headers\":{},\"userData\":{\"label\":\"DETAIL\",\"__crawlee\":{\"crawlDepth\":1,\"enqueueStrategy\":\"same-hostname\",\"state\":4}},\"handledAt\":\"2025-11-21T22:32:24.079Z\"}",
+	"method": "GET",
+	"orderNo": null,
+	"retryCount": 0,
+	"uniqueKey": "https://www.farfetch.com/shopping/men/timex-x-mm6-gold-tone-36mm-item-32575556.aspx?storeid=13539",
+	"url": "https://www.farfetch.com/shopping/men/timex-x-mm6-gold-tone-36mm-item-32575556.aspx?storeid=13539"
+}

@@ -1,6 +1,6 @@
 {
 	"id": "NFQ4Qt5mwtdPk83",
-	"json": "{\"id\":\"NFQ4Qt5mwtdPk83\",\"url\":\"https://www.farfetch.com/shopping/women/valentino-garavani-crepe-couture-skirt-with-feathers-item-31998164.aspx?storeid=12914\",\"loadedUrl\":\"https://www.farfetch.com/shopping/women/valentino-garavani-crepe-couture-skirt-with-feathers-item-31998164.aspx?storeid=12914\",\"uniqueKey\":\"https://www.farfetch.com/shopping/women/valentino-garavani-crepe-couture-skirt-with-feathers-item-31998164.aspx?storeid=12914\",\"method\":\"GET\",\"noRetry\":false,\"retryCount\":0,\"errorMessages\":[],\"headers\":{},\"userData\":{\"label\":\"DETAIL\",\"__crawlee\":{\"crawlDepth\":1,\"enqueueStrategy\":\"same-hostname\",\"state\":4}},\"handledAt\":\"2025-11-21T17:30:31.411Z\"}",
+	"json": "{\"id\":\"NFQ4Qt5mwtdPk83\",\"url\":\"https://www.farfetch.com/shopping/women/valentino-garavani-crepe-couture-skirt-with-feathers-item-31998164.aspx?storeid=12914\",\"loadedUrl\":\"https://www.farfetch.com/shopping/women/valentino-garavani-crepe-couture-skirt-with-feathers-item-31998164.aspx?storeid=12914\",\"uniqueKey\":\"https://www.farfetch.com/shopping/women/valentino-garavani-crepe-couture-skirt-with-feathers-item-31998164.aspx?storeid=12914\",\"method\":\"GET\",\"noRetry\":false,\"retryCount\":0,\"errorMessages\":[],\"headers\":{},\"userData\":{\"label\":\"DETAIL\",\"__crawlee\":{\"crawlDepth\":1,\"enqueueStrategy\":\"same-hostname\",\"state\":4}},\"handledAt\":\"2025-11-21T22:31:55.230Z\"}",
 	"method": "GET",
 	"orderNo": null,
 	"retryCount": 0,

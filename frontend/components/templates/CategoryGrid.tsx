@@ -22,7 +22,7 @@ function shuffleArray<T>(array: T[]): T[] {
   const newArray = [...array]
   for (let i = newArray.length - 1; i > 0; i--) {
     const j = Math.floor(Math.random() * (i + 1))
-    ;[newArray[i], newArray[j]] = [newArray[j], newArray[i]]
+      ;[newArray[i], newArray[j]] = [newArray[j], newArray[i]]
   }
   return newArray
 }
@@ -116,18 +116,20 @@ export default function CategoryGrid({
       <div className={`${isDiscoverPage ? 'mt-[236px]' : 'mt-[260px]'}`}>
         <div className="max-w-[2000px] mx-auto">
           <div className="grid grid-cols-2 mobile:grid-cols-2 tablet:grid-cols-3 desktop:grid-cols-4">
-            {isDiscoverPage ? (
+            {isDiscoverPage && items.length === 0 ? (
               exploreLinks.map((link, i) => {
-                const categories = ['WOMEN', 'MEN', 'GIFTS', 'EXPLORE'] as const
+                const categories = ['women', 'men'] as const
+                // If we are in a specific category context (e.g. URL has /women/), use that.
+                // Otherwise, randomize or default to explore.
+                // For Discover page, we want to mix it up, but ensure the link works.
                 const randomCategory = categories[Math.floor(Math.random() * categories.length)]
                 const href = hrefFor(link.category as any, randomCategory, link.name)
                 return (
                   <Link
                     key={i}
                     href={href}
-                    className={`group relative h-[500px] flex items-center justify-center border-r border-b border-black last:border-r-0 tablet:last:border-r ${
-                      i >= 6 ? 'tablet:hidden desktop:flex' : ''
-                    }`}
+                    className={`group relative h-[500px] flex items-center justify-center border-r border-b border-black last:border-r-0 tablet:last:border-r ${i >= 6 ? 'tablet:hidden desktop:flex' : ''
+                      }`}
                     onClick={() => Analytics.nav(link.name, href)}
                   >
                     <Image
@@ -154,9 +156,8 @@ export default function CategoryGrid({
                 <Link
                   key={item.id}
                   href={getItemHref(item, category || '')}
-                  className={`group relative h-[500px] flex items-center justify-center border-r border-b border-black last:border-r-0 tablet:last:border-r ${
-                    i >= 6 ? 'tablet:hidden desktop:flex' : ''
-                  }`}
+                  className={`group relative h-[500px] flex items-center justify-center border-r border-b border-black last:border-r-0 tablet:last:border-r ${i >= 6 ? 'tablet:hidden desktop:flex' : ''
+                    }`}
                   onClick={() => Analytics.nav(item.name, getItemHref(item, category || ''))}
                 >
                   <Image

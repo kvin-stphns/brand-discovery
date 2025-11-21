@@ -1,0 +1,9 @@
+{
+	"id": "WBdvoQxez9OH3Wm",
+	"json": "{\"id\":\"WBdvoQxez9OH3Wm\",\"url\":\"https://www.farfetch.com/shopping/men/items.aspx?page=18&view=180\",\"loadedUrl\":\"https://www.farfetch.com/shopping/men/items.aspx?page=18&view=180\",\"uniqueKey\":\"https://www.farfetch.com/shopping/men/items.aspx?page=18&view=180\",\"method\":\"GET\",\"noRetry\":false,\"retryCount\":0,\"errorMessages\":[],\"headers\":{},\"userData\":{\"label\":\"LIST\",\"__crawlee\":{\"state\":4}},\"handledAt\":\"2025-11-21T22:28:56.730Z\"}",
+	"method": "GET",
+	"orderNo": null,
+	"retryCount": 0,
+	"uniqueKey": "https://www.farfetch.com/shopping/men/items.aspx?page=18&view=180",
+	"url": "https://www.farfetch.com/shopping/men/items.aspx?page=18&view=180"
+}

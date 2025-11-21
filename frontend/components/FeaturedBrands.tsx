@@ -23,15 +23,21 @@ const FeaturedBrands = () => {
       try {
         const prods = await fetchProducts({ sort: 'new', limit: 8 } as any)
         if (!didCancel && prods && prods.length) {
-          const mapped: Item[] = prods.slice(0, 8).map((p: any, i: number) => ({
-            id: String(p._id),
-            type: 'product',
-            name: String(p.title || ''),
-            image: String(p.images?.[0] || ''),
-            category: productCategories[i % productCategories.length],
-            brand: p.brand ? String(p.brand) : undefined,
-            label: getFormattedLabel('product', 'featured', brandTypes[i % brandTypes.length], productCategories[i % productCategories.length], String(p.brand || '')),
-          }))
+          const mapped: Item[] = prods
+            .filter((p: any) => {
+              const img = p.images?.[0] || ''
+              return img && !img.includes('bat.bing.com') && !img.includes('googleadservices')
+            })
+            .slice(0, 8)
+            .map((p: any, i: number) => ({
+              id: String(p._id),
+              type: 'product',
+              name: String(p.title || ''),
+              image: String(p.images?.[0] || ''),
+              category: productCategories[i % productCategories.length],
+              brand: p.brand ? String(p.brand) : undefined,
+              label: getFormattedLabel('product', 'featured', brandTypes[i % brandTypes.length], productCategories[i % productCategories.length], String(p.brand || '')),
+            }))
           setItems(mapped)
         } else {
           // no items: keep empty so skeletons/empty state render

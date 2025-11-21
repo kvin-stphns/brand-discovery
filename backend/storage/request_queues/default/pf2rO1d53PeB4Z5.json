@@ -1,9 +1,9 @@
 {
 	"id": "pf2rO1d53PeB4Z5",
-	"json": "{\"id\":\"pf2rO1d53PeB4Z5\",\"url\":\"https://www.farfetch.com/shopping/women/our-legacy-braided-leather-belt-item-32580159.aspx?storeid=11935\",\"loadedUrl\":\"https://www.farfetch.com/shopping/women/our-legacy-braided-leather-belt-item-32580159.aspx?storeid=11935\",\"uniqueKey\":\"https://www.farfetch.com/shopping/women/our-legacy-braided-leather-belt-item-32580159.aspx?storeid=11935\",\"method\":\"GET\",\"noRetry\":false,\"retryCount\":1,\"errorMessages\":[\"page.$$eval: Target page, context or browser has been closed\\n    at PlaywrightCrawler.requestHandler (/Users/cozykev/Documents/GitHub/brand-discovery/backend/src/crawlee/farfetch.js:79:33)\\n    at async wrap (/Users/cozykev/Documents/GitHub/brand-discovery/backend/node_modules/@apify/timeout/cjs/index.cjs:54:21)\"],\"headers\":{},\"userData\":{\"label\":\"DETAIL\",\"__crawlee\":{\"crawlDepth\":1,\"enqueueStrategy\":\"same-hostname\",\"state\":4}},\"handledAt\":\"2025-11-21T18:04:09.856Z\"}",
+	"json": "{\"id\":\"pf2rO1d53PeB4Z5\",\"url\":\"https://www.farfetch.com/shopping/women/our-legacy-braided-leather-belt-item-32580159.aspx?storeid=11935\",\"loadedUrl\":\"https://www.farfetch.com/shopping/women/our-legacy-braided-leather-belt-item-32580159.aspx?storeid=11935\",\"uniqueKey\":\"https://www.farfetch.com/shopping/women/our-legacy-braided-leather-belt-item-32580159.aspx?storeid=11935\",\"method\":\"GET\",\"noRetry\":false,\"retryCount\":0,\"errorMessages\":[],\"headers\":{},\"userData\":{\"label\":\"DETAIL\",\"__crawlee\":{\"crawlDepth\":1,\"enqueueStrategy\":\"same-hostname\",\"state\":4}},\"handledAt\":\"2025-11-21T22:32:24.175Z\"}",
 	"method": "GET",
 	"orderNo": null,
-	"retryCount": 1,
+	"retryCount": 0,
 	"uniqueKey": "https://www.farfetch.com/shopping/women/our-legacy-braided-leather-belt-item-32580159.aspx?storeid=11935",
 	"url": "https://www.farfetch.com/shopping/women/our-legacy-braided-leather-belt-item-32580159.aspx?storeid=11935"
 }

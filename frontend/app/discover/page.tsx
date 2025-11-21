@@ -9,10 +9,10 @@ export default function DiscoverPage() {
   }, [])
 
   return (
-    <CategoryGrid 
+    <CategoryGrid
       items={[]}
       title="DISCOVER"
       isDiscoverPage={true}
     />
   )
-} 
+}

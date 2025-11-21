@@ -1,36 +1,65 @@
 {
-  "requestsFinished": 6,
+  "requestsFinished": 72,
   "requestsFailed": 0,
-  "requestsRetries": 0,
+  "requestsRetries": 13,
   "requestsFailedPerMinute": 0,
-  "requestsFinishedPerMinute": 6,
-  "requestMinDurationMillis": 17524,
-  "requestMaxDurationMillis": 20843,
+  "requestsFinishedPerMinute": 8,
+  "requestMinDurationMillis": 8501,
+  "requestMaxDurationMillis": 66666,
   "requestTotalFailedDurationMillis": 0,
-  "requestTotalFinishedDurationMillis": 111572,
-  "crawlerStartedAt": "2025-11-21T17:29:32.608Z",
-  "crawlerFinishedAt": "2025-11-21T17:30:31.412Z",
-  "statsPersistedAt": "2025-11-21T17:30:31.412Z",
-  "crawlerRuntimeMillis": 58985,
-  "crawlerLastStartTimestamp": 1763746172427,
+  "requestTotalFinishedDurationMillis": 2408066,
+  "crawlerStartedAt": "2025-11-21T22:25:39.981Z",
+  "crawlerFinishedAt": "2025-11-21T22:34:28.473Z",
+  "statsPersistedAt": "2025-11-21T22:34:28.473Z",
+  "crawlerRuntimeMillis": 528578,
+  "crawlerLastStartTimestamp": 1763763939895,
   "requestRetryHistogram": [
-    6
+    59,
+    11,
+    2
   ],
   "statsId": 0,
   "requestAvgFailedDurationMillis": null,
-  "requestAvgFinishedDurationMillis": 18595,
-  "requestTotalDurationMillis": 111572,
-  "requestsTotal": 6,
+  "requestAvgFinishedDurationMillis": 33445,
+  "requestTotalDurationMillis": 2408066,
+  "requestsTotal": 72,
   "requestsWithStatusCode": {
-    "200": 12
+    "200": 45,
+    "400": 36
   },
   "errors": {},
   "retryErrors": {
-    "/Users/cozykev/Documents/GitHub/brand-discovery/backend/src/crawlee/farfetch.js:79:33": {
+    "/Users/cozykev/Documents/GitHub/brand-discovery/backend/node_modules/@crawlee/browser-pool/browser-pool.js:405:19": {
       "missing error code": {
         "Error": {
-          "page.$$eval: Target page, context or browser has been closed": {
-            "count": 5
+          "browserController.newPage() failed: _": {
+            "count": 2
+          }
+        }
+      }
+    },
+    "/Users/cozykev/Documents/GitHub/brand-discovery/backend/src/crawlee/farfetch.js:53:20": {
+      "missing error code": {
+        "Error": {
+          "page.goto: _ at https://www.farfetch.com/shopping/men/items.aspx?page=14&view=180": {
+            "count": 2
+          }
+        }
+      }
+    },
+    "/Users/cozykev/Documents/GitHub/brand-discovery/backend/src/crawlee/farfetch.js:73:18": {
+      "missing error code": {
+        "TimeoutError": {
+          "page.goto: Timeout 30000ms exceeded.": {
+            "count": 3
+          }
+        },
+        "Error": {
+          "page.goto: net::ERR_CONNECTION_CLOSED at _": {
+            "count": 7
+          },
+          "page.goto: net::ERR_SOCKET_NOT_CONNECTED at https://www.farfetch.com/shopping/women/chloe-60mm-dakota-boots-item-29460741.aspx?storeid=16049": {
+            "count": 1
           }
         }
       }

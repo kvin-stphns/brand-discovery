@@ -13,6 +13,12 @@ function seedUrls() {
     'https://www.farfetch.com/shopping/men/items.aspx?view=180',
     'https://www.farfetch.com/shopping/women/items.aspx?view=180',
   ]
+  // Aggressive pagination seeding
+  for (let i = 2; i <= 20; i++) {
+    seeds.push(`https://www.farfetch.com/shopping/men/items.aspx?page=${i}&view=180`)
+    seeds.push(`https://www.farfetch.com/shopping/women/items.aspx?page=${i}&view=180`)
+  }
+
   const env = (process.env.SCRAPE_URLS_FF || process.env.SEED_LIST_URLS_FF || '')
     .split(',')
     .map((s) => s.trim())
@@ -35,7 +41,7 @@ async function runFarfetch({ maxItems = 1000, maxPages = 100 } = {}) {
 
   const crawler = new PlaywrightCrawler({
     requestQueue: queue,
-    maxRequestsPerCrawl: maxItems * 3,
+    maxRequestsPerCrawl: maxItems * 10, // Allow significantly more requests for deep pagination
     maxConcurrency: 8,
     browserPoolOptions: { useFingerprints: true },
     useSessionPool: true,
@@ -58,8 +64,8 @@ async function runFarfetch({ maxItems = 1000, maxPages = 100 } = {}) {
         })
         console.log(`[farfetch] enqueued ${info.processedRequests.length} products from list`)
 
-        // Enqueue pagination
-        await enqueueLinks({ strategy: 'same-domain', globs: ['**page=**'], label: 'LIST' })
+        // Enqueue pagination - aggressive
+        await enqueueLinks({ strategy: 'same-domain', globs: ['**page=**', '**view=**'], label: 'LIST' })
         return
       }
 

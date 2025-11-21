@@ -1,0 +1,9 @@
+{
+	"id": "1MnbTt7iP5q68zt",
+	"json": "{\"id\":\"1MnbTt7iP5q68zt\",\"url\":\"https://www.farfetch.com/shopping/men/tom-ford-suede-belt-item-32499881.aspx?storeid=16960\",\"loadedUrl\":\"https://www.farfetch.com/shopping/men/tom-ford-suede-belt-item-32499881.aspx?storeid=16960\",\"uniqueKey\":\"https://www.farfetch.com/shopping/men/tom-ford-suede-belt-item-32499881.aspx?storeid=16960\",\"method\":\"GET\",\"noRetry\":false,\"retryCount\":0,\"errorMessages\":[],\"headers\":{},\"userData\":{\"label\":\"DETAIL\",\"__crawlee\":{\"crawlDepth\":1,\"enqueueStrategy\":\"same-hostname\",\"state\":4}},\"handledAt\":\"2025-11-21T22:31:26.109Z\"}",
+	"method": "GET",
+	"orderNo": null,
+	"retryCount": 0,
+	"uniqueKey": "https://www.farfetch.com/shopping/men/tom-ford-suede-belt-item-32499881.aspx?storeid=16960",
+	"url": "https://www.farfetch.com/shopping/men/tom-ford-suede-belt-item-32499881.aspx?storeid=16960"
+}
