@@ -14,14 +14,17 @@ const { Click } = require('../models/clickModel');
  * NOTE: This is a placeholder until a real popularity score (votes/clicks) is aggregated.
  */
 router.get('/', async (req, res) => {
-  const { limit = 20 } = req.query;
+  const { limit = 20, gender } = req.query;
 
   if (mongoose.connection.readyState !== 1) {
     return res.json({ items: [] });
   }
 
+  const filter = {};
+  if (gender) filter.gender = gender;
+
   const size = Math.max(1, Math.min(100, Number(limit)));
-  const items = await Product.find({})
+  const items = await Product.find(filter)
     .sort({ createdAt: -1 })
     .limit(size)
     .lean()

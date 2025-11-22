@@ -88,13 +88,13 @@ export default function ProductPage() {
               </div>
 
               {/* Thumbnails */}
-              <div className="h-20 grid grid-cols-4 border-t border-black mt-4 -mr-8">
+              <div className="h-20 grid grid-flow-col auto-cols-max gap-0 overflow-x-auto border-t border-black mt-4 -mr-8 scrollbar-hide">
                 {images.map((img, index) => (
                   <button
                     key={index}
                     onClick={() => setSelectedImage(index)}
-                    className={`relative border-r last:border-r-0 border-black
-                      ${selectedImage === index ? 'ring-1 ring-black' : 'opacity-50 hover:opacity-100'}`}
+                    className={`relative w-20 h-full border-r border-black last:border-r-0
+                      ${selectedImage === index ? 'ring-1 ring-black z-10' : 'opacity-50 hover:opacity-100'}`}
                   >
                     <Image
                       src={img || '/placeholders/product-1.jpg'}

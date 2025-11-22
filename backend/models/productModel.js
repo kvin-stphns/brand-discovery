@@ -23,7 +23,9 @@ const ProductSchema = new mongoose.Schema(
     slug: { type: String, index: true }, // non-unique search index
 
     // Brand / designer (flat for now)
+    // Brand / designer (flat for now)
     brand: { type: String },
+    gender: { type: String, index: true }, // Men, Women, Unisex
 
     // Pricing
     price: { type: PriceSchema },

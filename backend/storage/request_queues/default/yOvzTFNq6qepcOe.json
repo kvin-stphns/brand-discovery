@@ -1,6 +1,6 @@
 {
 	"id": "yOvzTFNq6qepcOe",
-	"json": "{\"id\":\"yOvzTFNq6qepcOe\",\"url\":\"https://www.farfetch.com/shopping/men/versace-greca-gmt-41mm-item-30846169.aspx?storeid=13539\",\"loadedUrl\":\"https://www.farfetch.com/shopping/men/versace-greca-gmt-41mm-item-30846169.aspx?storeid=13539\",\"uniqueKey\":\"https://www.farfetch.com/shopping/men/versace-greca-gmt-41mm-item-30846169.aspx?storeid=13539\",\"method\":\"GET\",\"noRetry\":false,\"retryCount\":0,\"errorMessages\":[],\"headers\":{},\"userData\":{\"label\":\"DETAIL\",\"__crawlee\":{\"crawlDepth\":1,\"enqueueStrategy\":\"same-hostname\",\"state\":4}},\"handledAt\":\"2025-11-21T22:32:05.155Z\"}",
+	"json": "{\"id\":\"yOvzTFNq6qepcOe\",\"url\":\"https://www.farfetch.com/shopping/men/versace-greca-gmt-41mm-item-30846169.aspx?storeid=13539\",\"loadedUrl\":\"https://www.farfetch.com/shopping/men/versace-greca-gmt-41mm-item-30846169.aspx?storeid=13539\",\"uniqueKey\":\"https://www.farfetch.com/shopping/men/versace-greca-gmt-41mm-item-30846169.aspx?storeid=13539\",\"method\":\"GET\",\"noRetry\":false,\"retryCount\":0,\"errorMessages\":[],\"headers\":{},\"userData\":{\"label\":\"DETAIL\",\"__crawlee\":{\"crawlDepth\":1,\"enqueueStrategy\":\"same-hostname\",\"state\":4}},\"handledAt\":\"2025-11-22T00:03:35.387Z\"}",
 	"method": "GET",
 	"orderNo": null,
 	"retryCount": 0,

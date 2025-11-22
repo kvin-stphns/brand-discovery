@@ -111,6 +111,24 @@ async function runFarfetch({ maxItems = 1000, maxPages = 100 } = {}) {
         }
       }
 
+      // Filter out error pages or bad data
+      if (extracted.title.includes('429') || extracted.title.includes('Too Many Requests') || extracted.title.includes('Access Denied') || extracted.title.includes('Just a moment')) {
+        console.log(`[farfetch] Skipping error page: ${request.url}`)
+        return
+      }
+
+      // Clean up bloated titles (remove JSON-like or long metadata if detected)
+      if (extracted.title.length > 150 || extracted.title.includes('{') || extracted.title.includes('var(')) {
+        // Try to fallback to brand + "Item" if title is garbage
+        if (extracted.brand) extracted.title = `${extracted.brand} Item`
+        else extracted.title = 'Product'
+      }
+
+      // Infer gender from URL
+      let gender = 'Unisex';
+      if (request.url.includes('/men/')) gender = 'Men';
+      if (request.url.includes('/women/')) gender = 'Women';
+
       // Firecrawl rescue for missing criticals
       if ((!extracted.images?.length || !extracted.brand || !extracted.price?.value) && process.env.FIRECRAWL_API_KEY) {
         const schema = {
@@ -138,6 +156,7 @@ async function runFarfetch({ maxItems = 1000, maxPages = 100 } = {}) {
         description: extracted.description || '',
         details: extracted.details || [],
         sizes: extracted.sizes || [],
+        gender,
       }
 
       await upsertProduct(doc)

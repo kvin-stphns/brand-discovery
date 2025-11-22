@@ -15,15 +15,15 @@ function Controls({ value, onChange, showCategory }: { value: RankingsFilters; o
     <div className="flex flex-wrap items-center gap-2">
       {/* placeholder controls retained for layout; options can be made dynamic when API supports */}
       <select className="border border-black/20 px-2 py-1 text-xs" value={value.timeframe} onChange={(e) => onChange({ ...value, timeframe: e.target.value as Timeframe })}>
-        {(['24h','7d','30d','all'] as Timeframe[]).map((t) => <option key={t} value={t}>{t.toUpperCase()}</option>)}
+        {(['24h', '7d', '30d', 'all'] as Timeframe[]).map((t) => <option key={t} value={t}>{t.toUpperCase()}</option>)}
       </select>
       {showCategory && (
         <select className="border border-black/20 px-2 py-1 text-xs" value={value.category} onChange={(e) => onChange({ ...value, category: e.target.value as CategoryScope })}>
-          {(['women','men','gifts','explore'] as CategoryScope[]).map((c) => <option key={c} value={c}>{c.toUpperCase()}</option>)}
+          {(['women', 'men', 'gifts', 'explore'] as CategoryScope[]).map((c) => <option key={c} value={c}>{c.toUpperCase()}</option>)}
         </select>
       )}
       <div className="flex items-center gap-2 flex-wrap">
-        {(['mixed','brand','designer','product'] as const).map((s) => (
+        {(['mixed', 'brand', 'designer', 'product'] as const).map((s) => (
           <button key={s} className={`text-xs px-2 py-1 border ${value.sort === s ? 'bg-black text-white' : 'border-black/20'}`} onClick={() => onChange({ ...value, sort: s as any })}>
             {s.toString().toUpperCase()}
           </button>
@@ -33,7 +33,7 @@ function Controls({ value, onChange, showCategory }: { value: RankingsFilters; o
   )
 }
 
-export default function LeaderboardHub({ initialMode = 'leaderboard' as Mode, variant = 'global' as 'global' | 'category', showModeToggle = true }: { initialMode?: Mode; variant?: 'global' | 'category'; showModeToggle?: boolean }) {
+export default function LeaderboardHub({ initialMode = 'leaderboard' as Mode, variant = 'global' as 'global' | 'category', showModeToggle = true, activeCategory }: { initialMode?: Mode; variant?: 'global' | 'category'; showModeToggle?: boolean; activeCategory?: string }) {
   const [mode] = useState<Mode>(initialMode)
   const [filters] = useState<RankingsFilters>({ timeframe: '7d', category: 'women', sort: 'mixed' as any })
   const [rows, setRows] = useState<LeaderboardRow[]>([])
@@ -43,7 +43,14 @@ export default function LeaderboardHub({ initialMode = 'leaderboard' as Mode, va
 
   useEffect(() => {
     // Leaderboard base table
-    fetchRankings()
+    let genderFilter: string | undefined
+    if (activeCategory) {
+      const c = activeCategory.toLowerCase()
+      if (c === 'men') genderFilter = 'Men'
+      else if (c === 'women') genderFilter = 'Women'
+    }
+
+    fetchRankings(genderFilter)
       .then((items) => {
         const safeItems = Array.isArray(items) ? items : []
         const mapped: LeaderboardRow[] = safeItems.map((i, idx) => ({ id: String(i.id), name: String((i.name || '')).replace(/\{[^}]*\}|var\([^)]*\)/g, '').trim(), type: 'brand', rank: idx + 1, score: Number((i as any).score ?? 100 - idx), delta: 0, image: '', trend: Array.from({ length: 16 }).map((_, j) => 5 + Math.sin((idx + j) / 3)) }))
@@ -72,10 +79,10 @@ export default function LeaderboardHub({ initialMode = 'leaderboard' as Mode, va
     <div className="grid grid-cols-1 desktop:grid-cols-4 gap-8">
       <div className="desktop:col-span-3">
         <div className="flex flex-col gap-2 tablet:flex-row tablet:items-center tablet:justify-between mb-4">
-          <Controls value={filters} onChange={() => {}} showCategory={variant === 'global'} />
+          <Controls value={filters} onChange={() => { }} showCategory={variant === 'global'} />
           {showModeToggle && (
             <div className="inline-flex border border-black/40 text-xs rounded-sm overflow-x-auto max-w-full whitespace-nowrap">
-              {(['leaderboard','most-liked','most-viewed','recently-liked','map'] as Mode[]).map((m) => (
+              {(['leaderboard', 'most-liked', 'most-viewed', 'recently-liked', 'map'] as Mode[]).map((m) => (
                 <button key={m} className={`px-3 py-1 whitespace-nowrap ${m === mode ? 'bg-black text-white' : ''}`}>
                   {m.toUpperCase()}
                 </button>
@@ -102,7 +109,7 @@ export default function LeaderboardHub({ initialMode = 'leaderboard' as Mode, va
               </div>
               <div className="border border-black p-4 tablet:col-span-2">
                 <div className="text-xs mb-2 tracking-[0.15em]">INSIGHTS</div>
-                <CombinedInsightsChart series={rows.slice(0,3).map((r) => ({ name: r.name, data: r.trend }))} />
+                <CombinedInsightsChart series={rows.slice(0, 3).map((r) => ({ name: r.name, data: r.trend }))} />
               </div>
             </div>
           </>

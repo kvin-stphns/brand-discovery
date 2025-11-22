@@ -1,68 +1,30 @@
 {
-  "requestsFinished": 72,
+  "requestsFinished": 49,
   "requestsFailed": 0,
-  "requestsRetries": 13,
+  "requestsRetries": 0,
   "requestsFailedPerMinute": 0,
-  "requestsFinishedPerMinute": 8,
-  "requestMinDurationMillis": 8501,
-  "requestMaxDurationMillis": 66666,
+  "requestsFinishedPerMinute": 16,
+  "requestMinDurationMillis": 11884,
+  "requestMaxDurationMillis": 17718,
   "requestTotalFailedDurationMillis": 0,
-  "requestTotalFinishedDurationMillis": 2408066,
-  "crawlerStartedAt": "2025-11-21T22:25:39.981Z",
-  "crawlerFinishedAt": "2025-11-21T22:34:28.473Z",
-  "statsPersistedAt": "2025-11-21T22:34:28.473Z",
-  "crawlerRuntimeMillis": 528578,
-  "crawlerLastStartTimestamp": 1763763939895,
+  "requestTotalFinishedDurationMillis": 702355,
+  "crawlerStartedAt": "2025-11-22T00:00:32.308Z",
+  "crawlerFinishedAt": null,
+  "statsPersistedAt": "2025-11-22T00:03:32.344Z",
+  "crawlerRuntimeMillis": 180167,
+  "crawlerLastStartTimestamp": 1763769632177,
   "requestRetryHistogram": [
-    59,
-    11,
-    2
+    49
   ],
   "statsId": 0,
   "requestAvgFailedDurationMillis": null,
-  "requestAvgFinishedDurationMillis": 33445,
-  "requestTotalDurationMillis": 2408066,
-  "requestsTotal": 72,
+  "requestAvgFinishedDurationMillis": 14334,
+  "requestTotalDurationMillis": 702355,
+  "requestsTotal": 49,
   "requestsWithStatusCode": {
-    "200": 45,
-    "400": 36
+    "200": 17,
+    "400": 38
   },
   "errors": {},
-  "retryErrors": {
-    "/Users/cozykev/Documents/GitHub/brand-discovery/backend/node_modules/@crawlee/browser-pool/browser-pool.js:405:19": {
-      "missing error code": {
-        "Error": {
-          "browserController.newPage() failed: _": {
-            "count": 2
-          }
-        }
-      }
-    },
-    "/Users/cozykev/Documents/GitHub/brand-discovery/backend/src/crawlee/farfetch.js:53:20": {
-      "missing error code": {
-        "Error": {
-          "page.goto: _ at https://www.farfetch.com/shopping/men/items.aspx?page=14&view=180": {
-            "count": 2
-          }
-        }
-      }
-    },
-    "/Users/cozykev/Documents/GitHub/brand-discovery/backend/src/crawlee/farfetch.js:73:18": {
-      "missing error code": {
-        "TimeoutError": {
-          "page.goto: Timeout 30000ms exceeded.": {
-            "count": 3
-          }
-        },
-        "Error": {
-          "page.goto: net::ERR_CONNECTION_CLOSED at _": {
-            "count": 7
-          },
-          "page.goto: net::ERR_SOCKET_NOT_CONNECTED at https://www.farfetch.com/shopping/women/chloe-60mm-dakota-boots-item-29460741.aspx?storeid=16049": {
-            "count": 1
-          }
-        }
-      }
-    }
-  }
+  "retryErrors": {}
 }

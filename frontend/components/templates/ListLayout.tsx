@@ -17,9 +17,10 @@ interface ListLayoutProps {
   category: string
   section: string
   subsection: string
+  children?: React.ReactNode
 }
 
-const ListLayout = ({ title, items, category, section, subsection }: ListLayoutProps) => {
+const ListLayout = ({ title, items, category, section, subsection, children }: ListLayoutProps) => {
   const [activeItem, setActiveItem] = useState(items[0])
   const [selectedItem, setSelectedItem] = useState<string | null>(null)
   const listContainerRef = useRef<HTMLDivElement>(null)
@@ -48,23 +49,23 @@ const ListLayout = ({ title, items, category, section, subsection }: ListLayoutP
       </div>
 
       {/* Main Content Container with Full-Height Border */}
-      <div className="flex flex-1 relative">
+      <div className="flex flex-1 relative border-b border-black">
         <div className="absolute top-0 left-[35%] w-px h-full bg-black" />
-        
+
         {/* List Section */}
         <div className="w-[35%]">
-          <div 
+          <div
             ref={listContainerRef}
             className="pt-[260px] overflow-y-auto"
             style={{ height: 'calc(100vh)' }}
           >
-            <div className="divide-y divide-black">
+            <div className="divide-y divide-black border-b border-black">
               {items.map((item) => (
-                <button 
+                <button
                   key={item.id}
                   onClick={() => handleItemClick(item)}
                   className={`w-full group py-6 px-8 flex justify-between items-center text-left hover:bg-black/5 transition-colors
-                    ${activeItem.id === item.id ? 'bg-black/5' : ''}`}
+                    ${activeItem?.id === item.id ? 'bg-black/5' : ''}`}
                 >
                   <div className="flex-1">
                     <h3 className="text-sm tracking-[0.25em]">{item.name}</h3>
@@ -75,24 +76,33 @@ const ListLayout = ({ title, items, category, section, subsection }: ListLayoutP
                 </button>
               ))}
             </div>
+            {children}
           </div>
         </div>
 
         {/* Preview Section */}
         <div className="w-[65%] pt-[260px] border-l border-black">
           <div className="h-[calc(100vh-260px)] relative">
-            <Image 
-              src={activeItem.image}
-              alt={activeItem.name}
-              fill
-              className="object-cover"
-            />
-            <Link
-              href={activeItem.href}
-              className="absolute bottom-8 left-8 bg-white px-6 py-3 text-sm tracking-[0.15em] hover:bg-black hover:text-white transition-colors"
-            >
-              VIEW DETAILS
-            </Link>
+            {activeItem ? (
+              <Image
+                src={activeItem.image}
+                alt={activeItem.name}
+                fill
+                className="object-cover"
+              />
+            ) : (
+              <div className="w-full h-full bg-gray-100 flex items-center justify-center text-sm tracking-widest text-gray-400">
+                SELECT AN ITEM
+              </div>
+            )}
+            {activeItem && (
+              <Link
+                href={activeItem.href}
+                className="absolute bottom-8 left-8 bg-white px-6 py-3 text-sm tracking-[0.15em] hover:bg-black hover:text-white transition-colors"
+              >
+                VIEW DETAILS
+              </Link>
+            )}
           </div>
         </div>
       </div>

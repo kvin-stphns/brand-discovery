@@ -1,8 +1,8 @@
 {
 	"id": "LPwlmD4iyOcLcob",
-	"json": "{\"id\":\"LPwlmD4iyOcLcob\",\"url\":\"https://www.farfetch.com/shopping/women/versace-55mm-medusa-leather-pumps-item-32660199.aspx?storeid=17277\",\"loadedUrl\":\"https://www.farfetch.com/shopping/women/versace-55mm-medusa-leather-pumps-item-32660199.aspx?storeid=17277\",\"uniqueKey\":\"https://www.farfetch.com/shopping/women/versace-55mm-medusa-leather-pumps-item-32660199.aspx?storeid=17277\",\"method\":\"GET\",\"noRetry\":false,\"retryCount\":0,\"errorMessages\":[],\"headers\":{},\"userData\":{\"label\":\"DETAIL\",\"__crawlee\":{\"crawlDepth\":1,\"enqueueStrategy\":\"same-hostname\",\"state\":4}},\"handledAt\":\"2025-11-21T22:32:16.586Z\"}",
+	"json": "{\"id\":\"LPwlmD4iyOcLcob\",\"url\":\"https://www.farfetch.com/shopping/women/versace-55mm-medusa-leather-pumps-item-32660199.aspx?storeid=17277\",\"uniqueKey\":\"https://www.farfetch.com/shopping/women/versace-55mm-medusa-leather-pumps-item-32660199.aspx?storeid=17277\",\"method\":\"GET\",\"noRetry\":false,\"retryCount\":0,\"errorMessages\":[],\"headers\":{},\"userData\":{\"label\":\"DETAIL\",\"__crawlee\":{\"crawlDepth\":1,\"enqueueStrategy\":\"same-hostname\"}}}",
 	"method": "GET",
-	"orderNo": null,
+	"orderNo": 1763769969736,
 	"retryCount": 0,
 	"uniqueKey": "https://www.farfetch.com/shopping/women/versace-55mm-medusa-leather-pumps-item-32660199.aspx?storeid=17277",
 	"url": "https://www.farfetch.com/shopping/women/versace-55mm-medusa-leather-pumps-item-32660199.aspx?storeid=17277"

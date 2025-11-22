@@ -26,8 +26,10 @@ export async function fetchBrands(): Promise<BrandDTO[]> {
   return json.items as BrandDTO[]
 }
 
-export async function fetchRankings(): Promise<RankingItem[]> {
-  const res = await get('/api/rankings')
+export async function fetchRankings(gender?: string): Promise<RankingItem[]> {
+  const params = new URLSearchParams()
+  if (gender) params.set('gender', gender)
+  const res = await get(`/api/rankings?${params.toString()}`)
   if (!res.ok) return []
   const json = await res.json()
   return json.items as RankingItem[]
@@ -75,7 +77,7 @@ export type ProductDTO = {
   price?: ProductPrice
   canonicalUrl?: string
 }
-export type ProductFilters = { brandId?: string; designerId?: string; source?: string; q?: string; sort?: string; page?: number; limit?: number }
+export type ProductFilters = { brandId?: string; designerId?: string; source?: string; q?: string; sort?: string; page?: number; limit?: number; gender?: string; category?: string }
 
 function applyForceSource(params: URLSearchParams) {
   if (FORCE_SOURCE) {

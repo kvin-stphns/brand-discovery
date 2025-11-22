@@ -29,17 +29,29 @@ router.get(
       designerId: Joi.string().length(24).hex().optional(),
       q: Joi.string().optional(),
       source: Joi.string().optional(),
+      gender: Joi.string().valid('Men', 'Women', 'Unisex').optional(),
+      category: Joi.string().optional(), // Comma-separated or single
       sort: Joi.string().valid('new', 'priceAsc', 'priceDesc', 'popular').default('new'),
       page: Joi.number().integer().min(1).default(1),
       limit: Joi.number().integer().min(1).max(100).default(20),
     }),
   }),
   async (req, res) => {
-    const { brandId, designerId, q, source, sort, page = 1, limit = 20 } = req.query;
+    const { brandId, designerId, q, source, gender, category, sort, page = 1, limit = 20 } = req.query;
 
     const filter = {};
     if (brandId) filter.brandId = brandId;
     if (designerId) filter.designerId = designerId;
+    if (gender) filter.gender = gender;
+
+    if (category) {
+      const cats = String(category).split(',').map(c => c.trim()).filter(Boolean);
+      if (cats.length > 0) {
+        // Simple regex match for now, or exact match if your data is clean
+        // Using $in for exact matches in the array
+        filter.category = { $in: cats.map(c => new RegExp(c, 'i')) };
+      }
+    }
 
     if (q) filter.$or = [{ title: { $regex: q, $options: 'i' } }, { brand: { $regex: q, $options: 'i' } }]
 

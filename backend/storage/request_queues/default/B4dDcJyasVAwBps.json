@@ -1,8 +1,8 @@
 {
 	"id": "B4dDcJyasVAwBps",
-	"json": "{\"id\":\"B4dDcJyasVAwBps\",\"url\":\"https://www.farfetch.com/shopping/women/ami-paris-ami-de-coeur-knitted-cardigan-item-32527177.aspx?storeid=9846\",\"loadedUrl\":\"https://www.farfetch.com/shopping/women/ami-paris-ami-de-coeur-knitted-cardigan-item-32527177.aspx?storeid=9846\",\"uniqueKey\":\"https://www.farfetch.com/shopping/women/ami-paris-ami-de-coeur-knitted-cardigan-item-32527177.aspx?storeid=9846\",\"method\":\"GET\",\"noRetry\":false,\"retryCount\":0,\"errorMessages\":[],\"headers\":{},\"userData\":{\"label\":\"DETAIL\",\"__crawlee\":{\"crawlDepth\":1,\"enqueueStrategy\":\"same-hostname\",\"state\":4}},\"handledAt\":\"2025-11-21T22:34:26.187Z\"}",
+	"json": "{\"id\":\"B4dDcJyasVAwBps\",\"url\":\"https://www.farfetch.com/shopping/women/ami-paris-ami-de-coeur-knitted-cardigan-item-32527177.aspx?storeid=9846\",\"uniqueKey\":\"https://www.farfetch.com/shopping/women/ami-paris-ami-de-coeur-knitted-cardigan-item-32527177.aspx?storeid=9846\",\"method\":\"GET\",\"noRetry\":false,\"retryCount\":0,\"errorMessages\":[],\"headers\":{},\"userData\":{\"label\":\"DETAIL\",\"__crawlee\":{\"crawlDepth\":1,\"enqueueStrategy\":\"same-hostname\"}}}",
 	"method": "GET",
-	"orderNo": null,
+	"orderNo": 1763769969736,
 	"retryCount": 0,
 	"uniqueKey": "https://www.farfetch.com/shopping/women/ami-paris-ami-de-coeur-knitted-cardigan-item-32527177.aspx?storeid=9846",
 	"url": "https://www.farfetch.com/shopping/women/ami-paris-ami-de-coeur-knitted-cardigan-item-32527177.aspx?storeid=9846"

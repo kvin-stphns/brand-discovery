@@ -1,6 +1,6 @@
 {
 	"id": "3z2RhHTbZrmLu6T",
-	"json": "{\"id\":\"3z2RhHTbZrmLu6T\",\"url\":\"https://www.farfetch.com/shopping/men/items.aspx?page=15&view=180\",\"loadedUrl\":\"https://www.farfetch.com/shopping/men/items.aspx?page=15&view=180\",\"uniqueKey\":\"https://www.farfetch.com/shopping/men/items.aspx?page=15&view=180\",\"method\":\"GET\",\"noRetry\":false,\"retryCount\":0,\"errorMessages\":[],\"headers\":{},\"userData\":{\"label\":\"LIST\",\"__crawlee\":{\"state\":4}},\"handledAt\":\"2025-11-21T22:28:56.674Z\"}",
+	"json": "{\"id\":\"3z2RhHTbZrmLu6T\",\"url\":\"https://www.farfetch.com/shopping/men/items.aspx?page=15&view=180\",\"loadedUrl\":\"https://www.farfetch.com/shopping/men/items.aspx?page=15&view=180\",\"uniqueKey\":\"https://www.farfetch.com/shopping/men/items.aspx?page=15&view=180\",\"method\":\"GET\",\"noRetry\":false,\"retryCount\":0,\"errorMessages\":[],\"headers\":{},\"userData\":{\"label\":\"LIST\",\"__crawlee\":{\"state\":4}},\"handledAt\":\"2025-11-22T00:02:22.370Z\"}",
 	"method": "GET",
 	"orderNo": null,
 	"retryCount": 0,

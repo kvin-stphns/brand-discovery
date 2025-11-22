@@ -13,7 +13,7 @@ export default function CategoryRankingsPage() {
         <div className="border-t border-black" />
       </div>
       <div className="mt-8">
-        <LeaderboardHub initialMode="leaderboard" variant="category" />
+        <LeaderboardHub initialMode="leaderboard" variant="category" activeCategory={category} />
       </div>
     </div>
   )

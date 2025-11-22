@@ -1,9 +1,9 @@
 {
 	"id": "0FKmVV8N8eHoQKj",
-	"json": "{\"id\":\"0FKmVV8N8eHoQKj\",\"url\":\"https://www.farfetch.com/shopping/men/items.aspx?page=2&view=180\",\"loadedUrl\":\"https://www.farfetch.com/shopping/men/items.aspx?page=2&view=180\",\"uniqueKey\":\"https://www.farfetch.com/shopping/men/items.aspx?page=2&view=180\",\"method\":\"GET\",\"noRetry\":false,\"retryCount\":1,\"errorMessages\":[\"Error: browserController.newPage() failed: 9t-FSGG3-6hljttHMZlJS\\nCause:browserController.newPage() timed out..\\n    at BrowserPool._createPageForBrowser (/Users/cozykev/Documents/GitHub/brand-discovery/backend/node_modules/@crawlee/browser-pool/browser-pool.js:405:19)\\n    at runNextTicks (node:internal/process/task_queues:60:5)\\n    at process.processTimers (node:internal/timers:516:9)\\n    at async /Users/cozykev/Documents/GitHub/brand-discovery/backend/node_modules/@crawlee/browser-pool/browser-pool.js:295:20\"],\"headers\":{},\"userData\":{\"label\":\"LIST\",\"__crawlee\":{\"state\":4}},\"handledAt\":\"2025-11-21T22:28:11.739Z\"}",
+	"json": "{\"id\":\"0FKmVV8N8eHoQKj\",\"url\":\"https://www.farfetch.com/shopping/men/items.aspx?page=2&view=180\",\"loadedUrl\":\"https://www.farfetch.com/shopping/men/items.aspx?page=2&view=180\",\"uniqueKey\":\"https://www.farfetch.com/shopping/men/items.aspx?page=2&view=180\",\"method\":\"GET\",\"noRetry\":false,\"retryCount\":0,\"errorMessages\":[],\"headers\":{},\"userData\":{\"label\":\"LIST\",\"__crawlee\":{\"state\":4}},\"handledAt\":\"2025-11-22T00:01:03.713Z\"}",
 	"method": "GET",
 	"orderNo": null,
-	"retryCount": 1,
+	"retryCount": 0,
 	"uniqueKey": "https://www.farfetch.com/shopping/men/items.aspx?page=2&view=180",
 	"url": "https://www.farfetch.com/shopping/men/items.aspx?page=2&view=180"
 }
