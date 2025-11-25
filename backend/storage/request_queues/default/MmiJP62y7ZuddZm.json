@@ -1,9 +1,0 @@
-{
-	"id": "MmiJP62y7ZuddZm",
-	"json": "{\"id\":\"MmiJP62y7ZuddZm\",\"url\":\"https://www.farfetch.com/shopping/men/polo-ralph-lauren-patterned-mock-neck-sweater-item-32543411.aspx?storeid=17400\",\"loadedUrl\":\"https://www.farfetch.com/shopping/men/polo-ralph-lauren-patterned-mock-neck-sweater-item-32543411.aspx?storeid=17400\",\"uniqueKey\":\"https://www.farfetch.com/shopping/men/polo-ralph-lauren-patterned-mock-neck-sweater-item-32543411.aspx?storeid=17400\",\"method\":\"GET\",\"noRetry\":false,\"retryCount\":0,\"errorMessages\":[],\"headers\":{},\"userData\":{\"label\":\"DETAIL\",\"__crawlee\":{\"crawlDepth\":1,\"enqueueStrategy\":\"same-hostname\",\"state\":4}},\"handledAt\":\"2025-11-22T00:02:59.626Z\"}",
-	"method": "GET",
-	"orderNo": null,
-	"retryCount": 0,
-	"uniqueKey": "https://www.farfetch.com/shopping/men/polo-ralph-lauren-patterned-mock-neck-sweater-item-32543411.aspx?storeid=17400",
-	"url": "https://www.farfetch.com/shopping/men/polo-ralph-lauren-patterned-mock-neck-sweater-item-32543411.aspx?storeid=17400"
-}

@@ -1,9 +1,0 @@
-{
-	"id": "iSC3KmjqHvdwmg2",
-	"json": "{\"id\":\"iSC3KmjqHvdwmg2\",\"url\":\"https://www.farfetch.com/shopping/women/rabanne-button-dotted-cardigan-item-32465627.aspx?storeid=13205\",\"uniqueKey\":\"https://www.farfetch.com/shopping/women/rabanne-button-dotted-cardigan-item-32465627.aspx?storeid=13205\",\"method\":\"GET\",\"noRetry\":false,\"retryCount\":0,\"errorMessages\":[],\"headers\":{},\"userData\":{\"label\":\"DETAIL\",\"__crawlee\":{\"crawlDepth\":1,\"enqueueStrategy\":\"same-hostname\"}}}",
-	"method": "GET",
-	"orderNo": 1763769969736,
-	"retryCount": 0,
-	"uniqueKey": "https://www.farfetch.com/shopping/women/rabanne-button-dotted-cardigan-item-32465627.aspx?storeid=13205",
-	"url": "https://www.farfetch.com/shopping/women/rabanne-button-dotted-cardigan-item-32465627.aspx?storeid=13205"
-}

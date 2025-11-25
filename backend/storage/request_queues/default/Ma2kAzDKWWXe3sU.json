@@ -1,0 +1,9 @@
+{
+	"id": "Ma2kAzDKWWXe3sU",
+	"json": "{\"id\":\"Ma2kAzDKWWXe3sU\",\"url\":\"https://www.ssense.com/en-us/men/all\",\"loadedUrl\":\"https://www.ssense.com/en-us/men/all\",\"uniqueKey\":\"https://www.ssense.com/en-us/men/all\",\"method\":\"GET\",\"noRetry\":false,\"retryCount\":0,\"errorMessages\":[],\"headers\":{},\"userData\":{\"label\":\"LIST\",\"__crawlee\":{\"state\":4}},\"handledAt\":\"2025-11-22T17:18:07.689Z\"}",
+	"method": "GET",
+	"orderNo": null,
+	"retryCount": 0,
+	"uniqueKey": "https://www.ssense.com/en-us/men/all",
+	"url": "https://www.ssense.com/en-us/men/all"
+}

@@ -7,8 +7,10 @@ async function checkCount() {
         await mongoose.connect(process.env.MONGODB_URI);
         const count = await Product.countDocuments();
         console.log(`Total Products: ${count}`);
-        const sample = await Product.findOne({ source: 'farfetch' }).sort({ createdAt: -1 }).select('title brand source');
-        console.log('Latest Farfetch Sample:', sample);
+        const ffSample = await Product.findOne({ source: 'farfetch' }).sort({ createdAt: -1 }).select('title brand source');
+        console.log('Latest Farfetch Sample:', ffSample);
+        const ssSample = await Product.findOne({ source: 'ssense' }).sort({ createdAt: -1 }).select('title brand source');
+        console.log('Latest SSENSE Sample:', ssSample);
         process.exit(0);
     } catch (err) {
         console.error(err);

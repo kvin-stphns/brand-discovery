@@ -1,9 +1,0 @@
-{
-	"id": "gjM3O41eK2nNR0y",
-	"json": "{\"id\":\"gjM3O41eK2nNR0y\",\"url\":\"https://www.farfetch.com/shopping/men/diesel-2001-d-macro-jeans-item-29780908.aspx?storeid=12405\",\"loadedUrl\":\"https://www.farfetch.com/shopping/men/diesel-2001-d-macro-jeans-item-29780908.aspx?storeid=12405\",\"uniqueKey\":\"https://www.farfetch.com/shopping/men/diesel-2001-d-macro-jeans-item-29780908.aspx?storeid=12405\",\"method\":\"GET\",\"noRetry\":false,\"retryCount\":0,\"errorMessages\":[],\"headers\":{},\"userData\":{\"label\":\"DETAIL\",\"__crawlee\":{\"crawlDepth\":1,\"enqueueStrategy\":\"same-hostname\",\"state\":4}},\"handledAt\":\"2025-11-22T00:02:53.486Z\"}",
-	"method": "GET",
-	"orderNo": null,
-	"retryCount": 0,
-	"uniqueKey": "https://www.farfetch.com/shopping/men/diesel-2001-d-macro-jeans-item-29780908.aspx?storeid=12405",
-	"url": "https://www.farfetch.com/shopping/men/diesel-2001-d-macro-jeans-item-29780908.aspx?storeid=12405"
-}

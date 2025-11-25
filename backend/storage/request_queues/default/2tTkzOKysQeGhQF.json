@@ -1,9 +1,0 @@
-{
-	"id": "2tTkzOKysQeGhQF",
-	"json": "{\"id\":\"2tTkzOKysQeGhQF\",\"url\":\"https://www.farfetch.com/shopping/women/diesel-logo-embossed-tote-bag-item-31777696.aspx?storeid=9446\",\"uniqueKey\":\"https://www.farfetch.com/shopping/women/diesel-logo-embossed-tote-bag-item-31777696.aspx?storeid=9446\",\"method\":\"GET\",\"noRetry\":false,\"retryCount\":0,\"errorMessages\":[],\"headers\":{},\"userData\":{\"label\":\"DETAIL\",\"__crawlee\":{\"crawlDepth\":1,\"enqueueStrategy\":\"same-hostname\"}}}",
-	"method": "GET",
-	"orderNo": 1763769969736,
-	"retryCount": 0,
-	"uniqueKey": "https://www.farfetch.com/shopping/women/diesel-logo-embossed-tote-bag-item-31777696.aspx?storeid=9446",
-	"url": "https://www.farfetch.com/shopping/women/diesel-logo-embossed-tote-bag-item-31777696.aspx?storeid=9446"
-}

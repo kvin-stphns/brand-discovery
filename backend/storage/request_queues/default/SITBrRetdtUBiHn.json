@@ -1,9 +1,0 @@
-{
-	"id": "SITBrRetdtUBiHn",
-	"json": "{\"id\":\"SITBrRetdtUBiHn\",\"url\":\"https://www.farfetch.com/shopping/women/ganni-rabbit-graphic-sweater-item-32269802.aspx?storeid=13537\",\"uniqueKey\":\"https://www.farfetch.com/shopping/women/ganni-rabbit-graphic-sweater-item-32269802.aspx?storeid=13537\",\"method\":\"GET\",\"noRetry\":false,\"retryCount\":0,\"errorMessages\":[],\"headers\":{},\"userData\":{\"label\":\"DETAIL\",\"__crawlee\":{\"crawlDepth\":1,\"enqueueStrategy\":\"same-hostname\"}}}",
-	"method": "GET",
-	"orderNo": 1763769969736,
-	"retryCount": 0,
-	"uniqueKey": "https://www.farfetch.com/shopping/women/ganni-rabbit-graphic-sweater-item-32269802.aspx?storeid=13537",
-	"url": "https://www.farfetch.com/shopping/women/ganni-rabbit-graphic-sweater-item-32269802.aspx?storeid=13537"
-}

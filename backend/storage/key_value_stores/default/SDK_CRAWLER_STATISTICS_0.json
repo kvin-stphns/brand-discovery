@@ -1,30 +1,42 @@
 {
-  "requestsFinished": 49,
+  "requestsFinished": 3,
   "requestsFailed": 0,
-  "requestsRetries": 0,
+  "requestsRetries": 1,
   "requestsFailedPerMinute": 0,
-  "requestsFinishedPerMinute": 16,
-  "requestMinDurationMillis": 11884,
-  "requestMaxDurationMillis": 17718,
+  "requestsFinishedPerMinute": 5,
+  "requestMinDurationMillis": 14342,
+  "requestMaxDurationMillis": 18308,
   "requestTotalFailedDurationMillis": 0,
-  "requestTotalFinishedDurationMillis": 702355,
-  "crawlerStartedAt": "2025-11-22T00:00:32.308Z",
-  "crawlerFinishedAt": null,
-  "statsPersistedAt": "2025-11-22T00:03:32.344Z",
-  "crawlerRuntimeMillis": 180167,
-  "crawlerLastStartTimestamp": 1763769632177,
+  "requestTotalFinishedDurationMillis": 47080,
+  "crawlerStartedAt": "2025-11-22T17:17:53.320Z",
+  "crawlerFinishedAt": "2025-11-22T17:18:26.487Z",
+  "statsPersistedAt": "2025-11-22T17:18:26.487Z",
+  "crawlerRuntimeMillis": 33238,
+  "crawlerLastStartTimestamp": 1763831873249,
   "requestRetryHistogram": [
-    49
+    2,
+    1
   ],
   "statsId": 0,
   "requestAvgFailedDurationMillis": null,
-  "requestAvgFinishedDurationMillis": 14334,
-  "requestTotalDurationMillis": 702355,
-  "requestsTotal": 49,
+  "requestAvgFinishedDurationMillis": 15693,
+  "requestTotalDurationMillis": 47080,
+  "requestsTotal": 3,
   "requestsWithStatusCode": {
-    "200": 17,
-    "400": 38
+    "200": 1,
+    "403": 1,
+    "404": 2
   },
   "errors": {},
-  "retryErrors": {}
+  "retryErrors": {
+    "/Users/cozykev/Documents/GitHub/brand-discovery/backend/node_modules/@crawlee/basic/internals/basic-crawler.js:855:19": {
+      "missing error code": {
+        "Error": {
+          "Request blocked - received 403 status code.": {
+            "count": 1
+          }
+        }
+      }
+    }
+  }
 }

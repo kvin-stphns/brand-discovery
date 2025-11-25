@@ -1,9 +1,0 @@
-{
-	"id": "3AZXSlGeHA94RGn",
-	"json": "{\"id\":\"3AZXSlGeHA94RGn\",\"url\":\"https://www.farfetch.com/shopping/men/off-white-logo-sneakers-item-32376814.aspx?storeid=9339\",\"loadedUrl\":\"https://www.farfetch.com/shopping/men/off-white-logo-sneakers-item-32376814.aspx?storeid=9339\",\"uniqueKey\":\"https://www.farfetch.com/shopping/men/off-white-logo-sneakers-item-32376814.aspx?storeid=9339\",\"method\":\"GET\",\"noRetry\":false,\"retryCount\":0,\"errorMessages\":[],\"headers\":{},\"userData\":{\"label\":\"DETAIL\",\"__crawlee\":{\"crawlDepth\":1,\"enqueueStrategy\":\"same-hostname\",\"state\":4}},\"handledAt\":\"2025-11-22T00:02:59.166Z\"}",
-	"method": "GET",
-	"orderNo": null,
-	"retryCount": 0,
-	"uniqueKey": "https://www.farfetch.com/shopping/men/off-white-logo-sneakers-item-32376814.aspx?storeid=9339",
-	"url": "https://www.farfetch.com/shopping/men/off-white-logo-sneakers-item-32376814.aspx?storeid=9339"
-}

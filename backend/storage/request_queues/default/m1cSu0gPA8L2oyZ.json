@@ -1,9 +1,0 @@
-{
-	"id": "m1cSu0gPA8L2oyZ",
-	"json": "{\"id\":\"m1cSu0gPA8L2oyZ\",\"url\":\"https://www.farfetch.com/shopping/men/missoni-wave-pattern-crew-neck-sweater-item-30888737.aspx?storeid=14682\",\"loadedUrl\":\"https://www.farfetch.com/shopping/men/missoni-wave-pattern-crew-neck-sweater-item-30888737.aspx?storeid=14682\",\"uniqueKey\":\"https://www.farfetch.com/shopping/men/missoni-wave-pattern-crew-neck-sweater-item-30888737.aspx?storeid=14682\",\"method\":\"GET\",\"noRetry\":false,\"retryCount\":0,\"errorMessages\":[],\"headers\":{},\"userData\":{\"label\":\"DETAIL\",\"__crawlee\":{\"crawlDepth\":1,\"enqueueStrategy\":\"same-hostname\",\"state\":4}},\"handledAt\":\"2025-11-22T00:02:53.955Z\"}",
-	"method": "GET",
-	"orderNo": null,
-	"retryCount": 0,
-	"uniqueKey": "https://www.farfetch.com/shopping/men/missoni-wave-pattern-crew-neck-sweater-item-30888737.aspx?storeid=14682",
-	"url": "https://www.farfetch.com/shopping/men/missoni-wave-pattern-crew-neck-sweater-item-30888737.aspx?storeid=14682"
-}

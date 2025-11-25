@@ -58,9 +58,9 @@ async function parseListing(listingUrl, browser) {
   await page.route('**/*', (route) => {
     const type = route.request().resourceType();
     if (type === 'image' || type === 'font' || type === 'media' || type === 'stylesheet') {
-      return route.abort().catch(() => {});
+      return route.abort().catch(() => { });
     }
-    return route.continue().catch(() => {});
+    return route.continue().catch(() => { });
   });
 
   const productLinks = new Set();
@@ -68,7 +68,7 @@ async function parseListing(listingUrl, browser) {
   try {
     await page.goto(listingUrl, { waitUntil: 'domcontentloaded', timeout: 45000 });
     // Give the client-side React a moment
-    await page.waitForLoadState('networkidle', { timeout: 15000 }).catch(() => {});
+    await page.waitForLoadState('networkidle', { timeout: 15000 }).catch(() => { });
 
     let pagesSeen = 0;
     while (pagesSeen < (Number(process.env.SCRAPE_MAX_PAGES) || 40)) {
@@ -93,8 +93,8 @@ async function parseListing(listingUrl, browser) {
 
       if (hasNext) {
         await Promise.all([
-          page.click(nextSel).catch(() => {}),
-          page.waitForLoadState('domcontentloaded', { timeout: 15000 }).catch(() => {}),
+          page.click(nextSel).catch(() => { }),
+          page.waitForLoadState('domcontentloaded', { timeout: 15000 }).catch(() => { }),
         ]);
         pagesSeen += 1;
         await delay(350 + Math.random() * 450);
@@ -105,7 +105,7 @@ async function parseListing(listingUrl, browser) {
       const before = productLinks.size;
       await page.evaluate(() => window.scrollTo(0, document.body.scrollHeight));
       await page.waitForTimeout(900);
-      await page.waitForLoadState('networkidle', { timeout: 10000 }).catch(() => {});
+      await page.waitForLoadState('networkidle', { timeout: 10000 }).catch(() => { });
 
       const afterLinks = await page.$$eval(
         selectorCandidates.join(','),
@@ -149,118 +149,102 @@ async function parseProduct(productUrl, browser) {
   };
 
   try {
-    await page.goto(productUrl, { waitUntil: 'domcontentloaded', timeout: 45000 });
-    await page.waitForLoadState('networkidle', { timeout: 15000 }).catch(() => {});
+    await page.goto(productUrl, { waitUntil: 'domcontentloaded', timeout: 60000 });
+    await delay(1000 + Math.random() * 2000); // Human delay
 
-    // Name / brand
-    const nameSel = ['h1', 'h2', '[data-testid="pdp-title"]', '[itemprop="name"]'].join(',');
-    data.name = (await page.$eval(nameSel, (el) => el.textContent?.trim()).catch(() => '')) || data.name;
+    // --- Brand & Name ---
+    data.brand = (await page.$eval('[data-testid="pdp-brand"], [id="pdpBrandNameText"]', el => el.textContent?.trim()).catch(() => '')) || '';
+    data.name = (await page.$eval('[data-testid="pdp-title"], [id="pdpProductNameText"]', el => el.textContent?.trim()).catch(() => '')) || '';
 
-    const brandSel = [
-      '[itemprop="brand"]',
-      'a[data-testid="brand-link"]',
-      'a[href*="/men/designers/"]',
-      'a[href*="/women/designers/"]',
-      'a[aria-label*="Designer"]',
-    ].join(',');
-    data.brand = (await page.$eval(brandSel, (el) => el.textContent?.trim()).catch(() => '')) || data.brand;
-
-    // Price (regular/sale)
-    const priceText = (await page.$eval(
-      [
-        '[data-testid="price-regular"]',
-        '[data-testid="price-sale"]',
-        '[itemprop="price"]',
-        '[data-testid="current-price"]',
-        '[class*="Price"]',
-      ].join(','),
-      (el) => el.textContent?.trim()
-    ).catch(() => '')) || '';
-
-    const origText = (await page.$eval(
-      ['[data-testid="original-price"]', '[data-testid="was-price"]', '[class*="WasPrice"]'].join(','),
-      (el) => el.textContent?.trim()
-    ).catch(() => '')) || '';
-
-    const priceMatch = priceText.match(/([\$€£])?\s?(\d[\d.,]*)/);
-    const origMatch = origText.match(/([\$€£])?\s?(\d[\d.,]*)/);
-    const currFrom = (sym) => ({ '$': 'USD', '€': 'EUR', '£': 'GBP' }[sym || '$'] || 'USD');
-
-    data.price.value = priceMatch ? Number(priceMatch[2].replace(/[,.](?=\d{3}\b)/g, '').replace(',', '.')) : undefined;
-    data.price.currency = priceMatch ? currFrom(priceMatch[1]) : 'USD';
-    data.price.originalValue = origMatch ? Number(origMatch[2].replace(/[,.](?=\d{3}\b)/g, '').replace(',', '.')) : undefined;
-
-    // Images (gallery)
-    const imgUrls = await page.$$eval(
-      'img[src], img[srcset]',
-      (imgs) =>
-        Array.from(
-          new Set(
-            imgs
-              .map((img) => img.src || (img.srcset || '').split(' ')[0])
-              .filter((u) => /^https?:\/\//i.test(u))
-          )
-        )
-    ).catch(() => []);
-    data.media = imgUrls;
-
-    // Description
-    const descSel = [
-      '[data-testid="product-description"]',
-      '[itemprop="description"]',
-      'section[aria-label*="Description"]',
-      '[class*="Description"]',
-    ].join(',');
-    data.description = (await page.$eval(descSel, (el) => el.textContent?.trim()).catch(() => '')) || '';
-
-    // Details/specs
-    data.details = (await page.$$eval(
-      'ul[role="list"] li, [data-testid="product-details"] li, .ProductDetails__List li, [class*="Details"] li',
-      (lis) => lis.map((li) => li.textContent?.trim()).filter(Boolean)
-    ).catch(() => [])) || [];
-
-    // Sizes with availability
-    data.sizes = (await page.$$eval(
-      [
-        '[data-testid="size-selector"] button',
-        '[aria-label*="Size"] button',
-        'button[data-size]',
-        '[data-testid="SizeButton"]',
-        'button[aria-pressed][class*="Size"]',
-      ].join(','),
-      (btns) =>
-        btns
-          .map((b) => ({
-            label: b.textContent?.trim(),
-            available: !b.getAttribute('disabled') && b.getAttribute('aria-pressed') !== 'false',
-          }))
-          .filter((s) => s.label)
-    ).catch(() => [])) || [];
-
-    // Shipping/returns (best-effort)
-    const shipSel = [
-      '[data-testid="shipping-info"]',
-      '[data-testid="returns-info"]',
-      '[aria-label*="Shipping"]',
-      '[aria-label*="Return"]',
-      '[class*="Shipping"]',
-      '[class*="Returns"]',
-    ].join(',');
-    data.shipping = (await page.$eval(shipSel, (el) => el.textContent?.trim()).catch(() => '')) || '';
-
-    // Category/gender (breadcrumbs or URL)
-    const breadcrumb = await page.$$eval(
-      'nav[aria-label="breadcrumb"] a, [data-testid="breadcrumbs"] a, nav[aria-label*="Breadcrumbs"] a',
-      (as) => as.map((a) => a.textContent?.trim()).filter(Boolean)
-    ).catch(() => []);
-    if (breadcrumb?.length) {
-      data.category = breadcrumb.slice(-1)[0];
-      if (/women/i.test(breadcrumb.join(' '))) data.gender = 'women';
-      if (/men/i.test(breadcrumb.join(' '))) data.gender = 'men';
-    } else {
-      if (/women/i.test(productUrl)) data.gender = 'women';
-      if (/men/i.test(productUrl)) data.gender = 'men';
+    // Fallback
+    if (!data.brand) {
+      data.brand = (await page.$eval('h1 a', el => el.textContent?.trim()).catch(() => '')) || '';
     }
+    if (!data.name) {
+      data.name = (await page.$eval('h1', el => el.textContent?.trim()).catch(() => '')) || '';
+      // Strip brand if present
+      if (data.brand && data.name.toLowerCase().startsWith(data.brand.toLowerCase())) {
+        data.name = data.name.slice(data.brand.length).trim();
+      }
+    }
+
+    // --- Price ---
+    const regularPrice = (await page.$eval('[data-testid="price-regular"]', el => el.textContent?.trim()).catch(() => '')) || '';
+    const salePrice = (await page.$eval('[data-testid="price-sale"]', el => el.textContent?.trim()).catch(() => '')) || '';
+
+    // Fallback for older DOM
+    const currentPrice = (await page.$eval('[data-testid="current-price"]', el => el.textContent?.trim()).catch(() => '')) || '';
+
+    const extractPrice = (str) => {
+      const m = str.match(/([$€£])?\s?([\d,.]+)/);
+      if (!m) return null;
+      return {
+        currency: ({ '$': 'USD', '€': 'EUR', '£': 'GBP' }[m[1] || '$'] || 'USD'),
+        value: Number(m[2].replace(/[,.](?=\d{3}\b)/g, '').replace(',', '.'))
+      };
+    };
+
+    const pReg = extractPrice(regularPrice);
+    const pSale = extractPrice(salePrice);
+    const pCurr = extractPrice(currentPrice);
+
+    if (pSale && pReg) {
+      data.price.value = pSale.value;
+      data.price.currency = pSale.currency;
+      data.price.originalValue = pReg.value;
+    } else if (pReg) {
+      data.price.value = pReg.value;
+      data.price.currency = pReg.currency;
+    } else if (pCurr) {
+      data.price.value = pCurr.value;
+      data.price.currency = pCurr.currency;
+    }
+
+    // --- Images ---
+    // SSENSE gallery usually has high-res images
+    const galleryImages = await page.$$eval(
+      '[data-testid="pdp-gallery"] img, .image-container img',
+      imgs => imgs.map(img => img.src || img.srcset?.split(' ')[0]).filter(src => src && !src.includes('placeholder'))
+    ).catch(() => []);
+
+    if (galleryImages.length > 0) {
+      data.media = Array.from(new Set(galleryImages));
+    } else {
+      // Fallback
+      const allImages = await page.$$eval('img', imgs =>
+        imgs
+          .filter(img => img.naturalWidth > 400)
+          .map(img => img.src)
+      );
+      data.media = Array.from(new Set(allImages));
+    }
+
+    // --- Description & Details ---
+    data.description = (await page.$eval('[data-testid="product-description"]', el => el.textContent?.trim()).catch(() => '')) || '';
+
+    data.details = await page.$$eval(
+      '[data-testid="product-details"] li',
+      lis => lis.map(li => li.textContent?.trim()).filter(Boolean)
+    ).catch(() => []);
+
+    // --- Sizes ---
+    data.sizes = await page.$$eval(
+      '[data-testid="size-selector"] option, [data-testid="size-selector"] li',
+      els => els.map(el => ({
+        label: el.textContent?.trim(),
+        available: !el.disabled && !el.getAttribute('aria-disabled')
+      })).filter(s => s.label && s.label !== 'Select size')
+    ).catch(() => []);
+
+    // --- Category/Gender ---
+    if (productUrl.includes('/men/')) data.gender = 'men';
+    else if (productUrl.includes('/women/')) data.gender = 'women';
+
+    const breadcrumbs = await page.$$eval('[data-testid="breadcrumbs"] a', as => as.map(a => a.textContent?.trim()));
+    if (breadcrumbs.length > 0) {
+      data.category = breadcrumbs[breadcrumbs.length - 1];
+    }
+
   } catch (e) {
     console.warn('[ssense:product] failed', productUrl, e.message);
   } finally {
@@ -348,7 +332,10 @@ async function scrapeSsense({
             };
             await upsertProduct(record);
             success++;
-            await delay(250 + Math.random() * 300);
+            await upsertProduct(record);
+            success++;
+            // Robust delay: 2-5 seconds
+            await delay(2000 + Math.random() * 3000);
           } catch (e) {
             console.warn('[ssense] product scrape failed', link, e.message);
             await delay(400 + Math.random() * 400);

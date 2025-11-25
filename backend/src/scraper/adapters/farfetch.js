@@ -64,8 +64,8 @@ async function parseListing(listingUrl, browser) {
 
       if (hasNext) {
         await Promise.all([
-          page.click(nextSel).catch(() => {}),
-          page.waitForLoadState('domcontentloaded', { timeout: 15000 }).catch(() => {}),
+          page.click(nextSel).catch(() => { }),
+          page.waitForLoadState('domcontentloaded', { timeout: 15000 }).catch(() => { }),
         ]);
         pagesSeen += 1;
         await delay(300 + Math.random() * 400);
@@ -105,7 +105,7 @@ async function parseListing(listingUrl, browser) {
 async function parseProduct(productUrl, browser) {
   const ctx = await browser.newContext({
     userAgent:
-      'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124 Safari/537.36',
+      'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
   });
   const page = await ctx.newPage();
 
@@ -127,112 +127,107 @@ async function parseProduct(productUrl, browser) {
   };
 
   try {
-    await page.goto(productUrl, { waitUntil: 'domcontentloaded', timeout: 45000 });
+    await page.goto(productUrl, { waitUntil: 'domcontentloaded', timeout: 60000 });
+    // Small random delay to mimic human behavior
+    await delay(1000 + Math.random() * 2000);
 
-    // Name / brand / price
-    data.name =
-      (await page.$eval('h1, h2', (el) => el.textContent?.trim()).catch(() => '')) || data.name;
+    // --- Brand & Name ---
+    // Farfetch often puts Brand in a specific element and Description (Name) in another
+    data.brand = (await page.$eval('[data-testid="brand-name"], [data-tstid="brandName"]', el => el.textContent?.trim()).catch(() => '')) || '';
 
-    data.brand =
-      (await page
-        .$eval('[data-qa="product-brand"], [data-testid="brand-name"], ._e0afba', (el) =>
-          el.textContent?.trim()
-        )
-        .catch(() => '')) || data.brand;
+    // The "short description" is usually the clean product name (e.g. "Logo T-Shirt")
+    data.name = (await page.$eval('[data-testid="product-short-description"], [data-tstid="cardShortDescription"]', el => el.textContent?.trim()).catch(() => '')) || '';
 
-    const priceText =
-      (await page
-        .$eval('[data-qa="price"], [itemprop="price"], [data-testid="price"]', (el) =>
-          el.textContent?.trim()
-        )
-        .catch(() => '')) || '';
-
-    const origText =
-      (await page
-        .$eval('[data-testid="original-price"], [data-qa="was-price"]', (el) => el.textContent?.trim())
-        .catch(() => '')) || '';
-
-    const priceMatch = priceText.match(/([\$€£])?\s?(\d[\d.,]*)/);
-    const origMatch = origText.match(/([\$€£])?\s?(\d[\d.,]*)/);
-    const currFrom = (sym) => ({ '$': 'USD', '€': 'EUR', '£': 'GBP' }[sym || '$'] || 'USD');
-
-    data.price.value = priceMatch ? Number(priceMatch[2].replace(/[,.](?=\d{3}\b)/g, '').replace(',', '.')) : undefined;
-    data.price.currency = priceMatch ? currFrom(priceMatch[1]) : 'USD';
-    data.price.originalValue = origMatch
-      ? Number(origMatch[2].replace(/[,.](?=\d{3}\b)/g, '').replace(',', '.'))
-      : undefined;
-
-    // Images (primary + gallery)
-    const imgUrls = await page
-      .$$eval(
-        'img[src], img[srcset]',
-        (imgs) =>
-          Array.from(
-            new Set(
-              imgs
-                .map((img) => img.src || (img.srcset || '').split(' ')[0])
-                .filter((u) => /^https?:\/\//i.test(u))
-            )
-          )
-      )
-      .catch(() => []);
-    data.media = imgUrls;
-
-    // Description & details
-    data.description =
-      (await page
-        .$eval(
-          '[data-qa="product-description"], [data-testid="product-description"], section[aria-label*="Description"]',
-          (el) => el.textContent?.trim()
-        )
-        .catch(() => '')) || '';
-
-    const details = await page
-      .$$eval(
-        'ul[role="list"] li, .product-details li, [data-testid="product-details"] li',
-        (lis) => lis.map((li) => li.textContent?.trim()).filter(Boolean)
-      )
-      .catch(() => []);
-    data.details = details;
-
-    // Sizes
-    const sizes = await page
-      .$$eval(
-        '[data-testid="size-selector"] button, [aria-label*="Size"] button, button[data-size]',
-        (btns) =>
-          btns
-            .map((b) => ({
-              label: b.textContent?.trim(),
-              available: !b.getAttribute('disabled'),
-            }))
-            .filter((s) => s.label)
-      )
-      .catch(() => []);
-    data.sizes = sizes;
-
-    // Shipping/returns (best-effort)
-    data.shipping =
-      (await page
-        .$eval(
-          '[data-testid="shipping-info"], [data-qa="shipping"], [aria-label*="Shipping"]',
-          (el) => el.textContent?.trim()
-        )
-        .catch(() => '')) || '';
-
-    // Category / gender (best-effort via breadcrumbs or URL)
-    const breadcrumb = await page
-      .$$eval('nav[aria-label="breadcrumb"] a, [data-testid="breadcrumbs"] a', (as) =>
-        as.map((a) => a.textContent?.trim()).filter(Boolean)
-      )
-      .catch(() => []);
-    if (breadcrumb?.length) {
-      data.category = breadcrumb.slice(-1)[0];
-      if (/women/i.test(breadcrumb.join(' '))) data.gender = 'women';
-      if (/men/i.test(breadcrumb.join(' '))) data.gender = 'men';
-    } else {
-      if (/women/i.test(productUrl)) data.gender = 'women';
-      if (/men/i.test(productUrl)) data.gender = 'men';
+    // Fallback if specific selectors fail
+    if (!data.brand) {
+      data.brand = (await page.$eval('h1 a, [data-component="BrandName"]', el => el.textContent?.trim()).catch(() => '')) || '';
     }
+    if (!data.name) {
+      data.name = (await page.$eval('h1, h2', el => el.textContent?.trim()).catch(() => '')) || '';
+      // If name includes brand, strip it (basic heuristic)
+      if (data.brand && data.name.toLowerCase().startsWith(data.brand.toLowerCase())) {
+        data.name = data.name.slice(data.brand.length).trim();
+      }
+    }
+
+    // --- Price ---
+    // Look for the "final" price and "original" price
+    const priceText = (await page.$eval('[data-testid="price"], [data-tstid="priceInfo-original"]', el => el.textContent?.trim()).catch(() => '')) || '';
+    const saleText = (await page.$eval('[data-testid="sale-price"]', el => el.textContent?.trim()).catch(() => '')) || '';
+
+    // If there's a sale price, that's the current value. The "price" element might be the original.
+    // Farfetch DOM varies. Sometimes "price" is the current price.
+    // Strategy: Grab all price-like strings and sort them.
+
+    const extractPrice = (str) => {
+      const m = str.match(/([$€£])?\s?([\d,.]+)/);
+      if (!m) return null;
+      return {
+        currency: ({ '$': 'USD', '€': 'EUR', '£': 'GBP' }[m[1] || '$'] || 'USD'),
+        value: Number(m[2].replace(/[,.](?=\d{3}\b)/g, '').replace(',', '.'))
+      };
+    };
+
+    const p1 = extractPrice(saleText);
+    const p2 = extractPrice(priceText);
+
+    if (p1 && p2) {
+      // Sale exists
+      data.price.value = p1.value;
+      data.price.currency = p1.currency;
+      data.price.originalValue = p2.value;
+    } else if (p2) {
+      // Only one price found
+      data.price.value = p2.value;
+      data.price.currency = p2.currency;
+    }
+
+    // --- Images ---
+    // Get all images in the gallery container to avoid footer/recommendation images
+    const galleryImages = await page.$$eval(
+      '[data-testid="product-gallery"] img, [data-testid="gallery-image"]',
+      imgs => imgs.map(img => img.src || img.srcset?.split(' ')[0]).filter(src => src && !src.includes('placeholder') && !src.includes('blank'))
+    ).catch(() => []);
+
+    // Fallback to all large images if gallery selector fails
+    if (galleryImages.length === 0) {
+      const allImages = await page.$$eval('img', imgs =>
+        imgs
+          .filter(img => img.naturalWidth > 400 || (img.width > 400)) // Filter for decent size
+          .map(img => img.src)
+      );
+      data.media = Array.from(new Set(allImages));
+    } else {
+      data.media = Array.from(new Set(galleryImages));
+    }
+
+    // --- Description & Details ---
+    data.description = (await page.$eval('[data-testid="product-description"]', el => el.textContent?.trim()).catch(() => '')) || '';
+
+    data.details = await page.$$eval(
+      '[data-testid="product-attributes"] li, [data-testid="product-composition"] li',
+      lis => lis.map(li => li.textContent?.trim()).filter(Boolean)
+    ).catch(() => []);
+
+    // --- Sizes ---
+    data.sizes = await page.$$eval(
+      '[data-testid="size-selector"] div[role="button"]', // Farfetch often uses divs for sizes
+      btns => btns.map(b => ({
+        label: b.textContent?.trim(),
+        available: !b.getAttribute('aria-disabled')
+      })).filter(s => s.label)
+    ).catch(() => []);
+
+    // --- Category/Gender ---
+    // Infer from URL or Breadcrumbs
+    if (productUrl.includes('/men/')) data.gender = 'men';
+    else if (productUrl.includes('/women/')) data.gender = 'women';
+
+    const breadcrumbs = await page.$$eval('[data-testid="breadcrumb"] a', as => as.map(a => a.textContent?.trim()));
+    if (breadcrumbs.length > 0) {
+      data.category = breadcrumbs[breadcrumbs.length - 1]; // Last breadcrumb is usually category
+    }
+
   } catch (e) {
     console.warn('[farfetch:product] failed', productUrl, e.message);
   } finally {
@@ -305,7 +300,10 @@ async function scrapeFarfetch({
             };
             await upsertProduct(record);
             success++;
-            await delay(250 + Math.random() * 300);
+            await upsertProduct(record);
+            success++;
+            // Robust delay: 2-5 seconds to avoid 429
+            await delay(2000 + Math.random() * 3000);
           } catch (e) {
             console.warn('[farfetch] product scrape failed', link, e.message);
             await delay(400 + Math.random() * 400);

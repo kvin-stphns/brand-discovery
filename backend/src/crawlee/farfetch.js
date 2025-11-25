@@ -3,6 +3,8 @@ const { PlaywrightCrawler, RequestQueue, log } = require('crawlee')
 const { chromium } = require('playwright')
 const { upsertProduct, fromJsonLd, parsePrice, normalizeImageUrl, pickLargestFromSrcSet, firecrawlExtract, normalizeText } = require('./common')
 
+function delay(ms) { return new Promise((r) => setTimeout(r, ms)); }
+
 function extractSourceIdFromUrl(url) {
   const m = String(url).match(/(?:item|product)[-\/](\d{6,})/i) || String(url).match(/[?&](?:cod|id)=(\d{6,})/i)
   return m ? m[1] : String(url)
@@ -71,6 +73,8 @@ async function runFarfetch({ maxItems = 1000, maxPages = 100 } = {}) {
 
       // DETAIL
       await page.goto(request.url, { waitUntil: 'domcontentloaded' })
+      // Robust delay to avoid 429
+      await delay(2000 + Math.random() * 3000)
       await page.waitForLoadState('networkidle', { timeout: 10000 }).catch(() => { })
 
       const sourceId = extractSourceIdFromUrl(request.url)
@@ -80,34 +84,61 @@ async function runFarfetch({ maxItems = 1000, maxPages = 100 } = {}) {
       const ldRaw = await page.$$eval('script[type="application/ld+json"]', (nodes) => nodes.map((n) => n.textContent || '').join('\n')).catch(() => '')
       let extracted = fromJsonLd(ldRaw)
 
-      // OpenGraph / Meta fallback
-      if (!extracted || !extracted.title || !extracted.images?.length) {
-        const meta = await page.$$eval('meta', (tags) => {
-          const get = (p) => tags.find(t => t.getAttribute('property') === p || t.getAttribute('name') === p)?.getAttribute('content')
-          return {
-            title: get('og:title') || get('twitter:title'),
-            image: get('og:image') || get('twitter:image'),
-            price: get('product:price:amount'),
-            currency: get('product:price:currency'),
-            brand: get('product:brand')
-          }
-        })
+      // Robust DOM Parsing (Primary Strategy now due to JSON-LD issues)
+      const domBrand = (await page.$eval('[data-testid="brand-name"], [data-tstid="brandName"], [data-component="BrandName"]', el => el.textContent?.trim()).catch(() => '')) ||
+        (await page.$eval('h1 a', el => el.textContent?.trim()).catch(() => '')) || '';
 
-        // DOM fallback (Generic)
-        const domTitle = (await page.$eval('h1', (el) => el.textContent?.trim()).catch(() => '')) || ''
-        const domBrand = (await page.$eval('a[href*="/shopping/"][class*="Heading"]', (el) => el.textContent?.trim()).catch(() => '')) || ''
-        const domPrice = (await page.$eval('[data-component="Price"]', (el) => el.textContent?.trim()).catch(() => '')) || ''
-        const domImgs = await page.$$eval('img', (els) => els.map(e => e.src).filter(s => s.includes('farfetch.com') && s.length > 50))
+      let domName = (await page.$eval('[data-testid="product-short-description"], [data-tstid="cardShortDescription"]', el => el.textContent?.trim()).catch(() => '')) ||
+        (await page.$eval('h1, h2', el => el.textContent?.trim()).catch(() => '')) || '';
 
-        const normalizedImages = [meta.image, ...domImgs]
-          .map((u) => normalizeImageUrl(u))
-          .filter(Boolean)
+      // Clean Title Logic: Remove Brand from Name if present
+      if (domBrand && domName.toLowerCase().startsWith(domBrand.toLowerCase())) {
+        domName = domName.slice(domBrand.length).trim();
+      }
 
+      // Price Parsing
+      const priceText = (await page.$eval('[data-testid="price"], [data-tstid="priceInfo-original"]', el => el.textContent?.trim()).catch(() => '')) || '';
+      const saleText = (await page.$eval('[data-testid="sale-price"]', el => el.textContent?.trim()).catch(() => '')) || '';
+
+      let finalPrice = { value: undefined, currency: 'USD' };
+      const extractPrice = (str) => {
+        const m = str.match(/([$€£])?\s?([\d,.]+)/);
+        if (!m) return null;
+        return {
+          currency: ({ '$': 'USD', '€': 'EUR', '£': 'GBP' }[m[1] || '$'] || 'USD'),
+          value: Number(m[2].replace(/[,.](?=\d{3}\b)/g, '').replace(',', '.'))
+        };
+      };
+      const pSale = extractPrice(saleText);
+      const pReg = extractPrice(priceText);
+
+      if (pSale) finalPrice = pSale;
+      else if (pReg) finalPrice = pReg;
+
+      // Image Parsing (Gallery)
+      const galleryImages = await page.$$eval(
+        '[data-testid="product-gallery"] img, [data-testid="gallery-image"]',
+        imgs => imgs.map(img => img.src || img.srcset?.split(' ')[0]).filter(src => src && !src.includes('placeholder') && !src.includes('blank'))
+      ).catch(() => []);
+
+      let domImgs = galleryImages;
+      if (domImgs.length === 0) {
+        domImgs = await page.$$eval('img', (els) => els.map(e => e.src).filter(s => s.includes('farfetch.com') && s.length > 50 && (e.naturalWidth > 400 || e.width > 400)));
+      }
+      domImgs = Array.from(new Set(domImgs));
+
+      // Merge with JSON-LD if available, but prefer DOM for clean titles
+      if (!extracted || !extracted.title || extracted.title.length > 100) {
         extracted = {
-          title: normalizeText(meta.title || domTitle),
-          brand: normalizeText(meta.brand || domBrand),
-          price: meta.price ? { value: Number(meta.price), currency: meta.currency || 'USD' } : parsePrice(domPrice),
-          images: normalizedImages
+          title: normalizeText(domName || extracted?.title),
+          brand: normalizeText(domBrand || extracted?.brand),
+          price: finalPrice.value ? finalPrice : (extracted?.price || { value: undefined, currency: 'USD' }),
+          images: domImgs.length > 0 ? domImgs.map(normalizeImageUrl) : (extracted?.images || [])
+        }
+      } else {
+        // If JSON-LD is good, just ensure we have the gallery images
+        if (domImgs.length > extracted.images?.length) {
+          extracted.images = domImgs.map(normalizeImageUrl);
         }
       }
 
@@ -157,6 +188,16 @@ async function runFarfetch({ maxItems = 1000, maxPages = 100 } = {}) {
         details: extracted.details || [],
         sizes: extracted.sizes || [],
         gender,
+      }
+
+      // Final Title Cleaning (Strict)
+      if (doc.title) {
+        doc.title = doc.title.replace(/\|\s*FARFETCH/i, '').replace(/\|\s*Farfetch/i, '').trim();
+        if (doc.brand && doc.title.toLowerCase().startsWith(doc.brand.toLowerCase())) {
+          doc.title = doc.title.slice(doc.brand.length).trim();
+        }
+        // Remove leading " - " or " | " if left over
+        doc.title = doc.title.replace(/^[-|]\s+/, '');
       }
 
       await upsertProduct(doc)

@@ -1,9 +1,0 @@
-{
-	"id": "72QW2tTdgvoMqAS",
-	"json": "{\"id\":\"72QW2tTdgvoMqAS\",\"url\":\"https://www.farfetch.com/shopping/men/cp-company-ribbed-logo-patch-beanie-item-31788745.aspx?storeid=12033\",\"loadedUrl\":\"https://www.farfetch.com/shopping/men/cp-company-ribbed-logo-patch-beanie-item-31788745.aspx?storeid=12033\",\"uniqueKey\":\"https://www.farfetch.com/shopping/men/cp-company-ribbed-logo-patch-beanie-item-31788745.aspx?storeid=12033\",\"method\":\"GET\",\"noRetry\":false,\"retryCount\":0,\"errorMessages\":[],\"headers\":{},\"userData\":{\"label\":\"DETAIL\",\"__crawlee\":{\"crawlDepth\":1,\"enqueueStrategy\":\"same-hostname\",\"state\":4}},\"handledAt\":\"2025-11-22T00:02:52.345Z\"}",
-	"method": "GET",
-	"orderNo": null,
-	"retryCount": 0,
-	"uniqueKey": "https://www.farfetch.com/shopping/men/cp-company-ribbed-logo-patch-beanie-item-31788745.aspx?storeid=12033",
-	"url": "https://www.farfetch.com/shopping/men/cp-company-ribbed-logo-patch-beanie-item-31788745.aspx?storeid=12033"
-}

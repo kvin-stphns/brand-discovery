@@ -1,9 +1,0 @@
-{
-	"id": "BHOcrpj8X0uxMgb",
-	"json": "{\"id\":\"BHOcrpj8X0uxMgb\",\"url\":\"https://www.farfetch.com/shopping/women/items.aspx?page=16&view=180\",\"loadedUrl\":\"https://www.farfetch.com/shopping/women/items.aspx?page=16&view=180\",\"uniqueKey\":\"https://www.farfetch.com/shopping/women/items.aspx?page=16&view=180\",\"method\":\"GET\",\"noRetry\":false,\"retryCount\":0,\"errorMessages\":[],\"headers\":{},\"userData\":{\"label\":\"LIST\",\"__crawlee\":{\"state\":4}},\"handledAt\":\"2025-11-22T00:02:23.704Z\"}",
-	"method": "GET",
-	"orderNo": null,
-	"retryCount": 0,
-	"uniqueKey": "https://www.farfetch.com/shopping/women/items.aspx?page=16&view=180",
-	"url": "https://www.farfetch.com/shopping/women/items.aspx?page=16&view=180"
-}

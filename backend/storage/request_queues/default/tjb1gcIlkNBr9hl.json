@@ -1,9 +1,0 @@
-{
-	"id": "tjb1gcIlkNBr9hl",
-	"json": "{\"id\":\"tjb1gcIlkNBr9hl\",\"url\":\"https://www.farfetch.com/shopping/men/nicholas-daley-side-pockets-cargo-pants-item-32871903.aspx?storeid=9058\",\"loadedUrl\":\"https://www.farfetch.com/shopping/men/nicholas-daley-side-pockets-cargo-pants-item-32871903.aspx?storeid=9058\",\"uniqueKey\":\"https://www.farfetch.com/shopping/men/nicholas-daley-side-pockets-cargo-pants-item-32871903.aspx?storeid=9058\",\"method\":\"GET\",\"noRetry\":false,\"retryCount\":0,\"errorMessages\":[],\"headers\":{},\"userData\":{\"label\":\"DETAIL\",\"__crawlee\":{\"crawlDepth\":1,\"enqueueStrategy\":\"same-hostname\",\"state\":4}},\"handledAt\":\"2025-11-22T00:03:08.769Z\"}",
-	"method": "GET",
-	"orderNo": null,
-	"retryCount": 0,
-	"uniqueKey": "https://www.farfetch.com/shopping/men/nicholas-daley-side-pockets-cargo-pants-item-32871903.aspx?storeid=9058",
-	"url": "https://www.farfetch.com/shopping/men/nicholas-daley-side-pockets-cargo-pants-item-32871903.aspx?storeid=9058"
-}

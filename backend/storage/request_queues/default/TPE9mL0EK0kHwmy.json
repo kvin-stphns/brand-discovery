@@ -1,9 +1,0 @@
-{
-	"id": "TPE9mL0EK0kHwmy",
-	"json": "{\"id\":\"TPE9mL0EK0kHwmy\",\"url\":\"https://www.farfetch.com/shopping/women/chloe-60mm-dakota-boots-item-29460741.aspx?storeid=16049\",\"uniqueKey\":\"https://www.farfetch.com/shopping/women/chloe-60mm-dakota-boots-item-29460741.aspx?storeid=16049\",\"method\":\"GET\",\"noRetry\":false,\"retryCount\":0,\"errorMessages\":[],\"headers\":{},\"userData\":{\"label\":\"DETAIL\",\"__crawlee\":{\"crawlDepth\":1,\"enqueueStrategy\":\"same-hostname\"}}}",
-	"method": "GET",
-	"orderNo": 1763769969736,
-	"retryCount": 0,
-	"uniqueKey": "https://www.farfetch.com/shopping/women/chloe-60mm-dakota-boots-item-29460741.aspx?storeid=16049",
-	"url": "https://www.farfetch.com/shopping/women/chloe-60mm-dakota-boots-item-29460741.aspx?storeid=16049"
-}
