@@ -49,8 +49,10 @@ async function run() {
   );
   ops.push(await ensureIndex(coll, { slug: 1 }, { unique: false }));
   ops.push(await ensureIndex(coll, { brand: 1 }));
+  ops.push(await ensureIndex(coll, { category: 1 }));
   ops.push(await ensureIndex(coll, { createdAt: -1 }));
   ops.push(await ensureIndex(coll, { 'price.value': 1 }));
+  ops.push(await ensureIndex(coll, { 'dataQuality.score': -1 }));
 
   console.log(JSON.stringify({ ok: true, ops }));
   await disconnectFromDatabase();

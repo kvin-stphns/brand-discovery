@@ -1,374 +1,137 @@
+# Architecture
+
+## Frontend
+
+Path: `frontend/`
+
+Stack:
+
+- Next.js app router.
+- React client components for data-heavy pages.
+- Tailwind CSS and existing global visual identity.
+- Zustand persisted cart store.
+- API helpers in `frontend/lib/api/client.ts`.
+
+Important route areas:
+
+- `frontend/app/page.tsx`: home page.
+- `frontend/app/featured/page.tsx`: featured feed.
+- `frontend/app/popular/page.tsx`: popular feed.
+- `frontend/app/explore/page.tsx`: mixed explore feed with ranking module.
+- `frontend/app/discover/page.tsx`: discovery hub.
+- `frontend/app/(shop)/product/[id]/page.tsx`: product detail.
+- `frontend/app/rankings/page.tsx`: global rankings.
+- `frontend/app/[category]/rankings/*`: category ranking variants.
+- `frontend/app/discover/map/page.tsx`: location map view.
+
+Important components:
+
+- `frontend/components/templates/CategoryGrid.tsx`: main product/brand/designer grid presentation.
+- `frontend/components/FeaturedBrands.tsx`: home featured section.
+- `frontend/components/PopularBrands.tsx`: home popular section.
+- `frontend/components/rankings/LeaderboardHub.tsx`: rankings dashboard module.
+- `frontend/components/ui/CartDrawer.tsx`: cart drawer.
+- `frontend/components/layout/*`: nav/mega menu/mobile menu. Do not casually alter.
+
+## Backend
+
+Path: `backend/`
+
+Stack:
+
+- Node/Express.
+- MongoDB with Mongoose.
+- Jest + Supertest.
+- Crawlee/Playwright for prototype scraping only.
+
+Entry points:
+
+- `backend/server.js`: starts Express and database connection.
+- `backend/src/app.js`: Express app factory and route mount.
+- `backend/routes/index.js`: top-level API route composition.
+- `backend/utils/db.js`: Mongo connection and in-memory Mongo support for tests.
+
+## Mongo Models
+
+Existing:
+
+- `Product`: normalized product catalog record.
+- `Brand`: brand profile.
+- `Designer`: designer profile.
+- `Click`: affiliate/click analytics.
+- `Vote`: web2/web3 vote record.
+- `User`: MVP auth user.
+
+Feed-ready additions:
+
+- `Retailer`: retailer/boutique source profile.
+- `FeedSource`: feed/API/manual source configuration.
+- `FeedImportLog`: import run status, counts, warnings, errors.
+
+## API Route Map
+
+- `GET /api`: API heartbeat.
+- `GET /healthz`: backend health.
+- `GET /api/search`: cross-entity search.
+- `POST /api/auth/login`: email-only MVP auth.
+- `GET /api/auth/me`: authenticated user.
+- `GET /api/user/me`: user profile alias.
+- `GET /api/user/me/saved`: saved items placeholder.
+- `GET /api/user/me/liked`: liked items placeholder.
+- `GET /api/brands`: list brands.
+- `GET /api/brands/:id`: brand detail.
+- `POST /api/brands`: admin brand create.
+- `PATCH /api/brands/:id`: admin brand update.
+- `GET /api/designers`: list designers.
+- `GET /api/designers/:id`: designer detail.
+- `POST /api/designers`: admin designer create.
+- `PATCH /api/designers/:id`: admin designer update.
+- `GET /api/products`: product list.
+- `GET /api/products/:id`: product detail.
+- `POST /api/votes`: create vote.
+- `GET /api/votes/summary`: vote summary.
+- `POST /api/submissions`: submission intake.
+- `GET /api/rankings`: leaderboard.
+- `GET /api/rankings/mostLiked`: most liked aggregation.
+- `GET /api/rankings/mostViewed`: most viewed aggregation.
+- `GET /api/rankings/recentVotes`: recent votes.
+- `GET /api/affiliate/preview`: affiliate product preview.
+- `GET /api/affiliate/checkout`: redirect and click logging.
+- `GET /api/img`: remote image proxy.
+- `POST /api/scrape`: prototype scrape trigger.
+- `GET /api/admin/status`: admin status.
+- `GET /api/admin/data-status`: legacy data status route.
 
-⸻
+## Data Ingestion Flow
 
-ARCHITECTURE
+Target flow:
 
-Audience note (owner skill level): The project owner is a novice developer. Cursor’s Agent must work autonomously, optimize/fix code as needed, and pause only at approval gates defined in /docs/SCOPE_AND_PHASES.md. Keep explanations plain-English in summaries, but write code & docs like a senior engineer.
+1. Source file/feed is read by `backend/scripts/import-feed.js`.
+2. Feed adapter maps source rows to a common product shape.
+3. `normalizeProduct` cleans strings, URLs, arrays, price, retailer, categories, and availability.
+4. Quality scoring marks critical fields.
+5. Invalid products are rejected with warnings.
+6. Retailer and FeedSource are upserted.
+7. Product is upserted by `{ source, sourceId }`.
+8. FeedImportLog stores run counts, rejects, warnings, and status.
 
-Agent directive (very important): You can see the entire project. Continuously analyze the repository and fill in all “(Agent-filled)” sections below. When you change file structure or decisions:
-	•	Append a line to /docs/CHANGELOG.md.
-	•	If you change a notable approach, create an ADR in /docs/DECISIONS/ADR-XXXX-title.md.
-	•	Keep changes augment-not-rewrite unless an ADR explicitly approves a migration.
+## Affiliate Flow
 
-⸻
-
-1) Purpose
-
-This document defines the end-to-end architecture for the MVP of Discovery Studios (Web3 fashion discovery). It locks down how the existing frontend (Next.js + Tailwind) connects to the new backend (Express + MongoDB) and Web3 (Neon EVM smart contracts + wallet auth). It provides guardrails for extending the partially built project without breaking the current UI scaffold, and gives the agent explicit tasks to complete the missing layers.
-
-⸻
-
-2) Source of Truth
-	•	Docs index: /docs/INDEX.md
-	•	Scope/phases & approval gates: /docs/SCOPE_AND_PHASES.md
-	•	Project overview (business goals & monetization): /docs/PROJECT_OVERVIEW.md
-	•	Automation rules (must follow): /.cursorrules (root)
-
-⸻
-
-3) Repo Auto-Discovery (Agent Tasks)
-
-Agent — do this immediately and update the sections below.
-
-	1.	Scan the repo and produce a precise map (files, pages, components, models, routes).
-	•	Include all Next.js app/ routes, pages/ legacy routes (if any), and shared components.
-	•	Identify dead code / duplicates (example: lib/utils.ts and lib/utils.js both exporting cn).
-	2.	Detect inconsistencies in UI structure, routing, naming, Tailwind breakpoints, and styling decisions.
-	3.	Summarize backend state (controllers/routes/models present or empty), server bootstrap, and env config.
-	4.	Summarize Web3 state (wallet UI placeholders, contract code present/absent).
-	5.	Write your findings into the “4) Current State (Agent-filled)” section and commit:
-	•	Update /docs/CHANGELOG.md with “Repo scan + architecture state doc populated”.
-	•	If you propose structural changes, draft ADRs and wait for approval at the next gate.
-
-⸻
-
-4) Current State (Agent-filled)
-
-Agent: Fill this section comprehensively from your analysis. Keep it accurate and terse where possible.
-
-4.1 Frontend Snapshot
-	•	Framework: Next.js 13+ (App Router present)
-	•	Structure:
-	•	app/… routes: (list all with purpose; note dynamic routes like /brand/[id], /designer/[id], etc.)
-	•	pages/… routes: (list if still used and why; recommend consolidation plan if needed)
-	•	Key Components & Templates: (Navbar, MegaMenu, MobileMenu, CategoryGrid, ListLayout, etc. with responsibilities)
-	•	Design System: Tailwind; custom breakpoints (mobile, tablet, desktop) — confirm usage consistency.
-	•	Known Issues / Risks: (ex: duplicated utils, image domain config **, layout offset inconsistencies, hardcoded placeholders that must become typed DTOs later, etc.)
-
-4.2 Backend Snapshot
-	•	Server bootstrap: backend/server.js (Express; minimal)
-	•	Routes/controllers/models present: (list which files are empty; note missing middleware/auth)
-	•	Env: backend/.env.example includes MONGODB_URI, OPENROUTER_API_KEY, BLOCKCHAIN_KEY.
-	•	Missing: Robust API routes, models, validation, security middleware, tests.
-
-4.3 Web3 Snapshot
-	•	Wallet UI: Placeholder buttons on login/signup.
-	•	Contracts: None yet. Target chain: Neon EVM.
-	•	Planned features: on-chain voting, NFT proof-of-purchase, on-chain brand verification.
-
-4.4 Data Dependencies
-	•	Placeholder data throughout FE (images/labels).
-	•	Needed to wire: Products, Brands, Designers, Votes, Submissions, Users, Sessions.
-
-4.5 Proposed Minimal Changes (Augment-not-Rewrite)
-	•	(Agent proposes small, low-risk steps to stabilize structure; record as ADR drafts if non-trivial.)
-
-⸻
-
-5) High-Level Architecture
-
-+---------------------+        HTTPS         +---------------------+       RPC/HTTPS        +----------------------+
-|  Next.js Frontend   | <------------------> |  Express API Layer  | <-------------------> |  Neon EVM (Contracts)|
-|  (app/ + components)|                     |  (Node.js, REST)    |                      |  Voting/NFT/Verify   |
-+----------^----------+                      +-----^---------^-----+                      +----------^-----------+
-           |                                       |         |                                        |
-           | Graph/REST                            |         | MongoDB                                |
-           | (SWR/fetch/axios)                     |         | (Mongoose ODM)                         |
-           v                                       v         v                                        |
-    UI state, routes                          Auth, Products, Votes, Submissions, Rankings           |
-    Wallet connect (WC/MetaMask)              JWT, RBAC, Rate limiting, Validation                    |
-           |                                                                                          |
-           +------------------------------------------+-----------------------------------------------+
-                                                  Observability (logs/metrics), CI/CD, SecOps
-
-	•	Frontend: Next.js 13 app router, Tailwind, component templates (grid/list/content).
-	•	Backend: Express REST API, Mongoose models, JWT auth (user/curator/admin roles).
-	•	Web3: Neon EVM contracts for Votes, Receipt NFTs, Brand Registry.
-	•	Data sync: Web2 votes in Mongo; on approval/batch trigger -> mint on-chain (weighted).
-	•	Scraping: Playwright + Cheerio services -> normalize -> store -> expose via API.
-
-⸻
-
-6) Directory Layout Guardrails (Augment-not-Rewrite)
-	•	Frontend: keep existing /frontend/app/* and /frontend/components/*.
-	•	Create only additive folders: /frontend/app/(account)/*, /frontend/app/(rankings)/*, etc.
-	•	If consolidation is needed (e.g., pages/ → app/), propose it via ADR and wait for approval.
-	•	Backend: expand /backend as:
-
-backend/
-  server.js
-  /routes
-    auth.js
-    products.js
-    brands.js
-    designers.js
-    votes.js
-    submissions.js
-    rankings.js
-    web3.js
-  /controllers
-    authController.js
-    productController.js
-    brandController.js
-    designerController.js
-    voteController.js
-    submissionController.js
-    rankingController.js
-    web3Controller.js
-  /models
-    User.js
-    Brand.js
-    Designer.js
-    Product.js
-    Vote.js
-    Submission.js
-    Session.js
-  /lib
-    db.js
-    logger.js
-    rateLimiter.js
-    errorHandler.js
-    auth.js (JWT, RBAC)
-    validators/
-  /scraper
-    playwright/
-    cheerio/
-    normalizers/
-
-
-	•	Contracts:
-
-contracts/
-  Voting.sol
-  ReceiptNFT.sol
-  BrandRegistry.sol
-scripts/
-  deploy.ts
-  verify.ts
-  simulate.ts
-
-
-
-Agent: When you add these, document in /docs/CHANGELOG.md and create ADRs if you diverge.
-
-⸻
-
-7) Data Model (Planned Interfaces)
-
-Agent: Keep these as source of truth for FE/BE contracts. If you need adjustments, propose ADRs.
-
-// Shared DTO shapes (for FE typing and BE responses)
-type Brand = {
-  _id: string
-  name: string
-  category: 'High Fashion' | 'Streetwear' | 'Hybrid' | 'Techwear' | 'Workwear' | 'Avant Garde' | 'Other'
-  location?: { city?: string; country?: string }
-  website?: string
-  instagram?: string
-  createdAt: string
-  updatedAt: string
-}
-
-type Designer = {
-  _id: string
-  name: string
-  brandId?: string
-  instagram?: string
-  website?: string
-  createdAt: string
-  updatedAt: string
-}
-
-type Product = {
-  _id: string
-  brandId: string
-  designerId?: string
-  title: string
-  category: 'Tops' | 'Bottoms' | 'Outerwear' | 'Accessories' | 'Footwear'
-  images: string[]
-  price?: number
-  currency?: string
-  affiliate?: { source: 'LTK' | 'ShopStyle' | 'Rakuten' | 'Custom'; url: string }
-  sourceUrl?: string
-  createdAt: string
-  updatedAt: string
-}
-
-type Vote = {
-  _id: string
-  userId: string
-  subjectType: 'brand' | 'designer' | 'product'
-  subjectId: string
-  weight: number // higher if on-chain verified
-  txHash?: string
-  createdAt: string
-}
-
-type Submission = {
-  _id: string
-  type: 'Brand' | 'Designer' | 'Brand & Designer'
-  payload: any // structured per form
-  status: 'queued' | 'in_review' | 'approved' | 'rejected'
-  priority: 'free' | 'paid'
-  createdAt: string
-  updatedAt: string
-}
-
-
-⸻
-
-8) API Surface (Planned)
-
-Agent: Implement under /backend/routes/* with controllers and JOI/Zod validation.
-
-	•	Auth: POST /auth/register, POST /auth/login, GET /auth/me
-	•	Brands: GET /brands, GET /brands/:id, POST /brands (curator/admin), GET /brands/:id/products
-	•	Designers: GET /designers, GET /designers/:id, POST /designers (curator/admin)
-	•	Products: GET /products, GET /products/:id, POST /products (curator/admin)
-	•	Votes: POST /votes (web2 store + optional on-chain tx), GET /rankings (computed)
-	•	Submissions: POST /submissions, GET /submissions/:id, PATCH /submissions/:id (curator/admin)
-	•	Web3: POST /web3/wallet/nonce, POST /web3/wallet/verify, POST /web3/vote, POST /web3/mint-receipt
-
-⸻
-
-9) Web3 Components (Planned)
-	•	Voting.sol — records vote weight per subject; emits events for indexing.
-	•	ReceiptNFT.sol — ERC-721 “proof of purchase” (metadata includes product + brand ids).
-	•	BrandRegistry.sol — optional verification status for brands/designers.
-
-Wallet Auth:
-	•	SIWE-style nonce + signature verification route (/web3/wallet/nonce, /web3/wallet/verify).
-	•	Store verified wallet against user, mark onChainVerified=true → higher vote weight.
-
-⸻
-
-10) Frontend Architectural Rules
-	•	Routing: Keep your existing Swedish grid/“Balenciaga” scaffold. Do not rename existing routes without an ADR.
-	•	UX polish: The agent must:
-	•	Normalize spacing/offsets (headers, sticky sections).
-	•	Fix inconsistent breakpoints (mobile/tablet/desktop) and class names.
-	•	Replace placeholders with typed DTOs and mock adapters (lib/api/*.ts) to ease BE swap-in.
-	•	UI Consistency Scanner (Agent task):
-	•	Crawl all components for duplicated logic (e.g., grid item labeling, link builders).
-	•	Move shared logic to /frontend/lib/ with unit tests.
-	•	Produce a short report in /docs/FRONTEND/OPTIMIZATIONS.md.
-
-⸻
-
-11) Backend Architectural Rules
-	•	Express + Mongoose only for MVP.
-	•	Security first: Helmet, CORS whitelist, rate limiting, request validation, sanitized queries.
-	•	Auth: JWT access tokens; refresh tokens optional for MVP. Roles: user, curator, admin.
-	•	Scraper: Isolated service; never scrape on request path. Use a queue or background job (MVP can be manual trigger).
-
-⸻
-
-12) Data Flow (Written Diagram)
-
-[User Browser]
-   | 1: Navigate UI, connect wallet, browse products/brands
-   v
-[Next.js Frontend]
-   | 2: fetch(...) REST → /products, /brands, /votes, /rankings
-   v
-[Express API]
-   | 3: Controllers -> Services -> Mongoose Models
-   v
-[MongoDB]
-   | 4: Store Web2 entities (brands/designers/products) and votes
-   ^
-   | 5: Scraper workers populate/refresh collections (playwright/cheerio)
-   |
-[Scraper Service] -- normalized → Products/Brands/Designers
-
-[Wallet Connect]
-   | 6: SIWE-like nonce -> signature -> verify
-   v
-[Express /web3/*] ---- RPC ----> [Neon EVM Contracts]
-   | 7: Record vote tx / mint receipt
-   v
-[MongoDB] (store txHash and weight for hybrid rankings)
-
-
-⸻
-
-13) Performance, A11y, Error-handling, Observability
-	•	FE perf: image sizes, next/image, avoid layout shifts; lazy load non-critical sections; memoize heavy components.
-	•	A11y: keyboard nav in mega menus, ARIA attributes, focus states.
-	•	Errors: global API error handler; FE toast/banner; capture in Sentry (or console fallback in MVP).
-	•	Logs/Metrics: pino logs in BE; basic request timing; error counts; deploy GitHub Actions to run tests/lint.
-
-⸻
-
-14) Security & Secrets
-	•	.env files per package; never commit secrets.
-	•	Rate limit auth/vote endpoints.
-	•	Validate all inputs (JOI/Zod).
-	•	CORS: allow only your Vercel domain + local dev origins.
-
-⸻
-
-15) Environments & Config
-	•	Frontend: NEXT_PUBLIC_* for public config only.
-	•	Backend: PORT, MONGODB_URI, JWT_SECRET, RPC_URL, WALLET_CONNECT_PROJECT_ID, etc.
-	•	Web3: PRIVATE_KEY loaded only in API or scripts; never in frontend.
-
-⸻
-
-16) Local Dev Architecture
-	•	Run FE: cd frontend && npm run dev
-	•	Run BE: cd backend && npm run dev (add nodemon)
-	•	Mongo: local Docker or Atlas.
-	•	Chain: Neon devnet or local Hardhat for contract testing.
-
-⸻
-
-17) Extension Rules (Do No Harm)
-	•	Do not replace Tailwind with a different system.
-	•	Do not delete existing pages; migrate via ADR if necessary.
-	•	Do add missing pages/components in additive fashion.
-	•	Do keep interfaces stable; add new fields as optional at first.
-
-⸻
-
-18) Migration Plan (If Needed)
-	•	If consolidating pages/ → app/, create ADR-pages-to-app.md:
-	•	List impacted routes; create adapters; ship in a short-lived branch; get approval at Gate 1.
-
-⸻
-
-19) Open Questions (Agent to resolve)
-	•	Which aggregators first for scraping MVP (pick 1–2 with stable DOM + affiliate support)?
-	•	Exact vote weighting (on-chain verified vs. off-chain).
-	•	Which events and metadata for ReceiptNFT?
-	•	Indexing strategy for rankings (Mongo aggregation vs. cached materialized views).
-
-Agent: Propose answers in /docs/DECISIONS/ as ADR drafts and request approval.
-
-⸻
-
-20) Acceptance for this Doc
-	•	Section 4) Current State fully populated by the agent from real code.
-	•	Any proposed structural changes written as ADR drafts.
-	•	/docs/CHANGELOG.md updated with this analysis.
-
-⸻
-
-Commit & Next Steps
-	1.	Commit this file: docs/ARCHITECTURE.md.
-	2.	Agent: Populate Section 4 now. Then proceed to:
-	•	/docs/FRONTEND/OVERVIEW.md to lock routing + component rules and the UI polish tasks.
-	•	/docs/BACKEND/OVERVIEW.md to scaffold API and models.
-	•	Prepare the full /.cursorrules with approval gates.
-
-⸻
+1. Frontend CTA links to `/api/affiliate/checkout?productId=:id`.
+2. Backend loads the product.
+3. Resolver uses `product.affiliateUrl` first.
+4. If no affiliate URL exists, resolver appends UTM params to `canonicalUrl`.
+5. Click is logged.
+6. User is redirected to the retailer/affiliate destination.
+
+## Cart Flow
+
+1. Product detail adds normalized product metadata to Zustand cart.
+2. Cart drawer displays brand, title, image, price, size, quantity, and retailer/source.
+3. One item checkout links directly to the affiliate checkout endpoint.
+4. Multiple items are grouped by retailer/source, with individual checkout CTAs per item or group.
+
+## Deployment Shape
+
+Frontend and backend can be deployed separately. The frontend should set `NEXT_PUBLIC_API_ENDPOINT` to the backend base URL. Backend should set `MONGODB_URI`, `CORS_ORIGIN`, `JWT_SECRET`, and any affiliate/network credentials once available.
+

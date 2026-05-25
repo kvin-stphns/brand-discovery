@@ -1,4 +1,5 @@
 const { Product } = require('../../models/productModel')
+const { normalizeProduct } = require('../feeds/normalizeProduct')
 
 function normalizeText(s) {
   return String(s || '').replace(/\s+/g, ' ').trim()
@@ -83,6 +84,11 @@ function ensureArray(val) {
 }
 
 async function upsertProduct(doc) {
+  const normalized = normalizeProduct(doc, { source: doc.source })
+  if (!normalized.valid) {
+    throw new Error(`Rejected low-quality scraped product: ${normalized.issues.join(', ')}`)
+  }
+  doc = normalized.product
   if (!doc.source || !doc.sourceId) throw new Error('Missing source/sourceId for upsert')
   const update = {
     ...doc,

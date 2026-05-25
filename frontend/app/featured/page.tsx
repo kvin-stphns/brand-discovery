@@ -9,6 +9,7 @@ type GridItem = { id: string; name: string; image: string; type: 'product' | 'br
 
 export default function FeaturedPage() {
   const [items, setItems] = useState<GridItem[]>([])
+  const [loading, setLoading] = useState(true)
 
   useEffect(() => {
     Analytics.view('featured')
@@ -16,29 +17,22 @@ export default function FeaturedPage() {
 
     async function load() {
       try {
-        let prods = await fetchProducts({ sort: '-createdAt', limit: 12 })
-
-        // Auto-scrape if empty (Demo Mode)
-        if (!prods?.length && !didCancel) {
-          toast('Initializing demo data... (this may take 10s)', 'info')
-          try {
-            await fetch(`${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001/api'}/scrape`, { method: 'POST' })
-            // Retry fetch
-            prods = await fetchProducts({ sort: '-createdAt', limit: 12 })
-          } catch (err) {
-            console.error('Auto-scrape failed', err)
-          }
-        }
+        const prods = await fetchProducts({ sort: 'new', limit: 12 })
 
         if (!didCancel && prods?.length) {
           setItems(
-            prods.slice(0, 12).map((p: any, idx: number) => ({ id: String(p._id), name: String(p.title || ''), image: p.images?.[0] || `/placeholders/product-${(idx % 4) + 1}.jpg`, type: 'product', label: 'Featured', brand: p.brand || '', price: p.price?.value }))
+            prods
+              .filter((p: any) => p.images?.[0] && p.title && p.brand && p.price?.value)
+              .slice(0, 12)
+              .map((p: any) => ({ id: String(p._id), name: String(p.title || ''), image: p.images[0], type: 'product', label: p.retailer || 'Featured', brand: p.brand || '', price: p.price?.value }))
           )
         } else if (!didCancel) {
           toast('Live data unavailable', 'info')
         }
       } catch (_e) {
         if (!didCancel) toast('Live data unavailable', 'info')
+      } finally {
+        if (!didCancel) setLoading(false)
       }
     }
     load()
@@ -46,6 +40,6 @@ export default function FeaturedPage() {
   }, [])
 
   return (
-    <CategoryGrid items={items} title="FEATURED" subtitle="Brands, Designers, and Pieces" gridType="mixed" />
+    <CategoryGrid items={items} title="FEATURED" subtitle="Brands, Designers, and Pieces" gridType="mixed" loading={loading} emptyMessage="Import the demo feed to populate featured products." />
   )
 } 

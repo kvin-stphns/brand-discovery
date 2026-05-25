@@ -1,7 +1,18 @@
 import { create } from 'zustand'
 import { persist } from 'zustand/middleware'
 
-export type CartItem = { id: string; name: string; price: number; size?: string; image?: string; qty: number }
+export type CartItem = {
+  id: string
+  name: string
+  brand?: string
+  retailer?: string
+  source?: string
+  price: number
+  currency?: string
+  size?: string
+  image?: string
+  qty: number
+}
 
 type CartState = {
   items: CartItem[]

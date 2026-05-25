@@ -26,6 +26,7 @@ router.get('/preview', async (req, res) => {
     image: Array.isArray(product.images) && product.images.length ? product.images[0] : null,
     source: product.source,
     sourceId: product.sourceId,
+    retailer: product.retailer || null,
   })
 })
 
@@ -35,6 +36,21 @@ router.get('/checkout', async (req, res) => {
   if (!productId && !url) return res.status(400).json({ error: 'Missing productId' })
   if (!productId && url) {
     const targetUrl = resolveAffiliateUrl({ canonicalUrl: String(url) }, String(uiSource || 'checkout'), String(utm || 'mvp'))
+    try {
+      const ip = req.headers['x-forwarded-for'] || req.socket.remoteAddress || ''
+      const ipHash = crypto.createHash('sha256').update(String(ip)).digest('hex').slice(0, 16)
+      if (Click.db.readyState === 1) {
+        await Click.create({
+          source: String(uiSource || 'checkout'),
+          url: targetUrl,
+          userAgent: req.headers['user-agent'] || '',
+          utm: String(utm || ''),
+          ipHash,
+        })
+      }
+    } catch (_e) {
+      // non-blocking
+    }
     return res.redirect(302, targetUrl)
   }
 

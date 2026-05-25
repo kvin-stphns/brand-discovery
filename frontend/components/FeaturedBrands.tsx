@@ -6,8 +6,9 @@ import { useEffect, useState } from 'react'
 import { fetchProducts } from '@/lib/api/client'
 import { toast } from '@/lib/toast'
 import { GridCardSkeleton } from '@/components/common/Skeleton'
+import { formatPrice, sanitizeText } from '@/lib/format'
 
-type Item = { id: string; type: 'product' | 'brand' | 'designer'; name: string; image: string; category?: string; brand?: string; designer?: string; label?: string }
+type Item = { id: string; type: 'product' | 'brand' | 'designer'; name: string; image: string; category?: string; brand?: string; designer?: string; label?: string; price?: number; currency?: string }
 
 const FeaturedBrands = () => {
   const brandTypes = ['Streetwear', 'High Fashion', 'Avant Garde', 'Hybrid', 'Techwear', 'Workwear', 'Other'] as const
@@ -33,11 +34,13 @@ const FeaturedBrands = () => {
               id: String(p._id),
               type: 'product',
               name: String(p.title || ''),
-              image: String(p.images?.[0] || ''),
-              category: productCategories[i % productCategories.length],
-              brand: p.brand ? String(p.brand) : undefined,
-              label: getFormattedLabel('product', 'featured', brandTypes[i % brandTypes.length], productCategories[i % productCategories.length], String(p.brand || '')),
-            }))
+	              image: String(p.images?.[0] || ''),
+	              category: productCategories[i % productCategories.length],
+	              brand: p.brand ? String(p.brand) : undefined,
+                  price: p.price?.value,
+                  currency: p.price?.currency,
+	              label: getFormattedLabel('product', 'featured', brandTypes[i % brandTypes.length], productCategories[i % productCategories.length], String(p.brand || '')),
+	            }))
           setItems(mapped)
         } else {
           // no items: keep empty so skeletons/empty state render
@@ -85,7 +88,9 @@ const FeaturedBrands = () => {
                   className="w-full h-full object-cover opacity-90 hover:opacity-100 transition-opacity"
                 />
                 <div className="absolute bottom-6 space-y-1 text-center opacity-0 group-hover:opacity-100 transition-opacity">
-                  <p className="text-xs font-semibold tracking-[0.15em]">{item.name.toUpperCase()}</p>
+                    {item.brand && <p className="text-[10px] tracking-[0.15em] text-gray-700">{sanitizeText(item.brand).toUpperCase()}</p>}
+	                  <p className="text-xs font-semibold tracking-[0.15em]">{sanitizeText(item.name).toUpperCase()}</p>
+                    {item.price != null && <p className="text-xs tracking-[0.15em] text-gray-700">{formatPrice(item.price, item.currency)}</p>}
                   {item.label && <p className="text-xs tracking-[0.15em] text-gray-700">{item.label}</p>}
                 </div>
               </Link>

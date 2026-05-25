@@ -17,6 +17,7 @@ type GridItem = { id: string; name: string; image: string; type: 'product' | 'br
 export default function CategoryPage({ params }: PageProps) {
   const { category, section, subsection } = params
   const [items, setItems] = useState<GridItem[]>([])
+  const [loading, setLoading] = useState(true)
 
   // Logic Matrix for Layer 1
   const layer1Filter = useMemo(() => {
@@ -30,6 +31,7 @@ export default function CategoryPage({ params }: PageProps) {
   useEffect(() => {
     let cancelled = false
     async function load() {
+      setLoading(true)
       const term = decodeURIComponent(subsection.replace(/-/g, ' '))
       try {
         // Layer 2 Filtering
@@ -53,7 +55,7 @@ export default function CategoryPage({ params }: PageProps) {
           filters.q = term
         }
 
-        let prods = await fetchProducts(filters)
+        const prods = await fetchProducts(filters)
 
         // Fallback (only if no specific filters matched and we got 0 results, maybe try broader search)
         // But strict filtering is requested. So if 0, show 0.
@@ -63,17 +65,20 @@ export default function CategoryPage({ params }: PageProps) {
 
         if (cancelled) return
         setItems(
-          (prods || []).slice(0, 20).map((p: any, i: number) => ({
+          (prods || []).filter((p: any) => p.images?.[0] && p.title && p.brand).slice(0, 20).map((p: any) => ({
             id: String(p._id),
             type: 'product',
             name: String(p.title || ''),
-            image: p.images?.[0] || `/placeholders/product-${(i % 4) + 1}.jpg`,
+            image: p.images[0],
             brand: String(p.brand || ''),
-            label: section,
+            label: p.retailer || section,
+            price: p.price?.value,
           }))
         )
       } catch {
         if (!cancelled) setItems([])
+      } finally {
+        if (!cancelled) setLoading(false)
       }
     }
     load()
@@ -88,6 +93,8 @@ export default function CategoryPage({ params }: PageProps) {
       section={section}
       subsection={subsection}
       gridType="product"
+      loading={loading}
+      emptyMessage="No display-ready products match this section yet."
     />
   )
 }

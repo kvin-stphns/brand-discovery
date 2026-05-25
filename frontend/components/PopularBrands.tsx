@@ -45,8 +45,8 @@ const PopularBrands = () => {
       .then((rows) => {
         const mapped = (rows || []).slice(0, 6).map((r, idx) => ({
           id: String(r.id),
-          type: 'brand' as const,
-          label: `${String(r.name || '')}: ${localBrandTypes[idx % localBrandTypes.length]} Brand`,
+          type: (r.type || 'product') as 'product' | 'brand' | 'designer',
+          label: `${String(r.name || '')}: ${r.retailer || localBrandTypes[idx % localBrandTypes.length]}`,
         }))
         setItems(mapped)
       })

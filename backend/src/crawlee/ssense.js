@@ -21,7 +21,10 @@ function seedUrls() {
   return env.length ? env : seeds
 }
 
-async function runSsense({ maxItems = 1000 } = {}) {
+async function runSsense({ maxItems = 50 } = {}) {
+  if (maxItems > 200 && String(process.env.ALLOW_LARGE_CRAWL || '').toLowerCase() !== 'true') {
+    throw new Error('Crawl limit over 200 requires explicit approval and ALLOW_LARGE_CRAWL=true.')
+  }
   log.setLevel(log.LEVELS.INFO)
   const queue = await RequestQueue.open()
   for (const u of seedUrls()) await queue.addRequest({ url: u, label: 'LIST' })

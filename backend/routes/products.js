@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const { Product } = require('../models/productModel');
+const { Click } = require('../models/clickModel');
 
 // Optional validate middleware (kept for compatibility). If it doesn't exist in your tree, you can remove these two lines.
 let validate, Joi;
@@ -16,7 +17,7 @@ try {
  * Query params:
  *  - brandId, designerId: 24-char hex ObjectId
  *  - q: text search against title/brand
- *  - source: "farfetch", "ssense" or comma-separated list
+ *  - source: source namespace or comma-separated list
  *  - sort: "new" (default), "priceAsc", "priceDesc", "popular"
  *  - page: 1+
  *  - limit: 1..100
@@ -32,14 +33,15 @@ router.get(
       gender: Joi.string().valid('Men', 'Women', 'Unisex').optional(),
       category: Joi.string().optional(), // Comma-separated or single
       sort: Joi.string().valid('new', 'priceAsc', 'priceDesc', 'popular').default('new'),
+      includeLowQuality: Joi.boolean().truthy('true').falsy('false').default(false),
       page: Joi.number().integer().min(1).default(1),
       limit: Joi.number().integer().min(1).max(100).default(20),
     }),
   }),
   async (req, res) => {
-    const { brandId, designerId, q, source, gender, category, sort, page = 1, limit = 20 } = req.query;
+    const { brandId, designerId, q, source, gender, category, sort, includeLowQuality, page = 1, limit = 20 } = req.query;
 
-    const filter = {};
+    const filter = includeLowQuality ? {} : { 'dataQuality.score': { $gte: 4 } };
     if (brandId) filter.brandId = brandId;
     if (designerId) filter.designerId = designerId;
     if (gender) filter.gender = gender;
@@ -68,17 +70,34 @@ router.get(
     let sortSpec = { createdAt: -1 }; // "new"
     if (sort === 'priceAsc') sortSpec = { 'price.value': 1 };
     else if (sort === 'priceDesc') sortSpec = { 'price.value': -1 };
-    // "popular" placeholder: recent first until votes/clicks are wired into an aggregate
-    else if (sort === 'popular') sortSpec = { createdAt: -1 };
+    else if (sort === 'popular') sortSpec = { 'dataQuality.score': -1, createdAt: -1 };
 
     const pageNum = Math.max(1, Number(page));
     const pageSize = Math.min(100, Math.max(1, Number(limit)));
     const skip = (pageNum - 1) * pageSize;
 
-    const [items, total] = await Promise.all([
-      Product.find(filter).sort(sortSpec).limit(pageSize).skip(skip).lean().exec(),
-      Product.countDocuments(filter),
-    ]);
+    let items;
+    if (sort === 'popular') {
+      const clickRows = await Click.aggregate([
+        { $match: { productId: { $ne: null } } },
+        { $group: { _id: '$productId', clicks: { $sum: 1 } } },
+        { $sort: { clicks: -1 } },
+        { $limit: 200 },
+      ]);
+      const clickMap = new Map(clickRows.map((row) => [String(row._id), row.clicks]));
+      const candidates = await Product.find(filter).sort(sortSpec).limit(Math.max(pageSize + skip, 60)).lean().exec();
+      items = candidates
+        .map((product) => ({
+          ...product,
+          popularityScore: (clickMap.get(String(product._id)) || 0) * 5 + (product.dataQuality?.score || 0),
+        }))
+        .sort((a, b) => b.popularityScore - a.popularityScore || new Date(b.createdAt || 0) - new Date(a.createdAt || 0))
+        .slice(skip, skip + pageSize);
+    } else {
+      items = await Product.find(filter).sort(sortSpec).limit(pageSize).skip(skip).lean().exec();
+    }
+
+    const total = await Product.countDocuments(filter);
 
     const totalPages = Math.max(1, Math.ceil(total / pageSize));
     res.json({ items, page: pageNum, total, totalPages });
@@ -90,10 +109,15 @@ router.get(
  */
 router.get(
   '/:id',
-  validate({ params: Joi.object({ id: Joi.string().length(24).hex().required() }) }),
+  validate({ params: Joi.object({ id: Joi.string().min(1).required() }) }),
   async (req, res) => {
-    const doc = await Product.findById(req.params.id).lean().exec();
+    const id = String(req.params.id);
+    const filter = id.match(/^[0-9a-fA-F]{24}$/)
+      ? { _id: id }
+      : { $or: [{ sourceId: id }, { slug: id }] };
+    const doc = await Product.findOne(filter).lean().exec();
     if (!doc) return res.status(404).json({ error: 'Not found' });
+    if ((doc.dataQuality?.score || 0) < 4) return res.status(404).json({ error: 'Not found' });
     res.json(doc);
   }
 );

@@ -1,31 +1,10 @@
 'use client'
 import Image from 'next/image'
 import Link from 'next/link'
-import { useState, useEffect } from 'react'
-import { hrefFor } from '@/lib/nav'
+import { useEffect } from 'react'
 import { GridCardSkeleton } from '@/components/common/Skeleton'
 import { Analytics } from '@/lib/analytics'
-import { sanitizeText } from '@/lib/format'
-
-const allExploreLinks = [
-  { name: 'Spotlight', category: 'discover' },
-  { name: 'Featured', category: 'brands' },
-  { name: 'Trending', category: 'designers' },
-  { name: 'Lookbooks', category: 'discover' },
-  { name: 'Top Rated', category: 'rankings' },
-  { name: 'Accessories', category: 'categories' },
-  { name: 'Random', category: 'brands' },
-  { name: 'Location', category: 'discover' }
-]
-
-function shuffleArray<T>(array: T[]): T[] {
-  const newArray = [...array]
-  for (let i = newArray.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1))
-      ;[newArray[i], newArray[j]] = [newArray[j], newArray[i]]
-  }
-  return newArray
-}
+import { formatPrice, sanitizeText } from '@/lib/format'
 
 interface GridItem {
   id: string
@@ -48,6 +27,8 @@ interface CategoryGridProps {
   subtitle?: string
   isDiscoverPage?: boolean
   gridType?: 'mixed' | 'product' | 'brand' | 'designer'
+  loading?: boolean
+  emptyMessage?: string
 }
 
 const getItemHref = (item: GridItem, category: string) => {
@@ -71,21 +52,18 @@ export default function CategoryGrid({
   subsection,
   subtitle,
   isDiscoverPage = false,
+  loading = false,
+  emptyMessage = 'No display-ready products found.',
 }: CategoryGridProps) {
-  const [exploreLinks, setExploreLinks] = useState(allExploreLinks)
-
   useEffect(() => {
     // Disable overscroll bounce on the entire page while this component is mounted.
     document.body.style.overscrollBehavior = 'none'
-    if (isDiscoverPage) {
-      setExploreLinks(shuffleArray(allExploreLinks))
-    }
     return () => {
       document.body.style.overscrollBehavior = ''
     }
   }, [isDiscoverPage])
 
-  const isLoading = !isDiscoverPage && items.length === 0
+  const isLoading = loading
 
   return (
     <section className="w-full min-h-screen">
@@ -116,41 +94,16 @@ export default function CategoryGrid({
       <div className={`${isDiscoverPage ? 'mt-[236px]' : 'mt-[260px]'}`}>
         <div className="max-w-[2000px] mx-auto">
           <div className="grid grid-cols-2 mobile:grid-cols-2 tablet:grid-cols-3 desktop:grid-cols-4">
-            {isDiscoverPage && items.length === 0 ? (
-              exploreLinks.map((link, i) => {
-                const categories = ['women', 'men'] as const
-                // If we are in a specific category context (e.g. URL has /women/), use that.
-                // Otherwise, randomize or default to explore.
-                // For Discover page, we want to mix it up, but ensure the link works.
-                const randomCategory = categories[Math.floor(Math.random() * categories.length)]
-                const href = hrefFor(link.category as any, randomCategory, link.name)
-                return (
-                  <Link
-                    key={i}
-                    href={href}
-                    className={`group relative h-[500px] flex items-center justify-center border-r border-b border-black last:border-r-0 tablet:last:border-r ${i >= 6 ? 'tablet:hidden desktop:flex' : ''
-                      }`}
-                    onClick={() => Analytics.nav(link.name, href)}
-                  >
-                    <Image
-                      src={`/placeholders/brand-${(i % 4) + 1}.jpg`}
-                      alt={link.name}
-                      width={400}
-                      height={500}
-                      className="w-full h-full object-cover opacity-90 hover:opacity-100 transition-opacity"
-                    />
-                    <span className="absolute bottom-6 text-xs font-semibold trk-mid opacity-0 group-hover:opacity-100 transition-opacity">
-                      {link.name.toUpperCase()}
-                    </span>
-                  </Link>
-                )
-              })
-            ) : isLoading ? (
+            {isLoading ? (
               Array.from({ length: 8 }).map((_, i) => (
                 <div key={i} className={`border-r border-b border-black last:border-r-0 tablet:last:border-r ${i >= 6 ? 'tablet:hidden desktop:flex' : ''}`}>
                   <GridCardSkeleton />
                 </div>
               ))
+            ) : items.length === 0 ? (
+              <div className="col-span-2 tablet:col-span-3 desktop:col-span-4 min-h-[360px] border-b border-black flex items-center justify-center px-8">
+                <p className="text-xs trk-mid text-black/60 text-center">{emptyMessage}</p>
+              </div>
             ) : (
               items.map((item, i) => (
                 <Link
@@ -167,12 +120,22 @@ export default function CategoryGrid({
                     height={500}
                     className="w-full h-full object-cover opacity-90 hover:opacity-100 transition-opacity"
                   />
-                  <div className="absolute bottom-6 space-y-1 text-center opacity-0 group-hover:opacity-100 transition-opacity">
-                    <p className="text-xs font-semibold trk-mid">
-                      {sanitizeText(item.name).toUpperCase()}
-                    </p>
-                    {item.label && (
-                      <p className="text-xs trk-mid text-gray-700">
+	                  <div className="absolute bottom-6 space-y-1 text-center opacity-0 group-hover:opacity-100 transition-opacity">
+                      {item.brand && (
+                        <p className="text-[10px] trk-mid text-gray-700">
+                          {sanitizeText(item.brand).toUpperCase()}
+                        </p>
+                      )}
+	                    <p className="text-xs font-semibold trk-mid">
+	                      {sanitizeText(item.name).toUpperCase()}
+	                    </p>
+                      {item.price != null && (
+                        <p className="text-xs trk-mid text-gray-700">
+                          {formatPrice(item.price)}
+                        </p>
+                      )}
+	                    {item.label && (
+	                      <p className="text-xs trk-mid text-gray-700">
                         {item.label}
                       </p>
                     )}

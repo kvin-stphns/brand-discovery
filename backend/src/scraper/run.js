@@ -22,12 +22,16 @@ function parseArgs(argv) {
 async function main() {
   const args = parseArgs(process.argv.slice(2));
 
-  // High-volume defaults; allow overrides
+  // Prototype-safe defaults; larger crawls require explicit approval.
   const maxItems =
     Number(process.env.SCRAPE_MAX_PRODUCTS) ||
     Number(process.env.SCRAPE_MAX) ||
     Number(args.max) ||
-    3000;
+    50;
+
+  if (maxItems > 200 && String(process.env.ALLOW_LARGE_CRAWL || '').toLowerCase() !== 'true') {
+    throw new Error('Crawl limit over 200 requires explicit approval and ALLOW_LARGE_CRAWL=true.');
+  }
 
   const ffUrls = (process.env.SCRAPE_URLS_FF || '')
     .split(',')

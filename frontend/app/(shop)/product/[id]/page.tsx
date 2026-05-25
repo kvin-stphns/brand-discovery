@@ -13,6 +13,9 @@ export default function ProductPage() {
   const [selectedSize, setSelectedSize] = useState('')
   const [isMobile, setIsMobile] = useState(false)
   const [product, setProduct] = useState<any | null>(null)
+  const [loading, setLoading] = useState(true)
+  const [error, setError] = useState('')
+  const [sizeError, setSizeError] = useState('')
   const { add } = useCart()
 
   useEffect(() => {
@@ -34,7 +37,22 @@ export default function ProductPage() {
   useEffect(() => {
     const id = window.location.pathname.split('/').pop() || ''
     let cancelled = false
-    fetchProduct(id).then((p) => { if (!cancelled) setProduct(p) }).catch(() => setProduct(null))
+    setLoading(true)
+    fetchProduct(id)
+      .then((p) => {
+        if (cancelled) return
+        setProduct(p)
+        setError(p ? '' : 'Product unavailable')
+      })
+      .catch(() => {
+        if (!cancelled) {
+          setProduct(null)
+          setError('Product unavailable')
+        }
+      })
+      .finally(() => {
+        if (!cancelled) setLoading(false)
+      })
     return () => { cancelled = true }
   }, [])
 
@@ -48,7 +66,30 @@ export default function ProductPage() {
   // If all images were filtered out, show placeholder
   if (images.length === 0) images.push('/placeholders/product-1.jpg')
 
-  // add to cart handled inline on button click
+  const productName = sanitizeText(product?.title || 'Product')
+  const brandName = sanitizeText(product?.brand || '')
+  const retailerName = sanitizeText(product?.retailer || product?.source || '')
+  const sizes = Array.isArray(product?.sizes) ? product.sizes.filter(Boolean) : []
+  const details = Array.isArray(product?.details) ? product.details.filter(Boolean) : []
+  const addCurrentProduct = () => {
+    if (sizes.length > 0 && !selectedSize) {
+      setSizeError('Select a size to add this item.')
+      return
+    }
+    if (!product?._id) return
+    setSizeError('')
+    add({
+      id: String(product._id),
+      name: productName,
+      brand: brandName,
+      retailer: retailerName,
+      source: product?.source,
+      price: Number(product?.price?.value || 0),
+      currency: product?.price?.currency || 'USD',
+      size: selectedSize || undefined,
+      image: images[selectedImage],
+    })
+  }
 
   return (
     <>
@@ -63,7 +104,7 @@ export default function ProductPage() {
             DISCOVER
           </Link>
           <ChevronRight className="w-3 h-3 mx-2 text-gray-400" />
-          <span className="text-xs tracking-[0.15em]">{sanitizeText(product?.title || 'Product')}</span>
+              <span className="text-xs tracking-[0.15em]">{productName}</span>
         </div>
       </div>
 
@@ -76,7 +117,7 @@ export default function ProductPage() {
               <div className="relative flex-1">
                 <Image
                   src={images[selectedImage] || '/placeholders/product-1.jpg'}
-                  alt="Product Image"
+                  alt={`${brandName ? `${brandName} ` : ''}${productName}`}
                   fill
                   className="object-contain"
                   priority
@@ -93,12 +134,13 @@ export default function ProductPage() {
                   <button
                     key={index}
                     onClick={() => setSelectedImage(index)}
+                    aria-label={`View image ${index + 1} for ${productName}`}
                     className={`relative w-20 h-full border-r border-black last:border-r-0
                       ${selectedImage === index ? 'ring-1 ring-black z-10' : 'opacity-50 hover:opacity-100'}`}
                   >
                     <Image
                       src={img || '/placeholders/product-1.jpg'}
-                      alt={`Thumbnail ${index + 1}`}
+                      alt={`${productName} thumbnail ${index + 1}`}
                       fill
                       className="object-cover"
                       onError={(e) => {
@@ -121,56 +163,88 @@ export default function ProductPage() {
               {/* Header with actions */}
               <div className="flex justify-between items-start mb-6">
                 <div>
-                  <h1 className="text-lg tracking-[0.15em] mb-1 font-bold">{sanitizeText(product?.title || '')}</h1>
-                  <p className="text-sm tracking-[0.1em] text-gray-500">{sanitizeText(product?.brand || '')}</p>
+                  <h1 className="text-lg tracking-[0.15em] mb-1 font-bold">{loading ? 'LOADING PRODUCT' : productName}</h1>
+                  <p className="text-sm tracking-[0.1em] text-gray-500">{brandName || 'DISCOVERY STUDIOS'}</p>
+                  {retailerName && <p className="text-xs tracking-[0.15em] text-gray-400 mt-1">{retailerName.toUpperCase()}</p>}
                 </div>
                 <div className="flex space-x-4">
-                  <button className="hover:text-[#4FFFF4] transition-colors">
+                  <button aria-label="Like product" className="hover:text-[#4FFFF4] transition-colors">
                     <Heart className="w-5 h-5" />
                   </button>
-                  <button className="hover:text-[#4FFFF4] transition-colors">
+                  <button aria-label="Save product" className="hover:text-[#4FFFF4] transition-colors">
                     <Bookmark className="w-5 h-5" />
                   </button>
                 </div>
               </div>
 
+              {error && (
+                <div className="mb-6 border border-black px-4 py-3 text-xs tracking-[0.12em] text-black/70">
+                  {error}
+                </div>
+              )}
+
               {/* Price */}
               <p className="text-base tracking-[0.1em] mb-6">{formatPrice(product?.price?.value, product?.price?.currency)}</p>
 
               {/* Size Selection */}
-              <select
-                value={selectedSize}
-                onChange={(e) => setSelectedSize(e.target.value)}
-                className="w-full mb-6 px-4 py-2 border border-black/20 bg-transparent tracking-[0.1em] text-sm appearance-none"
-              >
-                <option value="">SELECT SIZE</option>
-                {['XS', 'S', 'M', 'L', 'XL'].map(size => (
-                  <option key={size} value={size}>{size}</option>
-                ))}
-              </select>
+              {sizes.length > 0 && (
+                <div className="mb-6">
+                  <label htmlFor="product-size" className="sr-only">Select size</label>
+                  <select
+                    id="product-size"
+                    value={selectedSize}
+                    onChange={(e) => { setSelectedSize(e.target.value); setSizeError('') }}
+                    className="w-full px-4 py-2 border border-black/20 bg-transparent tracking-[0.1em] text-sm appearance-none"
+                  >
+                    <option value="">SELECT SIZE</option>
+                    {sizes.map((size: string) => (
+                      <option key={size} value={size}>{sanitizeText(size)}</option>
+                    ))}
+                  </select>
+                  {sizeError && <p className="mt-2 text-xs tracking-[0.1em] text-red-700">{sizeError}</p>}
+                </div>
+              )}
 
               {/* Product Details */}
               <div className="space-y-6">
                 <div>
                   <h2 className="text-sm tracking-[0.15em] mb-2">DESCRIPTION</h2>
                   <p className="text-sm leading-relaxed text-gray-600">
-                    Product description placeholder text. This will be replaced with actual product details.
+                    {sanitizeText(product?.description || 'Description is unavailable for this feed item.')}
                   </p>
                 </div>
 
+                {details.length > 0 && (
                 <div>
                   <h2 className="text-sm tracking-[0.15em] mb-2">DETAILS & FIT</h2>
                   <ul className="text-sm leading-relaxed text-gray-600 space-y-1">
-                    <li>• Detail point 1</li>
-                    <li>• Detail point 2</li>
-                    <li>• Detail point 3</li>
+                    {details.map((detail: string) => <li key={detail}>- {sanitizeText(detail)}</li>)}
                   </ul>
                 </div>
+                )}
+
+                {(product?.availability || product?.color || product?.sku) && (
+                  <div>
+                    <h2 className="text-sm tracking-[0.15em] mb-2">PRODUCT DATA</h2>
+                    <dl className="text-sm leading-relaxed text-gray-600 space-y-1">
+                      {product?.availability && <div><dt className="inline text-black/70">Availability: </dt><dd className="inline">{sanitizeText(String(product.availability).replace(/_/g, ' '))}</dd></div>}
+                      {product?.color && <div><dt className="inline text-black/70">Color: </dt><dd className="inline">{sanitizeText(product.color)}</dd></div>}
+                      {product?.sku && <div><dt className="inline text-black/70">SKU: </dt><dd className="inline">{sanitizeText(product.sku)}</dd></div>}
+                    </dl>
+                  </div>
+                )}
 
                 <div>
                   <h2 className="text-sm tracking-[0.15em] mb-2">SHIPPING</h2>
                   <p className="text-sm leading-relaxed text-gray-600">
-                    Shipping information placeholder text.
+                    {sanitizeText(product?.shipping || 'Shipping details are provided by the retailer at checkout.')}
+                  </p>
+                </div>
+
+                <div>
+                  <h2 className="text-sm tracking-[0.15em] mb-2">RETURNS</h2>
+                  <p className="text-sm leading-relaxed text-gray-600">
+                    {sanitizeText(product?.returns || 'Return policy is confirmed by the retailer at checkout.')}
                   </p>
                 </div>
               </div>
@@ -183,7 +257,7 @@ export default function ProductPage() {
                   rel="noopener noreferrer"
                   className="inline-flex items-center gap-2 px-4 py-2 border border-black bg-white text-black hover:bg-black hover:text-white transition-colors text-sm tracking-[0.15em]"
                 >
-                  PREVIEW CHECKOUT <ExternalLink className="w-4 h-4" />
+                  CHECK OUT WITH RETAILER <ExternalLink className="w-4 h-4" />
                 </a>
               </div>
 
@@ -192,13 +266,8 @@ export default function ProductPage() {
                 <div className="absolute bottom-0 left-8 right-8 pb-8">
                   <button
                     className="w-full bg-black text-white py-4 text-sm tracking-[0.15em]"
-                    onClick={() => {
-                      if (!selectedSize) {
-                        alert('Please select a size')
-                        return
-                      }
-                      add({ id: String(product?._id || 'product'), name: sanitizeText(product?.title || 'PRODUCT'), price: Number(product?.price?.value || 0), size: selectedSize, image: images[selectedImage] })
-                    }}
+                    onClick={addCurrentProduct}
+                    disabled={!product?._id}
                   >
                     ADD TO CART
                   </button>
@@ -212,13 +281,8 @@ export default function ProductPage() {
             <div className="fixed bottom-0 left-0 right-0 bg-white border-t border-black p-4 z-50">
               <button
                 className="w-full bg-black text-white py-4 text-sm tracking-[0.15em]"
-                onClick={() => {
-                  if (!selectedSize) {
-                    alert('Please select a size')
-                    return
-                  }
-                  add({ id: String(product?._id || 'product'), name: sanitizeText(product?.title || 'PRODUCT'), price: Number(product?.price?.value || 0), size: selectedSize, image: images[selectedImage] })
-                }}
+                onClick={addCurrentProduct}
+                disabled={!product?._id}
               >
                 ADD TO CART
               </button>

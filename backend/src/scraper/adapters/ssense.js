@@ -1,6 +1,7 @@
 /* eslint-disable no-console */
 const { chromium, devices } = require('playwright');
 const { Product } = require('../../../models/productModel');
+const { normalizeProduct } = require('../../feeds/normalizeProduct');
 
 async function getPLimit() {
   const m = await import('p-limit');
@@ -20,10 +21,15 @@ function slugifySafe(str, fallback) {
 }
 
 async function upsertProduct(p) {
+  const normalized = normalizeProduct(p, { source: p.source });
+  if (!normalized.valid) {
+    throw new Error(`Rejected low-quality scraped product: ${normalized.issues.join(', ')}`);
+  }
+  const product = normalized.product;
   await Product.updateOne(
-    { source: p.source, externalId: p.externalId },
-    { $set: p },
-    { upsert: true }
+    { source: product.source, sourceId: product.sourceId },
+    { $set: product, $setOnInsert: { createdAt: new Date() } },
+    { upsert: true, runValidators: true }
   );
 }
 
@@ -330,8 +336,6 @@ async function scrapeSsense({
               gender: p.gender,
               updatedAt: new Date(),
             };
-            await upsertProduct(record);
-            success++;
             await upsertProduct(record);
             success++;
             // Robust delay: 2-5 seconds

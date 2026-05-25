@@ -4,7 +4,10 @@ export type Product = {
   _id: string
   source: string
   sourceId: string
+  retailer?: string
+  retailerId?: string
   canonicalUrl?: string
+  affiliateUrl?: string
   title: string
   brand?: string
   price?: Price
@@ -19,7 +22,15 @@ export type Product = {
   breadcrumbs?: string[]
   shipping?: string
   returns?: string
+  dataQuality?: {
+    hasTitle?: boolean
+    hasBrand?: boolean
+    hasImage?: boolean
+    hasPrice?: boolean
+    hasDescription?: boolean
+    score?: number
+    issues?: string[]
+  }
   createdAt?: string
   updatedAt?: string
 }
-

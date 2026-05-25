@@ -17,13 +17,32 @@ export async function post(path: string, body: unknown, init?: RequestInit) {
 }
 
 export type BrandDTO = { _id: string; name: string; image?: string; slug: string }
-export type RankingItem = { rank: number; score: number; id: string; name: string }
+export type RankingItem = {
+  rank: number
+  score: number
+  id: string
+  name: string
+  type?: 'product' | 'brand' | 'designer'
+  title?: string
+  brand?: string
+  retailer?: string
+  image?: string
+  price?: ProductPrice | null
+  clicks?: number
+  votes?: number
+}
 
 export async function fetchBrands(): Promise<BrandDTO[]> {
   const res = await get('/api/brands')
   if (!res.ok) return []
   const json = await res.json()
   return json.items as BrandDTO[]
+}
+
+export async function fetchBrand(id: string): Promise<BrandDTO | null> {
+  const res = await get(`/api/brands/${id}`)
+  if (!res.ok) return null
+  return (await res.json()) as BrandDTO
 }
 
 export async function fetchRankings(gender?: string): Promise<RankingItem[]> {
@@ -35,28 +54,28 @@ export async function fetchRankings(gender?: string): Promise<RankingItem[]> {
   return json.items as RankingItem[]
 }
 
-export async function fetchRankingsMostLiked(): Promise<Array<{ id: string; score: number }>> {
+export async function fetchRankingsMostLiked(): Promise<Array<{ id: string; score: number; name?: string; image?: string; type?: 'product' | 'brand' | 'designer' }>> {
   const res = await get('/api/rankings/mostLiked')
   if (!res.ok) return []
   const json = await res.json()
   const items = Array.isArray(json.items) ? json.items : []
-  return items.map((it: any) => ({ id: String(it._id), score: Number(it.score || 0) }))
+  return items.map((it: any) => ({ id: String(it.id || it._id), score: Number(it.score || 0), name: it.name, image: it.image, type: it.type }))
 }
 
-export async function fetchRankingsMostViewed(): Promise<Array<{ id: string; count: number }>> {
+export async function fetchRankingsMostViewed(): Promise<Array<{ id: string; count: number; name?: string; image?: string; type?: 'product' | 'brand' | 'designer' }>> {
   const res = await get('/api/rankings/mostViewed')
   if (!res.ok) return []
   const json = await res.json()
   const items = Array.isArray(json.items) ? json.items : []
-  return items.map((it: any) => ({ id: String(it._id), count: Number(it.count || 0) }))
+  return items.map((it: any) => ({ id: String(it.id || it._id), count: Number(it.count || 0), name: it.name, image: it.image, type: it.type }))
 }
 
-export async function fetchRankingsRecentVotes(): Promise<Array<{ id: string; entityType: string }>> {
+export async function fetchRankingsRecentVotes(): Promise<Array<{ id: string; entityType: string; name?: string; image?: string; type?: 'product' | 'brand' | 'designer'; weight?: number }>> {
   const res = await get('/api/rankings/recentVotes')
   if (!res.ok) return []
   const json = await res.json()
   const items = Array.isArray(json.items) ? json.items : []
-  return items.map((it: any) => ({ id: String(it.entityId || it._id), entityType: String(it.entityType || '') }))
+  return items.map((it: any) => ({ id: String(it.id || it.entityId || it._id), entityType: String(it.entityType || ''), name: it.name, image: it.image, type: it.type, weight: Number(it.weight || 0) }))
 }
 
 // Additional helpers (non-breaking)
@@ -68,14 +87,36 @@ export async function fetchDesigners(): Promise<DesignerDTO[]> {
   return json.items as DesignerDTO[]
 }
 
+export async function fetchDesigner(id: string): Promise<DesignerDTO | null> {
+  const res = await get(`/api/designers/${id}`)
+  if (!res.ok) return null
+  return (await res.json()) as DesignerDTO
+}
+
 export type ProductPrice = { value: number | undefined; currency?: string; originalValue?: number }
 export type ProductDTO = {
   _id: string
+  source?: string
+  sourceId?: string
+  retailer?: string
+  retailerId?: string
   title: string
   brand?: string
   images?: string[]
   price?: ProductPrice
   canonicalUrl?: string
+  affiliateUrl?: string
+  description?: string
+  details?: string[]
+  sizes?: string[]
+  availability?: string
+  sku?: string
+  color?: string
+  category?: string[]
+  breadcrumbs?: string[]
+  shipping?: string
+  returns?: string
+  dataQuality?: { score?: number }
 }
 export type ProductFilters = { brandId?: string; designerId?: string; source?: string; q?: string; sort?: string; page?: number; limit?: number; gender?: string; category?: string }
 
@@ -116,7 +157,7 @@ export async function fetchVoteSummary(entityType: 'brand' | 'designer' | 'produ
   return res.json()
 }
 
-export function getCheckoutRedirectUrlById(productId: string, source: 'featured' | 'popular' | 'grid' | 'product' = 'grid', utm?: string) {
+export function getCheckoutRedirectUrlById(productId: string, source: 'featured' | 'popular' | 'grid' | 'product' | 'checkout' = 'grid', utm?: string) {
   const u = new URL(`${API_BASE_URL}/api/affiliate/checkout`)
   u.searchParams.set('productId', productId)
   if (source) u.searchParams.set('source', source)
