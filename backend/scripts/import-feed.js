@@ -9,10 +9,18 @@ const { importProducts } = require('../src/feeds/importer');
 
 function parseArgs(argv) {
   const args = {};
-  for (const arg of argv) {
+  for (let i = 0; i < argv.length; i += 1) {
+    const arg = argv[i];
     if (arg.startsWith('--')) {
       const [key, ...rest] = arg.slice(2).split('=');
-      args[key] = rest.length ? rest.join('=') : true;
+      if (rest.length) {
+        args[key] = rest.join('=');
+      } else if (argv[i + 1] && !argv[i + 1].startsWith('--')) {
+        args[key] = argv[i + 1];
+        i += 1;
+      } else {
+        args[key] = true;
+      }
     }
   }
   return args;

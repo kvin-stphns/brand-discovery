@@ -28,6 +28,10 @@ async function dropIndexIfExists(coll, name) {
 async function run() {
   await connectToDatabase();
   const db = mongoose.connection.db;
+  const existingCollections = await db.listCollections({ name: 'products' }).toArray();
+  if (!existingCollections.length) {
+    await db.createCollection('products');
+  }
   const coll = db.collection('products');
 
   const ops = [];
