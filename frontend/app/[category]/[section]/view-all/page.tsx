@@ -57,11 +57,11 @@ export default function CategoryViewAllPage({ params }: PageProps) {
       const nextPage = reset ? 1 : page + 1
       const prods = await fetchProducts({ ...filters, page: nextPage })
 
-      const newItems = (prods || []).filter((p: any) => p.images?.[0] && p.title && p.brand).map((p: any) => ({
+      const newItems = (prods || []).map((p: any, i: number) => ({
         id: String(p._id),
         name: String(p.title || ''),
         category: p.brand || 'Product',
-        image: p.images[0],
+        image: p.images?.[0] || `/placeholders/product-${(i % 4) + 1}.jpg`,
         href: `/product/${p._id}`,
       }))
 

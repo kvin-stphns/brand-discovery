@@ -1,5 +1,5 @@
 'use client'
-import { useEffect, useState, useRef } from 'react'
+import { useState, useRef } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
 
@@ -24,10 +24,6 @@ const ListLayout = ({ title, items, category, section, subsection, children }: L
   const [activeItem, setActiveItem] = useState(items[0])
   const [selectedItem, setSelectedItem] = useState<string | null>(null)
   const listContainerRef = useRef<HTMLDivElement>(null)
-
-  useEffect(() => {
-    if (!activeItem && items.length > 0) setActiveItem(items[0])
-  }, [activeItem, items])
 
   const handleItemClick = (item: ListItemProps) => {
     if (selectedItem === item.id) {

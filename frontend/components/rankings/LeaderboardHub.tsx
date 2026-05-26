@@ -32,9 +32,8 @@ function Controls({ value, onChange, showCategory }: { value: RankingsFilters; o
     </div>
   )
 }
-
 export default function LeaderboardHub({ initialMode = 'leaderboard' as Mode, variant = 'global' as 'global' | 'category', showModeToggle = true, activeCategory }: { initialMode?: Mode; variant?: 'global' | 'category'; showModeToggle?: boolean; activeCategory?: string }) {
-  const [mode, setMode] = useState<Mode>(initialMode)
+  const [mode] = useState<Mode>(initialMode)
   const [filters] = useState<RankingsFilters>({ timeframe: '7d', category: 'women', sort: 'mixed' as any })
   const [rows, setRows] = useState<LeaderboardRow[]>([])
   const [kpis, setKpis] = useState<{ totalVotes: number; topCategory: string; fastestRiser: string } | null>(null)
@@ -53,9 +52,9 @@ export default function LeaderboardHub({ initialMode = 'leaderboard' as Mode, va
     fetchRankings(genderFilter)
       .then((items) => {
         const safeItems = Array.isArray(items) ? items : []
-        const mapped: LeaderboardRow[] = safeItems.map((i, idx) => ({ id: String(i.id), name: String((i.name || '')).replace(/\{[^}]*\}|var\([^)]*\)/g, '').trim(), type: (i.type || 'product') as any, rank: idx + 1, score: Number((i as any).score ?? 0), delta: Number((i as any).clicks || 0), image: i.image || '', trend: Array.from({ length: 16 }).map((_, j) => 5 + Math.sin((idx + j) / 3) + Number((i as any).votes || 0) / 10) }))
+        const mapped: LeaderboardRow[] = safeItems.map((i, idx) => ({ id: String(i.id), name: String((i.name || '')).replace(/\{[^}]*\}|var\([^)]*\)/g, '').trim(), type: 'brand', rank: idx + 1, score: Number((i as any).score ?? 100 - idx), delta: 0, image: '', trend: Array.from({ length: 16 }).map((_, j) => 5 + Math.sin((idx + j) / 3)) }))
         setRows(mapped)
-        setKpis(safeItems.length ? { totalVotes: safeItems.reduce((sum: number, row: any) => sum + Number(row.votes || 0), 0), topCategory: activeCategory || 'Global', fastestRiser: String(safeItems[0]?.name || '—') } : null)
+        setKpis(safeItems.length ? { totalVotes: safeItems.length * 100, topCategory: '—', fastestRiser: String(safeItems[0]?.name || '—') } : null)
       })
       .catch(() => { setRows([]); setKpis(null) })
 
@@ -66,17 +65,14 @@ export default function LeaderboardHub({ initialMode = 'leaderboard' as Mode, va
       fetchRankingsRecentVotes(),
     ]).then((results) => {
       const liked = results[0].status === 'fulfilled' ? results[0].value : []
-      const viewed = results[1].status === 'fulfilled' ? results[1].value : []
-      const recent = results[2].status === 'fulfilled' ? results[2].value : []
-      const source = mode === 'most-viewed' ? viewed : mode === 'recently-liked' ? recent : liked
-      const mappedList: RankingListItem[] = source.map((it: any, idx: number) => ({ id: String(it.id), rank: idx + 1, name: String(it.name || it.id).replace(/\{[^}]*\}|var\([^)]*\)/g, '').trim(), type: (it.type || 'product') as any, image: it.image || '', metric: Number(it.score || it.count || it.weight || 0) }))
-      setListItems(mappedList)
+      const mappedLiked: RankingListItem[] = liked.map((it: any, idx: number) => ({ id: String(it.id), rank: idx + 1, name: String(it.id).replace(/\{[^}]*\}|var\([^)]*\)/g, '').trim(), type: 'brand', image: '', metric: Number(it.score || 0) }))
+      setListItems(mappedLiked)
       setMapPoints([])
     }).catch(() => {
       setListItems([])
       setMapPoints([])
     })
-  }, [activeCategory, mode])
+  }, [])
 
   return (
     <div className="grid grid-cols-1 desktop:grid-cols-4 gap-8">
@@ -86,7 +82,7 @@ export default function LeaderboardHub({ initialMode = 'leaderboard' as Mode, va
           {showModeToggle && (
             <div className="inline-flex border border-black/40 text-xs rounded-sm overflow-x-auto max-w-full whitespace-nowrap">
               {(['leaderboard', 'most-liked', 'most-viewed', 'recently-liked', 'map'] as Mode[]).map((m) => (
-	                <button key={m} aria-pressed={m === mode} onClick={() => setMode(m)} className={`px-3 py-1 whitespace-nowrap ${m === mode ? 'bg-black text-white' : ''}`}>
+                <button key={m} className={`px-3 py-1 whitespace-nowrap ${m === mode ? 'bg-black text-white' : ''}`}>
                   {m.toUpperCase()}
                 </button>
               ))}

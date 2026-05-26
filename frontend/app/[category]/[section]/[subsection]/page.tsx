@@ -12,12 +12,11 @@ interface PageProps {
   }
 }
 
-type GridItem = { id: string; name: string; image: string; type: 'product' | 'brand' | 'designer'; label?: string; brand?: string }
+type GridItem = { id: string; name: string; image: string; type: 'product' | 'brand' | 'designer'; label?: string; brand?: string; price?: number; currency?: string }
 
 export default function CategoryPage({ params }: PageProps) {
   const { category, section, subsection } = params
   const [items, setItems] = useState<GridItem[]>([])
-  const [loading, setLoading] = useState(true)
 
   // Logic Matrix for Layer 1
   const layer1Filter = useMemo(() => {
@@ -31,7 +30,6 @@ export default function CategoryPage({ params }: PageProps) {
   useEffect(() => {
     let cancelled = false
     async function load() {
-      setLoading(true)
       const term = decodeURIComponent(subsection.replace(/-/g, ' '))
       try {
         // Layer 2 Filtering
@@ -65,20 +63,19 @@ export default function CategoryPage({ params }: PageProps) {
 
         if (cancelled) return
         setItems(
-          (prods || []).filter((p: any) => p.images?.[0] && p.title && p.brand).slice(0, 20).map((p: any) => ({
+          (prods || []).slice(0, 20).map((p: any, i: number) => ({
             id: String(p._id),
             type: 'product',
             name: String(p.title || ''),
-            image: p.images[0],
+            image: p.images?.[0] || `/placeholders/product-${(i % 4) + 1}.jpg`,
             brand: String(p.brand || ''),
-            label: p.retailer || section,
+            label: section,
             price: p.price?.value,
+            currency: p.price?.currency,
           }))
         )
       } catch {
         if (!cancelled) setItems([])
-      } finally {
-        if (!cancelled) setLoading(false)
       }
     }
     load()
@@ -93,8 +90,6 @@ export default function CategoryPage({ params }: PageProps) {
       section={section}
       subsection={subsection}
       gridType="product"
-      loading={loading}
-      emptyMessage="No display-ready products match this section yet."
     />
   )
 }

@@ -34,13 +34,13 @@ const FeaturedBrands = () => {
               id: String(p._id),
               type: 'product',
               name: String(p.title || ''),
-	              image: String(p.images?.[0] || ''),
-	              category: productCategories[i % productCategories.length],
-	              brand: p.brand ? String(p.brand) : undefined,
-                  price: p.price?.value,
-                  currency: p.price?.currency,
-	              label: getFormattedLabel('product', 'featured', brandTypes[i % brandTypes.length], productCategories[i % productCategories.length], String(p.brand || '')),
-	            }))
+              image: String(p.images?.[0] || ''),
+              category: productCategories[i % productCategories.length],
+              brand: p.brand ? String(p.brand) : undefined,
+              price: p.price?.value,
+              currency: p.price?.currency,
+              label: getFormattedLabel('product', 'featured', brandTypes[i % brandTypes.length], productCategories[i % productCategories.length], String(p.brand || '')),
+            }))
           setItems(mapped)
         } else {
           // no items: keep empty so skeletons/empty state render
@@ -82,16 +82,20 @@ const FeaturedBrands = () => {
               >
                 <Image
                   src={item.image || `/placeholders/product-${(i % 4) + 1}.jpg`}
-                  alt={item.name}
+                  alt={sanitizeText(item.name) || 'Product image'}
                   width={400}
                   height={500}
                   className="w-full h-full object-cover opacity-90 hover:opacity-100 transition-opacity"
+                  onError={(e) => {
+                    const target = e.target as HTMLImageElement
+                    target.src = '/placeholders/product-default.jpg'
+                  }}
                 />
                 <div className="absolute bottom-6 space-y-1 text-center opacity-0 group-hover:opacity-100 transition-opacity">
-                    {item.brand && <p className="text-[10px] tracking-[0.15em] text-gray-700">{sanitizeText(item.brand).toUpperCase()}</p>}
-	                  <p className="text-xs font-semibold tracking-[0.15em]">{sanitizeText(item.name).toUpperCase()}</p>
-                    {item.price != null && <p className="text-xs tracking-[0.15em] text-gray-700">{formatPrice(item.price, item.currency)}</p>}
-                  {item.label && <p className="text-xs tracking-[0.15em] text-gray-700">{item.label}</p>}
+                  {item.brand && <p className="text-xs tracking-[0.15em] text-gray-700">{sanitizeText(item.brand).toUpperCase()}</p>}
+                  <p className="text-xs font-semibold tracking-[0.15em]">{sanitizeText(item.name).toUpperCase()}</p>
+                  {item.price != null && <p className="text-xs tracking-[0.15em] text-gray-700">{formatPrice(item.price, item.currency)}</p>}
+                  {item.label && <p className="text-xs tracking-[0.15em] text-gray-700">{sanitizeText(item.label)}</p>}
                 </div>
               </Link>
             ))}
