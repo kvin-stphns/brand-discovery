@@ -1,13 +1,41 @@
 export const API_BASE_URL = process.env.NEXT_PUBLIC_API_ENDPOINT || ''
 const FORCE_SOURCE = (process.env.NEXT_PUBLIC_FORCE_SOURCE || '').trim()
 
+function isLoopbackHost(hostname: string) {
+  return hostname === 'localhost' || hostname === '127.0.0.1' || hostname === '::1' || hostname === '[::1]'
+}
+
+function getApiBaseUrl() {
+  if (typeof window === 'undefined' || !API_BASE_URL) {
+    return API_BASE_URL
+  }
+
+  try {
+    const endpoint = new URL(API_BASE_URL)
+    const pageHost = window.location.hostname
+
+    if (isLoopbackHost(endpoint.hostname) && pageHost && !isLoopbackHost(pageHost)) {
+      endpoint.hostname = pageHost
+      return endpoint.origin
+    }
+  } catch {
+    return API_BASE_URL
+  }
+
+  return API_BASE_URL
+}
+
+function buildApiUrl(path: string) {
+  return `${getApiBaseUrl()}${path}`
+}
+
 export async function get(path: string, init?: RequestInit) {
-  const url = `${API_BASE_URL}${path}`
+  const url = buildApiUrl(path)
   return fetch(url, { ...init, cache: 'no-store' })
 }
 
 export async function post(path: string, body: unknown, init?: RequestInit) {
-  const url = `${API_BASE_URL}${path}`
+  const url = buildApiUrl(path)
   return fetch(url, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json', ...(init?.headers || {}) },
@@ -158,9 +186,9 @@ export async function fetchVoteSummary(entityType: 'brand' | 'designer' | 'produ
 }
 
 export function getCheckoutRedirectUrlById(productId: string, source: 'featured' | 'popular' | 'grid' | 'product' | 'checkout' = 'grid', utm?: string) {
-  const u = new URL(`${API_BASE_URL}/api/affiliate/checkout`)
-  u.searchParams.set('productId', productId)
-  if (source) u.searchParams.set('source', source)
-  if (utm) u.searchParams.set('utm', utm)
-  return u.toString()
+  const params = new URLSearchParams()
+  params.set('productId', productId)
+  if (source) params.set('source', source)
+  if (utm) params.set('utm', utm)
+  return buildApiUrl(`/api/affiliate/checkout?${params.toString()}`)
 }
