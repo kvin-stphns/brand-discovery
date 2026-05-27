@@ -13,10 +13,9 @@ export default function RecentlyLikedPage() {
         <div className="border-t border-black" />
       </div>
       <div className="mt-8">
-        <LeaderboardHub initialMode="recently-liked" variant="category" showModeToggle={false} />
+        <LeaderboardHub initialMode="recently-liked" variant="category" showModeToggle={false} activeCategory={category} />
       </div>
     </div>
   )
 }
-
 

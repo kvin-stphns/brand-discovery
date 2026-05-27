@@ -1,4 +1,5 @@
 'use client'
+import Image from 'next/image'
 import { X } from 'lucide-react'
 import { useCart } from '@/lib/store/cart'
 import { getCheckoutRedirectUrlById } from '@/lib/api/client'
@@ -32,10 +33,13 @@ export default function CartDrawer({ open, onClose }: CartDrawerProps) {
             <ul className="space-y-3">
               {items.map((it) => (
                 <li key={`${it.id}-${it.size}`} className="text-xs flex justify-between items-center">
-                  <div>
-                    {it.brand && <div className="text-black/60">{sanitizeText(it.brand)}</div>}
-                    <div>{sanitizeText(it.name)}{it.size ? ` (${sanitizeText(it.size)})` : ''}</div>
-                    <div className="text-black/60">{formatPrice(it.price, it.currency)} x{it.qty}</div>
+                  <div className="flex items-center gap-3">
+                    {it.image && <Image src={it.image} alt={sanitizeText(it.name) || 'Product image'} width={40} height={40} className="w-10 h-10 object-cover border border-black/10" />}
+                    <div>
+                      {it.brand && <div className="text-black/60">{sanitizeText(it.brand)}</div>}
+                      <div>{sanitizeText(it.name)}{it.size ? ` (${sanitizeText(it.size)})` : ''}</div>
+                      <div className="text-black/60">{formatPrice(it.price, it.currency)} x{it.qty}</div>
+                    </div>
                   </div>
                   <button className="text-[10px] underline" onClick={() => remove(it.id, it.size)}>remove</button>
                 </li>
@@ -51,4 +55,3 @@ export default function CartDrawer({ open, onClose }: CartDrawerProps) {
     </div>
   )
 }
-

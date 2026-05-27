@@ -6,7 +6,7 @@ export default function MapLeaderboard({ points }: { points: MapRankingPoint[] }
   return (
     <div className="grid grid-cols-1 desktop:grid-cols-3 gap-6">
       <div className="desktop:col-span-2">
-        <GeoMap />
+        <GeoMap points={points} />
       </div>
       <div className="desktop:col-span-1 border border-black divide-y">
         {points.map((p) => (
@@ -22,5 +22,4 @@ export default function MapLeaderboard({ points }: { points: MapRankingPoint[] }
     </div>
   )
 }
-
 

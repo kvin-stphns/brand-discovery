@@ -1,9 +1,12 @@
 'use client'
 import React from 'react'
 
-export function RowSparkline({ data = [2,4,3,5,6,4,7] }: { data?: number[] }) {
+export function RowSparkline({ data = [] }: { data?: number[] }) {
   const width = 120
   const height = 32
+  if (!data.length) {
+    return <svg width={width} height={height} aria-label="trend sparkline" />
+  }
   const max = Math.max(...data)
   const min = Math.min(...data)
   const points = data.map((v, i) => {
@@ -18,9 +21,12 @@ export function RowSparkline({ data = [2,4,3,5,6,4,7] }: { data?: number[] }) {
   )
 }
 
-export function MomentumChart({ series = [5,7,6,8,9,7,10,9,11,12] }: { series?: number[] }) {
+export function MomentumChart({ series = [] }: { series?: number[] }) {
   const width = 320
   const height = 120
+  if (!series.length) {
+    return <svg width={width} height={height} className="w-full h-[160px]" aria-label="momentum line chart" />
+  }
   const max = Math.max(...series)
   const min = Math.min(...series)
   const step = width / (series.length - 1)
@@ -36,8 +42,11 @@ export function MomentumChart({ series = [5,7,6,8,9,7,10,9,11,12] }: { series?: 
   )
 }
 
-export function CategoryShareChart({ values = [40,30,20,10] }: { values?: number[] }) {
+export function CategoryShareChart({ values = [] }: { values?: number[] }) {
   const total = values.reduce((a, b) => a + b, 0)
+  if (!values.length || total <= 0) {
+    return <div className="w-full h-[160px] flex items-end gap-2" aria-label="category share chart" />
+  }
   return (
     <div className="w-full h-[160px] flex items-end gap-2" aria-label="category share chart">
       {values.map((v, i) => (
@@ -47,7 +56,7 @@ export function CategoryShareChart({ values = [40,30,20,10] }: { values?: number
   )
 }
 
-export function BarChart({ values = [12,9,7,5,4], labels = ['#1','#2','#3','#4','#5'] }: { values?: number[]; labels?: string[] }) {
+export function BarChart({ values = [], labels = [] }: { values?: number[]; labels?: string[] }) {
   const max = Math.max(...values, 1)
   return (
     <div className="w-full">
@@ -106,5 +115,4 @@ export function CombinedInsightsChart({ series = [] as Series[] }: { series?: Se
     </div>
   )
 }
-
 

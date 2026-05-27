@@ -1,4 +1,5 @@
 export const API_BASE_URL = process.env.NEXT_PUBLIC_API_ENDPOINT || ''
+const LOCAL_API_PORT = process.env.NEXT_PUBLIC_API_PORT || '3001'
 const FORCE_SOURCE = (process.env.NEXT_PUBLIC_FORCE_SOURCE || '').trim()
 
 function isLoopbackHost(hostname: string) {
@@ -6,8 +7,17 @@ function isLoopbackHost(hostname: string) {
 }
 
 function getApiBaseUrl() {
-  if (typeof window === 'undefined' || !API_BASE_URL) {
+  if (typeof window === 'undefined') {
     return API_BASE_URL
+  }
+
+  if (!API_BASE_URL) {
+    const pageHost = window.location.hostname
+    if (isLoopbackHost(pageHost)) {
+      const host = pageHost === '::1' ? '[::1]' : pageHost
+      return `${window.location.protocol}//${host}:${LOCAL_API_PORT}`
+    }
+    return ''
   }
 
   try {
@@ -49,15 +59,20 @@ export type RankingItem = {
   rank: number
   score: number
   id: string
+  productId?: string
   name: string
   type?: 'product' | 'brand' | 'designer'
   title?: string
   brand?: string
   retailer?: string
   image?: string
+  images?: string[]
   price?: ProductPrice | null
   clicks?: number
   votes?: number
+  count?: number
+  weight?: number
+  entityType?: string
 }
 
 export async function fetchBrands(): Promise<BrandDTO[]> {
@@ -73,37 +88,82 @@ export async function fetchBrand(id: string): Promise<BrandDTO | null> {
   return (await res.json()) as BrandDTO
 }
 
-export async function fetchRankings(gender?: string): Promise<RankingItem[]> {
+type RankingQuery = {
+  gender?: string
+  category?: string
+  timeframe?: '24h' | '7d' | '30d' | 'all'
+  limit?: number
+}
+
+function rankingParams(input?: string | RankingQuery) {
   const params = new URLSearchParams()
-  if (gender) params.set('gender', gender)
+  if (typeof input === 'string') {
+    if (input) params.set('gender', input)
+    return params
+  }
+  if (input?.gender) params.set('gender', input.gender)
+  if (input?.category) params.set('category', input.category)
+  if (input?.timeframe) params.set('timeframe', input.timeframe)
+  if (input?.limit) params.set('limit', String(input.limit))
+  return params
+}
+
+function normalizeRankingItem(it: any, fallbackRank = 0): RankingItem {
+  return {
+    rank: Number(it.rank || fallbackRank),
+    score: Number(it.score || it.count || it.weight || 0),
+    id: String(it.id || it.productId || it._id || ''),
+    productId: it.productId ? String(it.productId) : undefined,
+    name: String(it.name || [it.brand, it.title].filter(Boolean).join(' ') || ''),
+    type: it.type || 'product',
+    title: it.title,
+    brand: it.brand,
+    retailer: it.retailer,
+    image: it.image || it.images?.[0],
+    images: Array.isArray(it.images) ? it.images : undefined,
+    price: it.price || null,
+    clicks: Number(it.clicks || 0),
+    votes: Number(it.votes || 0),
+    count: Number(it.count || 0),
+    weight: Number(it.weight || 0),
+    entityType: it.entityType,
+  }
+}
+
+export async function fetchRankings(input?: string | RankingQuery): Promise<RankingItem[]> {
+  const params = rankingParams(input)
   const res = await get(`/api/rankings?${params.toString()}`)
   if (!res.ok) return []
   const json = await res.json()
-  return json.items as RankingItem[]
+  const items = Array.isArray(json.items) ? json.items : []
+  return items.map((it: any, idx: number) => normalizeRankingItem(it, idx + 1))
 }
 
-export async function fetchRankingsMostLiked(): Promise<Array<{ id: string; score: number; name?: string; image?: string; type?: 'product' | 'brand' | 'designer' }>> {
-  const res = await get('/api/rankings/mostLiked')
+export async function fetchRankingsMostLiked(input?: RankingQuery): Promise<RankingItem[]> {
+  const params = rankingParams(input)
+  const res = await get(`/api/rankings/mostLiked?${params.toString()}`)
   if (!res.ok) return []
   const json = await res.json()
   const items = Array.isArray(json.items) ? json.items : []
-  return items.map((it: any) => ({ id: String(it.id || it._id), score: Number(it.score || 0), name: it.name, image: it.image, type: it.type }))
+  return items.map((it: any, idx: number) => normalizeRankingItem(it, idx + 1))
 }
 
-export async function fetchRankingsMostViewed(): Promise<Array<{ id: string; count: number; name?: string; image?: string; type?: 'product' | 'brand' | 'designer' }>> {
-  const res = await get('/api/rankings/mostViewed')
+export async function fetchRankingsMostViewed(input?: RankingQuery): Promise<RankingItem[]> {
+  const params = rankingParams(input)
+  const res = await get(`/api/rankings/mostViewed?${params.toString()}`)
   if (!res.ok) return []
   const json = await res.json()
   const items = Array.isArray(json.items) ? json.items : []
-  return items.map((it: any) => ({ id: String(it.id || it._id), count: Number(it.count || 0), name: it.name, image: it.image, type: it.type }))
+  return items.map((it: any, idx: number) => normalizeRankingItem(it, idx + 1))
 }
 
-export async function fetchRankingsRecentVotes(): Promise<Array<{ id: string; entityType: string; name?: string; image?: string; type?: 'product' | 'brand' | 'designer'; weight?: number }>> {
-  const res = await get('/api/rankings/recentVotes')
+export async function fetchRankingsRecentVotes(input?: RankingQuery): Promise<RankingItem[]> {
+  const params = rankingParams(input)
+  const res = await get(`/api/rankings/recentVotes?${params.toString()}`)
   if (!res.ok) return []
   const json = await res.json()
   const items = Array.isArray(json.items) ? json.items : []
-  return items.map((it: any) => ({ id: String(it.id || it.entityId || it._id), entityType: String(it.entityType || ''), name: it.name, image: it.image, type: it.type, weight: Number(it.weight || 0) }))
+  return items.map((it: any, idx: number) => normalizeRankingItem(it, idx + 1))
 }
 
 // Additional helpers (non-breaking)

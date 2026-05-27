@@ -3,10 +3,9 @@ import CategoryGrid from '@/components/templates/CategoryGrid'
 import { useEffect, useState } from 'react'
 import { Analytics } from '@/lib/analytics'
 import LeaderboardHub from '@/components/rankings/LeaderboardHub'
-import { toast } from '@/lib/toast'
 import { fetchProducts } from '@/lib/api/client'
 
-type GridItem = { id: string; name: string; image: string; type: 'product'|'brand'|'designer'; label?: string; brand?: string; price?: number }
+type GridItem = { id: string; name: string; image: string; type: 'product'|'brand'|'designer'; label?: string; brand?: string; price?: number; currency?: string }
 
 export default function ExplorePage() {
   const [items, setItems] = useState<GridItem[]>([])
@@ -15,7 +14,7 @@ export default function ExplorePage() {
     let didCancel = false
     async function load() {
       try {
-        const prods = await fetchProducts({ sort: '-createdAt', limit: 12 })
+        const prods = await fetchProducts({ sort: 'new', limit: 12 })
         if (!didCancel && prods?.length) {
           setItems(
             prods.slice(0, 12).map((p: any, idx: number) => ({
@@ -26,6 +25,7 @@ export default function ExplorePage() {
               label: 'Explore',
               brand: p.brand || '',
               price: p.price?.value,
+              currency: p.price?.currency,
             }))
           )
         } else {

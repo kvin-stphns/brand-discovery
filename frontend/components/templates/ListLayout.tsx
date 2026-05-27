@@ -1,5 +1,5 @@
 'use client'
-import { useState, useRef } from 'react'
+import { useEffect, useState, useRef } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
 
@@ -33,6 +33,12 @@ const ListLayout = ({ title, items, category, section, subsection, children }: L
       setSelectedItem(item.id)
     }
   }
+
+  useEffect(() => {
+    if (!activeItem && items[0]) {
+      setActiveItem(items[0])
+    }
+  }, [activeItem, items])
 
   return (
     <div className="min-h-screen flex flex-col">

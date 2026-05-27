@@ -206,11 +206,12 @@ export default function ProductPage() {
                   <button
                     className="w-full bg-black text-white py-4 text-sm tracking-[0.15em]"
                     onClick={() => {
+                      if (!product?._id) return
                       if (!selectedSize) {
                         alert('Please select a size')
                         return
                       }
-                      add({ id: String(product?._id || 'product'), name: productName, brand: brandName, retailer: retailerName, price: Number(product?.price?.value || 0), currency: product?.price?.currency || 'USD', size: selectedSize, image: images[selectedImage] })
+                      add({ id: String(product._id), name: productName, brand: brandName, retailer: retailerName, price: Number(product?.price?.value || 0), currency: product?.price?.currency || 'USD', size: selectedSize, image: images[selectedImage] })
                     }}
                   >
                     ADD TO CART
@@ -226,11 +227,12 @@ export default function ProductPage() {
               <button
                 className="w-full bg-black text-white py-4 text-sm tracking-[0.15em]"
                 onClick={() => {
+                  if (!product?._id) return
                   if (!selectedSize) {
                     alert('Please select a size')
                     return
                   }
-                  add({ id: String(product?._id || 'product'), name: productName, brand: brandName, retailer: retailerName, price: Number(product?.price?.value || 0), currency: product?.price?.currency || 'USD', size: selectedSize, image: images[selectedImage] })
+                  add({ id: String(product._id), name: productName, brand: brandName, retailer: retailerName, price: Number(product?.price?.value || 0), currency: product?.price?.currency || 'USD', size: selectedSize, image: images[selectedImage] })
                 }}
               >
                 ADD TO CART

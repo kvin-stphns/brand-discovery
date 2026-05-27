@@ -1,11 +1,10 @@
 'use client'
-import { useEffect, useState } from 'react'
+import { useCallback, useEffect, useMemo, useState } from 'react'
 import LeaderboardTable from './LeaderboardTable'
 import { CategoryShareChart, MomentumChart, BarChart, CombinedInsightsChart } from './Charts'
 import RankingsList from './RankingsList'
 import MapLeaderboard from './MapLeaderboard'
 import { CategoryScope, LeaderboardRow, MapRankingPoint, RankingListItem, RankingsFilters, Timeframe } from '@/lib/rankings/types'
-import { toast } from '@/lib/toast'
 import { fetchRankings, fetchRankingsMostLiked, fetchRankingsMostViewed, fetchRankingsRecentVotes } from '@/lib/api/client'
 
 type Mode = 'leaderboard' | 'most-liked' | 'most-viewed' | 'recently-liked' | 'map'
@@ -32,57 +31,102 @@ function Controls({ value, onChange, showCategory }: { value: RankingsFilters; o
     </div>
   )
 }
+
+function displayName(item: { name?: string; brand?: string; title?: string; id?: string }) {
+  return String(item.name || [item.brand, item.title].filter(Boolean).join(' ') || item.id || '').replace(/\{[^}]*\}|var\([^)]*\)/g, '').trim()
+}
+
+function trendFromMetrics(score: number, clicks = 0, votes = 0, idx = 0) {
+  const base = Math.max(1, score || clicks || votes || 1)
+  return Array.from({ length: 16 }).map((_, j) => Number(Math.max(1, base + (j - 8) * 0.35 + clicks * 0.15 + votes * 0.1 + idx * 0.05).toFixed(2)))
+}
+
 export default function LeaderboardHub({ initialMode = 'leaderboard' as Mode, variant = 'global' as 'global' | 'category', showModeToggle = true, activeCategory }: { initialMode?: Mode; variant?: 'global' | 'category'; showModeToggle?: boolean; activeCategory?: string }) {
-  const [mode] = useState<Mode>(initialMode)
-  const [filters] = useState<RankingsFilters>({ timeframe: '7d', category: 'women', sort: 'mixed' as any })
+  const [mode, setMode] = useState<Mode>(initialMode)
+  const [filters, setFilters] = useState<RankingsFilters>({ timeframe: '7d', category: 'women', sort: 'mixed' as any })
   const [rows, setRows] = useState<LeaderboardRow[]>([])
   const [kpis, setKpis] = useState<{ totalVotes: number; topCategory: string; fastestRiser: string } | null>(null)
   const [listItems, setListItems] = useState<RankingListItem[]>([])
   const [mapPoints, setMapPoints] = useState<MapRankingPoint[]>([])
 
-  useEffect(() => {
-    // Leaderboard base table
-    let genderFilter: string | undefined
-    if (activeCategory) {
-      const c = activeCategory.toLowerCase()
-      if (c === 'men') genderFilter = 'Men'
-      else if (c === 'women') genderFilter = 'Women'
-    }
+  const scopedCategory = (activeCategory || filters.category || '').toLowerCase()
+  const genderFilter = scopedCategory === 'men' ? 'Men' : scopedCategory === 'women' ? 'Women' : undefined
+  const rankingQuery = useMemo(() => ({ gender: genderFilter, timeframe: filters.timeframe, limit: 24 }), [genderFilter, filters.timeframe])
 
-    fetchRankings(genderFilter)
+  const applyTypeFilter = useCallback(<T extends { type?: string },>(items: T[]) => {
+    if (filters.sort === 'mixed') return items
+    return items.filter((item) => item.type === filters.sort)
+  }, [filters.sort])
+
+  useEffect(() => {
+    fetchRankings(rankingQuery)
       .then((items) => {
-        const safeItems = Array.isArray(items) ? items : []
-        const mapped: LeaderboardRow[] = safeItems.map((i, idx) => ({ id: String(i.id), name: String((i.name || '')).replace(/\{[^}]*\}|var\([^)]*\)/g, '').trim(), type: 'brand', rank: idx + 1, score: Number((i as any).score ?? 100 - idx), delta: 0, image: '', trend: Array.from({ length: 16 }).map((_, j) => 5 + Math.sin((idx + j) / 3)) }))
+        const safeItems = applyTypeFilter(Array.isArray(items) ? items : [])
+        const mapped: LeaderboardRow[] = safeItems.map((i, idx) => ({
+          id: String(i.productId || i.id),
+          name: displayName(i),
+          type: i.type || 'product',
+          rank: Number(i.rank || idx + 1),
+          score: Number(i.score || 0),
+          delta: 0,
+          image: i.image || i.images?.[0] || '',
+          trend: trendFromMetrics(Number(i.score || 0), Number(i.clicks || 0), Number(i.votes || 0), idx),
+        }))
         setRows(mapped)
-        setKpis(safeItems.length ? { totalVotes: safeItems.length * 100, topCategory: '—', fastestRiser: String(safeItems[0]?.name || '—') } : null)
+        setKpis(mapped.length ? { totalVotes: safeItems.reduce((sum, item) => sum + Number(item.votes || item.count || 0), 0), topCategory: mapped[0]?.type.toUpperCase() || '-', fastestRiser: mapped[0]?.name || '-' } : null)
       })
       .catch(() => { setRows([]); setKpis(null) })
+  }, [applyTypeFilter, rankingQuery])
 
-    // Secondary lists
-    Promise.allSettled([
-      fetchRankingsMostLiked(),
-      fetchRankingsMostViewed(),
-      fetchRankingsRecentVotes(),
-    ]).then((results) => {
-      const liked = results[0].status === 'fulfilled' ? results[0].value : []
-      const mappedLiked: RankingListItem[] = liked.map((it: any, idx: number) => ({ id: String(it.id), rank: idx + 1, name: String(it.id).replace(/\{[^}]*\}|var\([^)]*\)/g, '').trim(), type: 'brand', image: '', metric: Number(it.score || 0) }))
-      setListItems(mappedLiked)
-      setMapPoints([])
-    }).catch(() => {
+  useEffect(() => {
+    const loader = mode === 'most-liked'
+      ? fetchRankingsMostLiked
+      : mode === 'most-viewed'
+        ? fetchRankingsMostViewed
+        : mode === 'recently-liked'
+          ? fetchRankingsRecentVotes
+          : null
+
+    if (!loader) {
       setListItems([])
       setMapPoints([])
-    })
-  }, [])
+      return
+    }
+
+    loader(rankingQuery)
+      .then((items) => {
+        const safeItems = applyTypeFilter(Array.isArray(items) ? items : [])
+        const mapped: RankingListItem[] = safeItems.map((it: any, idx: number) => ({
+          id: String(it.productId || it.id),
+          rank: Number(it.rank || idx + 1),
+          name: displayName(it),
+          type: it.type || 'product',
+          image: it.image || it.images?.[0] || '',
+          metric: Number(it.score || it.count || it.weight || 0),
+        }))
+        setListItems(mapped)
+        setMapPoints([])
+      })
+      .catch(() => {
+        setListItems([])
+        setMapPoints([])
+      })
+  }, [applyTypeFilter, mode, rankingQuery])
+
+  const scoreValues = rows.slice(0, 5).map((r) => r.score)
+  const scoreLabels = rows.slice(0, 5).map((r) => `#${r.rank}`)
+  const categoryValues = rows.slice(0, 4).map((r) => r.score)
+  const momentumSeries = rows[0]?.trend || []
 
   return (
     <div className="grid grid-cols-1 desktop:grid-cols-4 gap-8">
       <div className="desktop:col-span-3">
         <div className="flex flex-col gap-2 tablet:flex-row tablet:items-center tablet:justify-between mb-4">
-          <Controls value={filters} onChange={() => { }} showCategory={variant === 'global'} />
+          <Controls value={filters} onChange={setFilters} showCategory={variant === 'global'} />
           {showModeToggle && (
             <div className="inline-flex border border-black/40 text-xs rounded-sm overflow-x-auto max-w-full whitespace-nowrap">
               {(['leaderboard', 'most-liked', 'most-viewed', 'recently-liked', 'map'] as Mode[]).map((m) => (
-                <button key={m} className={`px-3 py-1 whitespace-nowrap ${m === mode ? 'bg-black text-white' : ''}`}>
+                <button key={m} className={`px-3 py-1 whitespace-nowrap ${m === mode ? 'bg-black text-white' : ''}`} onClick={() => setMode(m)}>
                   {m.toUpperCase()}
                 </button>
               ))}
@@ -96,15 +140,15 @@ export default function LeaderboardHub({ initialMode = 'leaderboard' as Mode, va
             <div className="grid grid-cols-1 tablet:grid-cols-2 gap-6 mt-6">
               <div className="border border-black p-4">
                 <div className="text-xs mb-2 tracking-[0.15em]">CATEGORY SHARE</div>
-                <CategoryShareChart />
+                <CategoryShareChart values={categoryValues} />
               </div>
               <div className="border border-black p-4">
                 <div className="text-xs mb-2 tracking-[0.15em]">MOMENTUM</div>
-                <MomentumChart />
+                <MomentumChart series={momentumSeries} />
               </div>
               <div className="border border-black p-4 tablet:col-span-2">
                 <div className="text-xs mb-2 tracking-[0.15em]">TOP 5 BAR</div>
-                <BarChart />
+                <BarChart values={scoreValues} labels={scoreLabels} />
               </div>
               <div className="border border-black p-4 tablet:col-span-2">
                 <div className="text-xs mb-2 tracking-[0.15em]">INSIGHTS</div>
@@ -130,15 +174,15 @@ export default function LeaderboardHub({ initialMode = 'leaderboard' as Mode, va
         <div className="sticky top-[140px] space-y-4">
           <div className="border border-black p-4">
             <div className="text-xs tracking-[0.15em] mb-2">TOTAL VOTES</div>
-            <div className="text-2xl">{kpis?.totalVotes ?? '—'}</div>
+            <div className="text-2xl">{kpis?.totalVotes ?? '-'}</div>
           </div>
           <div className="border border-black p-4">
             <div className="text-xs tracking-[0.15em] mb-2">TOP CATEGORY</div>
-            <div className="text-sm">{kpis?.topCategory ?? '—'}</div>
+            <div className="text-sm">{kpis?.topCategory ?? '-'}</div>
           </div>
           <div className="border border-black p-4">
             <div className="text-xs tracking-[0.15em] mb-2">FASTEST RISER</div>
-            <div className="text-sm">{kpis?.fastestRiser ?? '—'}</div>
+            <div className="text-sm">{kpis?.fastestRiser ?? '-'}</div>
           </div>
         </div>
       </aside>

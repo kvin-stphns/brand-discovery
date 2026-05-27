@@ -13,10 +13,9 @@ export default function MostLikedPage() {
         <div className="border-t border-black" />
       </div>
       <div className="mt-8">
-        <LeaderboardHub initialMode="most-liked" variant="category" showModeToggle={false} />
+        <LeaderboardHub initialMode="most-liked" variant="category" showModeToggle={false} activeCategory={category} />
       </div>
     </div>
   )
 }
-
 

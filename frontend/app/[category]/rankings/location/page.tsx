@@ -13,10 +13,9 @@ export default function RankingsLocationPage() {
         <div className="border-t border-black" />
       </div>
       <div className="mt-8">
-        <LeaderboardHub initialMode="map" />
+        <LeaderboardHub initialMode="map" variant="category" activeCategory={category} />
       </div>
     </div>
   )
 }
-
 

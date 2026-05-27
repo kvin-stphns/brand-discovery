@@ -2,9 +2,9 @@
 import Image from 'next/image'
 import Link from 'next/link'
 import { useEffect, useRef, useState } from 'react'
-import { RankingsFilters } from '@/lib/rankings/types'
 import { toast } from '@/lib/toast'
 import { fetchRankings } from '@/lib/api/client'
+import { sanitizeText } from '@/lib/format'
 
 const PopularBrands = () => {
   const backgroundRef = useRef<HTMLDivElement>(null)
@@ -13,40 +13,15 @@ const PopularBrands = () => {
   const lastScrollY = useRef(0)
   const ticking = useRef(false)
 
-  const brandTypes = [
-    'Streetwear',
-    'High Fashion',
-    'Avant Garde',
-    'Hybrid',
-    'Techwear',
-    'Workwear',
-    'Other'
-  ] as const
-
-  const productCategories = ['Tops', 'Bottoms', 'Outerwear', 'Accessories'] as const
-
-  const toSingular = (word: string) => {
-    switch (word.toLowerCase()) {
-      case 'accessories': return 'Accessory'
-      case 'tops': return 'Top'
-      case 'bottoms': return 'Bottom'
-      case 'outerwear': return 'Outerwear'
-      default: return word
-    }
-  }
-
   const [items, setItems] = useState<Array<{ id: string; type: 'product'|'brand'|'designer'; label: string }>>([])
 
   useEffect(() => {
-    const localBrandTypes = [...brandTypes]
-    const localProductCategories = [...productCategories]
-    const filters: RankingsFilters = { timeframe: '7d', category: 'women', sort: 'mixed' }
     fetchRankings()
       .then((rows) => {
         const mapped = (rows || []).slice(0, 6).map((r, idx) => ({
-          id: String(r.id),
-          type: 'brand' as const,
-          label: `${String(r.name || '')}: ${localBrandTypes[idx % localBrandTypes.length]} Brand`,
+          id: String(r.productId || r.id),
+          type: 'product' as const,
+          label: `#${r.rank || idx + 1} ${[r.brand, r.title].filter(Boolean).join(' ') || r.name} Score ${r.score || 0}`,
         }))
         setItems(mapped)
       })
@@ -148,7 +123,7 @@ const PopularBrands = () => {
               >
                 <span className="text-[#4FFFF4] text-sm tracking-[0.25em] font-bold">{String(idx + 1).padStart(2, '0')}</span>
                 <span className="text-[#4FFFF4] text-[10px] tablet:text-sm tracking-[0.25em] font-medium tablet:font-bold">
-                  {item.label}
+                  {sanitizeText(item.label)}
                 </span>
               </Link>
             ))}
